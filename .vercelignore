@@ -1,0 +1,11 @@
+node_modules/
+.git/
+.gitignore
+.env
+.env.local
+.env.*.local
+.vite/
+frontend/node_modules/
+agent/__pycache__/
+*.pyc
+.pytest_cache/
