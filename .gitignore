@@ -6,7 +6,7 @@ __pycache__/
 .Python
 build/
 develop-eggs/
-dist/
+dist/  # Python and Node.js build output
 downloads/
 eggs/
 .eggs/
@@ -33,7 +33,6 @@ coverage.xml
 .hypothesis/
 .tox/
 .nox/
-.hypothesis/
 pytest.ini
 .venv
 env/
@@ -59,7 +58,6 @@ venv.bak/
 node_modules/
 npm-debug.log
 yarn-error.log
-dist/
 .next/
 
 # OS
@@ -73,3 +71,12 @@ logs/
 # Data (except structure markers)
 data/*.json
 !data/.gitkeep
+
+# Claude/Development tools
+.claude/
+.superpowers/
+.playwright-mcp/
+mcp.json
+
+# Temporary files
+create_alma_presentation*.js
