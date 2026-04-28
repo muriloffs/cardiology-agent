@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "build": "cd frontend && npm install && npm run build"
+  },
+  "dependencies": {
+    "pptxgenjs": "^4.0.1"
+  }
+}
