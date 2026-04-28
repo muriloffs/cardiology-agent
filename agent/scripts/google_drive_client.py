@@ -5,7 +5,7 @@ import os
 from pathlib import Path
 from typing import Optional, Dict, Any
 
-from google.auth.service_account import Credentials
+from google.oauth2.service_account import Credentials
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaFileUpload
 
