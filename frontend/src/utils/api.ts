@@ -1,7 +1,7 @@
 // frontend/src/utils/api.ts
 import axios from 'axios'
 
-const GITHUB_RAW_URL = 'https://raw.githubusercontent.com/Murilo/cardiology-agent/main/data'
+const GITHUB_RAW_URL = 'https://raw.githubusercontent.com/muriloffs/cardiology-agent/main/data'
 
 export async function fetchLatestReport() {
   try {
