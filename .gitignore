@@ -54,6 +54,10 @@ venv.bak/
 .env.local
 .env.*.local
 
+# Credentials (never commit)
+agent/google-service-account.json
+agent/*.json
+
 # Node (for frontend)
 node_modules/
 npm-debug.log
