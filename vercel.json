@@ -1,9 +1,10 @@
 {
+  "name": "cardiology-agent",
   "buildCommand": "cd frontend && npm run build",
   "outputDirectory": "frontend/dist",
   "framework": "vite",
   "env": {
-    "VITE_API_URL": "@vite_api_url"
+    "VITE_API_URL": "https://cardiology-agent.vercel.app/api"
   },
   "routes": [
     {
