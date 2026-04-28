@@ -68,9 +68,10 @@ Thumbs.db
 *.log
 logs/
 
-# Data (except structure markers)
+# Data (except structure markers and reports)
 data/*.json
 !data/.gitkeep
+!data/relatorio-*.json
 
 # Claude/Development tools
 .claude/
@@ -80,3 +81,5 @@ mcp.json
 
 # Temporary files
 create_alma_presentation*.js
+
+.vercel

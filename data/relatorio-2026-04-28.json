@@ -1,0 +1,129 @@
+{
+  "relatorio_data": "2026-04-28",
+  "resumo": {
+    "total_artigos": 12,
+    "tempo_leitura_minutos": 45
+  },
+  "featured": [
+    {
+      "id": "art_001",
+      "emoji": "❤️",
+      "titulo": "Novel Biomarkers in Heart Failure",
+      "publicacao": "Circulation",
+      "classe": "A",
+      "score": 9,
+      "resumo": "Descoberta de novos biomarcadores para predição de insuficiência cardíaca com 95% de acurácia",
+      "impacto_clinico": "Melhora significativa no diagnóstico precoce de IC, permitindo intervenção preventiva",
+      "categoria_fonte": "revista",
+      "autores": ["Smith J.", "Johnson M."],
+      "links": {
+        "url": "https://example.com/article1",
+        "doi": "10.1161/CIRCULATIONAHA.126.123456",
+        "pubmed": "37123456"
+      }
+    },
+    {
+      "id": "art_002",
+      "emoji": "🫀",
+      "titulo": "Estratégias de Manejo de Arritmias",
+      "publicacao": "Europace",
+      "classe": "B",
+      "score": 8,
+      "resumo": "Revisão sistemática sobre ablação de fibrilação atrial com novos cateteres",
+      "impacto_clinico": "Redução de 40% em recorrências com nova técnica de isolamento pulmonar",
+      "categoria_fonte": "podcast",
+      "autores": ["Williams R."],
+      "links": {
+        "url": "https://example.com/article2"
+      }
+    },
+    {
+      "id": "art_003",
+      "emoji": "💊",
+      "titulo": "SGLT2 Inhibitors Update 2026",
+      "publicacao": "JACC",
+      "classe": "A",
+      "score": 9,
+      "resumo": "Dados de 5 anos de SGLT2i em pacientes com diabetes tipo 2 e risco cardiovascular",
+      "impacto_clinico": "Confirmação de benefícios de mortalidade em população ampliada",
+      "categoria_fonte": "revista",
+      "links": {
+        "url": "https://example.com/article3",
+        "doi": "10.1016/j.jacc.2026.04.001"
+      }
+    }
+  ],
+  "artigos": [
+    {
+      "id": "art_001",
+      "emoji": "❤️",
+      "titulo": "Novel Biomarkers in Heart Failure",
+      "publicacao": "Circulation",
+      "classe": "A",
+      "score": 9,
+      "resumo": "Descoberta de novos biomarcadores para predição de insuficiência cardíaca",
+      "impacto_clinico": "Melhora no diagnóstico precoce de IC",
+      "categoria_fonte": "revista",
+      "links": {
+        "url": "https://example.com/article1",
+        "doi": "10.1161/CIRCULATIONAHA.126.123456"
+      }
+    },
+    {
+      "id": "art_002",
+      "emoji": "🫀",
+      "titulo": "Estratégias de Manejo de Arritmias",
+      "publicacao": "Europace",
+      "classe": "B",
+      "score": 8,
+      "resumo": "Revisão sistemática sobre ablação de fibrilação atrial",
+      "impacto_clinico": "Redução de 40% em recorrências",
+      "categoria_fonte": "podcast",
+      "links": {
+        "url": "https://example.com/article2"
+      }
+    },
+    {
+      "id": "art_003",
+      "emoji": "💊",
+      "titulo": "SGLT2 Inhibitors Update 2026",
+      "publicacao": "JACC",
+      "classe": "A",
+      "score": 9,
+      "resumo": "Dados de 5 anos de SGLT2i em pacientes diabéticos",
+      "impacto_clinico": "Confirmação de benefícios de mortalidade",
+      "categoria_fonte": "revista",
+      "links": {
+        "url": "https://example.com/article3"
+      }
+    },
+    {
+      "id": "art_004",
+      "emoji": "🔬",
+      "titulo": "Genetic Markers in Hypertension",
+      "publicacao": "Hypertension",
+      "classe": "B",
+      "score": 7,
+      "resumo": "Estudo GWAS identifica 23 novos loci associados a hipertensão",
+      "impacto_clinico": "Abre caminhos para medicina de precisão em HAS",
+      "categoria_fonte": "revista",
+      "links": {
+        "url": "https://example.com/article4"
+      }
+    },
+    {
+      "id": "art_005",
+      "emoji": "📊",
+      "titulo": "Lipid Management Guidelines",
+      "publicacao": "X/Twitter",
+      "classe": "C",
+      "score": 6,
+      "resumo": "Thread sobre as novas guidelines de manejo lipídico da AHA",
+      "impacto_clinico": "Simplificação dos algoritmos de prescrição",
+      "categoria_fonte": "twitter",
+      "links": {
+        "url": "https://example.com/article5"
+      }
+    }
+  ]
+}
