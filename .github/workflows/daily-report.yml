@@ -1,0 +1,72 @@
+name: Daily Cardiology Research Report
+
+on:
+  schedule:
+    # 3:00 AM Brasília time (UTC-3) = 6:00 AM UTC
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+
+jobs:
+  generate-report:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    permissions:
+      contents: write
+      actions: read
+      id-token: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@b4ffbf834c0dab474899154d25482e02f36e34eda # v4.1.1
+        with:
+          fetch-depth: 1
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@0a5c61591373683ada1d2e2aa2193e4f834f45f0 # v5.0.0
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install --default-timeout=30 -r agent/requirements.txt
+
+      - name: Generate daily report
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python agent/scripts/generate_report.py
+
+      - name: Verify report file created
+        run: |
+          REPORT_FILE="data/relatorio-$(date -u +%Y-%m-%d).json"
+          if [ -f "$REPORT_FILE" ]; then
+            echo "✓ Report verified: $REPORT_FILE"
+            ls -lah "$REPORT_FILE"
+          else
+            echo "✗ Report file not found: $REPORT_FILE"
+            exit 1
+          fi
+
+      - name: Configure Git
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+
+      - name: Commit and push report
+        run: |
+          REPORT_FILE="data/relatorio-$(date -u +%Y-%m-%d).json"
+          if git diff --quiet "$REPORT_FILE"; then
+            echo "ℹ No changes to report file"
+          else
+            git add "$REPORT_FILE"
+            git commit -m "chore: daily cardiology research report $(date -u +%Y-%m-%d)"
+            git push origin main
+          fi
+
+      - name: Notify on failure
+        if: failure()
+        run: |
+          echo "❌ Daily report generation failed"
+          exit 1
