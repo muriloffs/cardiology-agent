@@ -3,5 +3,11 @@
   "outputDirectory": "frontend/dist",
   "env": {
     "VITE_API_URL": "https://cardiology-agent.vercel.app/api"
+  },
+  "functions": {
+    "api/**/*.js": {
+      "memory": 1024,
+      "maxDuration": 60
+    }
   }
 }
