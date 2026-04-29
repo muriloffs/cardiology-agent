@@ -101,13 +101,11 @@ class CardologyAgent:
             raise
 
         # Step 4: Call Claude to classify
-        # max_tokens=8192 is the hard limit for claude-sonnet-4-6
-        # Prompt is calibrated to produce ≤20 artigos + 10 discussoes_x to stay within this limit
         try:
             logger.info(f"Calling Claude API to classify {len(articles)} articles for {report_date}")
             response = self.client.messages.create(
-                model="claude-sonnet-4-6",
-                max_tokens=8192,
+                model="claude-opus-4-7",
+                max_tokens=32000,
                 system=system_prompt,
                 messages=[
                     {
