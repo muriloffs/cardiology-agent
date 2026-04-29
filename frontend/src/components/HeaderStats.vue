@@ -8,13 +8,16 @@
         <button
           @click="$emit('prev')"
           :disabled="!hasPrev"
-          class="p-1.5 rounded-lg transition-all disabled:opacity-30 disabled:cursor-not-allowed hover:bg-gray-100"
+          class="flex-shrink-0 p-1.5 rounded-lg transition-all disabled:opacity-30 disabled:cursor-not-allowed hover:bg-gray-100"
         >◀</button>
-        <p class="text-gray-600 text-sm md:text-base font-medium">{{ formattedDate }}</p>
+        <p class="text-gray-600 font-medium min-w-0">
+          <span class="hidden md:inline text-base">{{ formattedDate }}</span>
+          <span class="md:hidden text-sm">{{ shortDate }}</span>
+        </p>
         <button
           @click="$emit('next')"
           :disabled="!hasNext"
-          class="p-1.5 rounded-lg transition-all disabled:opacity-30 disabled:cursor-not-allowed hover:bg-gray-100"
+          class="flex-shrink-0 p-1.5 rounded-lg transition-all disabled:opacity-30 disabled:cursor-not-allowed hover:bg-gray-100"
         >▶</button>
       </div>
 
@@ -52,11 +55,12 @@ defineEmits(['prev', 'next'])
 const formattedDate = computed(() => {
   if (!props.reportDate) return 'Carregando...'
   const date = new Date(props.reportDate + 'T00:00:00')
-  return date.toLocaleDateString('pt-BR', {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-  })
+  return date.toLocaleDateString('pt-BR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
+})
+
+const shortDate = computed(() => {
+  if (!props.reportDate) return '...'
+  const date = new Date(props.reportDate + 'T00:00:00')
+  return date.toLocaleDateString('pt-BR', { weekday: 'short', day: 'numeric', month: 'short' })
 })
 </script>
