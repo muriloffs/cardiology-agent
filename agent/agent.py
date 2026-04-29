@@ -11,6 +11,7 @@ from typing import Any, Dict, Optional
 from anthropic import Anthropic, APIError
 from agent.parser import parse_report, ParsingError
 from agent.scripts.fetch_articles import fetch_recent_cardiology_articles
+from agent.scripts.fetch_rss import fetch_all_rss
 
 
 # Configure logging for GitHub Actions diagnostics
@@ -57,14 +58,22 @@ class CardologyAgent:
             APIError: If Claude API call fails.
             FileNotFoundError: If prompt.txt is not found.
         """
-        # Step 1: Fetch real articles from PubMed
-        logger.info("Fetching real articles from PubMed...")
-        articles = fetch_recent_cardiology_articles(days_back=1)
+        # Step 1: Fetch real articles from PubMed (curated journals)
+        logger.info("Fetching articles from PubMed curated journals...")
+        pubmed_articles = fetch_recent_cardiology_articles(days_back=1)
+        logger.info(f"PubMed: {len(pubmed_articles)} articles")
+
+        # Step 2: Fetch from RSS feeds (Substacks, news, TCTMD)
+        logger.info("Fetching from RSS feeds...")
+        rss_articles = fetch_all_rss(days_back=2)
+        logger.info(f"RSS: {len(rss_articles)} items")
+
+        articles = pubmed_articles + rss_articles
 
         if not articles:
-            raise RuntimeError("PubMed returned no articles. Cannot generate report without real data.")
+            raise RuntimeError("No articles fetched from any source. Cannot generate report.")
 
-        logger.info(f"Fetched {len(articles)} real articles from PubMed")
+        logger.info(f"Total: {len(articles)} articles from all sources")
 
         # Step 2: Format articles for Claude
         articles_text = self._format_articles_for_claude(articles)
