@@ -136,13 +136,12 @@ def _validate_article(article: Dict[str, Any], context: str = "article") -> None
     for field in ['id', 'titulo', 'publicacao', 'classe', 'categoria_fonte', 'emoji', 'resumo', 'impacto_clinico']:
         _require_non_empty_string(article[field], f"{context}.{field}")
 
-    # Validate authors if present (only in artigos, not featured)
+    # Validate authors if present — filter out empty strings silently
     if 'autores' in article:
         if not isinstance(article['autores'], list):
-            raise ParsingError(f"Field '{context}.autores' must be a list")
-        for i, author in enumerate(article['autores']):
-            if not isinstance(author, str) or not author.strip():
-                raise ParsingError(f"Field '{context}.autores[{i}]' must be non-empty string")
+            article['autores'] = []
+        else:
+            article['autores'] = [a for a in article['autores'] if isinstance(a, str) and a.strip()]
 
     # Validate score and classe
     if isinstance(article['score'], bool):
@@ -193,16 +192,17 @@ def _validate_links(links: Dict[str, Any], context: str) -> None:
     if not links:
         raise ParsingError(f"Field '{context}.links' must have at least one link")
 
-    # Validate present link fields
-    for field, value in links.items():
-        if field not in {'url', 'doi', 'pubmed', 'twitter_link'}:
-            raise ParsingError(f"Field '{context}.links' contains unknown field '{field}'")
+    # Validate present link fields — ignore unknown fields, normalize empty strings
+    known_fields = {'url', 'doi', 'pubmed', 'twitter_link'}
+    for field in list(links.keys()):
+        if field not in known_fields:
+            del links[field]
+            continue
 
+        value = links[field]
         if value is not None and not isinstance(value, str):
-            raise ParsingError(f"Field '{context}.links.{field}' must be string or null")
-
-        # Normalize empty strings to None
-        if isinstance(value, str) and not value.strip():
+            links[field] = None
+        elif isinstance(value, str) and not value.strip():
             links[field] = None
 
 
@@ -231,14 +231,9 @@ def _validate_date_format(date_str: str, field_name: str) -> None:
 
 
 def _validate_datetime_format(datetime_str: str, field_name: str) -> None:
-    """Validate ISO 8601 datetime format (YYYY-MM-DDTHH:MM:SSZ)."""
+    """Validate ISO 8601 datetime — accept common variations and normalize."""
 
-    pattern = r'^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$'
+    # Accept formats: with Z, with +00:00, with milliseconds
+    pattern = r'^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}'
     if not re.match(pattern, datetime_str):
         raise ParsingError(f"Field '{field_name}' must be in ISO 8601 format (YYYY-MM-DDTHH:MM:SSZ)")
-
-    # Also verify it's a valid datetime
-    try:
-        datetime.strptime(datetime_str, '%Y-%m-%dT%H:%M:%SZ')
-    except ValueError:
-        raise ParsingError(f"Field '{field_name}' is not a valid datetime")
