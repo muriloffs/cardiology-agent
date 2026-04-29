@@ -128,8 +128,6 @@ const searchQuery = ref('')
 const downloadStatus = ref(null)
 const loading = ref(false)
 
-})
-
 const filteredArticles = computed(() => {
   if (!report.value?.artigos) return []
 
