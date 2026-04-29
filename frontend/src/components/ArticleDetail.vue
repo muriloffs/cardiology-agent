@@ -26,7 +26,7 @@
       </div>
 
       <!-- Content -->
-      <div class="flex-1 overflow-y-auto md:flex-none md:overflow-visible p-6 space-y-6">
+      <div class="flex-1 overflow-y-auto md:overflow-y-visible md:flex-none p-6 space-y-6">
         <div class="flex items-center gap-4">
           <span :class="[
             'badge',
