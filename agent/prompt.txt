@@ -109,6 +109,7 @@ Return EXACTLY this JSON structure (no markdown, no text before/after):
       "resumo": "2 sentences: what was discussed and the key clinical relevance.",
       "impacto_clinico": "Specific statement about clinical implications. Em português.",
       "links": {
+        "post_url": "https://x.com/handle/status/... or null",
         "url": "https://article-or-guideline-url.com or null",
         "doi": "10.xxxx/... or null",
         "pubmed": "PMID or null"

@@ -17,14 +17,14 @@
         <p class="text-gray-600 text-xs line-clamp-2">{{ discussion.resumo }}</p>
         <div class="flex items-center gap-3 mt-2">
           <a
-            v-if="profileUrl"
-            :href="profileUrl"
+            v-if="postUrl || profileUrl"
+            :href="postUrl || profileUrl"
             class="text-xs text-blue-500 hover:text-blue-700 font-medium"
             target="_blank"
             rel="noopener"
             @click.stop
           >
-            𝕏 Ver perfil
+            𝕏 {{ postUrl ? 'Ver post' : 'Ver perfil' }}
           </a>
           <a
             v-if="articleUrl"
@@ -51,6 +51,8 @@ const props = defineProps({
 })
 
 defineEmits(['click'])
+
+const postUrl = computed(() => props.discussion?.links?.post_url || null)
 
 const profileUrl = computed(() => {
   const autor = props.discussion?.autor || ''

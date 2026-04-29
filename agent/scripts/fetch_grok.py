@@ -1,4 +1,4 @@
-"""Fetch cardiology highlights from X/Twitter via Grok API (real-time X access)."""
+"""Fetch cardiology highlights from X/Twitter via Grok API (real-time X search)."""
 
 import json
 import logging
@@ -9,8 +9,8 @@ from typing import Any
 
 logger = logging.getLogger(__name__)
 
-GROK_API_URL = "https://api.x.ai/v1/chat/completions"
-GROK_MODEL = "grok-3-mini"
+GROK_API_URL = "https://api.x.ai/v1/responses"
+GROK_MODEL = "grok-4"
 
 
 def _load_prompt(date: str) -> str:
@@ -21,10 +21,9 @@ def _load_prompt(date: str) -> str:
 
 def fetch_x_cardiology_posts(days_back: int = 1) -> list[dict[str, Any]]:
     """
-    Query Grok for cardiology X/Twitter posts using the full curated prompt.
+    Query Grok for cardiology X/Twitter posts using the Responses API with x_search tool.
 
-    Returns articles in the same format as fetch_articles.py so they can
-    be merged directly into the agent's article list.
+    Uses real-time X search (grok-4 + x_search) to return verifiable post URLs.
     Gracefully returns [] if XAI_API_KEY is not set.
     """
     api_key = os.environ.get("XAI_API_KEY")
@@ -34,6 +33,8 @@ def fetch_x_cardiology_posts(days_back: int = 1) -> list[dict[str, Any]]:
 
     brasilia_tz = timezone(timedelta(hours=-3))
     target_date = (datetime.now(brasilia_tz) - timedelta(days=days_back - 1)).strftime("%Y-%m-%d")
+    target_dt = datetime.strptime(target_date, "%Y-%m-%d")
+    from_date = (target_dt - timedelta(days=1)).strftime("%Y-%m-%d")
 
     try:
         prompt = _load_prompt(target_date)
@@ -51,16 +52,37 @@ def fetch_x_cardiology_posts(days_back: int = 1) -> list[dict[str, Any]]:
             },
             json={
                 "model": GROK_MODEL,
-                "messages": [
-                    {"role": "user", "content": prompt},
+                "input": [{"role": "user", "content": prompt}],
+                "tools": [
+                    {
+                        "type": "x_search",
+                        "from_date": from_date,
+                        "to_date": target_date,
+                    }
                 ],
                 "temperature": 0.1,
-                "max_tokens": 6000,
+                "max_output_tokens": 6000,
             },
-            timeout=90,
+            timeout=120,
         )
         response.raise_for_status()
-        raw = response.json()["choices"][0]["message"]["content"]
+        data = response.json()
+
+        # Responses API: extract text from output[].content[].text
+        raw = ""
+        for item in data.get("output", []):
+            if item.get("type") == "message":
+                for block in item.get("content", []):
+                    if block.get("type") == "output_text":
+                        raw = block.get("text", "")
+                        break
+            if raw:
+                break
+
+        if not raw:
+            logger.warning("No text output in Grok Responses API response")
+            return []
+
     except Exception as e:
         logger.error(f"Grok API call failed: {e}")
         return []
@@ -98,17 +120,15 @@ def _parse_grok_response(raw: str, date: str) -> list[dict[str, Any]]:
         doi = post.get("doi") if post.get("doi") not in (None, "null", "") else None
         pubmed_id = post.get("pubmed_id") if post.get("pubmed_id") not in (None, "null", "") else None
         article_url = post.get("article_url") if post.get("article_url") not in (None, "null", "") else None
-        # Build abstract with extra context fields for Claude to use
+        post_url = post.get("post_url") if post.get("post_url") not in (None, "null", "") else None
+
         resumo = post.get("resumo", "")
         impacto = post.get("impacto_clinico", "")
-        brasil = post.get("aplicabilidade_brasil", "")
         classe = post.get("classe_sugerida", "")
 
         abstract_parts = [resumo]
         if impacto:
             abstract_parts.append(f"Impacto clínico: {impacto}")
-        if brasil:
-            abstract_parts.append(f"Brasil: {brasil}")
         if classe:
             abstract_parts.append(f"[Classe sugerida pelo Grok: {classe}]")
 
@@ -118,10 +138,11 @@ def _parse_grok_response(raw: str, date: str) -> list[dict[str, Any]]:
             "autores": post.get("autores", []),
             "data_publicacao": date,
             "abstract": " | ".join(abstract_parts),
-            "pubmed_url": article_url or "",
+            "pubmed_url": post_url or article_url or "",
             "doi": doi,
             "doi_url": f"https://doi.org/{doi}" if doi else None,
             "pmid": pubmed_id,
+            "_post_url": post_url,
             "_article_url": article_url,
         })
 

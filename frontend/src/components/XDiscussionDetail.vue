@@ -48,13 +48,13 @@
       <!-- Footer -->
       <div class="flex-shrink-0 p-4 border-t border-gray-200 flex gap-3 flex-wrap rounded-b-lg" style="padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 1rem)">
         <a
-          v-if="profileUrl"
-          :href="profileUrl"
+          v-if="postUrl || profileUrl"
+          :href="postUrl || profileUrl"
           target="_blank"
           rel="noopener"
           class="inline-flex items-center gap-2 px-4 py-2 bg-gray-900 text-white rounded-lg font-medium hover:bg-gray-700 transition-all text-sm"
         >
-          𝕏 Ver Perfil
+          𝕏 {{ postUrl ? 'Ver Post' : 'Ver Perfil' }}
         </a>
         <a
           v-if="articleUrl"
@@ -78,6 +78,8 @@ const props = defineProps({
 })
 
 defineEmits(['close'])
+
+const postUrl = computed(() => props.discussion?.links?.post_url || null)
 
 const profileUrl = computed(() => {
   const autor = props.discussion?.autor || ''
