@@ -3,7 +3,9 @@
  * Returns today's cardiology report data
  */
 
-export default async function handler(req, res) {
+import https from 'https';
+
+export default function handler(req, res) {
   // Enable CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
@@ -17,22 +19,35 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  try {
-    const today = new Date().toISOString().split('T')[0];
+  const today = new Date().toISOString().split('T')[0];
+  const url = `https://raw.githubusercontent.com/muriloffs/cardiology-agent/main/data/relatorio-${today}.json`;
 
-    // Fetch from raw GitHub URL instead of local filesystem
-    // (more reliable in Vercel serverless environment)
-    const url = `https://raw.githubusercontent.com/muriloffs/cardiology-agent/main/data/relatorio-${today}.json`;
+  https.get(url, (response) => {
+    let data = '';
 
-    const response = await fetch(url);
-    if (!response.ok) {
+    if (response.statusCode === 404) {
       return res.status(404).json({ error: `No report found for ${today}` });
     }
 
-    const report = await response.json();
-    return res.status(200).json(report);
-  } catch (error) {
+    if (response.statusCode !== 200) {
+      return res.status(response.statusCode).json({ error: 'Failed to fetch report' });
+    }
+
+    response.on('data', (chunk) => {
+      data += chunk;
+    });
+
+    response.on('end', () => {
+      try {
+        const report = JSON.parse(data);
+        res.status(200).json(report);
+      } catch (error) {
+        console.error('Error parsing report:', error);
+        res.status(500).json({ error: 'Invalid report data' });
+      }
+    });
+  }).on('error', (error) => {
     console.error('Error fetching report:', error);
-    return res.status(500).json({ error: error.message });
-  }
+    res.status(500).json({ error: error.message });
+  });
 }
