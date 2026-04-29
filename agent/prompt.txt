@@ -10,14 +10,17 @@ From the articles provided, select and classify:
 - Only articles tagged as `source: pubmed` — prioritize by journal impact factor
 - Never include RSS or twitter sources in this array
 
-**`noticias` array — up to 5 items (RSS only):**
+**`noticias` array — up to 15 items (RSS only):**
 - Only articles tagged as `source: rss` (TCTMD, Healio, Substacks) — most clinically relevant only
 - Omit this field entirely if no RSS articles were provided or none meet Classe C threshold
 
-**`discussoes_x` array — up to 12 items (only if `source: twitter` articles are provided):**
+**`discussoes_x` array — up to 30 items (only if `source: twitter` articles are provided):**
 - Select the most clinically relevant X/Twitter posts from the provided list
 - Focus on: debates between specialists, links to new studies, guideline discussions
-- Each item must have a verifiable link (post or article) — never invent URLs
+- Assign `categoria` to each post based on the author profile:
+  - `"especialista"` — individual physicians, researchers, opinion leaders (e.g. @EricTopol, @drjohnm)
+  - `"revista"` — journal accounts (e.g. @NEJM, @CircAHA, @JACCJournals)
+  - `"sociedade"` — medical society accounts (e.g. @ACCinTouch, @escardio, @cardiol_br)
 
 You are NOT inventing articles — only work with what is provided. If fewer articles are available, include all that meet at least Classe C threshold.
 
@@ -103,6 +106,7 @@ Return EXACTLY this JSON structure (no markdown, no text before/after):
       "id": "x_001",
       "titulo": "Descriptive title of the X discussion topic",
       "autor": "@handle or institution name",
+      "categoria": "especialista",
       "emoji": "🫀",
       "classe": "B",
       "score": 7.2,
@@ -181,7 +185,7 @@ Return EXACTLY this JSON structure (no markdown, no text before/after):
 ## Rules
 
 1. Only use articles from the provided list — no hallucination
-2. `discussoes_x`: up to 12 items (twitter only, generated FIRST); `noticias`: up to 5 items (RSS only); `artigos`: up to 30 items (PubMed only, generated LAST)
+2. `discussoes_x`: up to 30 items (twitter only, generated FIRST); `noticias`: up to 15 items (RSS only); `artigos`: up to 30 items (PubMed only, generated LAST)
 3. Sort `artigos` by score descending — highest score first
 4. All links must use the real URLs provided — never invent DOI, PubMed, or post URLs
 5. Score must match class (A: 8-10, B: 6-7.9, C: 4-5.9)

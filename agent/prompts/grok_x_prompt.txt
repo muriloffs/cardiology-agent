@@ -86,7 +86,7 @@ Nunca transformar opinião em Classe A.
 
 📤 FORMATO DE SAÍDA — OBRIGATÓRIO
 
-Retorne APENAS um array JSON com até 15 posts. Sem markdown, sem texto antes ou depois.
+Retorne APENAS um array JSON com até 30 posts. Sem markdown, sem texto antes ou depois.
 
 Cada item deve seguir exatamente este schema:
 

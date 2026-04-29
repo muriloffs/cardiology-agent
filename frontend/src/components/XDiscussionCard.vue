@@ -11,6 +11,9 @@
           <span :class="['badge', discussion.classe === 'A' ? 'badge-a' : discussion.classe === 'B' ? 'badge-b' : 'badge-c']">
             Classe {{ discussion.classe }}
           </span>
+          <span :class="['text-xs font-medium px-2 py-0.5 rounded-full', categoriaStyle]">
+            {{ categoriaLabel }}
+          </span>
           <span class="text-xs text-gray-500 font-medium">{{ discussion.autor }}</span>
         </div>
         <h3 class="font-semibold text-gray-900 text-sm leading-snug mb-1">{{ discussion.titulo }}</h3>
@@ -53,6 +56,18 @@ const props = defineProps({
 defineEmits(['click'])
 
 const postUrl = computed(() => props.discussion?.links?.post_url || null)
+
+const categoriaLabel = computed(() => ({
+  especialista: '👤 Especialista',
+  revista: '📄 Revista',
+  sociedade: '🏛️ Sociedade'
+}[props.discussion?.categoria] || '𝕏'))
+
+const categoriaStyle = computed(() => ({
+  especialista: 'bg-blue-100 text-blue-700',
+  revista: 'bg-purple-100 text-purple-700',
+  sociedade: 'bg-green-100 text-green-700'
+}[props.discussion?.categoria] || 'bg-gray-100 text-gray-600'))
 
 const profileUrl = computed(() => {
   const autor = props.discussion?.autor || ''

@@ -38,10 +38,28 @@
     <!-- X/Twitter Discussions -->
     <section v-if="report?.discussoes_x?.length" class="px-4 py-8 max-w-6xl mx-auto border-t border-gray-100">
       <h2 class="text-2xl font-bold mb-1">𝕏 Discussões no X</h2>
-      <p class="text-sm text-gray-500 mb-4">{{ report.discussoes_x.length }} discussões selecionadas das últimas 24h</p>
+      <p class="text-sm text-gray-500 mb-3">{{ report.discussoes_x.length }} discussões selecionadas das últimas 24h</p>
+      <div class="flex gap-2 flex-wrap mb-4">
+        <button
+          v-for="cat in ['all', 'especialista', 'revista', 'sociedade']"
+          :key="cat"
+          @click="selectedXCategoria = cat"
+          :class="[
+            'px-3 py-1.5 rounded-full text-xs font-medium transition-all',
+            selectedXCategoria === cat
+              ? cat === 'especialista' ? 'bg-blue-600 text-white'
+              : cat === 'revista' ? 'bg-purple-600 text-white'
+              : cat === 'sociedade' ? 'bg-green-600 text-white'
+              : 'bg-gray-800 text-white'
+              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+          ]"
+        >
+          {{ { all: 'Todas', especialista: '👤 Especialistas', revista: '📄 Revistas', sociedade: '🏛️ Sociedades' }[cat] }}
+        </button>
+      </div>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
         <XDiscussionCard
-          v-for="discussion in report.discussoes_x"
+          v-for="discussion in filteredDiscussoes"
           :key="discussion.id"
           :discussion="discussion"
           @click="selectedDiscussion = discussion"
@@ -127,6 +145,13 @@ const selectedSource = ref('all')
 const searchQuery = ref('')
 const downloadStatus = ref(null)
 const loading = ref(false)
+const selectedXCategoria = ref('all')
+
+const filteredDiscussoes = computed(() => {
+  const list = report.value?.discussoes_x || []
+  if (selectedXCategoria.value === 'all') return list
+  return list.filter(d => d.categoria === selectedXCategoria.value)
+})
 
 const filteredArticles = computed(() => {
   if (!report.value?.artigos) return []
