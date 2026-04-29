@@ -24,13 +24,6 @@ RSS_FEEDS = [
         "categoria": "noticias",
         "emoji": "📰",
     },
-    # High-impact science
-    {
-        "url": "https://www.nature.com/subjects/cardiology.rss",
-        "source": "Nature Cardiology",
-        "categoria": "revista",
-        "emoji": "🔬",
-    },
     {
         "url": "https://www.cardiometabolichealth.org/feed",
         "source": "Cardiometabolic Health",
