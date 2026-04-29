@@ -12,6 +12,7 @@ from anthropic import Anthropic, APIError
 from agent.parser import parse_report, ParsingError
 from agent.scripts.fetch_articles import fetch_recent_cardiology_articles
 from agent.scripts.fetch_rss import fetch_all_rss
+from agent.scripts.fetch_grok import fetch_x_cardiology_posts
 
 
 # Configure logging for GitHub Actions diagnostics
@@ -68,12 +69,19 @@ class CardologyAgent:
         rss_articles = fetch_all_rss(days_back=2)
         logger.info(f"RSS: {len(rss_articles)} items")
 
+        # Step 3: Fetch cardiology highlights from X via Grok (optional — requires XAI_API_KEY)
+        logger.info("Fetching cardiology highlights from X via Grok...")
+        grok_articles = fetch_x_cardiology_posts(days_back=1)
+        logger.info(f"Grok/X: {len(grok_articles)} posts")
+
         for a in pubmed_articles:
             a["source_type"] = "pubmed"
         for a in rss_articles:
             a["source_type"] = "rss"
+        for a in grok_articles:
+            a["source_type"] = "twitter"
 
-        articles = pubmed_articles + rss_articles
+        articles = pubmed_articles + rss_articles + grok_articles
 
         if not articles:
             raise RuntimeError("No articles fetched from any source. Cannot generate report.")
@@ -150,6 +158,10 @@ class CardologyAgent:
             if a.get("doi_url"):
                 lines.append(f"DOI: {a['doi']}")
                 lines.append(f"DOI URL: {a['doi_url']}")
+            if a.get("_post_url"):
+                lines.append(f"X Post URL: {a['_post_url']}")
+            if a.get("_article_url"):
+                lines.append(f"Article URL: {a['_article_url']}")
             lines.append("")
         return "\n".join(lines)
 
