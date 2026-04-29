@@ -5,9 +5,9 @@
     class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4"
     @click.self="$emit('close')"
   >
-    <div class="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-      <!-- Header -->
-      <div class="sticky top-0 bg-white border-b border-gray-200 p-4 md:p-6 flex items-start justify-between gap-3">
+    <div class="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] flex flex-col">
+      <!-- Header — always visible, never scrolls -->
+      <div class="flex-shrink-0 bg-white border-b border-gray-200 p-4 md:p-6 flex items-start justify-between gap-3 rounded-t-lg">
         <div class="flex items-start gap-3 min-w-0">
           <span class="text-3xl md:text-4xl flex-shrink-0">{{ article.emoji }}</span>
           <div class="min-w-0">
@@ -17,14 +17,14 @@
         </div>
         <button
           @click="$emit('close')"
-          class="text-gray-500 hover:text-gray-700 font-bold text-2xl"
+          class="flex-shrink-0 text-gray-500 hover:text-gray-700 font-bold text-2xl"
         >
           ✕
         </button>
       </div>
 
-      <!-- Content -->
-      <div class="p-6 space-y-6">
+      <!-- Content — scrollable -->
+      <div class="flex-1 overflow-y-auto p-6 space-y-6">
         <!-- Score and Class -->
         <div class="flex items-center gap-4">
           <span :class="[
@@ -77,6 +77,16 @@
             🔗 Ler Artigo Completo
           </a>
         </div>
+      </div>
+
+      <!-- Footer close button — always visible on mobile, never scrolls -->
+      <div class="flex-shrink-0 p-4 border-t border-gray-200 md:hidden rounded-b-lg">
+        <button
+          @click="$emit('close')"
+          class="w-full py-3 bg-gray-100 text-gray-700 rounded-lg font-medium hover:bg-gray-200 transition-all"
+        >
+          ✕ Fechar
+        </button>
       </div>
     </div>
   </div>
