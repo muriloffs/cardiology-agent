@@ -2,7 +2,7 @@
 <template>
   <div
     v-if="article"
-    class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4"
+    class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-start justify-center p-4 pt-6"
     @click.self="$emit('close')"
   >
     <div class="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] flex flex-col">
@@ -79,15 +79,6 @@
         </div>
       </div>
 
-      <!-- Footer close button — always visible on mobile, never scrolls -->
-      <div class="flex-shrink-0 p-4 border-t border-gray-200 md:hidden rounded-b-lg">
-        <button
-          @click="$emit('close')"
-          class="w-full py-3 bg-gray-100 text-gray-700 rounded-lg font-medium hover:bg-gray-200 transition-all"
-        >
-          ✕ Fechar
-        </button>
-      </div>
     </div>
   </div>
 </template>
