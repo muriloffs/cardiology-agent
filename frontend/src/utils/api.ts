@@ -1,13 +1,11 @@
 // frontend/src/utils/api.ts
 import axios from 'axios'
 
-const GITHUB_RAW_URL = 'https://raw.githubusercontent.com/muriloffs/cardiology-agent/main/data'
+const API_URL = '/api'
 
 export async function fetchLatestReport() {
   try {
-    const today = new Date().toISOString().split('T')[0]
-    const url = `${GITHUB_RAW_URL}/relatorio-${today}.json`
-    const response = await axios.get(url)
+    const response = await axios.get(`${API_URL}/report`)
     return response.data
   } catch (error) {
     console.error('Failed to fetch report:', error)

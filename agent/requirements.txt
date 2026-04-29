@@ -12,3 +12,4 @@ google-auth-oauthlib==1.2.0
 google-api-python-client==2.105.0
 pypdf==4.0.1
 flask==3.0.0
+flask-cors==4.0.0
