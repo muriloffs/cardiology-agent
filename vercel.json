@@ -5,11 +5,12 @@
   "env": {
     "VITE_API_URL": "https://cardiology-agent.vercel.app/api"
   },
+  "functions": {
+    "frontend/api/**/*.js": {
+      "runtime": "nodejs18.x"
+    }
+  },
   "rewrites": [
-    {
-      "source": "/api/(.*)",
-      "destination": "/api/$1"
-    },
     {
       "source": "/(.*)",
       "destination": "/index.html"
