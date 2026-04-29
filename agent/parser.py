@@ -30,11 +30,16 @@ def parse_report(raw: str) -> Dict[str, Any]:
     # Strip markdown fences if present
     json_str = _strip_markdown_fences(raw)
 
-    # Parse JSON
+    # Parse JSON — try repair if initial parse fails
     try:
         report = json.loads(json_str)
     except json.JSONDecodeError as e:
-        raise ParsingError(f"Invalid JSON: {e}")
+        try:
+            from json_repair import repair_json
+            repaired = repair_json(json_str)
+            report = json.loads(repaired)
+        except Exception:
+            raise ParsingError(f"Invalid JSON: {e}")
 
     # Validate structure
     _validate(report)
