@@ -7,7 +7,7 @@
     <!-- Backdrop: pointer-events-auto explícito para receber cliques de fechar -->
     <div class="absolute inset-0 bg-black bg-opacity-50 pointer-events-auto cursor-pointer" @click="$emit('close')"></div>
     <!-- Modal: pointer-events-auto explícito para receber todos os cliques internos -->
-    <div class="relative bg-white rounded-lg max-w-2xl w-full max-h-[85vh] flex flex-col pointer-events-auto">
+    <div class="relative bg-white rounded-lg max-w-2xl w-full max-h-[85dvh] flex flex-col pointer-events-auto">
       <!-- Header — always visible, never scrolls -->
       <div class="flex-shrink-0 bg-white border-b border-gray-200 p-4 md:p-6 flex items-start justify-between gap-3 rounded-t-lg">
         <div class="flex items-start gap-3 min-w-0">
@@ -66,7 +66,7 @@
       </div>
 
       <!-- Footer — always visible, never scrolls (link stays tappable on mobile) -->
-      <div class="flex-shrink-0 p-4 border-t border-gray-200 flex gap-3 rounded-b-lg">
+      <div class="flex-shrink-0 p-4 border-t border-gray-200 flex gap-3 rounded-b-lg" style="padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 1rem)">
         <DownloadButton
           @download="$emit('download')"
         />
