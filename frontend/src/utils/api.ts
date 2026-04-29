@@ -1,19 +1,30 @@
 // frontend/src/utils/api.ts
 import axios from 'axios'
 
-const API_URL = '/api'
+const GITHUB_RAW_URL = 'https://raw.githubusercontent.com/muriloffs/cardiology-agent/main/data'
+
+function getTodayDate(): string {
+  const now = new Date()
+  return now.getFullYear() + '-' +
+    String(now.getMonth() + 1).padStart(2, '0') + '-' +
+    String(now.getDate()).padStart(2, '0')
+}
 
 export async function fetchLatestReport() {
+  const today = getTodayDate()
   try {
-    const response = await axios.get(`${API_URL}/report`)
+    const response = await axios.get(`${GITHUB_RAW_URL}/relatorio-${today}.json`)
     return response.data
-  } catch (error) {
+  } catch (error: any) {
+    if (error?.response?.status === 404) {
+      throw new Error(`Nenhum relatório encontrado para ${today}`)
+    }
     console.error('Failed to fetch report:', error)
     throw new Error('Unable to fetch today\'s cardiology report')
   }
 }
 
-export async function downloadArticle(articleId, titulo, url) {
+export async function downloadArticle(articleId: string, titulo: string, url: string) {
   try {
     const response = await axios.post('/api/download', {
       articleId,
@@ -27,8 +38,8 @@ export async function downloadArticle(articleId, titulo, url) {
   }
 }
 
-export async function fetchReportHistory(dates) {
-  const reports = {}
+export async function fetchReportHistory(dates: string[]) {
+  const reports: Record<string, any> = {}
   for (const date of dates) {
     try {
       const url = `${GITHUB_RAW_URL}/relatorio-${date}.json`
