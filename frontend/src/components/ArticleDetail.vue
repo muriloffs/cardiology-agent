@@ -73,8 +73,6 @@
         <a
           v-if="articleUrl"
           :href="articleUrl"
-          target="_blank"
-          rel="noopener noreferrer"
           class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-all"
         >
           🔗 Ler Artigo Completo
