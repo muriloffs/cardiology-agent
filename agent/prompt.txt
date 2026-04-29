@@ -109,10 +109,9 @@ Return EXACTLY this JSON structure (no markdown, no text before/after):
       "resumo": "2 sentences: what was discussed and the key clinical relevance.",
       "impacto_clinico": "Specific statement about clinical implications. Em português.",
       "links": {
-        "post_url": "https://x.com/handle/status/...",
-        "url": "https://article-or-guideline-url.com",
-        "doi": "10.xxxx/...",
-        "pubmed": "PMID"
+        "url": "https://article-or-guideline-url.com or null",
+        "doi": "10.xxxx/... or null",
+        "pubmed": "PMID or null"
       }
     }
   ],
@@ -158,7 +157,7 @@ Return EXACTLY this JSON structure (no markdown, no text before/after):
 **`discussoes_x` rules:**
 - Only include if `source: twitter` articles were provided
 - If no twitter sources were provided, omit the `discussoes_x` field entirely
-- Never invent post_url, doi, or pubmed — use null if not found
+- Never invent url, doi, or pubmed — use null if not provided in the source data
 - Score uses same scale as artigos (A: 8-10, B: 6-7.9, C: 4-5.9)
 
 ---

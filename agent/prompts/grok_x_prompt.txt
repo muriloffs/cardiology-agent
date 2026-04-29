@@ -91,10 +91,9 @@ Cada item deve seguir exatamente este schema:
     "resumo": "2-3 frases: o que foi postado e por que importa clinicamente",
     "impacto_clinico": "O que pode mudar na prática clínica amanhã",
     "classe_sugerida": "A" | "B" | "C",
-    "post_url": "https://x.com/... ou null",
-    "article_url": "URL do artigo/guideline real ou null",
-    "doi": "10.xxxx/... ou null",
-    "pubmed_id": "PMID numérico ou null"
+    "article_url": "URL do artigo/guideline/preprint real ou null — NUNCA inventar",
+    "doi": "10.xxxx/... ou null — apenas se explicitamente mencionado no post",
+    "pubmed_id": "PMID numérico ou null — apenas se explicitamente mencionado no post"
   }
 ]
 

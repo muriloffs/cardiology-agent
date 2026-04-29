@@ -10,7 +10,7 @@ from typing import Any
 logger = logging.getLogger(__name__)
 
 GROK_API_URL = "https://api.x.ai/v1/chat/completions"
-GROK_MODEL = "grok-3"
+GROK_MODEL = "grok-3-mini"
 
 
 def _load_prompt(date: str) -> str:
@@ -98,8 +98,6 @@ def _parse_grok_response(raw: str, date: str) -> list[dict[str, Any]]:
         doi = post.get("doi") if post.get("doi") not in (None, "null", "") else None
         pubmed_id = post.get("pubmed_id") if post.get("pubmed_id") not in (None, "null", "") else None
         article_url = post.get("article_url") if post.get("article_url") not in (None, "null", "") else None
-        post_url = post.get("post_url") if post.get("post_url") not in (None, "null", "") else None
-
         # Build abstract with extra context fields for Claude to use
         resumo = post.get("resumo", "")
         impacto = post.get("impacto_clinico", "")
@@ -120,11 +118,10 @@ def _parse_grok_response(raw: str, date: str) -> list[dict[str, Any]]:
             "autores": post.get("autores", []),
             "data_publicacao": date,
             "abstract": " | ".join(abstract_parts),
-            "pubmed_url": article_url or post_url or "",
+            "pubmed_url": article_url or "",
             "doi": doi,
             "doi_url": f"https://doi.org/{doi}" if doi else None,
             "pmid": pubmed_id,
-            "_post_url": post_url,
             "_article_url": article_url,
         })
 
