@@ -4,11 +4,11 @@
     v-if="article"
     class="fixed inset-0 z-50 pointer-events-none flex items-start justify-center p-4 pt-12"
   >
-    <!-- Backdrop: pointer-events-auto explícito para receber cliques de fechar -->
     <div class="absolute inset-0 bg-black bg-opacity-50 pointer-events-auto cursor-pointer" @click="$emit('close')"></div>
-    <!-- Modal: pointer-events-auto explícito para receber todos os cliques internos -->
-    <div class="relative bg-white rounded-lg max-w-2xl w-full max-h-[85dvh] flex flex-col pointer-events-auto">
-      <!-- Header — always visible, never scrolls -->
+    <!-- Mobile: flex-col com header/footer fixos. Desktop: block com scroll total -->
+    <div class="relative bg-white rounded-lg max-w-2xl w-full max-h-[85dvh] flex flex-col md:block md:overflow-y-auto pointer-events-auto">
+
+      <!-- Header -->
       <div class="flex-shrink-0 bg-white border-b border-gray-200 p-4 md:p-6 flex items-start justify-between gap-3 rounded-t-lg">
         <div class="flex items-start gap-3 min-w-0">
           <span class="text-3xl md:text-4xl flex-shrink-0">{{ article.emoji }}</span>
@@ -25,9 +25,8 @@
         </button>
       </div>
 
-      <!-- Content — scrollable -->
-      <div class="flex-1 overflow-y-auto p-6 space-y-6">
-        <!-- Score and Class -->
+      <!-- Content -->
+      <div class="flex-1 overflow-y-auto md:flex-none md:overflow-visible p-6 space-y-6">
         <div class="flex items-center gap-4">
           <span :class="[
             'badge',
@@ -38,19 +37,16 @@
           <span class="text-lg font-bold text-gray-700">Score: {{ article.score }}/10</span>
         </div>
 
-        <!-- Resumo -->
         <div>
           <h3 class="text-lg font-bold mb-2">Resumo</h3>
           <p class="text-gray-700">{{ article.resumo }}</p>
         </div>
 
-        <!-- Impacto Clínico -->
         <div>
           <h3 class="text-lg font-bold mb-2">💡 Impacto Clínico</h3>
           <p class="text-gray-700">{{ article.impacto_clinico }}</p>
         </div>
 
-        <!-- Metadata -->
         <div class="grid grid-cols-2 gap-4">
           <div class="bg-gray-50 p-4 rounded-lg">
             <p class="text-sm text-gray-600">Fonte</p>
@@ -65,7 +61,7 @@
         </div>
       </div>
 
-      <!-- Footer — always visible, never scrolls (link stays tappable on mobile) -->
+      <!-- Footer -->
       <div class="flex-shrink-0 p-4 border-t border-gray-200 flex gap-3 rounded-b-lg" style="padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 1rem)">
         <DownloadButton
           @download="$emit('download')"
