@@ -10,7 +10,7 @@ from typing import Any
 logger = logging.getLogger(__name__)
 
 GROK_API_URL = "https://api.x.ai/v1/chat/completions"
-GROK_MODEL = "grok-3-mini"
+GROK_MODEL = "grok-3"
 
 
 def _load_prompt(date: str) -> str:
