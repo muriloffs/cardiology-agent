@@ -96,7 +96,7 @@ class CardologyAgent:
         try:
             logger.info(f"Calling Claude API to classify {len(articles)} articles for {report_date}")
             response = self.client.messages.create(
-                model="claude-opus-4-5",
+                model="claude-sonnet-4-6",
                 max_tokens=10000,
                 system=system_prompt,
                 messages=[
