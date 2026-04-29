@@ -1,6 +1,6 @@
 <!-- frontend/src/components/FilterBar.vue -->
 <template>
-  <div class="md:sticky md:top-[132px] bg-white border-b border-gray-200 z-30">
+  <div class="bg-white border-b border-gray-200">
     <div class="max-w-6xl mx-auto px-4 py-4">
       <!-- Class Filters -->
       <div class="mb-4">

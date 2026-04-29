@@ -1,6 +1,6 @@
 <!-- frontend/src/components/HeaderStats.vue -->
 <template>
-  <header class="sticky top-0 bg-white border-b border-gray-200 z-40">
+  <header class="bg-white border-b border-gray-200">
     <div class="max-w-6xl mx-auto px-4 py-3 md:py-6">
       <h1 class="text-xl md:text-4xl font-bold mb-1 md:mb-2">📚 Relatório de Cardiologia</h1>
       <p class="text-gray-600 text-sm md:text-base mb-2 md:mb-4">{{ formattedDate }}</p>
