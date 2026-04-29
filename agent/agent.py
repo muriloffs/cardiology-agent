@@ -112,8 +112,8 @@ class CardologyAgent:
                         "role": "user",
                         "content": (
                             f"Date: {report_date}\n\n"
-                            f"Here are {len(articles)} real cardiology articles fetched from PubMed "
-                            f"in the last 24 hours. Select the 10-15 most important and classify them:\n\n"
+                            f"Here are {len(articles)} real cardiology articles fetched from PubMed, "
+                            f"RSS feeds, and X/Twitter in the last 24 hours. Classify and include up to 50 per the instructions:\n\n"
                             f"{articles_text}"
                         )
                     }
