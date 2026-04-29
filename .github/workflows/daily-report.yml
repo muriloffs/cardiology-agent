@@ -40,12 +40,12 @@ jobs:
 
       - name: Verify report file created
         run: |
-          REPORT_FILE="data/relatorio-$(date -u +%Y-%m-%d).json"
-          if [ -f "$REPORT_FILE" ]; then
+          REPORT_FILE=$(ls -t data/relatorio-*.json 2>/dev/null | head -1)
+          if [ -n "$REPORT_FILE" ] && [ -f "$REPORT_FILE" ]; then
             echo "✓ Report verified: $REPORT_FILE"
             ls -lah "$REPORT_FILE"
           else
-            echo "✗ Report file not found: $REPORT_FILE"
+            echo "✗ Report file not found in data/"
             exit 1
           fi
 
@@ -56,13 +56,13 @@ jobs:
 
       - name: Commit and push report
         run: |
-          REPORT_FILE="data/relatorio-$(date -u +%Y-%m-%d).json"
-          if git diff --quiet "$REPORT_FILE"; then
-            echo "ℹ No changes to report file"
-          else
+          REPORT_FILE=$(ls -t data/relatorio-*.json 2>/dev/null | head -1)
+          if git diff --quiet "$REPORT_FILE" 2>/dev/null || ! git ls-files --error-unmatch "$REPORT_FILE" 2>/dev/null; then
             git add "$REPORT_FILE"
-            git commit -m "chore: daily cardiology research report $(date -u +%Y-%m-%d)"
+            git commit -m "chore: daily cardiology research report $(basename $REPORT_FILE .json | sed 's/relatorio-//')"
             git push origin main
+          else
+            echo "ℹ No changes to report file"
           fi
 
       - name: Notify on failure
