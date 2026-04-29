@@ -20,12 +20,12 @@
       @refresh="loadReport"
     />
 
-    <!-- Featured Articles -->
-    <section v-if="report?.featured?.length" class="px-4 py-8 max-w-6xl mx-auto">
+    <!-- Featured Articles (top 3 by score, derived from artigos) -->
+    <section v-if="featuredArticles.length" class="px-4 py-8 max-w-6xl mx-auto">
       <h2 class="text-2xl font-bold mb-4">📌 Destaque do Dia</h2>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <FeaturedCard
-          v-for="(article, idx) in report.featured"
+          v-for="(article, idx) in featuredArticles"
           :key="`featured-${idx}`"
           :article="article"
           :index="idx"
@@ -142,6 +142,13 @@ const selectedSource = ref('all')
 const searchQuery = ref('')
 const downloadStatus = ref(null)
 const loading = ref(false)
+
+const featuredArticles = computed(() => {
+  if (!report.value?.artigos?.length) return []
+  return [...report.value.artigos]
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 3)
+})
 
 const filteredArticles = computed(() => {
   if (!report.value?.artigos) return []

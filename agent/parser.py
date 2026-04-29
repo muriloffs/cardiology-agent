@@ -73,7 +73,7 @@ def _validate(report: Dict[str, Any]) -> None:
         raise ParsingError("Report must be a dictionary")
 
     # Check required top-level fields
-    required_fields = {'relatorio_data', 'gerado_em', 'resumo', 'featured', 'artigos'}
+    required_fields = {'relatorio_data', 'gerado_em', 'resumo', 'artigos'}
     missing = required_fields - set(report.keys())
     if missing:
         raise ParsingError(f"Missing required fields: {', '.join(sorted(missing))}")
@@ -85,8 +85,6 @@ def _validate(report: Dict[str, Any]) -> None:
         raise ParsingError("Field 'gerado_em' must be a string")
     if not isinstance(report['resumo'], dict):
         raise ParsingError("Field 'resumo' must be a dictionary")
-    if not isinstance(report['featured'], list):
-        raise ParsingError("Field 'featured' must be a list")
     if not isinstance(report['artigos'], list):
         raise ParsingError("Field 'artigos' must be a list")
 
@@ -97,15 +95,8 @@ def _validate(report: Dict[str, Any]) -> None:
     # Validate resumo
     _validate_resumo(report['resumo'])
 
-    # Validate featured articles — drop incomplete items (json-repair truncation artifacts)
-    valid_featured = []
-    for i, article in enumerate(report['featured']):
-        try:
-            _validate_article(article, context=f"featured[{i}]")
-            valid_featured.append(article)
-        except ParsingError:
-            pass
-    report['featured'] = valid_featured
+    # featured is now derived on the frontend — drop silently if Claude still includes it
+    report.pop('featured', None)
 
     # Validate articles — drop incomplete items silently
     valid_artigos = []

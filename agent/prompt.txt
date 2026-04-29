@@ -6,7 +6,7 @@ You are an expert cardiology research curator. You will receive a list of REAL a
 
 From the articles provided, select and classify:
 
-**`artigos` array — up to 15 items (PubMed only):**
+**`artigos` array — up to 20 items (PubMed only):**
 - Only articles tagged as `source: pubmed` — prioritize by journal impact factor
 - Never include RSS or twitter sources in this array
 
@@ -98,25 +98,6 @@ Return EXACTLY this JSON structure (no markdown, no text before/after):
     "classe_b_count": NUMBER,
     "classe_c_count": NUMBER
   },
-  "featured": [
-    {
-      "id": "featured_1",
-      "titulo": "Full title from the provided article",
-      "publicacao": "Journal name from the provided article",
-      "autores": ["Author 1", "Author 2"],
-      "classe": "A",
-      "score": 9.2,
-      "categoria_fonte": "revista",
-      "emoji": "❤️",
-      "resumo": "2 sentences: what was studied/discussed and the key clinical finding.",
-      "impacto_clinico": "Specific clinical impact. O que muda amanhã na prática clínica?",
-      "links": {
-        "url": "https://pubmed.ncbi.nlm.nih.gov/PMID/",
-        "doi": "10.xxxx/...",
-        "pubmed": "PMID"
-      }
-    }
-  ],
   "discussoes_x": [
     {
       "id": "x_001",
@@ -200,8 +181,8 @@ Return EXACTLY this JSON structure (no markdown, no text before/after):
 ## Rules
 
 1. Only use articles from the provided list — no hallucination
-2. `discussoes_x`: up to 7 items (twitter only, generated FIRST); `noticias`: up to 5 items (RSS only); `artigos`: up to 15 items (PubMed only, generated LAST)
-3. The `featured` array = top 3 most impactful articles from `artigos` (always Classe A or best available)
+2. `discussoes_x`: up to 7 items (twitter only, generated FIRST); `noticias`: up to 5 items (RSS only); `artigos`: up to 20 items (PubMed only, generated LAST)
+3. Sort `artigos` by score descending — highest score first
 4. All links must use the real URLs provided — never invent DOI, PubMed, or post URLs
 5. Score must match class (A: 8-10, B: 6-7.9, C: 4-5.9)
 6. Impacto clínico must be specific and actionable — not generic
