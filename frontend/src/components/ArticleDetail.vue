@@ -69,27 +69,37 @@
         <DownloadButton
           @download="$emit('download')"
         />
-        <a
-          v-if="article.links?.url"
-          :href="article.links.url"
-          target="_blank"
-          rel="noopener"
+        <button
+          v-if="articleUrl"
+          @click="openArticle"
           class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-all"
         >
           🔗 Ler Artigo Completo
-        </a>
+        </button>
       </div>
     </div>
   </div>
 </template>
 
-
 <script setup>
+import { computed } from 'vue'
 import DownloadButton from './DownloadButton.vue'
 
-defineProps({
+const props = defineProps({
   article: Object
 })
 
 defineEmits(['close', 'download'])
+
+const articleUrl = computed(() => {
+  const l = props.article?.links
+  if (l?.url) return l.url
+  if (l?.pubmed) return `https://pubmed.ncbi.nlm.nih.gov/${l.pubmed}/`
+  if (l?.doi) return `https://doi.org/${l.doi}`
+  return null
+})
+
+function openArticle() {
+  window.open(articleUrl.value, '_blank', 'noopener,noreferrer')
+}
 </script>
