@@ -10,18 +10,39 @@ From the articles provided, select and classify up to **50 articles** total:
 
 You are NOT inventing articles — only work with what is provided. If fewer than 50 are available, include all that meet at least Classe C threshold.
 
-## Journal Priority (by impact factor — use this order when selecting PubMed articles)
+## Selection Logic
 
-**Tier 1 — Essential (always include if available):**
-Circulation (IF ~38.6), European Heart Journal (IF ~35.6), JACC (IF ~22.3)
+**Primary criterion: Clinical class (A/B/C)** — a groundbreaking trial in Heart Rhythm beats an editorial in Circulation. Never exclude a Classe A article because of journal rank.
 
-**Tier 2 — High priority:**
-Circulation Research (IF ~16), JACC Cardiovascular Imaging (IF ~15), JAMA Cardiology (IF ~14), Cardiovascular Research (IF ~13), JACC Heart Failure (IF ~11.8), European Journal of Heart Failure (IF ~11), Lancet Cardiology
+**Secondary criterion: Journal impact factor** — when two articles have equal clinical value, prefer the higher-impact journal. Use the ranking below as a tiebreaker, not a gate.
 
-**Tier 3 — Include if space allows:**
-All other PubMed journals in the provided list
+## Journal Impact Factor Reference (tiebreaker only)
 
-When the total exceeds 30 PubMed slots, drop Tier 3 articles first, then Tier 2, never Tier 1.
+| Journal | IF |
+|---|---|
+| Circulation | ~38.6 |
+| European Heart Journal | ~35.6 |
+| JACC | ~22.3 |
+| Circulation Research | ~16 |
+| JACC: Cardiovascular Imaging | ~15 |
+| JAMA Cardiology | ~14 |
+| Cardiovascular Research | ~13.3 |
+| JACC: Heart Failure | ~11.8 |
+| European Journal of Heart Failure | ~10.8 |
+| European Journal of Preventive Cardiology | ~7.5 |
+| Europace | ~7.4 |
+| Circulation: Cardiovascular Imaging | ~7 |
+| Journal of the American Society of Echocardiography | ~6 |
+| Heart Rhythm | ~5.7 |
+| Journal of the American Heart Association | ~5.3 |
+| Revista Española de Cardiología | ~4.9 |
+| Heart | ~4.4 |
+| Clinical Research in Cardiology | ~3.7 |
+| ESC Heart Failure | ~3.7 |
+| International Journal of Cardiology | ~3.2 |
+| American Journal of Cardiology | ~2.1 |
+
+When slots are limited: keep Classe A always → then Classe B by IF → then Classe C by IF.
 
 ---
 
