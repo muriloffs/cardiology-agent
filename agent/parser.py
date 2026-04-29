@@ -97,27 +97,54 @@ def _validate(report: Dict[str, Any]) -> None:
     # Validate resumo
     _validate_resumo(report['resumo'])
 
-    # Validate featured articles
+    # Validate featured articles — drop incomplete items (json-repair truncation artifacts)
+    valid_featured = []
     for i, article in enumerate(report['featured']):
-        _validate_article(article, context=f"featured[{i}]")
+        try:
+            _validate_article(article, context=f"featured[{i}]")
+            valid_featured.append(article)
+        except ParsingError:
+            pass
+    report['featured'] = valid_featured
 
-    # Validate articles
+    # Validate articles — drop incomplete items silently
+    valid_artigos = []
     for i, article in enumerate(report['artigos']):
-        _validate_article(article, context=f"artigos[{i}]")
+        try:
+            _validate_article(article, context=f"artigos[{i}]")
+            valid_artigos.append(article)
+        except ParsingError:
+            pass
+    report['artigos'] = valid_artigos
 
-    # Validate noticias (optional field)
+    if not report['artigos']:
+        raise ParsingError("artigos array is empty after validation")
+
+    # Validate noticias (optional field) — drop incomplete items silently
     if 'noticias' in report:
         if not isinstance(report['noticias'], list):
             raise ParsingError("Field 'noticias' must be a list")
+        valid_noticias = []
         for i, article in enumerate(report['noticias']):
-            _validate_article(article, context=f"noticias[{i}]")
+            try:
+                _validate_article(article, context=f"noticias[{i}]")
+                valid_noticias.append(article)
+            except ParsingError:
+                pass
+        report['noticias'] = valid_noticias
 
-    # Validate X discussions (optional field)
+    # Validate X discussions (optional field) — drop incomplete items silently
     if 'discussoes_x' in report:
         if not isinstance(report['discussoes_x'], list):
             raise ParsingError("Field 'discussoes_x' must be a list")
+        valid_x = []
         for i, item in enumerate(report['discussoes_x']):
-            _validate_x_discussion(item, context=f"discussoes_x[{i}]")
+            try:
+                _validate_x_discussion(item, context=f"discussoes_x[{i}]")
+                valid_x.append(item)
+            except ParsingError:
+                pass
+        report['discussoes_x'] = valid_x
 
 
 def _validate_resumo(resumo: Dict[str, Any]) -> None:
