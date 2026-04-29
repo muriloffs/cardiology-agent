@@ -19,7 +19,12 @@ export default function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const today = new Date().toISOString().split('T')[0];
+  // Get today's date in local timezone, then try current and previous day
+  const now = new Date();
+  const today = now.getFullYear() + '-' +
+                String(now.getMonth() + 1).padStart(2, '0') + '-' +
+                String(now.getDate()).padStart(2, '0');
+
   const url = `https://raw.githubusercontent.com/muriloffs/cardiology-agent/main/data/relatorio-${today}.json`;
 
   https.get(url, (response) => {
