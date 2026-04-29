@@ -44,6 +44,7 @@ def fetch_x_cardiology_posts(days_back: int = 1) -> list[dict[str, Any]]:
 
     try:
         import requests as req
+        logger.info(f"Calling Grok API: model={GROK_MODEL}, url={GROK_API_URL}, date={target_date}")
         response = req.post(
             GROK_API_URL,
             headers={
@@ -85,6 +86,10 @@ def fetch_x_cardiology_posts(days_back: int = 1) -> list[dict[str, Any]]:
 
     except Exception as e:
         logger.error(f"Grok API call failed: {e}")
+        try:
+            logger.error(f"Grok response body: {response.text[:500]}")
+        except Exception:
+            pass
         return []
 
     return _parse_grok_response(raw, target_date)
