@@ -11,113 +11,113 @@
   "discussoes_x": [
     {
       "id": "x_001",
-      "titulo": "Pulsed Field Ablation como Primeira Linha em FA Persistente — AVANT GUARD Trial (Heart Rhythm 2026 / NEJM)",
-      "autor": "@HRSonline",
+      "titulo": "CHAMPION-AF Trial: LAAC vs NOACs for Nonvalvular Atrial Fibrillation",
+      "autor": "@ACCinTouch",
       "emoji": "🫀",
       "classe": "A",
       "score": 9.0,
-      "resumo": "O trial AVANT GUARD, apresentado no Heart Rhythm 2026 e publicado simultaneamente no NEJM, demonstrou que a ablação por campo pulsado (PFA) como terapia de primeira linha reduziu significativamente a recorrência de arritmias atriais em pacientes com FA persistente comparado ao tratamento farmacológico. O estudo posiciona PFA como estratégia de primeira linha, potencialmente mudando o paradigma atual de escalonamento terapêutico.",
-      "impacto_clinico": "Eletrofisiologistas devem considerar PFA como opção de primeira linha em FA persistente, antes do escalonamento para antiarrítmicos; dados do AVANT GUARD devem ser incorporados em protocolos institucionais imediatamente.",
+      "resumo": "O trial CHAMPION-AF randomizou 3.000 pacientes com FA não-valvar elegíveis para anticoagulação de longo prazo para oclusão do apêndice atrial esquerdo (LAAC) ou uso de NOACs. O estudo oferece evidências diretas sobre estratégias alternativas de prevenção de AVC em FA, com análise de eficácia e segurança comparativa.",
+      "impacto_clinico": "Pode redefinir preferências de tratamento de primeira linha em pacientes com FA elegíveis, favorecendo LAAC em casos com alto risco hemorrágico, com manutenção da proteção contra AVC.",
       "links": {
-        "post_url": "https://x.com/HRSonline/status/1234567890123456798",
-        "url": "https://www.heartrhythmjournal.com/article/S1547-5271(26)00123-4/fulltext",
-        "doi": "10.1016/j.hrthm.2026.04.005",
+        "post_url": "https://x.com/ACCinTouch/status/2049135563903541317",
+        "url": "https://www.acc.org/Latest-in-Cardiology/Articles/2026/04/21/15/23/CHAMPION-AF",
+        "doi": null,
         "pubmed": null
       }
     },
     {
       "id": "x_002",
-      "titulo": "Novo Guideline ACC/AHA 2026 sobre Dislipidemia — Discussão sobre Framework Mais Preciso e Complexo",
-      "autor": "@JACCJournals",
-      "emoji": "💊",
+      "titulo": "TRIDENT Trial: Antihypertensive Triple Pill for Blood Pressure Control Post-Intracerebral Hemorrhage",
+      "autor": "@ACCinTouch",
+      "emoji": "🧠",
       "classe": "A",
       "score": 8.8,
-      "resumo": "O guideline ACC/AHA/Multisociety 2026 sobre manejo de dislipidemia foi publicado simultaneamente em Circulation e JACC, introduzindo um framework mais preciso para prevenção de ASCVD com novos limites de LDL, expansão do papel de inibidores de PCSK9 e inclusão de Lp(a) como alvo terapêutico. A publicação representa a atualização mais abrangente em manejo lipídico da última década.",
-      "impacto_clinico": "Cardiologistas devem revisar metas de LDL e indicações de PCSK9 para pacientes de alto risco de acordo com o novo guideline 2026; a medição rotineira de Lp(a) passa a ser recomendada na estratificação de risco.",
+      "resumo": "O trial TRIDENT, publicado no NEJM, demonstrou que uma pílula antihipertensiva tripla melhora o controle pressórico e reduz o risco de AVC após hemorragia intracerebral. Os achados fortalecem a estratégia de manejo intensivo da PA em sobreviventes de HSC.",
+      "impacto_clinico": "Suporta o uso de terapia de pílula tripla como prevenção secundária em sobreviventes de hemorragia intracerebral, com potencial para reduzir significativamente taxas de AVC recorrente.",
       "links": {
-        "post_url": "https://x.com/JACCJournals/status/1234567890123456791",
-        "url": "https://www.jacc.org/doi/10.1016/j.jacc.2026.04.001",
-        "doi": "10.1016/j.jacc.2026.04.001",
+        "post_url": "https://x.com/ACCinTouch/status/2049232976286806496",
+        "url": "https://www.acc.org/Latest-in-Cardiology/Journal-Scans/2026/04/27/14/03/TRIDENT",
+        "doi": null,
         "pubmed": null
       }
     },
     {
       "id": "x_003",
-      "titulo": "GLP-1 Análogos e Redução de Eventos CV em Obesos Sem Diabetes — Trial XYZ (NEJM)",
-      "autor": "@EricTopol",
-      "emoji": "💊",
+      "titulo": "5-Year Follow-Up of Trial on Immediate Cath Lab vs Delayed for Resuscitated Cardiac Arrest",
+      "autor": "@JACCJournals",
+      "emoji": "💉",
       "classe": "A",
       "score": 8.5,
-      "resumo": "Eric Topol compartilhou os resultados do trial XYZ, publicado no NEJM, demonstrando redução de 20% em eventos cardiovasculares maiores com agonistas de GLP-1 em pacientes obesos sem diabetes. O estudo amplia o espectro de beneficiários potenciais dessas drogas para prevenção cardiovascular primária.",
-      "impacto_clinico": "Possível expansão das indicações de GLP-1 para prevenção cardiovascular em pacientes obesos não diabéticos, com necessidade de atualização de guidelines; cardiologistas devem acompanhar o processo regulatório para esta nova indicação.",
+      "resumo": "Seguimento de 5 anos do trial COACT examina a decisão de cateterismo imediato versus tardio após ressuscitação de parada cardíaca, com resultados que revelam complexidade no manejo ótimo pós-PCR. Publicado no JACC com implicações diretas para protocolos de cuidado pós-parada.",
+      "impacto_clinico": "Pode refinar protocolos de cuidado pós-ressuscitação, evitando intervenções coronárias imediatas desnecessárias em subgrupos específicos de pacientes sem supradesnivelamento de ST.",
       "links": {
-        "post_url": "https://x.com/EricTopol/status/1234567890123456790",
-        "url": "https://www.nejm.org/doi/full/10.1056/NEJMoa2312345",
-        "doi": "10.1056/NEJMoa2312345",
-        "pubmed": null
+        "post_url": "https://x.com/JACCJournals/status/2049244539068580161",
+        "url": "https://www.jacc.org/doi/10.1016/j.jacc.2025.12.018",
+        "doi": "10.1016/j.jacc.2025.12.018",
+        "pubmed": "41636663"
       }
     },
     {
       "id": "x_004",
-      "titulo": "DOACs vs Varfarina em FA com Insuficiência Renal Leve a Moderada — Meta-análise",
-      "autor": "@JACCJournals",
-      "emoji": "💊",
+      "titulo": "Effectiveness and Safety of Dual-Energy Lattice-Tip Catheter for Ventricular Arrhythmia Ablation (CLEAR-VT Registry)",
+      "autor": "@ACCinTouch",
+      "emoji": "🫀",
       "classe": "B",
       "score": 7.5,
-      "resumo": "Meta-análise destacada pelo JACC Journals demonstrou superioridade dos anticoagulantes orais diretos (DOACs) sobre a varfarina em pacientes com fibrilação atrial e insuficiência renal leve a moderada, com redução significativa de sangramentos maiores. Os dados reforçam e ampliam as evidências em uma população frequentemente excluída de trials originais.",
-      "impacto_clinico": "Reforça a preferência por DOACs em pacientes com FA e TFGe entre 30-59 mL/min/1,73m²; a troca de varfarina por DOAC neste subgrupo deve ser discutida ativamente na prática clínica.",
+      "resumo": "O registro CLEAR-VT, apresentado no HRS2026 e publicado no JACC EP, demonstra eficácia e segurança do cateter lattice-tip de dupla energia para ablação de arritmias ventriculares. Os dados fornecem evidência real sobre desfechos com essa nova tecnologia para eletrofisiologistas.",
+      "impacto_clinico": "Introduz uma nova ferramenta para ablação de TV/FV com potencial para melhorar taxas de sucesso e reduzir complicações em comparação com cateteres convencionais.",
       "links": {
-        "post_url": "https://x.com/JACCJournals/status/1234567890123456791",
-        "url": "https://www.jacc.org/doi/10.1016/j.jacc.2026.04.001",
-        "doi": "10.1016/j.jacc.2026.04.001",
+        "post_url": "https://x.com/ACCinTouch/status/2049220913430679776",
+        "url": "https://www.acc.org/Latest-in-Cardiology/Journal-Scans/2026/04/27/14/03/CLEAR-VT-Registry",
+        "doi": null,
         "pubmed": null
       }
     },
     {
       "id": "x_005",
-      "titulo": "Cardiotoxicidade por Imunoterapia e Miocardite — Revisão em JACC CardioOnc",
-      "autor": "@MarthaGulati",
-      "emoji": "❤️",
+      "titulo": "Nanosecond Pulsed Field Ablation for Symptomatic Paroxysmal Atrial Fibrillation",
+      "autor": "@ACCinTouch",
+      "emoji": "🫀",
       "classe": "B",
       "score": 7.2,
-      "resumo": "Martha Gulati destacou artigo de revisão no JACC CardioOncology sobre toxicidade cardiovascular associada a imunoterapias com inibidores de checkpoint, com ênfase em miocardite, uma complicação rara mas potencialmente fatal. O artigo propõe algoritmos de monitoramento e manejo baseados nas evidências disponíveis.",
-      "impacto_clinico": "Cardiologistas que acompanham pacientes oncológicos devem implementar protocolos de rastreamento de miocardite (troponina, ECG, CMR quando indicada) antes e durante imunoterapia com inibidores de checkpoint.",
+      "resumo": "Nova pesquisa no JACC EP demonstra segurança, durabilidade de lesão e eficácia em um ano da ablação por campo pulsado de nanosegundos em pacientes com FA paroxística sintomática, apresentada no HRS2026. O estudo avança as técnicas de ablação não-térmica.",
+      "impacto_clinico": "Oferece alternativa mais segura para ablação de FA com potencial de reduzir complicações como estenose de veias pulmonares, ampliando o arsenal terapêutico para eletrofisiologistas.",
       "links": {
-        "post_url": "https://x.com/MarthaGulati/status/1234567890123456795",
-        "url": "https://www.jacc.org/doi/10.1016/j.jaccao.2026.03.002",
-        "doi": "10.1016/j.jaccao.2026.03.002",
+        "post_url": "https://x.com/ACCinTouch/status/2049174334816551385",
+        "url": "https://www.acc.org/Latest-in-Cardiology/Journal-Scans/2026/04/27/14/03/Nanosecond-PFA",
+        "doi": null,
         "pubmed": null
       }
     },
     {
       "id": "x_006",
-      "titulo": "Consenso Brasileiro de Prevenção Cardiovascular 2026 — SBC",
-      "autor": "@SBCCardio",
-      "emoji": "🩺",
+      "titulo": "Pathological Phenotypes of Aldosteronism and Cortisolism in Obesity and Hypertension",
+      "autor": "@JACCJournals",
+      "emoji": "💊",
       "classe": "B",
       "score": 7.0,
-      "resumo": "A Sociedade Brasileira de Cardiologia publicou consenso atualizado sobre prevenção cardiovascular adaptado à realidade epidemiológica e socioeconômica brasileira, com ênfase em fatores de risco locais e incorporação de recomendações dos guidelines internacionais mais recentes. O documento é referência obrigatória para a prática clínica no Brasil.",
-      "impacto_clinico": "Cardiologistas brasileiros devem adotar as estratégias de prevenção do novo consenso SBC 2026, especialmente as metas de tratamento adaptadas ao perfil de risco da população brasileira.",
+      "resumo": "Artigo no JACC BTS identifica que mais de 80% dos pacientes com obesidade e hipertensão apresentam fenótipos patológicos de aldosteronismo e/ou cortisolismo. O estudo destaca contribuições endócrinas substanciais para a doença cardiometabólica.",
+      "impacto_clinico": "Incentiva rastreamento rotineiro de alterações endócrinas em pacientes obesos hipertensos, abrindo caminho para terapias direcionadas que podem melhorar o controle pressórico e reduzir risco cardiovascular.",
       "links": {
-        "post_url": "https://x.com/SBCCardio/status/1234567890123456799",
-        "url": "https://www.sbc.org.br/consensos/prevencao-cardiovascular-2026",
-        "doi": null,
+        "post_url": "https://x.com/JACCJournals/status/2049206292552573029",
+        "url": "https://www.jacc.org/doi/10.1016/j.jacbts.2026.101526",
+        "doi": "10.1016/j.jacbts.2026.101526",
         "pubmed": null
       }
     },
     {
       "id": "x_007",
-      "titulo": "Crítica Metodológica a Trial de PCI em Doença Coronária Estável — Debate sobre Validade dos Resultados",
-      "autor": "@JohnMandrola",
-      "emoji": "🩺",
-      "classe": "C",
-      "score": 5.5,
-      "resumo": "John Mandrola publicou análise crítica sobre limitações metodológicas em estudo recente de PCI em doença coronária estável, apontando vieses de seleção e problemas no desenho que podem comprometer a validade externa dos resultados. O debate é relevante para interpretação crítica das evidências em intervenção coronária.",
-      "impacto_clinico": "Cautela na extrapolação dos resultados desse estudo para a prática clínica; aguardar confirmação em estudos com maior rigor metodológico antes de modificar condutas.",
+      "titulo": "State-of-the-Art Review on Thyroid Dysfunction and Cardiovascular Disease",
+      "autor": "@ESC_Journals",
+      "emoji": "🔬",
+      "classe": "B",
+      "score": 6.5,
+      "resumo": "Revisão publicada no European Heart Journal aborda de forma abrangente a relação entre disfunção tireoidiana e doença cardiovascular, incluindo mecanismos e implicações clínicas. Relevante para compreensão das interações endócrino-cardíacas.",
+      "impacto_clinico": "Aprimora a consciência clínica sobre riscos cardiovasculares relacionados à tireoide, potencialmente melhorando rastreamento e manejo em pacientes de risco.",
       "links": {
-        "post_url": "https://x.com/JohnMandrola/status/1234567890123456802",
-        "url": null,
-        "doi": null,
+        "post_url": "https://x.com/ESC_Journals/status/2049005857187217593",
+        "url": "https://academic.oup.com/eurheartj/advance-article/doi/10.1093/eurheartj/ehag248/8658452",
+        "doi": "10.1093/eurheartj/ehag248",
         "pubmed": null
       }
     }
@@ -132,8 +132,8 @@
       "score": 9.0,
       "categoria_fonte": "noticias",
       "emoji": "🫀",
-      "resumo": "O trial AVANT GUARD, apresentado no Heart Rhythm 2026 e publicado simultaneamente no NEJM, demonstrou que a ablação por campo pulsado como terapia de primeira linha foi superior ao tratamento farmacológico em reduzir recorrência de arritmias atriais em FA persistente. Os resultados representam uma mudança de paradigma no manejo inicial da FA persistente.",
-      "impacto_clinico": "A ablação por campo pulsado deve ser considerada como estratégia de primeira linha em FA persistente, antes do escalonamento para antiarrítmicos; centros de eletrofisiologia devem revisar seus protocolos com base nos dados do AVANT GUARD.",
+      "resumo": "O trial AVANT GUARD, publicado simultaneamente no NEJM e apresentado no Heart Rhythm 2026, demonstrou que a ablação por campo pulsado como terapia de primeira linha para FA persistente reduziu significativamente o risco de recorrência de arritmias atriais em comparação à terapia medicamentosa. Resultado representa mudança potencial de paradigma no manejo inicial da FA persistente.",
+      "impacto_clinico": "Suporta o uso de ablação por campo pulsado como estratégia de primeira linha para FA persistente, podendo substituir antiarrítmicos em pacientes elegíveis e melhorar desfechos a longo prazo.",
       "links": {
         "url": "https://www.healio.com/news/cardiology/20260429/pulsed-field-ablation-as-firstline-treatment-superior-to-drug-therapy-in-persistent-af"
       }
@@ -147,8 +147,8 @@
       "score": 8.5,
       "categoria_fonte": "noticias",
       "emoji": "❤️",
-      "resumo": "Novos dados de estudos de autópsia sugerem que o infarto agudo do miocárdio não é o principal driver da morte cardíaca súbita (MCS), e que muitos pacientes possuem doença cardíaca subjacente não diagnosticada previamente. Os achados desafiam a visão clássica e abrem espaço para novas estratégias de prevenção e triagem.",
-      "impacto_clinico": "Cardiologistas devem considerar a busca ativa por cardiopatias estruturais não isquêmicas em pacientes com fatores de risco para MCS, revisando protocolos de triagem além da doença aterosclerótica coronária.",
+      "resumo": "Novos dados de estudos de autópsia sugerem que o infarto do miocárdio não é o principal responsável pela morte súbita cardíaca e que muitos pacientes possuem doença cardíaca não detectada previamente. Os achados desafiam o paradigma dominante sobre os mecanismos da morte súbita.",
+      "impacto_clinico": "Pode reformular estratégias de prevenção e rastreamento para morte súbita cardíaca, com ênfase em identificar doenças cardíacas estruturais não-isquêmicas como alvos prioritários.",
       "links": {
         "url": "https://www.tctmd.com/news/autopsy-studies-turn-sudden-cardiac-death-wisdom-its-head"
       }
@@ -162,14 +162,29 @@
       "score": 7.8,
       "categoria_fonte": "noticias",
       "emoji": "🔬",
-      "resumo": "Dados de três RCTs mostram que um nível de Lp(a) ≥ 175 nmol/L, e não o limiar anterior de ≥ 125 nmol/L, é preditor independente de morte e AVC em pacientes com doença cardiovascular aterosclerótica. O achado pode influenciar o corte utilizado para indicação de terapias específicas de redução de Lp(a).",
-      "impacto_clinico": "O limiar de ≥175 nmol/L de Lp(a) deve ser adotado como referência para identificar pacientes de alto risco que se beneficiariam de terapias de redução de Lp(a), alinhando-se ao novo guideline de dislipidemia 2026.",
+      "resumo": "Dados de três RCTs mostram que um nível de Lp(a) ≥175 nmol/L, e não ≥125 nmol/L, é preditor independente de morte e AVC em eventos ASCVD maiores. Os achados têm implicações diretas para os limites de triagem e tratamento do Lp(a).",
+      "impacto_clinico": "Pode levar à revisão dos limiares de Lp(a) utilizados para orientar terapias de redução lipídica e elegibilidade para novos agentes específicos para Lp(a), refinando a estratificação de risco cardiovascular.",
       "links": {
         "url": "https://www.tctmd.com/news/higher-lpa-threshold-more-closely-linked-major-ascvd-events"
       }
     },
     {
       "id": "not_004",
+      "titulo": "Ultralow-Temperature Cryoablation Shows Promise for VT",
+      "publicacao": "TCTMD",
+      "autores": [],
+      "classe": "B",
+      "score": 7.5,
+      "categoria_fonte": "noticias",
+      "emoji": "🫀",
+      "resumo": "No trial de braço único FULCRUM-VT, 59% dos pacientes permaneceram livres de taquicardia ventricular recorrente em 6 meses com crioablação de ultrabaixa temperatura, além de menor uso de amiodarona. Representa avanço nas opções de ablação para TV refratária.",
+      "impacto_clinico": "Oferece nova opção ablativa para pacientes com TV refratária, com potencial de reduzir a dependência de amiodarona e seus efeitos adversos em longo prazo.",
+      "links": {
+        "url": "https://www.tctmd.com/news/ultralow-temperature-cryoablation-shows-promise-vt"
+      }
+    },
+    {
+      "id": "not_005",
       "titulo": "GLP-1 Drugs May Lower CV Risk in TAVI Patients With Diabetes or Obesity",
       "publicacao": "TCTMD",
       "autores": [],
@@ -177,25 +192,10 @@
       "score": 7.2,
       "categoria_fonte": "noticias",
       "emoji": "💊",
-      "resumo": "Dados retrospectivos sugerem que o uso de agonistas de GLP-1 pode reduzir o risco cardiovascular em pacientes submetidos a TAVI que apresentam diabetes ou obesidade. Os resultados justificam a condução de ensaios prospectivos nessa população específica.",
-      "impacto_clinico": "Pacientes com diabetes ou obesidade submetidos a TAVI podem se beneficiar do uso de agonistas de GLP-1 para redução de risco CV residual; aguardar dados prospectivos antes de adotar como prática padrão.",
+      "resumo": "Dados retrospectivos sugerem que medicamentos GLP-1 podem reduzir o risco cardiovascular em pacientes submetidos a TAVI que têm diabetes ou obesidade. Os resultados incentivam a realização de ensaios prospectivos nessa população específica.",
+      "impacto_clinico": "Sugere benefício potencial de agonistas do receptor GLP-1 como terapia adjuvante após TAVI em pacientes diabéticos ou obesos, o que pode orientar indicações clínicas enquanto aguardam estudos prospectivos.",
       "links": {
         "url": "https://www.tctmd.com/news/glp-1-drugs-may-lower-cv-risk-tavi-patients-diabetes-or-obesity"
-      }
-    },
-    {
-      "id": "not_005",
-      "titulo": "PCI Benefits Stable Patients More in Focal vs Diffuse Disease: ORBITA-2",
-      "publicacao": "TCTMD",
-      "autores": [],
-      "classe": "B",
-      "score": 7.0,
-      "categoria_fonte": "noticias",
-      "emoji": "💉",
-      "resumo": "Análise do ORBITA-2 demonstra que o padrão da doença coronária — focal versus difuso — é um modificador significativo do benefício da ICP em pacientes estáveis, com maior redução de angina nos casos de doença focal. Os achados ajudam a explicar resultados negativos de trials anteriores de ICP em doença estável.",
-      "impacto_clinico": "A caracterização do padrão anatômico (focal vs. difuso) deve orientar a decisão de ICP em pacientes com angina estável; doença difusa deve favorecer abordagem farmacológica otimizada.",
-      "links": {
-        "url": "https://www.tctmd.com/news/pci-benefits-stable-patients-more-focal-vs-diffuse-disease-orbita-2"
       }
     }
   ],
@@ -214,8 +214,8 @@
       "score": 10.0,
       "categoria_fonte": "revista",
       "emoji": "💊",
-      "resumo": "O novo guideline multissociedade 2026 sobre manejo de dislipidemia estabelece um framework mais preciso para prevenção e tratamento de ASCVD, incorporando metas de LDL mais individualizadas, expansão das indicações de inibidores de PCSK9, inclusão de Lp(a) como alvo terapêutico e novas recomendações sobre agentes anti-inflamatórios e inclisiran. É a atualização mais abrangente em lipídios da última década, publicada em Circulation.",
-      "impacto_clinico": "Mudança imediata de prática: cardiologistas devem revisar metas de LDL para todos os pacientes de alto e muito alto risco, incorporar medição rotineira de Lp(a) na estratificação e ampliar uso de PCSK9i e inclisiran conforme novas indicações do guideline 2026.",
+      "resumo": "Publicação da diretriz multissociedade 2026 ACC/AHA para manejo de dislipidemia, representando atualização abrangente das recomendações para prevenção e tratamento da doença aterosclerótica cardiovascular. Incorpora novas evidências sobre terapias lipídicas, incluindo inibidores de PCSK9, ácido inclisirã e outros agentes emergentes.",
+      "impacto_clinico": "Estabelece novo arcabouço de precisão para estratificação de risco ASCVD e metas lipídicas, exigindo atualização imediata da prática clínica de cardiologistas, clínicos gerais e endocrinologistas na abordagem de pacientes com dislipidemia.",
       "links": {
         "url": "https://pubmed.ncbi.nlm.nih.gov/41824552/",
         "doi": "10.1161/CIR.0000000000001423",
@@ -236,8 +236,8 @@
       "score": 9.2,
       "categoria_fonte": "revista",
       "emoji": "💉",
-      "resumo": "Seguimento de 5 anos de ensaio randomizado demonstrou que a ICP guiada por imagem intravascular (IVUS/OCT) em lesões complexas resulta em reduções significativas e sustentadas de eventos cardiovasculares maiores, morte cardiovascular e revascularização do vaso-alvo em comparação com a guiada apenas por angiografia. Os dados confirmam a superioridade em longo prazo da imagem intravascular em ICP complexa.",
-      "impacto_clinico": "O uso de imagem intravascular deve ser padrão em todos os procedimentos de ICP complexa; centros que ainda utilizam exclusivamente angiografia em lesões complexas devem rever protocolo à luz desses dados de 5 anos.",
+      "resumo": "Trial randomizado com seguimento de 5 anos comparando PCI guiada por imagem intravascular versus angiografia em lesões coronárias complexas. Os resultados de longo prazo confirmam o benefício duradouro da imagem intravascular na orientação de procedimentos percutâneos complexos.",
+      "impacto_clinico": "Reforça com dados de longo prazo a superioridade da imagem intravascular (IVUS/OCT) na PCI complexa, fortalecendo a indicação de uso rotineiro e desestimulando guia angiográfico isolado nesse contexto.",
       "links": {
         "url": "https://pubmed.ncbi.nlm.nih.gov/41778943/",
         "doi": "10.1016/j.jacc.2026.01.035",
@@ -258,8 +258,8 @@
       "score": 9.0,
       "categoria_fonte": "revista",
       "emoji": "💉",
-      "resumo": "O trial DKCRUSH VIII demonstrou, em ensaio randomizado, que a orientação por IVUS em lesões de bifurcação coronária complexas reduz significativamente falha do vaso-alvo e eventos cardiovasculares maiores comparado à angiografia isolada. O estudo preenche uma lacuna específica sobre o valor da imagem intravascular nesse subgrupo anatomicamente desafiador.",
-      "impacto_clinico": "IVUS deve ser utilizado rotineiramente em ICP de bifurcações coronárias complexas; técnica DK-Crush guiada por IVUS deve ser considerada padrão-ouro nesse contexto, com impacto direto em protocolos de centros de hemodinâmica.",
+      "resumo": "O trial randomizado DKCRUSH VIII comparou guia por IVUS versus angiografia em PCI de lesões de bifurcação coronária complexas, avaliando desfechos clínicos relevantes. Estudo fornece evidência de alto nível para uma das situações técnicas mais desafiadoras em cardiologia intervencionista.",
+      "impacto_clinico": "Define o papel do IVUS no guia de PCI em bifurcações complexas, com implicações diretas para protocolos de laboratórios de cateterismo e seleção de estratégia técnica em casos de alta complexidade.",
       "links": {
         "url": "https://pubmed.ncbi.nlm.nih.gov/41914946/",
         "doi": "10.1016/j.jacc.2026.01.081",
@@ -268,28 +268,6 @@
     },
     {
       "id": "art_004",
-      "titulo": "Sirolimus-Eluting Iron Bioresorbable Scaffolds vs Everolimus-Eluting Stents for Percutaneous Coronary Intervention: A Randomized Trial (IRONMAN II)",
-      "publicacao": "Journal of the American College of Cardiology",
-      "autores": [
-        "Gao R",
-        "Song L",
-        "Fu G",
-        "Guan C"
-      ],
-      "classe": "A",
-      "score": 8.8,
-      "categoria_fonte": "revista",
-      "emoji": "💉",
-      "resumo": "O trial IRONMAN II comparou scaffolds bioabsorvíveis de ferro eluídores de sirolimus com stents metálicos eluídores de everolimus em ICP, demonstrando resultados não inferiores em falha do vaso-alvo e perfil de segurança favorável dos scaffolds de ferro. O estudo ressuscita a promessa dos dispositivos bioabsorvíveis com uma plataforma metalúrgica inovadora.",
-      "impacto_clinico": "Scaffolds de ferro bioabsorvíveis representam uma alternativa promissora aos stents metálicos permanentes, especialmente em pacientes jovens; resultados justificam seguimento prolongado e possível revisão de estratégias de revascularização em cenários selecionados.",
-      "links": {
-        "url": "https://pubmed.ncbi.nlm.nih.gov/41670556/",
-        "doi": "10.1016/j.jacc.2025.12.024",
-        "pubmed": "41670556"
-      }
-    },
-    {
-      "id": "art_005",
       "titulo": "Immediate vs Delayed Coronary Angiography After Cardiac Arrest Without ST-Segment Elevation: 5-Year Outcomes From the COACT Randomized Trial",
       "publicacao": "Journal of the American College of Cardiology",
       "autores": [
@@ -299,15 +277,37 @@
         "Jewbali LSD"
       ],
       "classe": "A",
-      "score": 8.7,
+      "score": 8.8,
       "categoria_fonte": "revista",
-      "emoji": "🩺",
-      "resumo": "Seguimento de 5 anos do trial COACT confirmou que a cineangiocoronariografia imediata versus tardia após parada cardíaca ressuscitada sem supradesnivelamento de ST não reduz mortalidade nem eventos cardiovasculares maiores. Os dados em longo prazo reforçam definitivamente que a estratégia invasiva imediata não deve ser rotina nesse cenário.",
-      "impacto_clinico": "A coronariografia imediata não deve ser realizada rotineiramente em sobreviventes de parada cardíaca sem supra de ST e sem instabilidade hemodinâmica ou sinais de oclusão coronária aguda; a abordagem seletiva e baseada em achados clínicos permanece a recomendada.",
+      "emoji": "💉",
+      "resumo": "Seguimento de 5 anos do trial COACT avaliando coronariografia imediata versus tardia após parada cardíaca sem supradesnivelamento de ST, fornecendo dados de desfecho de longo prazo em população de alto risco. Os resultados esclarecem a ausência de benefício clínico da estratégia invasiva imediata nesse contexto.",
+      "impacto_clinico": "Consolida a recomendação de não realizar cateterismo imediato em sobreviventes de parada cardíaca sem STEMI, podendo modificar protocolos hospitalares e reduzir exposição desnecessária a procedimentos de risco.",
       "links": {
         "url": "https://pubmed.ncbi.nlm.nih.gov/41636663/",
         "doi": "10.1016/j.jacc.2025.12.018",
         "pubmed": "41636663"
+      }
+    },
+    {
+      "id": "art_005",
+      "titulo": "Sirolimus-Eluting Iron Bioresorbable Scaffolds vs Everolimus-Eluting Stents for Percutaneous Coronary Intervention: A Randomized Trial (IRONMAN II)",
+      "publicacao": "Journal of the American College of Cardiology",
+      "autores": [
+        "Gao R",
+        "Song L",
+        "Fu G",
+        "Guan C"
+      ],
+      "classe": "A",
+      "score": 8.7,
+      "categoria_fonte": "revista",
+      "emoji": "💉",
+      "resumo": "O trial randomizado IRONMAN II comparou scaffolds bioabsorvíveis de ferro eluídores de sirolimus com stents farmacológicos de everolimus em PCI, avaliando desempenho e segurança da nova tecnologia. Representa avanço no desenvolvimento de dispositivos coronários de nova geração.",
+      "impacto_clinico": "Fornece evidência comparativa sobre scaffolds de ferro biorreabsorvíveis, tecnologia que pode eventualmente superar as limitações dos stents metálicos permanentes e dos scaffolds poliméricos anteriores.",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41670556/",
+        "doi": "10.1016/j.jacc.2025.12.024",
+        "pubmed": "41670556"
       }
     },
     {
@@ -324,8 +324,8 @@
       "score": 8.5,
       "categoria_fonte": "revista",
       "emoji": "❤️",
-      "resumo": "Meta-análise de ensaios randomizados de tratamento farmacológico em insuficiência cardíaca identificou diferenças significativas na resposta terapêutica entre homens e mulheres, com mulheres obtendo benefícios equivalentes ou superiores com doses menores de IECAs e betabloqueadores. Os dados têm implicações diretas para a personalização do tratamento por sexo.",
-      "impacto_clinico": "Mulheres com IC podem alcançar benefício ótimo com doses menores de IECAs/BRAs e betabloqueadores; a titulação de dose em mulheres deve ser guiada por resposta clínica e não necessariamente pelas mesmas doses-alvo dos trials conduzidos predominantemente em homens.",
+      "resumo": "Meta-análise de trials randomizados investigando diferenças por sexo na resposta ao tratamento farmacológico da insuficiência cardíaca, incluindo análise de benefício relativo e absoluto de terapias estabelecidas. Os achados têm implicações para personalização do tratamento baseada em sexo.",
+      "impacto_clinico": "Pode orientar ajuste de metas terapêuticas e seleção de agentes farmacológicos em mulheres com IC, grupo historicamente sub-representado em ensaios clínicos e potencialmente com respostas diferenciadas às terapias.",
       "links": {
         "url": "https://pubmed.ncbi.nlm.nih.gov/42048254/",
         "doi": "10.1093/eurheartj/ehag311",
@@ -334,24 +334,24 @@
     },
     {
       "id": "art_007",
-      "titulo": "Long-Term Mortality After PCI or CABG for Left Main Stem Disease: Updated Meta-Analysis of Randomized Trials Using Reconstructed Individual-Participant Survival Data",
+      "titulo": "Economic Outcomes and Quality of Life After CABG or PCI for Multivessel Disease: The FAME 3 Trial",
       "publicacao": "Journal of the American College of Cardiology",
       "autores": [
-        "Koeckerling D",
-        "Reddy RK",
-        "Howard JP",
-        "Bansal R"
+        "Hlatky MA",
+        "Ding VY",
+        "Zimmermann FM",
+        "Piróth Z"
       ],
       "classe": "A",
-      "score": 8.4,
+      "score": 8.3,
       "categoria_fonte": "revista",
-      "emoji": "💉",
-      "resumo": "Meta-análise atualizada utilizando dados individuais reconstruídos de participantes de trials randomizados comparando ICP versus CRM em doença de tronco de coronária esquerda mostrou mortalidade em longo prazo comparável entre as estratégias, com tendência a benefício do CRM em pacientes com scores de complexidade mais elevados. Os dados refinam a seleção de candidatos a cada abordagem.",
-      "impacto_clinico": "A decisão entre ICP e CRM em doença de tronco deve ser individualizada com base no SYNTAX score e comorbidades; CRM deve ser preferido em doença multiarterial complexa associada, enquanto ICP é aceitável em doença menos complexa após Heart Team.",
+      "emoji": "🩺",
+      "resumo": "Análise de desfechos econômicos e qualidade de vida do trial FAME 3, comparando CABG e PCI guiada por FFR em doença multiarterial. Os dados de custo-efetividade e qualidade de vida enriquecem a tomada de decisão além dos desfechos clínicos tradicionais.",
+      "impacto_clinico": "Acrescenta perspectiva econômica e de qualidade de vida ao debate CABG vs PCI, fornecendo dados para decisão compartilhada com pacientes e para políticas de saúde em doença coronária multiarterial.",
       "links": {
-        "url": "https://pubmed.ncbi.nlm.nih.gov/41879579/",
-        "doi": "10.1016/j.jacc.2026.01.079",
-        "pubmed": "41879579"
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41194756/",
+        "doi": "10.1016/j.jacc.2025.10.017",
+        "pubmed": "41194756"
       }
     },
     {
@@ -368,8 +368,8 @@
       "score": 7.8,
       "categoria_fonte": "revista",
       "emoji": "💊",
-      "resumo": "Ensaio clínico não randomizado demonstrou que a resposta à inibição de PCSK9 em pacientes com hipercolesterolemia familiar varia substancialmente conforme a função residual do receptor de LDL, com menor eficácia em portadores de mutações com perda total de função. Os achados suportam abordagem de medicina de precisão na HF.",
-      "impacto_clinico": "O teste de função do receptor de LDL deve ser considerado em pacientes com HF que apresentam resposta subótima a inibidores de PCSK9; portadores de mutações com perda total de função podem necessitar de terapias alternativas como inclisiran ou lomitapida.",
+      "resumo": "Trial clínico não randomizado avaliando a resposta à inibição de PCSK9 de acordo com a função do receptor de LDL em pacientes com hipercolesterolemia familiar. Os dados estratificam a resposta terapêutica com base no genótipo funcional, avançando na medicina de precisão lipídica.",
+      "impacto_clinico": "Permite identificar pacientes com HF que se beneficiarão mais dos inibidores de PCSK9 com base na função do receptor LDL, otimizando a seleção terapêutica e potencialmente evitando tratamentos ineficazes em receptores não funcionais.",
       "links": {
         "url": "https://pubmed.ncbi.nlm.nih.gov/42054033/",
         "doi": "10.1001/jamacardio.2026.0879",
@@ -378,24 +378,66 @@
     },
     {
       "id": "art_009",
-      "titulo": "Economic Outcomes and Quality of Life After CABG or PCI for Multivessel Disease: The FAME 3 Trial",
-      "publicacao": "Journal of the American College of Cardiology",
+      "titulo": "Timeliness of Transthyretin Cardiac Amyloidosis Diagnosis in the Medicare Population",
+      "publicacao": "JAMA cardiology",
       "autores": [
-        "Hlatky MA",
-        "Ding VY",
-        "Zimmermann FM",
-        "Piróth Z"
+        "Spencer-Bonilla G",
+        "Fan J",
+        "Cheng P",
+        "Din N"
       ],
       "classe": "B",
       "score": 7.7,
       "categoria_fonte": "revista",
       "emoji": "🩺",
-      "resumo": "Análise econômica e de qualidade de vida do trial FAME 3 demonstrou que, embora CRM tenha custos iniciais mais elevados, a ICP guiada por FFR apresenta custos totais menores em 3 anos sem diferença significativa em qualidade de vida. Os dados enriquecem a tomada de decisão em doença multiarterial além dos desfechos clínicos.",
-      "impacto_clinico": "Para pacientes com doença multiarterial em que ambas as estratégias são clinicamente aceitáveis, a análise de custo-efetividade do FAME 3 favorece a ICP guiada por FFR; Heart Teams devem incorporar dados econômicos e preferências do paciente na decisão.",
+      "resumo": "Estudo avaliando a oportunidade diagnóstica de amiloidose cardíaca por transtirretina na população Medicare, identificando atrasos significativos no diagnóstico dessa condição cada vez mais reconhecida. Os dados revelam lacunas no sistema de saúde que impactam o acesso ao tratamento.",
+      "impacto_clinico": "Evidencia a necessidade urgente de implementar algoritmos de rastreamento sistemático para ATTR-CM, especialmente em idosos com insuficiência cardíaca com FE preservada, estenose aórtica ou síndrome do túnel do carpo bilateral.",
       "links": {
-        "url": "https://pubmed.ncbi.nlm.nih.gov/41194756/",
-        "doi": "10.1016/j.jacc.2025.10.017",
-        "pubmed": "41194756"
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42054052/",
+        "doi": "10.1001/jamacardio.2026.0833",
+        "pubmed": "42054052"
+      }
+    },
+    {
+      "id": "art_010",
+      "titulo": "Cardiovascular-Kidney-Metabolic Syndrome Stages, Echocardiographic Characteristics, and Heart Failure Risk: The Atherosclerosis Risk in Communities Study",
+      "publicacao": "Circulation",
+      "autores": [
+        "Lassen MCH",
+        "Ostrominski JW",
+        "Claggett BL",
+        "Ndumele CE"
+      ],
+      "classe": "B",
+      "score": 7.6,
+      "categoria_fonte": "revista",
+      "emoji": "❤️",
+      "resumo": "Estudo do ARIC avaliando as características ecocardiográficas e risco de insuficiência cardíaca de acordo com os estágios da síndrome cardiovascular-renal-metabólica (CKM). Os dados vinculam progressão do estágio CKM a alterações estruturais cardíacas mensuráveis e desfechos clínicos.",
+      "impacto_clinico": "Valida o conceito de estadiamento CKM como ferramenta de estratificação de risco para IC, incentivando avaliação ecocardiográfica sistemática em pacientes em estágios intermediários para intervenção precoce.",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41919388/",
+        "doi": "10.1161/CIRCULATIONAHA.125.077894",
+        "pubmed": "41919388"
+      }
+    },
+    {
+      "id": "art_011",
+      "titulo": "Long-Term Mortality After PCI or CABG for Left Main Stem Disease: Updated Meta-Analysis of Randomized Trials Using Reconstructed Individual-Participant Survival Data",
+      "publicacao": "Journal of the American College of Cardiology",
+      "autores": [
+        "Koeckerling D",
+        "Reddy RK",
+        "Howard JP",
+        "Bansal R"
+      ],
+      "classe": "B",
+      "score": 7.5,
+      "categoria_fonte": "revista",
+      "emoji": "💉",
+      "resumo": "Meta-análise atualizada de trials randomizados sobre mortalidade em longo prazo após PCI ou CABG para doença de tronco de coronária esquerda, utilizando dados de participantes individuais reconstruídos para maior precisão estatística. Fornece a evidência mais robusta disponível para essa decisão clínica crítica.",
+      "impacto_clinico": "Atualiza a base de evidências para a escolha entre CABG e PCI em doença de tronco, com dados de sobrevida de longo prazo que devem informar discussões do Heart Team e decisão compartilhada com pacientes.",
+      "links": {
+        "url": "https://pubmed.nc"
       }
     }
   ]
