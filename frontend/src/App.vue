@@ -6,6 +6,10 @@
       :report-date="report?.relatorio_data"
       :total-articles="report?.resumo?.total_artigos || 0"
       :reading-time="report?.resumo?.tempo_leitura_minutos || 0"
+      :has-prev="currentDateIndex < availableDates.length - 1"
+      :has-next="currentDateIndex > 0"
+      @prev="navigateDate(1)"
+      @next="navigateDate(-1)"
     />
 
     <!-- Filters -->
@@ -135,7 +139,7 @@ import ArticleCard from './components/ArticleCard.vue'
 import ArticleDetail from './components/ArticleDetail.vue'
 import XDiscussionCard from './components/XDiscussionCard.vue'
 import XDiscussionDetail from './components/XDiscussionDetail.vue'
-import { fetchLatestReport, downloadArticle } from './utils/api'
+import { fetchLatestReport, fetchIndex, fetchReportByDate, downloadArticle } from './utils/api'
 
 const report = ref(null)
 const selectedArticle = ref(null)
@@ -146,6 +150,17 @@ const searchQuery = ref('')
 const downloadStatus = ref(null)
 const loading = ref(false)
 const selectedXCategoria = ref('all')
+const availableDates = ref([])
+const currentDateIndex = ref(0)
+
+async function navigateDate(direction) {
+  const newIndex = currentDateIndex.value + direction
+  if (newIndex < 0 || newIndex >= availableDates.value.length) return
+  currentDateIndex.value = newIndex
+  const date = availableDates.value[newIndex]
+  report.value = await fetchReportByDate(date)
+  window.scrollTo({ top: 0, behavior: 'smooth' })
+}
 
 const filteredDiscussoes = computed(() => {
   const list = report.value?.discussoes_x || []
@@ -185,7 +200,12 @@ const articlesByClass = computed(() => {
 async function loadReport() {
   loading.value = true
   try {
-    report.value = await fetchLatestReport()
+    const [latestReport, dates] = await Promise.all([fetchLatestReport(), fetchIndex()])
+    report.value = latestReport
+    if (dates.length > 0) {
+      availableDates.value = dates
+      currentDateIndex.value = 0
+    }
   } catch (error) {
     downloadStatus.value = {
       type: 'error',

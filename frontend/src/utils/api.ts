@@ -44,15 +44,16 @@ export async function downloadArticle(articleId: string, titulo: string, url: st
   }
 }
 
-export async function fetchReportHistory(dates: string[]) {
-  const reports: Record<string, any> = {}
-  for (const date of dates) {
-    try {
-      const url = `${GITHUB_RAW_URL}/relatorio-${date}.json`
-      reports[date] = await axios.get(url).then(r => r.data)
-    } catch (e) {
-      // Date not available
-    }
+export async function fetchIndex(): Promise<string[]> {
+  try {
+    const response = await axios.get(`${GITHUB_RAW_URL}/index.json`)
+    return response.data.dates || []
+  } catch {
+    return []
   }
-  return reports
+}
+
+export async function fetchReportByDate(date: string) {
+  const response = await axios.get(`${GITHUB_RAW_URL}/relatorio-${date}.json`)
+  return response.data
 }
