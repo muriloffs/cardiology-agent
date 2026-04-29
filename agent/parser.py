@@ -157,6 +157,11 @@ def _validate_article(article: Dict[str, Any], context: str = "article") -> None
     if cat not in valid_categories:
         article['categoria_fonte'] = 'noticias' if article.get('source_type') == 'rss' else 'revista'
 
+    # Override to 'noticias' for known news/website sources regardless of what Claude returned
+    _NEWS_PUBLICATIONS = {'tctmd', 'healio', 'healio cardiology', 'cardiometabolic health', 'medscape'}
+    if article['publicacao'].lower() in _NEWS_PUBLICATIONS:
+        article['categoria_fonte'] = 'noticias'
+
     # Validate links
     _validate_links(article['links'], context)
 
