@@ -35,16 +35,31 @@
 
     <!-- Main Article List -->
     <section class="px-4 py-8 max-w-6xl mx-auto">
-      <h2 class="text-2xl font-bold mb-4">📚 Todos os Artigos</h2>
-      <div class="space-y-3">
-        <ArticleCard
-          v-for="article in filteredArticles"
-          :key="article.id"
-          :article="article"
-          @click="selectedArticle = article"
-          @download="handleDownload(article)"
-        />
-      </div>
+      <h2 class="text-2xl font-bold mb-4">
+        📚 Todos os Artigos
+        <span class="text-base font-normal text-gray-500 ml-2">
+          {{ filteredArticles.length }} de {{ report?.artigos?.length || 0 }}
+        </span>
+      </h2>
+
+      <!-- Group by class -->
+      <template v-for="classe in ['A', 'B', 'C']" :key="classe">
+        <div v-if="articlesByClass[classe]?.length">
+          <h3 class="text-sm font-semibold uppercase tracking-wide text-gray-400 mt-6 mb-2">
+            Classe {{ classe }} — {{ articlesByClass[classe].length }} artigos
+          </h3>
+          <div class="space-y-3">
+            <ArticleCard
+              v-for="article in articlesByClass[classe]"
+              :key="article.id"
+              :article="article"
+              @click="selectedArticle = article"
+              @download="handleDownload(article)"
+            />
+          </div>
+        </div>
+      </template>
+
       <p v-if="filteredArticles.length === 0" class="text-center text-gray-500 py-8">
         Nenhum artigo encontrado para os filtros selecionados.
       </p>
@@ -100,6 +115,14 @@ const filteredArticles = computed(() => {
 
     return matchClass && matchSource && matchSearch
   })
+})
+
+const articlesByClass = computed(() => {
+  const groups = { A: [], B: [], C: [] }
+  for (const article of filteredArticles.value) {
+    if (groups[article.classe]) groups[article.classe].push(article)
+  }
+  return groups
 })
 
 async function loadReport() {
