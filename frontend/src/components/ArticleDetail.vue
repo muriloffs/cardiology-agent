@@ -69,13 +69,15 @@
         <DownloadButton
           @download="$emit('download')"
         />
-        <button
+        <a
           v-if="articleUrl"
-          @click="openArticle"
+          :href="articleUrl"
+          target="_blank"
+          rel="noopener noreferrer"
           class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-all"
         >
           🔗 Ler Artigo Completo
-        </button>
+        </a>
       </div>
     </div>
   </div>
@@ -98,8 +100,4 @@ const articleUrl = computed(() => {
   if (l?.doi) return `https://doi.org/${l.doi}`
   return null
 })
-
-function openArticle() {
-  window.open(articleUrl.value, '_blank', 'noopener,noreferrer')
-}
 </script>
