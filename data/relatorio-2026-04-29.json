@@ -1,0 +1,386 @@
+{
+  "relatorio_data": "2026-04-29",
+  "gerado_em": "2026-04-29T07:00:00Z",
+  "resumo": {
+    "total_artigos": 15,
+    "tempo_leitura_minutos": 22,
+    "classe_a_count": 4,
+    "classe_b_count": 7,
+    "classe_c_count": 4
+  },
+  "featured": [
+    {
+      "id": "featured_1",
+      "titulo": "2026 ACC/AHA/AACVPR/ABC/ACPM/ADA/AGS/APhA/ASPC/NLA/PCNA Guideline on the Management of Dyslipidemia: A Report of the American College of Cardiology/American Heart Association Joint Committee on Clinical Practice Guidelines",
+      "publicacao": "Circulation",
+      "autores": [
+        "Writing Committee Members",
+        "Blumenthal RS",
+        "Morris PB",
+        "Gaudino M"
+      ],
+      "classe": "A",
+      "score": 9.8,
+      "categoria_fonte": "revista",
+      "emoji": "💊",
+      "resumo": "Publicação da nova diretriz multissocietária 2026 ACC/AHA para manejo de dislipidemia, envolvendo 11 sociedades científicas. O documento apresenta uma estrutura mais precisa e individualizada para prevenção e tratamento de DCVA aterosclerótica, incorporando novos agentes, metas lipídicas atualizadas e estratégias de rastreamento baseadas em risco.",
+      "impacto_clinico": "Mudança imediata na prática clínica: novas metas de LDL, indicações expandidas para inibidores de PCSK9, inclusão de Lp(a) no algoritmo de risco e reclassificação de pacientes de risco intermediário. Todo cardiologista e clínico deve revisar e atualizar seus protocolos de dislipidemia a partir desta publicação.",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41824552/",
+        "doi": "10.1161/CIR.0000000000001423",
+        "pubmed": "41824552"
+      }
+    },
+    {
+      "id": "featured_2",
+      "titulo": "First-Line Pulsed-Field Ablation for Persistent AF Beats Medication: AVANT GUARD",
+      "publicacao": "TCTMD",
+      "autores": [
+        "Todd Neale"
+      ],
+      "classe": "A",
+      "score": 9.2,
+      "categoria_fonte": "revista",
+      "emoji": "🫀",
+      "resumo": "O trial AVANT GUARD demonstrou que ablação por campo pulsado (PFA) como estratégia de primeira linha em FA persistente é superior ao tratamento medicamentoso. O estudo tem implicações clínicas e econômicas relevantes, uma vez que pagadores têm desincentivado ablação nessa população.",
+      "impacto_clinico": "Ablação por campo pulsado deve ser considerada estratégia de primeira linha em pacientes com FA persistente, antes de escalonamento medicamentoso. Questiona o paradigma atual de reembolso e protocolos de planos de saúde que restringem ablação nessa indicação.",
+      "links": {
+        "url": "https://www.tctmd.com/news/first-line-pulsed-field-ablation-persistent-af-beats-medication-avant-guard",
+        "doi": null,
+        "pubmed": null
+      }
+    },
+    {
+      "id": "featured_3",
+      "titulo": "Sex differences in pharmacological treatment of heart failure: a meta-analysis of randomized trials",
+      "publicacao": "European heart journal",
+      "autores": [
+        "van der Bijl MF",
+        "Scholte NTB",
+        "van Oortmerssen JAE",
+        "Roeters van Lennep JE"
+      ],
+      "classe": "A",
+      "score": 9.0,
+      "categoria_fonte": "revista",
+      "emoji": "❤️",
+      "resumo": "Meta-análise de ensaios clínicos randomizados investigando diferenças de sexo na resposta ao tratamento farmacológico da insuficiência cardíaca. Avalia se mulheres e homens respondem de forma equivalente às terapias padrão (IECA, betabloqueadores, SGLT2i, ARM), com implicações diretas para personalização do tratamento.",
+      "impacto_clinico": "Potencial para revisão das doses-alvo e intensidade do tratamento farmacológico em mulheres com IC. Se confirmadas diferenças significativas de resposta, diretrizes futuras deverão incorporar recomendações específicas por sexo, algo ainda ausente nos protocolos atuais.",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42048254/",
+        "doi": "10.1093/eurheartj/ehag311",
+        "pubmed": "42048254"
+      }
+    }
+  ],
+  "artigos": [
+    {
+      "id": "art_001",
+      "titulo": "2026 ACC/AHA/AACVPR/ABC/ACPM/ADA/AGS/APhA/ASPC/NLA/PCNA Guideline on the Management of Dyslipidemia: A Report of the American College of Cardiology/American Heart Association Joint Committee on Clinical Practice Guidelines",
+      "publicacao": "Circulation",
+      "autores": [
+        "Writing Committee Members",
+        "Blumenthal RS",
+        "Morris PB",
+        "Gaudino M"
+      ],
+      "classe": "A",
+      "score": 9.8,
+      "categoria_fonte": "revista",
+      "emoji": "💊",
+      "resumo": "Nova diretriz multissocietária 2026 ACC/AHA para dislipidemia, com estrutura mais precisa e individualizada para prevenção de DCVA aterosclerótica. Incorpora novos biomarcadores de risco como Lp(a), amplia indicações para terapias de redução lipídica intensiva e atualiza metas de LDL por categorias de risco.",
+      "impacto_clinico": "Atualização obrigatória de protocolos clínicos: novas metas de LDL, indicações revisadas para PCSK9i e inclisirana, e inserção formal do Lp(a) no algoritmo de risco cardiovascular. Impacto imediato em toda prática cardiológica e de medicina interna.",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41824552/",
+        "doi": "10.1161/CIR.0000000000001423",
+        "pubmed": "41824552"
+      }
+    },
+    {
+      "id": "art_002",
+      "titulo": "First-Line Pulsed-Field Ablation for Persistent AF Beats Medication: AVANT GUARD",
+      "publicacao": "TCTMD",
+      "autores": [
+        "Todd Neale"
+      ],
+      "classe": "A",
+      "score": 9.2,
+      "categoria_fonte": "revista",
+      "emoji": "🫀",
+      "resumo": "O AVANT GUARD demonstrou superioridade da ablação por campo pulsado (PFA) como estratégia de primeira linha versus terapia medicamentosa em FA persistente. Os resultados desafiam práticas atuais de pagadores que desincentivam ablação precoce nessa população.",
+      "impacto_clinico": "PFA de primeira linha deve ser discutida com todos os pacientes com FA persistente sintomática. Centros de eletrofisiologia devem revisar seus protocolos de indicação e preparar argumentação para reembolso junto a operadoras de saúde.",
+      "links": {
+        "url": "https://www.tctmd.com/news/first-line-pulsed-field-ablation-persistent-af-beats-medication-avant-guard",
+        "doi": null,
+        "pubmed": null
+      }
+    },
+    {
+      "id": "art_003",
+      "titulo": "Sex differences in pharmacological treatment of heart failure: a meta-analysis of randomized trials",
+      "publicacao": "European heart journal",
+      "autores": [
+        "van der Bijl MF",
+        "Scholte NTB",
+        "van Oortmerssen JAE",
+        "Roeters van Lennep JE"
+      ],
+      "classe": "A",
+      "score": 9.0,
+      "categoria_fonte": "revista",
+      "emoji": "❤️",
+      "resumo": "Meta-análise rigorosa de ECRs sobre diferenças de sexo na resposta ao tratamento farmacológico da insuficiência cardíaca. Avalia benefícios relativos e absolutos de IECA/BRA, betabloqueadores, ARM e SGLT2i em homens versus mulheres, buscando embasamento para possível personalização por sexo.",
+      "impacto_clinico": "Caso diferenças relevantes sejam confirmadas, doses-alvo e escalonamento terapêutico poderão precisar de ajuste baseado em sexo — o que afetaria diretamente as decisões de titulação de drogas em IC na prática clínica diária.",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42048254/",
+        "doi": "10.1093/eurheartj/ehag311",
+        "pubmed": "42048254"
+      }
+    },
+    {
+      "id": "art_004",
+      "titulo": "Cardiovascular-Kidney-Metabolic Syndrome Stages, Echocardiographic Characteristics, and Heart Failure Risk: The Atherosclerosis Risk in Communities Study",
+      "publicacao": "Circulation",
+      "autores": [
+        "Lassen MCH",
+        "Ostrominski JW",
+        "Claggett BL",
+        "Ndumele CE"
+      ],
+      "classe": "A",
+      "score": 8.7,
+      "categoria_fonte": "revista",
+      "emoji": "❤️",
+      "resumo": "Estudo do ARIC investiga como os estágios do síndrome cardiovascular-renal-metabólico (CKM) se associam a alterações ecocardiográficas e risco de insuficiência cardíaca. Demonstra que a progressão nos estágios do CKM correlaciona-se com disfunção cardíaca estrutural e funcional mensuráveis por ecocardiografia.",
+      "impacto_clinico": "Reforça o uso do estadiamento CKM para identificar pacientes em risco de IC antes do diagnóstico clínico. Ecocardiografia pode ser incorporada como ferramenta de vigilância em pacientes com CKM avançado, permitindo intervenção mais precoce.",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41919388/",
+        "doi": "10.1161/CIRCULATIONAHA.125.077894",
+        "pubmed": "41919388"
+      }
+    },
+    {
+      "id": "art_005",
+      "titulo": "PCI Benefits Stable Patients More in Focal vs Diffuse Disease: ORBITA-2",
+      "publicacao": "TCTMD",
+      "autores": [
+        "Michael O'Riordan"
+      ],
+      "classe": "A",
+      "score": 8.5,
+      "categoria_fonte": "revista",
+      "emoji": "💉",
+      "resumo": "Subanálise do ORBITA-2 mostra que o padrão da doença coronária (focal versus difusa) é um modificador importante do benefício da ICP em reduzir angina em pacientes estáveis. Doença focal beneficia-se significativamente mais da ICP, o que pode explicar resultados negativos de trials anteriores com populações mistas.",
+      "impacto_clinico": "Na indicação de ICP eletiva, o padrão angiográfico (focal vs. difuso) deve ser considerado explicitamente na decisão. Pacientes com doença difusa têm menor probabilidade de benefício sintomático, orientando seleção mais criteriosa dos candidatos à ICP.",
+      "links": {
+        "url": "https://www.tctmd.com/news/pci-benefits-stable-patients-more-focal-vs-diffuse-disease-orbita-2",
+        "doi": null,
+        "pubmed": null
+      }
+    },
+    {
+      "id": "art_006",
+      "titulo": "Higher Lp(a) Threshold More Closely Linked to Major ASCVD Events",
+      "publicacao": "TCTMD",
+      "autores": [
+        "L.A. McKeown"
+      ],
+      "classe": "B",
+      "score": 7.8,
+      "categoria_fonte": "revista",
+      "emoji": "🔬",
+      "resumo": "Dados de três ECRs indicam que Lp(a) ≥ 175 nmol/L, e não ≥ 125 nmol/L como convencionalmente utilizado, é o limiar que se associa de forma independente a morte e AVC por DCVA. O estudo desafia o ponto de corte atual amplamente adotado na prática clínica.",
+      "impacto_clinico": "Clínicos devem considerar revisar o limiar de risco elevado do Lp(a) para ≥ 175 nmol/L ao estratificar pacientes para terapias lipídicas intensivas ou futuros agentes redutores de Lp(a). Alinha-se também com as discussões presentes na nova diretriz ACC/AHA 2026.",
+      "links": {
+        "url": "https://www.tctmd.com/news/higher-lpa-threshold-more-closely-linked-major-ascvd-events",
+        "doi": null,
+        "pubmed": null
+      }
+    },
+    {
+      "id": "art_007",
+      "titulo": "Ultralow-Temperature Cryoablation Shows Promise for VT",
+      "publicacao": "TCTMD",
+      "autores": [
+        "Todd Neale"
+      ],
+      "classe": "B",
+      "score": 7.6,
+      "categoria_fonte": "revista",
+      "emoji": "🫀",
+      "resumo": "O trial single-arm FULCRUM-VT avaliou crioablação em temperaturas ultrabaixas para taquicardia ventricular. Aos 6 meses, 59% dos pacientes permaneceram livres de recorrência de TV, com menor uso de amiodarona, sugerindo segurança e eficácia promissoras para essa abordagem novel.",
+      "impacto_clinico": "Crioablação em temperaturas ultralow pode representar alternativa real à ablação por radiofrequência em TV recorrente, especialmente em pacientes intolerantes ou refratários à amiodarona. Aguardam-se estudos randomizados para confirmar superioridade versus padrão atual.",
+      "links": {
+        "url": "https://www.tctmd.com/news/ultralow-temperature-cryoablation-shows-promise-vt",
+        "doi": null,
+        "pubmed": null
+      }
+    },
+    {
+      "id": "art_008",
+      "titulo": "Evaluation and management of recent onset cardiomyopathy in the current era of heart failure therapeutics. A clinical consensus statement of the Heart Failure Association of the ESC",
+      "publicacao": "ESC heart failure",
+      "autores": [
+        "Skouri H",
+        "Abdin A",
+        "Mullens W",
+        "Bucciarelli Ducci C"
+      ],
+      "classe": "B",
+      "score": 7.4,
+      "categoria_fonte": "revista",
+      "emoji": "❤️",
+      "resumo": "Documento de consenso clínico da Heart Failure Association da ESC sobre avaliação e manejo de cardiomiopatia de início recente na era atual das terapias para IC. Fornece orientações práticas sobre investigação etiológica, uso de ressonância magnética cardíaca e timing do tratamento medicamentoso.",
+      "impacto_clinico": "Uniformiza a abordagem diagnóstica e terapêutica da cardiomiopatia de novo, orientando quando intensificar terapia farmacológica, quando indicar biópsia e como monitorar recuperação funcional — dúvidas frequentes no dia a dia das clínicas de IC.",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42048562/",
+        "doi": "10.1093/eschf/xvag115",
+        "pubmed": "42048562"
+      }
+    },
+    {
+      "id": "art_009",
+      "titulo": "Withholding beta-blockers after myocardial infarction: reasons to be cautious",
+      "publicacao": "Cardiovascular research",
+      "autores": [
+        "Cleland JGF",
+        "Hurdus B",
+        "Gale CP"
+      ],
+      "classe": "B",
+      "score": 7.3,
+      "categoria_fonte": "revista",
+      "emoji": "💊",
+      "resumo": "Artigo de opinião especializada alerta para os riscos de se descontinuar betabloqueadores após infarto do miocárdio, em contraponto a estudos recentes que questionam seu benefício em pacientes sem disfunção ventricular. Os autores detalham evidências que sustentam cautela antes de mudança de prática.",
+      "impacto_clinico": "Antes de interromper betabloqueadores pós-IAM em pacientes com fração de ejeção preservada, cardiologistas devem avaliar individualmente o risco, pois a evidência favorável à descontinuação ainda é insuficiente para mudar rotina clínica de forma ampla.",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41926118/",
+        "doi": "10.1093/cvr/cvag046",
+        "pubmed": "41926118"
+      }
+    },
+    {
+      "id": "art_010",
+      "titulo": "Multi-modality non-invasive cardiovascular screening and sex-specific outcomes: the Viborg Screening Program",
+      "publicacao": "European heart journal",
+      "autores": [
+        "Dahl M",
+        "Høgh A",
+        "Refsgaard J",
+        "Bredsgaard M"
+      ],
+      "classe": "B",
+      "score": 7.2,
+      "categoria_fonte": "revista",
+      "emoji": "🩻",
+      "resumo": "O Programa de Rastreamento de Viborg avaliou rastreamento cardiovascular não invasivo multimodal em população geral, com análise estratificada por sexo. Investigou diferenças em detecção de doença subclínica e desfechos entre homens e mulheres submetidos a protocolos de rastreamento abrangentes.",
+      "impacto_clinico": "Evidencia que programas de rastreamento cardiovascular multimodal têm desempenho diferente em homens e mulheres, o que pode justificar protocolos de rastreamento específicos por sexo para maximizar detecção precoce de doenças como fibrilação atrial, aneurisma de aorta e doença coronária.",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42048256/",
+        "doi": "10.1093/eurheartj/ehag309",
+        "pubmed": "42048256"
+      }
+    },
+    {
+      "id": "art_011",
+      "titulo": "Semaglutide improves contractile function in human atrial myocardium of patients with heart failure and preserved ejection fraction",
+      "publicacao": "Cardiovascular research",
+      "autores": [
+        "Hegner P",
+        "Baier MJ",
+        "Krammer T",
+        "Seitz S"
+      ],
+      "classe": "B",
+      "score": 7.1,
+      "categoria_fonte": "revista",
+      "emoji": "💊",
+      "resumo": "Estudo experimental em tecido atrial humano de pacientes com HFpEF demonstra que semaglutida melhora a função contrátil do miocárdio atrial. Fornece mecanismo cardíaco direto para o benefício dos agonistas de GLP-1 em IC com fração de ejeção preservada, além dos efeitos metabólicos sistêmicos.",
+      "impacto_clinico": "Fortalece a base mecanística para uso de semaglutida em HFpEF, complementando dados clínicos existentes. Pode influenciar futuras indicações e motivar novos estudos mecanísticos com outros agonistas de GLP-1 no contexto de IC.",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41632787/",
+        "doi": "10.1093/cvr/cvag039",
+        "pubmed": "41632787"
+      }
+    },
+    {
+      "id": "art_012",
+      "titulo": "Alert system may reduce disparities in aortic stenosis care",
+      "publicacao": "Healio Cardiology",
+      "autores": [
+        "Healio Staff"
+      ],
+      "classe": "B",
+      "score": 6.8,
+      "categoria_fonte": "revista",
+      "emoji": "💉",
+      "resumo": "Subanálise do DETECT-AS mostra que notificações eletrônicas para médicos aumentaram as chances de encaminhamento para TAVR/SAVR em pacientes com estenose aórtica grave, com efeito crescente conforme a idade. O sistema pode reduzir desigualdades de acesso a tratamento em populações mais velhas.",
+      "impacto_clinico": "Implementação de sistemas de alerta eletrônico em prontuários pode ser uma intervenção de baixo custo e alto impacto para identificar e encaminhar pacientes com estenose aórtica grave que de outra forma não seriam tratados — especialmente idosos.",
+      "links": {
+        "url": "https://www.healio.com/news/cardiology/20260428/notification-system-may-reduce-agerelated-disparities-in-aortic-stenosis-care",
+        "doi": null,
+        "pubmed": null
+      }
+    },
+    {
+      "id": "art_013",
+      "titulo": "Macrotroponin I: association with suspected myocardial infarction with non-obstructive coronary artery",
+      "publicacao": "European heart journal",
+      "autores": [
+        "Kronborg AH",
+        "Hasselbalch RB",
+        "Pedersen CHG",
+        "Knudsen SS"
+      ],
+      "classe": "B",
+      "score": 6.7,
+      "categoria_fonte": "revista",
+      "emoji": "🔬",
+      "resumo": "Investigação sobre macrotroponina I — complexo de troponina ligado a imunoglobulinas — e sua associação com suspeita de MINOCA (infarto sem obstrução coronária). A macrotroponina pode causar elevações persistentes de troponina sem lesão miocárdica real, gerando confusão diagnóstica.",
+      "impacto_clinico": "Identificar macrotroponina como causa de troponina elevada é essencial para evitar investigações desnecessárias e tratamentos inadequados em pacientes com aparente MINOCA. O teste deve ser considerado em casos de troponina desproporcionalmente elevada sem correlação clínica.",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42048129/",
+        "doi": "10.1093/eurheartj/ehag312",
+        "pubmed": "42048129"
+      }
+    },
+    {
+      "id": "art_014",
+      "titulo": "Apple Watch can capture arrhythmias in children",
+      "publicacao": "Healio Cardiology",
+      "autores": [
+        "Scott R. Ceresnak"
+      ],
+      "classe": "C",
+      "score": 5.8,
+      "categoria_fonte": "revista",
+      "emoji": "🫀",
+      "resumo": "O Pediatric Apple Watch Study apresentado no Heart Rhythm 2026 demonstrou que o Apple Watch capturou eventos arrítmicos verdadeiros em crianças com maior frequência do que o monitoramento com patch padrão. O estudo sugere que wearables podem ter papel diagnóstico relevante na cardiologia pediátrica.",
+      "impacto_clinico": "Apple Watch pode ser considerado complemento diagnóstico válido para detecção de arritmias em crianças e adolescentes, especialmente em contextos com acesso limitado a monitoramento Holter ou quando o paciente não tolera dispositivos convencionais.",
+      "links": {
+        "url": "https://www.healio.com/news/cardiology/20260427/apple-watch-can-capture-arrhythmias-in-children",
+        "doi": null,
+        "pubmed": null
+      }
+    },
+    {
+      "id": "art_015",
+      "titulo": "From the Heart: Eugene Braunwald (1929-2026)",
+      "publicacao": "JAMA cardiology",
+      "autores": [
+        "Casadei B"
+      ],
+      "classe": "C",
+      "score": 5.2,
+      "categoria_fonte": "revista",
+      "emoji": "❤️",
+      "resumo": "Tributo a Eugene Braunwald (1929-2026), um dos maiores cardiologistas do século XX. Autor do livro-texto mais influente da cardiologia, fundador do grupo TIMI e pioneiro na descrição da cardiomiopatia hipertrófica, faleceu aos 96 anos deixando um legado transformador para a medicina cardiovascular.",
+      "impacto_clinico": "Leitura recomendada para contextualizar a história moderna da cardiologia. O legado de Braunwald — desde a fisiologia cardíaca até os grandes trials clínicos — continua moldando a prática clínica atual em todas as suas dimensões.",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42048600/",
+        "doi": "10.1001/jamacardio.2026.1904",
+        "pubmed": "42048600"
+      }
+    }
+  ]
+}
