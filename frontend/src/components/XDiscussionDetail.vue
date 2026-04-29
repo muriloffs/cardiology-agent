@@ -48,15 +48,19 @@
       <!-- Footer -->
       <div class="flex-shrink-0 p-4 border-t border-gray-200 flex gap-3 flex-wrap rounded-b-lg" style="padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 1rem)">
         <a
-          v-if="discussion.links?.post_url"
-          :href="discussion.links.post_url"
+          v-if="profileUrl"
+          :href="profileUrl"
+          target="_blank"
+          rel="noopener"
           class="inline-flex items-center gap-2 px-4 py-2 bg-gray-900 text-white rounded-lg font-medium hover:bg-gray-700 transition-all text-sm"
         >
-          𝕏 Ver Post
+          𝕏 Ver Perfil
         </a>
         <a
           v-if="articleUrl"
           :href="articleUrl"
+          target="_blank"
+          rel="noopener"
           class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-all text-sm"
         >
           🔗 Ver Artigo
@@ -74,6 +78,12 @@ const props = defineProps({
 })
 
 defineEmits(['close'])
+
+const profileUrl = computed(() => {
+  const autor = props.discussion?.autor || ''
+  const handle = autor.startsWith('@') ? autor.slice(1) : null
+  return handle ? `https://x.com/${handle}` : null
+})
 
 const articleUrl = computed(() => {
   const l = props.discussion?.links
