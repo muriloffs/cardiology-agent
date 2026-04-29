@@ -152,10 +152,11 @@ def _validate_article(article: Dict[str, Any], context: str = "article") -> None
 
     _validate_score_classe(article['score'], article['classe'], context)
 
-    # Validate categoria_fonte
+    # Normalize categoria_fonte — map any unknown value to 'revista'
     valid_categories = {'revista', 'podcast', 'twitter', 'substack', 'x/twitter'}
-    if article['categoria_fonte'].lower() not in valid_categories:
-        raise ParsingError(f"Field '{context}.categoria_fonte' must be one of {valid_categories}")
+    cat = article['categoria_fonte'].lower()
+    if cat not in valid_categories:
+        article['categoria_fonte'] = 'revista'
 
     # Validate links
     _validate_links(article['links'], context)
