@@ -3,14 +3,7 @@
  * Returns today's cardiology report data
  */
 
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const dataDir = path.join(__dirname, '..', 'data');
-
-export default function handler(req, res) {
+export default async function handler(req, res) {
   // Enable CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
@@ -26,15 +19,17 @@ export default function handler(req, res) {
 
   try {
     const today = new Date().toISOString().split('T')[0];
-    const reportPath = path.join(dataDir, `relatorio-${today}.json`);
 
-    if (!fs.existsSync(reportPath)) {
+    // Fetch from raw GitHub URL instead of local filesystem
+    // (more reliable in Vercel serverless environment)
+    const url = `https://raw.githubusercontent.com/muriloffs/cardiology-agent/main/data/relatorio-${today}.json`;
+
+    const response = await fetch(url);
+    if (!response.ok) {
       return res.status(404).json({ error: `No report found for ${today}` });
     }
 
-    const data = fs.readFileSync(reportPath, 'utf-8');
-    const report = JSON.parse(data);
-
+    const report = await response.json();
     return res.status(200).json(report);
   } catch (error) {
     console.error('Error fetching report:', error);
