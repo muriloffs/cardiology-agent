@@ -17,9 +17,9 @@
         <p class="text-gray-600 text-xs line-clamp-2">{{ discussion.resumo }}</p>
         <div class="flex items-center gap-3 mt-2">
           <a
-            v-if="discussion.links?.post_url"
-            :href="discussion.links.post_url"
-            class="text-xs text-blue-500 hover:text-blue-700 flex items-center gap-1"
+            v-if="postUrl"
+            :href="postUrl"
+            class="text-xs text-blue-500 hover:text-blue-700 font-medium"
             @click.stop
           >
             𝕏 Ver post
@@ -27,11 +27,12 @@
           <a
             v-if="articleUrl"
             :href="articleUrl"
-            class="text-xs text-green-600 hover:text-green-800 flex items-center gap-1"
+            class="text-xs text-green-600 hover:text-green-800 font-medium"
             @click.stop
           >
             🔗 Artigo
           </a>
+          <span v-if="!postUrl && !articleUrl" class="text-xs text-gray-400">Sem link disponível</span>
         </div>
       </div>
     </div>
@@ -46,6 +47,8 @@ const props = defineProps({
 })
 
 defineEmits(['click'])
+
+const postUrl = computed(() => props.discussion?.links?.post_url || null)
 
 const articleUrl = computed(() => {
   const l = props.discussion?.links

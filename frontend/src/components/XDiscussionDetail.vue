@@ -43,10 +43,6 @@
           <p class="text-gray-700">{{ discussion.impacto_clinico }}</p>
         </div>
 
-        <div v-if="discussion.aplicabilidade_brasil">
-          <h3 class="text-lg font-bold mb-2">🇧🇷 Aplicabilidade no Brasil</h3>
-          <p class="text-gray-700">{{ discussion.aplicabilidade_brasil }}</p>
-        </div>
       </div>
 
       <!-- Footer -->

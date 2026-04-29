@@ -94,8 +94,7 @@ Cada item deve seguir exatamente este schema:
     "post_url": "https://x.com/... ou null",
     "article_url": "URL do artigo/guideline real ou null",
     "doi": "10.xxxx/... ou null",
-    "pubmed_id": "PMID numérico ou null",
-    "aplicabilidade_brasil": "Como se aplica ao contexto clínico brasileiro"
+    "pubmed_id": "PMID numérico ou null"
   }
 ]
 
