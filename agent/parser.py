@@ -105,6 +105,13 @@ def _validate(report: Dict[str, Any]) -> None:
     for i, article in enumerate(report['artigos']):
         _validate_article(article, context=f"artigos[{i}]")
 
+    # Validate noticias (optional field)
+    if 'noticias' in report:
+        if not isinstance(report['noticias'], list):
+            raise ParsingError("Field 'noticias' must be a list")
+        for i, article in enumerate(report['noticias']):
+            _validate_article(article, context=f"noticias[{i}]")
+
     # Validate X discussions (optional field)
     if 'discussoes_x' in report:
         if not isinstance(report['discussoes_x'], list):

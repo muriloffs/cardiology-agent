@@ -35,6 +35,20 @@
       </div>
     </section>
 
+    <!-- News Section -->
+    <section v-if="report?.noticias?.length" class="px-4 py-8 max-w-6xl mx-auto border-t border-gray-100">
+      <h2 class="text-2xl font-bold mb-1">📰 Notícias Clínicas</h2>
+      <p class="text-sm text-gray-500 mb-4">{{ report.noticias.length }} notícias selecionadas das últimas 24h</p>
+      <div class="space-y-3">
+        <ArticleCard
+          v-for="article in report.noticias"
+          :key="article.id"
+          :article="article"
+          @click="selectedArticle = article"
+        />
+      </div>
+    </section>
+
     <!-- X/Twitter Discussions -->
     <section v-if="report?.discussoes_x?.length" class="px-4 py-8 max-w-6xl mx-auto border-t border-gray-100">
       <h2 class="text-2xl font-bold mb-1">𝕏 Discussões no X</h2>
