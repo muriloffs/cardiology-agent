@@ -201,8 +201,9 @@ def _validate_links(links: Dict[str, Any], context: str) -> None:
         if value is not None and not isinstance(value, str):
             raise ParsingError(f"Field '{context}.links.{field}' must be string or null")
 
+        # Normalize empty strings to None
         if isinstance(value, str) and not value.strip():
-            raise ParsingError(f"Field '{context}.links.{field}' must not be empty string")
+            links[field] = None
 
 
 def _require_non_empty_string(value: Any, field_name: str) -> None:
