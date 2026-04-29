@@ -76,6 +76,7 @@ logs/
 data/*.json
 !data/.gitkeep
 !data/relatorio-*.json
+!data/index.json
 
 # Claude/Development tools
 .claude/
