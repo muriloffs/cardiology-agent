@@ -43,7 +43,7 @@
                 : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
             ]"
           >
-            {{ source === 'all' ? 'Todas' : source.charAt(0).toUpperCase() + source.slice(1) }}
+            {{ { all: 'Todas', revista: 'Revista', noticias: 'Notícias', substack: 'Substack' }[source] || source }}
           </button>
         </div>
       </div>

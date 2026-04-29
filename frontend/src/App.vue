@@ -122,7 +122,7 @@ const filteredArticles = computed(() => {
 const availableSources = computed(() => {
   if (!report.value?.artigos) return ['all', 'revista']
   const found = new Set(report.value.artigos.map(a => a.categoria_fonte).filter(Boolean))
-  const order = ['all', 'revista', 'substack']
+  const order = ['all', 'revista', 'noticias', 'substack']
   return order.filter(s => s === 'all' || found.has(s))
 })
 

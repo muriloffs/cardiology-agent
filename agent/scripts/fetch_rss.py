@@ -15,13 +15,13 @@ RSS_FEEDS = [
     {
         "url": "https://www.tctmd.com/feed",
         "source": "TCTMD",
-        "categoria": "revista",
+        "categoria": "noticias",
         "emoji": "💉",
     },
     {
         "url": "https://www.healio.com/rss/cardiology",
         "source": "Healio Cardiology",
-        "categoria": "revista",
+        "categoria": "noticias",
         "emoji": "📰",
     },
     # High-impact science
@@ -34,7 +34,7 @@ RSS_FEEDS = [
     {
         "url": "https://www.cardiometabolichealth.org/feed",
         "source": "Cardiometabolic Health",
-        "categoria": "revista",
+        "categoria": "noticias",
         "emoji": "📊",
     },
     # Substacks / newsletters (weekly cadence)
