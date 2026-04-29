@@ -2,11 +2,12 @@
 <template>
   <div
     v-if="article"
-    class="fixed inset-0 z-50 flex items-start justify-center p-4 pt-12"
+    class="fixed inset-0 z-50 pointer-events-none flex items-start justify-center p-4 pt-12"
   >
-    <!-- Backdrop separado para fechar sem interferir com cliques dentro do modal -->
-    <div class="absolute inset-0 bg-black bg-opacity-50" @click="$emit('close')"></div>
-    <div class="relative bg-white rounded-lg max-w-2xl w-full max-h-[85vh] flex flex-col">
+    <!-- Backdrop: pointer-events-auto explícito para receber cliques de fechar -->
+    <div class="absolute inset-0 bg-black bg-opacity-50 pointer-events-auto cursor-pointer" @click="$emit('close')"></div>
+    <!-- Modal: pointer-events-auto explícito para receber todos os cliques internos -->
+    <div class="relative bg-white rounded-lg max-w-2xl w-full max-h-[85vh] flex flex-col pointer-events-auto">
       <!-- Header — always visible, never scrolls -->
       <div class="flex-shrink-0 bg-white border-b border-gray-200 p-4 md:p-6 flex items-start justify-between gap-3 rounded-t-lg">
         <div class="flex items-start gap-3 min-w-0">
