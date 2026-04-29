@@ -4,6 +4,7 @@ import json
 import logging
 import os
 from datetime import datetime, timezone, timedelta
+from pathlib import Path
 from typing import Any
 
 logger = logging.getLogger(__name__)
@@ -11,56 +12,20 @@ logger = logging.getLogger(__name__)
 GROK_API_URL = "https://api.x.ai/v1/chat/completions"
 GROK_MODEL = "grok-3-mini"
 
-_SYSTEM_PROMPT = """You are a cardiology research assistant. Your job is to search X/Twitter
-for today's most clinically relevant cardiology posts and return them as structured JSON.
 
-Focus on posts from the last 24 hours that have:
-- Links to actual studies, guidelines, preprints, or official sources
-- Discussion from recognized cardiologists or scientific institutions
-- Real clinical implications (not just opinions or promotional content)
-
-Key accounts to monitor: Eric Topol, Deepak Bhatt, John Mandrola, Erin Michos, Martha Gulati,
-Roxana Mehran, Harlan Krumholz, Valentin Fuster, Carlos Rochitte, Silvio Barberato,
-ACC, AHA, ESC, Heart Rhythm Society, TCTMD, JACC Journals, Circulation, EHJ, NEJM, JAMA Cardiology.
-
-Topics: heart failure, atrial fibrillation, hypertension, coronary disease, GLP-1, SGLT2,
-prevention, imaging, PCI, TAVR, structural heart, arrhythmia, cardio-oncology, cardiometabolic.
-
-Hashtags: #CardioTwitter #MedTwitter #HeartFailure #AtrialFibrillation #Cardiology
-
-EXCLUSION: Skip pure opinions without references, promotional posts, viral posts without science,
-content outside the 24h window."""
-
-_USER_PROMPT_TEMPLATE = """Search X/Twitter for the most relevant cardiology posts from {date} (last 24 hours).
-
-Return a JSON array of up to 15 posts. Each item must follow this exact schema:
-
-{{
-  "titulo": "descriptive title of the topic (not the tweet text)",
-  "publicacao": "X/@handle or institution that posted",
-  "autores": ["@handle"],
-  "data_publicacao": "{date}",
-  "abstract": "2-3 sentence summary of what was posted and why it matters clinically",
-  "post_url": "https://x.com/... (exact URL or null if not found)",
-  "article_url": "URL to the actual study/guideline (null if not found)",
-  "doi": "10.xxxx/... (null if not found)",
-  "pubmed_id": "PMID number only (null if not found)"
-}}
-
-Rules:
-- Never invent DOI, PubMed IDs, or URLs — use null if not found
-- Only include posts with real clinical content
-- Return ONLY the JSON array, no markdown, no preamble
-
-Start with ["""
+def _load_prompt(date: str) -> str:
+    prompt_path = Path(__file__).parent.parent / "prompts" / "grok_x_prompt.txt"
+    with open(prompt_path, "r", encoding="utf-8") as f:
+        return f.read().replace("{date}", date)
 
 
 def fetch_x_cardiology_posts(days_back: int = 1) -> list[dict[str, Any]]:
     """
-    Query Grok for cardiology X/Twitter posts from the last N days.
+    Query Grok for cardiology X/Twitter posts using the full curated prompt.
 
     Returns articles in the same format as fetch_articles.py so they can
     be merged directly into the agent's article list.
+    Gracefully returns [] if XAI_API_KEY is not set.
     """
     api_key = os.environ.get("XAI_API_KEY")
     if not api_key:
@@ -69,6 +34,12 @@ def fetch_x_cardiology_posts(days_back: int = 1) -> list[dict[str, Any]]:
 
     brasilia_tz = timezone(timedelta(hours=-3))
     target_date = (datetime.now(brasilia_tz) - timedelta(days=days_back - 1)).strftime("%Y-%m-%d")
+
+    try:
+        prompt = _load_prompt(target_date)
+    except FileNotFoundError:
+        logger.error("grok_x_prompt.txt not found in agent/prompts/")
+        return []
 
     try:
         import requests as req
@@ -81,13 +52,12 @@ def fetch_x_cardiology_posts(days_back: int = 1) -> list[dict[str, Any]]:
             json={
                 "model": GROK_MODEL,
                 "messages": [
-                    {"role": "system", "content": _SYSTEM_PROMPT},
-                    {"role": "user", "content": _USER_PROMPT_TEMPLATE.format(date=target_date)},
+                    {"role": "user", "content": prompt},
                 ],
                 "temperature": 0.1,
-                "max_tokens": 4000,
+                "max_tokens": 6000,
             },
-            timeout=60,
+            timeout=90,
         )
         response.raise_for_status()
         raw = response.json()["choices"][0]["message"]["content"]
@@ -100,7 +70,6 @@ def fetch_x_cardiology_posts(days_back: int = 1) -> list[dict[str, Any]]:
 
 def _parse_grok_response(raw: str, date: str) -> list[dict[str, Any]]:
     """Parse Grok's JSON response into the standard article format."""
-    # Strip any markdown fences if Grok added them
     text = raw.strip()
     if text.startswith("```"):
         text = text.split("\n", 1)[1].rsplit("```", 1)[0].strip()
@@ -115,36 +84,48 @@ def _parse_grok_response(raw: str, date: str) -> list[dict[str, Any]]:
         posts = json.loads(text)
     except json.JSONDecodeError as e:
         logger.error(f"Failed to parse Grok JSON response: {e}")
-        logger.debug(f"Raw response: {raw[:500]}")
+        logger.debug(f"Raw response snippet: {raw[:500]}")
         return []
 
     articles = []
     for post in posts:
         if not isinstance(post, dict):
             continue
-
         titulo = post.get("titulo", "").strip()
         if not titulo:
             continue
 
-        # Build links dict — prefer article_url over post_url for the primary URL
-        primary_url = post.get("article_url") or post.get("post_url")
-        doi = post.get("doi") if post.get("doi") and post.get("doi") != "null" else None
-        pubmed_id = post.get("pubmed_id") if post.get("pubmed_id") and post.get("pubmed_id") != "null" else None
+        doi = post.get("doi") if post.get("doi") not in (None, "null", "") else None
+        pubmed_id = post.get("pubmed_id") if post.get("pubmed_id") not in (None, "null", "") else None
+        article_url = post.get("article_url") if post.get("article_url") not in (None, "null", "") else None
+        post_url = post.get("post_url") if post.get("post_url") not in (None, "null", "") else None
+
+        # Build abstract with extra context fields for Claude to use
+        resumo = post.get("resumo", "")
+        impacto = post.get("impacto_clinico", "")
+        brasil = post.get("aplicabilidade_brasil", "")
+        classe = post.get("classe_sugerida", "")
+
+        abstract_parts = [resumo]
+        if impacto:
+            abstract_parts.append(f"Impacto clínico: {impacto}")
+        if brasil:
+            abstract_parts.append(f"Brasil: {brasil}")
+        if classe:
+            abstract_parts.append(f"[Classe sugerida pelo Grok: {classe}]")
 
         articles.append({
             "titulo": titulo,
             "publicacao": post.get("publicacao", "X/Twitter"),
             "autores": post.get("autores", []),
-            "data_publicacao": post.get("data_publicacao", date),
-            "abstract": post.get("abstract", ""),
-            "pubmed_url": primary_url or "",
+            "data_publicacao": date,
+            "abstract": " | ".join(abstract_parts),
+            "pubmed_url": article_url or post_url or "",
             "doi": doi,
             "doi_url": f"https://doi.org/{doi}" if doi else None,
             "pmid": pubmed_id,
-            # Extra fields for context
-            "_post_url": post.get("post_url"),
-            "_article_url": post.get("article_url"),
+            "_post_url": post_url,
+            "_article_url": article_url,
         })
 
     logger.info(f"Grok/X: {len(articles)} posts parsed")
