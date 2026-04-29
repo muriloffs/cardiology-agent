@@ -2,10 +2,11 @@
 <template>
   <div
     v-if="article"
-    class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-start justify-center p-4 pt-12"
-    @click.self="$emit('close')"
+    class="fixed inset-0 z-50 flex items-start justify-center p-4 pt-12"
   >
-    <div class="bg-white rounded-lg max-w-2xl w-full max-h-[85vh] flex flex-col">
+    <!-- Backdrop separado para fechar sem interferir com cliques dentro do modal -->
+    <div class="absolute inset-0 bg-black bg-opacity-50" @click="$emit('close')"></div>
+    <div class="relative bg-white rounded-lg max-w-2xl w-full max-h-[85vh] flex flex-col">
       <!-- Header — always visible, never scrolls -->
       <div class="flex-shrink-0 bg-white border-b border-gray-200 p-4 md:p-6 flex items-start justify-between gap-3 rounded-t-lg">
         <div class="flex items-start gap-3 min-w-0">
@@ -81,6 +82,7 @@
     </div>
   </div>
 </template>
+
 
 <script setup>
 import DownloadButton from './DownloadButton.vue'
