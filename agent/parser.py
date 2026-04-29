@@ -100,6 +100,13 @@ def _validate(report: Dict[str, Any]) -> None:
     for i, article in enumerate(report['artigos']):
         _validate_article(article, context=f"artigos[{i}]")
 
+    # Validate X discussions (optional field)
+    if 'discussoes_x' in report:
+        if not isinstance(report['discussoes_x'], list):
+            raise ParsingError("Field 'discussoes_x' must be a list")
+        for i, item in enumerate(report['discussoes_x']):
+            _validate_x_discussion(item, context=f"discussoes_x[{i}]")
+
 
 def _validate_resumo(resumo: Dict[str, Any]) -> None:
     """Validate resumo (summary) object."""
@@ -164,6 +171,55 @@ def _validate_article(article: Dict[str, Any], context: str = "article") -> None
 
     # Validate links
     _validate_links(article['links'], context)
+
+
+def _validate_x_discussion(item: Dict[str, Any], context: str) -> None:
+    """Validate a single discussoes_x item."""
+    if not isinstance(item, dict):
+        raise ParsingError(f"Field '{context}' must be a dictionary")
+
+    required_fields = {'id', 'titulo', 'autor', 'emoji', 'classe', 'score', 'resumo', 'impacto_clinico', 'links'}
+    missing = required_fields - set(item.keys())
+    if missing:
+        raise ParsingError(f"Field '{context}' missing required fields: {', '.join(sorted(missing))}")
+
+    for field in ['id', 'titulo', 'autor', 'emoji', 'resumo', 'impacto_clinico']:
+        _require_non_empty_string(item[field], f"{context}.{field}")
+
+    if isinstance(item['score'], bool):
+        raise ParsingError(f"Field '{context}.score' must be a number, not boolean")
+    if not isinstance(item['score'], (int, float)):
+        raise ParsingError(f"Field '{context}.score' must be a number")
+
+    _validate_score_classe(item['score'], item['classe'], context)
+
+    # aplicabilidade_brasil is optional — normalize if present
+    if 'aplicabilidade_brasil' in item:
+        if not isinstance(item['aplicabilidade_brasil'], str):
+            item['aplicabilidade_brasil'] = ''
+
+    _validate_x_links(item['links'], context)
+
+
+def _validate_x_links(links: Dict[str, Any], context: str) -> None:
+    """Validate links object for discussoes_x — must have post_url or url."""
+    if not isinstance(links, dict):
+        raise ParsingError(f"Field '{context}.links' must be a dictionary")
+
+    known_fields = {'post_url', 'url', 'doi', 'pubmed'}
+    for field in list(links.keys()):
+        if field not in known_fields:
+            del links[field]
+            continue
+        value = links[field]
+        if value is not None and not isinstance(value, str):
+            links[field] = None
+        elif isinstance(value, str) and not value.strip():
+            links[field] = None
+
+    # At least one of post_url or url must be present (can be null, but key must exist)
+    if not links.get('post_url') and not links.get('url'):
+        links.setdefault('post_url', None)
 
 
 def _validate_score_classe(score: float, classe: str, context: str) -> None:

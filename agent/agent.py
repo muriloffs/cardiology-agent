@@ -101,11 +101,13 @@ class CardologyAgent:
             raise
 
         # Step 4: Call Claude to classify
+        # Extended output beta allows >8192 tokens — needed for 30 artigos + 15 discussoes_x
         try:
             logger.info(f"Calling Claude API to classify {len(articles)} articles for {report_date}")
             response = self.client.messages.create(
                 model="claude-sonnet-4-6",
                 max_tokens=16000,
+                extra_headers={"anthropic-beta": "output-128k-2025-02-19"},
                 system=system_prompt,
                 messages=[
                     {
