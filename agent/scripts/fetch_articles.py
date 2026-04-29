@@ -3,6 +3,7 @@
 import time
 import logging
 import requests
+from datetime import datetime, timedelta
 from typing import Any
 
 logger = logging.getLogger(__name__)
@@ -144,8 +145,10 @@ def fetch_summaries(pmids: list[str]) -> list[dict[str, Any]]:
             "doi_url": f"https://doi.org/{doi}" if doi else None,
         })
 
-    logger.info(f"Details fetched for {len(articles)} articles")
-    return articles
+    # Filter out articles older than 14 days (PubMed sometimes returns stale entries)
+    filtered = _filter_by_date(articles, max_days=14)
+    logger.info(f"Details fetched for {len(filtered)} articles (filtered {len(articles) - len(filtered)} older than 14 days)")
+    return filtered
 
 
 def _fetch_abstracts(pmids: list[str]) -> dict[str, str]:
@@ -184,6 +187,26 @@ def _fetch_abstracts(pmids: list[str]) -> dict[str, str]:
         abstracts[current_pmid] = " ".join(current_lines).strip()
 
     return abstracts
+
+
+def _filter_by_date(articles: list, max_days: int = 14) -> list:
+    """Remove articles whose publication date is older than max_days."""
+    cutoff = datetime.now() - timedelta(days=max_days)
+    result = []
+    for a in articles:
+        pub = a.get("data_publicacao", "")
+        parsed = None
+        for fmt in ("%Y %b %d", "%Y %b", "%Y"):
+            try:
+                parsed = datetime.strptime(pub.strip()[:len(fmt) + 2], fmt)
+                break
+            except ValueError:
+                continue
+        if parsed is None or parsed >= cutoff:
+            result.append(a)
+        else:
+            logger.debug(f"Skipped old article ({pub}): {a['titulo'][:50]}")
+    return result
 
 
 def fetch_recent_cardiology_articles(days_back: int = 1) -> list[dict[str, Any]]:
