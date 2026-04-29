@@ -33,7 +33,7 @@
         <p class="text-sm font-semibold text-gray-700 mb-2">Fonte</p>
         <div class="flex gap-2 flex-wrap">
           <button
-            v-for="source in ['all', 'revista', 'podcast', 'twitter', 'substack']"
+            v-for="source in availableSources"
             :key="source"
             @click="$emit('update:selected-source', source)"
             :class="[
@@ -71,10 +71,14 @@
 </template>
 
 <script setup>
-defineProps({
+const props = defineProps({
   selectedClass: String,
   selectedSource: String,
-  searchQuery: String
+  searchQuery: String,
+  availableSources: {
+    type: Array,
+    default: () => ['all', 'revista']
+  }
 })
 
 defineEmits(['update:selected-class', 'update:selected-source', 'update:search-query', 'refresh'])

@@ -14,6 +14,7 @@
       :selected-source="selectedSource"
       :search-query="searchQuery"
       @update:selected-class="selectedClass = $event"
+      :available-sources="availableSources"
       @update:selected-source="selectedSource = $event"
       @update:search-query="searchQuery = $event"
       @refresh="loadReport"
@@ -27,6 +28,7 @@
           v-for="(article, idx) in report.featured"
           :key="`featured-${idx}`"
           :article="article"
+          :index="idx"
           @click="selectedArticle = article"
           @download="handleDownload(article)"
         />
@@ -115,6 +117,13 @@ const filteredArticles = computed(() => {
 
     return matchClass && matchSource && matchSearch
   })
+})
+
+const availableSources = computed(() => {
+  if (!report.value?.artigos) return ['all', 'revista']
+  const found = new Set(report.value.artigos.map(a => a.categoria_fonte).filter(Boolean))
+  const order = ['all', 'revista', 'substack']
+  return order.filter(s => s === 'all' || found.has(s))
 })
 
 const articlesByClass = computed(() => {
