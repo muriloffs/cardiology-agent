@@ -1,21 +1,10 @@
 {
   "buildCommand": "cd frontend && npm install && npm run build",
   "public": "frontend/dist",
-  "routes": [
+  "rewrites": [
     {
-      "src": "/api/(.*)",
-      "dest": "/api/$1",
-      "methods": ["GET", "POST", "OPTIONS"]
-    },
-    {
-      "src": "/assets/(.*)",
-      "dest": "/assets/$1",
-      "headers": { "cache-control": "public, max-age=31536000, immutable" }
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/index.html",
-      "methods": ["GET"]
+      "source": "/((?!api/).*)",
+      "destination": "/index.html"
     }
   ]
 }
