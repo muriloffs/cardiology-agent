@@ -10,6 +10,7 @@ from typing import Any, Dict, Optional
 
 from anthropic import Anthropic, APIError
 from agent.parser import parse_report, ParsingError
+from agent.scripts.fetch_articles import fetch_recent_cardiology_articles
 
 
 # Configure logging for GitHub Actions diagnostics
@@ -43,7 +44,7 @@ class CardologyAgent:
 
     def research_daily(self, report_date: str) -> Dict[str, Any]:
         """
-        Generate daily cardiology research report using Claude API.
+        Fetch real articles from PubMed, then use Claude to classify and curate them.
 
         Args:
             report_date: Date string in YYYY-MM-DD format for the report.
@@ -56,38 +57,52 @@ class CardologyAgent:
             APIError: If Claude API call fails.
             FileNotFoundError: If prompt.txt is not found.
         """
-        # Load system prompt
+        # Step 1: Fetch real articles from PubMed
+        logger.info("Fetching real articles from PubMed...")
+        articles = fetch_recent_cardiology_articles(days_back=1)
+
+        if not articles:
+            raise RuntimeError("PubMed returned no articles. Cannot generate report without real data.")
+
+        logger.info(f"Fetched {len(articles)} real articles from PubMed")
+
+        # Step 2: Format articles for Claude
+        articles_text = self._format_articles_for_claude(articles)
+
+        # Step 3: Load classification prompt
         try:
             prompt_path = Path(__file__).parent / "prompt.txt"
             with open(prompt_path, 'r', encoding='utf-8') as f:
                 system_prompt = f.read()
-            logger.debug(f"Loaded system prompt from {prompt_path}")
         except FileNotFoundError:
             logger.error(f"Prompt file not found at {prompt_path}")
             raise
 
-        # Call Claude API
+        # Step 4: Call Claude to classify
         try:
-            logger.info(f"Calling Claude API for report date {report_date}")
+            logger.info(f"Calling Claude API to classify {len(articles)} articles for {report_date}")
             response = self.client.messages.create(
-                model="claude-3-5-sonnet-20241022",
-                max_tokens=4000,
+                model="claude-opus-4-5",
+                max_tokens=6000,
                 system=system_prompt,
                 messages=[
                     {
                         "role": "user",
-                        "content": f"Today's date: {report_date}. Please generate the daily cardiology research report."
+                        "content": (
+                            f"Date: {report_date}\n\n"
+                            f"Here are {len(articles)} real cardiology articles fetched from PubMed "
+                            f"in the last 24 hours. Select the 10-15 most important and classify them:\n\n"
+                            f"{articles_text}"
+                        )
                     }
                 ]
             )
-            logger.debug(f"Claude API response received")
         except APIError as e:
             logger.error(f"Claude API error: {e}")
             raise
 
-        # Extract and parse response
+        # Step 5: Parse response
         try:
-            # Handle both dict (mock) and object (real API) responses
             if isinstance(response, dict):
                 raw_response = response['content'][0]['text']
             else:
@@ -101,6 +116,25 @@ class CardologyAgent:
             logger.error(f"Failed to parse report: {e}")
             logger.debug(f"Raw response: {raw_response[:500]}...")
             raise
+
+    def _format_articles_for_claude(self, articles: list) -> str:
+        """Format fetched articles as structured text for Claude classification."""
+        lines = []
+        for i, a in enumerate(articles, 1):
+            lines.append(f"--- ARTICLE {i} ---")
+            lines.append(f"PMID: {a['pmid']}")
+            lines.append(f"Title: {a['titulo']}")
+            lines.append(f"Journal: {a['publicacao']}")
+            lines.append(f"Authors: {', '.join(a['autores'][:4])}")
+            lines.append(f"Published: {a['data_publicacao']}")
+            if a.get('abstract'):
+                lines.append(f"Abstract: {a['abstract'][:600]}")
+            lines.append(f"PubMed URL: {a['pubmed_url']}")
+            if a.get('doi_url'):
+                lines.append(f"DOI: {a['doi']}")
+                lines.append(f"DOI URL: {a['doi_url']}")
+            lines.append("")
+        return "\n".join(lines)
 
     def save_report(self, report: Dict[str, Any], date: str) -> str:
         """
