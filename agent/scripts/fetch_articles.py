@@ -145,9 +145,9 @@ def fetch_summaries(pmids: list[str]) -> list[dict[str, Any]]:
             "doi_url": f"https://doi.org/{doi}" if doi else None,
         })
 
-    # Filter out articles older than 14 days (PubMed sometimes returns stale entries)
-    filtered = _filter_by_date(articles, max_days=14)
-    logger.info(f"Details fetched for {len(filtered)} articles (filtered {len(articles) - len(filtered)} older than 14 days)")
+    # Filter out articles older than 60 days (exclude truly stale entries)
+    filtered = _filter_by_date(articles, max_days=60)
+    logger.info(f"Details fetched for {len(filtered)} articles (filtered {len(articles) - len(filtered)} older than 60 days)")
     return filtered
 
 
