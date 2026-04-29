@@ -65,6 +65,7 @@ print(json.dumps({'dates': dates}, indent=2))
 " > data/index.json
           git add "$REPORT_FILE" data/index.json
           git commit -m "chore: daily cardiology research report $(basename $REPORT_FILE .json | sed 's/relatorio-//')" || echo "Nothing to commit"
+          git pull --rebase origin main
           git push origin main
 
       - name: Notify on failure
