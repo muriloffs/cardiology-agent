@@ -20,20 +20,6 @@
       @refresh="loadReport"
     />
 
-    <!-- Featured Articles (top 3 by score, derived from artigos) -->
-    <section v-if="featuredArticles.length" class="px-4 py-8 max-w-6xl mx-auto">
-      <h2 class="text-2xl font-bold mb-4">📌 Destaque do Dia</h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <FeaturedCard
-          v-for="(article, idx) in featuredArticles"
-          :key="`featured-${idx}`"
-          :article="article"
-          :index="idx"
-          @click="selectedArticle = article"
-          @download="handleDownload(article)"
-        />
-      </div>
-    </section>
 
     <!-- News Section -->
     <section v-if="report?.noticias?.length" class="px-4 py-8 max-w-6xl mx-auto border-t border-gray-100">
@@ -127,7 +113,6 @@
 import { ref, computed, onMounted } from 'vue'
 import HeaderStats from './components/HeaderStats.vue'
 import FilterBar from './components/FilterBar.vue'
-import FeaturedCard from './components/FeaturedCard.vue'
 import ArticleCard from './components/ArticleCard.vue'
 import ArticleDetail from './components/ArticleDetail.vue'
 import XDiscussionCard from './components/XDiscussionCard.vue'
@@ -143,11 +128,6 @@ const searchQuery = ref('')
 const downloadStatus = ref(null)
 const loading = ref(false)
 
-const featuredArticles = computed(() => {
-  if (!report.value?.artigos?.length) return []
-  return [...report.value.artigos]
-    .sort((a, b) => b.score - a.score)
-    .slice(0, 3)
 })
 
 const filteredArticles = computed(() => {
