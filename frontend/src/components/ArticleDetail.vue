@@ -7,12 +7,12 @@
   >
     <div class="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
       <!-- Header -->
-      <div class="sticky top-0 bg-white border-b border-gray-200 p-6 flex items-start justify-between">
-        <div class="flex items-start gap-4">
-          <span class="text-4xl">{{ article.emoji }}</span>
-          <div>
-            <h2 class="text-2xl font-bold">{{ article.titulo }}</h2>
-            <p class="text-gray-600">{{ article.publicacao }}</p>
+      <div class="sticky top-0 bg-white border-b border-gray-200 p-4 md:p-6 flex items-start justify-between gap-3">
+        <div class="flex items-start gap-3 min-w-0">
+          <span class="text-3xl md:text-4xl flex-shrink-0">{{ article.emoji }}</span>
+          <div class="min-w-0">
+            <h2 class="text-lg md:text-2xl font-bold leading-tight">{{ article.titulo }}</h2>
+            <p class="text-gray-600 text-sm md:text-base">{{ article.publicacao }}</p>
           </div>
         </div>
         <button
@@ -53,7 +53,7 @@
           <div class="bg-gray-50 p-4 rounded-lg">
             <p class="text-sm text-gray-600">Fonte</p>
             <p class="font-semibold">
-              {{ article.categoria_fonte === 'twitter' ? '🐦 Twitter' : article.categoria_fonte === 'podcast' ? '🎙️ Podcast' : article.categoria_fonte === 'substack' ? '📝 Substack' : '📰 Revista' }}
+              {{ { revista: '📰 Revista', noticias: '📡 Notícias', substack: '📝 Substack', podcast: '🎙️ Podcast' }[article.categoria_fonte] || '📰 Revista' }}
             </p>
           </div>
           <div class="bg-gray-50 p-4 rounded-lg">
