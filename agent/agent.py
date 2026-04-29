@@ -68,6 +68,11 @@ class CardologyAgent:
         rss_articles = fetch_all_rss(days_back=2)
         logger.info(f"RSS: {len(rss_articles)} items")
 
+        for a in pubmed_articles:
+            a["source_type"] = "pubmed"
+        for a in rss_articles:
+            a["source_type"] = "rss"
+
         articles = pubmed_articles + rss_articles
 
         if not articles:
@@ -92,7 +97,7 @@ class CardologyAgent:
             logger.info(f"Calling Claude API to classify {len(articles)} articles for {report_date}")
             response = self.client.messages.create(
                 model="claude-opus-4-5",
-                max_tokens=6000,
+                max_tokens=10000,
                 system=system_prompt,
                 messages=[
                     {
@@ -130,16 +135,19 @@ class CardologyAgent:
         """Format fetched articles as structured text for Claude classification."""
         lines = []
         for i, a in enumerate(articles, 1):
-            lines.append(f"--- ARTICLE {i} ---")
-            lines.append(f"PMID: {a['pmid']}")
+            source_type = a.get("source_type", "pubmed")
+            lines.append(f"--- ARTICLE {i} [source: {source_type}] ---")
+            if a.get("pmid"):
+                lines.append(f"PMID: {a['pmid']}")
             lines.append(f"Title: {a['titulo']}")
-            lines.append(f"Journal: {a['publicacao']}")
-            lines.append(f"Authors: {', '.join(a['autores'][:4])}")
+            lines.append(f"Journal/Source: {a['publicacao']}")
+            if a.get("autores"):
+                lines.append(f"Authors: {', '.join(a['autores'][:4])}")
             lines.append(f"Published: {a['data_publicacao']}")
-            if a.get('abstract'):
+            if a.get("abstract"):
                 lines.append(f"Abstract: {a['abstract'][:600]}")
-            lines.append(f"PubMed URL: {a['pubmed_url']}")
-            if a.get('doi_url'):
+            lines.append(f"URL: {a['pubmed_url']}")
+            if a.get("doi_url"):
                 lines.append(f"DOI: {a['doi']}")
                 lines.append(f"DOI URL: {a['doi_url']}")
             lines.append("")

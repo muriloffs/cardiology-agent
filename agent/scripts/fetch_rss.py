@@ -11,12 +11,7 @@ logger = logging.getLogger(__name__)
 
 # Working RSS feeds verified to be publicly accessible
 RSS_FEEDS = [
-    {
-        "url": "https://erictopol.substack.com/feed",
-        "source": "Ground Truths (Eric Topol)",
-        "categoria": "substack",
-        "emoji": "📝",
-    },
+    # Interventional / clinical news
     {
         "url": "https://www.tctmd.com/feed",
         "source": "TCTMD",
@@ -28,6 +23,26 @@ RSS_FEEDS = [
         "source": "Healio Cardiology",
         "categoria": "revista",
         "emoji": "📰",
+    },
+    # High-impact science
+    {
+        "url": "https://www.nature.com/subjects/cardiology.rss",
+        "source": "Nature Cardiology",
+        "categoria": "revista",
+        "emoji": "🔬",
+    },
+    {
+        "url": "https://www.cardiometabolichealth.org/feed",
+        "source": "Cardiometabolic Health",
+        "categoria": "revista",
+        "emoji": "📊",
+    },
+    # Substacks / newsletters (weekly cadence)
+    {
+        "url": "https://erictopol.substack.com/feed",
+        "source": "Ground Truths (Eric Topol)",
+        "categoria": "substack",
+        "emoji": "📝",
     },
     {
         "url": "https://drsingh.substack.com/feed",

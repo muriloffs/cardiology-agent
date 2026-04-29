@@ -190,14 +190,14 @@ def fetch_recent_cardiology_articles(days_back: int = 1) -> list[dict[str, Any]]
     """
     Main entry point. Returns real articles from the curated journal list,
     published in the last N days.
-    Falls back to 2-day window if today has fewer than 10 results.
+    Falls back to 2-day window if today has fewer than 30 results.
     """
     logger.info(f"Searching {len(CARDIOLOGY_JOURNALS)} curated journals — last {days_back} day(s)...")
-    pmids = search_pubmed(days_back=days_back, max_results=50)
+    pmids = search_pubmed(days_back=days_back, max_results=80)
 
-    if len(pmids) < 10:
+    if len(pmids) < 30:
         logger.warning(f"Only {len(pmids)} results for {days_back}d. Extending to 2 days.")
-        pmids = search_pubmed(days_back=2, max_results=50)
+        pmids = search_pubmed(days_back=2, max_results=80)
 
     if not pmids:
         logger.error("No results from curated journals.")
