@@ -62,11 +62,11 @@ jobs:
       - name: Update index and commit
         run: |
           REPORT_FILE=$(ls -t data/relatorio-*.json 2>/dev/null | head -1)
-          ls data/relatorio-*.json 2>/dev/null | sed 's|data/relatorio-||;s|\.json||' | sort -r | python3 -c "
-import sys, json
-dates = [line.strip() for line in sys.stdin if line.strip()]
-print(json.dumps({'dates': dates}, indent=2))
-" > data/index.json
+          ls data/relatorio-*.json 2>/dev/null \
+            | sed 's|data/relatorio-||;s|\.json||' \
+            | sort -r \
+            | python3 -c "import sys,json; dates=[l.strip() for l in sys.stdin if l.strip()]; print(json.dumps({'dates':dates},indent=2))" \
+            > data/index.json
           git add "$REPORT_FILE" data/index.json
           git commit -m "chore: daily cardiology research report $(basename $REPORT_FILE .json | sed 's/relatorio-//')" || echo "Nothing to commit"
           git pull --rebase origin main
