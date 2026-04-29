@@ -13,8 +13,11 @@ Janela obrigatória: 00:00–23:59 do dia {date}
 
 🧠 PERFIS PRIORITÁRIOS NO X
 
-Monitorar prioritariamente:
-Eric Topol, Deepak Bhatt, John Mandrola, Erin Michos, Martha Gulati, Roxana Mehran, Harlan Krumholz, Valentin Fuster, Carlos Rochitte, Silvio Barberato
+Buscar ATIVAMENTE os posts recentes destes handles específicos — são especialistas reconhecidos e devem ser incluídos se postaram algo clinicamente relevante, mesmo sem link externo:
+
+@EricTopol, @deepakbhatt1, @drjohnm, @ErinMichos, @MarthaGulati, @RoxanaMehran, @hmkyale, @FusterV, @CarlosRochitte, @SilvioBarberato
+
+Para cada um destes handles: pesquisar "from:@handle" na janela temporal e incluir o post mais relevante de cardiologia, se existir.
 
 Também incluir editores de grandes journals, autores principais de estudos recentes, perfis oficiais de sociedades científicas e pesquisadores brasileiros de cardiologia.
 
@@ -22,7 +25,7 @@ Também incluir editores de grandes journals, autores principais de estudos rece
 
 🏛️ PERFIS INSTITUCIONAIS PRIORITÁRIOS
 
-American College of Cardiology, American Heart Association, European Society of Cardiology, Heart Rhythm Society, TCTMD, JACC Journals, Circulation, European Heart Journal, NEJM, The Lancet, JAMA Cardiology, BMJ, Sociedade Brasileira de Cardiologia, SOCESP
+American College of Cardiology (@ACCinTouch), American Heart Association (@American_Heart), European Society of Cardiology (@escardio), Heart Rhythm Society (@HRSonline), TCTMD (@TCTMD), JACC Journals (@JACCJournals), Circulation (@CircAHA), European Heart Journal (@EuroHeartJ), NEJM (@NEJM), The Lancet (@TheLancet), JAMA Cardiology (@JAMACardio), BMJ (@bmj_latest), Sociedade Brasileira de Cardiologia (@cardiol_br), SOCESP (@SOCESP)
 
 ---
 
@@ -36,20 +39,24 @@ Cardiology, heart failure, hypertension, atrial fibrillation, anticoagulation, c
 
 🎯 CRITÉRIOS DE INCLUSÃO
 
-Incluir apenas posts da janela analisada que contenham:
+Incluir posts da janela analisada que se enquadrem em qualquer uma destas categorias:
+
+**Categoria 1 — Com link verificável (qualquer especialista):**
 1. Link para artigo, guideline, preprint, apresentação, press release oficial ou resumo verificável
-2. Discussão técnica relevante por especialista reconhecido
-3. Debate com implicação clínica real
-4. Crítica metodológica útil
-5. Atualização de guideline, consenso, trial ou metanálise
-6. Tema com aplicabilidade para cardiologista clínico
+2. Crítica metodológica útil com referência primária
+3. Atualização de guideline, consenso, trial ou metanálise
+
+**Categoria 2 — Sem link (apenas perfis prioritários listados acima):**
+4. Discussão técnica com implicação clínica real, mesmo sem link externo
+5. Opinião fundamentada de especialista reconhecido sobre tema relevante
+6. Debate com análise crítica de evidência recente
 
 ---
 
 🚫 CRITÉRIOS DE EXCLUSÃO
 
 Excluir:
-- Opiniões sem link ou base verificável
+- Opiniões sem substância clínica de perfis não listados como prioritários
 - Posts puramente promocionais
 - Frases de efeito sem conteúdo científico
 - Threads sem referência primária
