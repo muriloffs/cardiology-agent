@@ -32,9 +32,7 @@ def fetch_x_cardiology_posts(days_back: int = 1) -> list[dict[str, Any]]:
         return []
 
     brasilia_tz = timezone(timedelta(hours=-3))
-    target_date = (datetime.now(brasilia_tz) - timedelta(days=days_back - 1)).strftime("%Y-%m-%d")
-    target_dt = datetime.strptime(target_date, "%Y-%m-%d")
-    from_date = (target_dt - timedelta(days=1)).strftime("%Y-%m-%d")
+    target_date = (datetime.now(brasilia_tz) - timedelta(days=days_back)).strftime("%Y-%m-%d")
 
     try:
         prompt = _load_prompt(target_date)

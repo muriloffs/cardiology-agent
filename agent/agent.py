@@ -261,10 +261,10 @@ class CardologyAgent:
         try:
             # Determine report date
             if report_date is None:
-                # Get current date in Brasília timezone (UTC-3)
+                # Report covers yesterday's full day of news (runs at 3 AM Brasília)
                 brasilia_tz = timezone(timedelta(hours=-3))
-                report_date = datetime.now(brasilia_tz).date().isoformat()
-                logger.info(f"Using today's date (Brasília): {report_date}")
+                report_date = (datetime.now(brasilia_tz) - timedelta(days=1)).date().isoformat()
+                logger.info(f"Using yesterday's date (Brasília): {report_date}")
             else:
                 logger.info(f"Using specified report date: {report_date}")
 
