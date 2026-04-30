@@ -9,7 +9,7 @@ from typing import Any
 
 logger = logging.getLogger(__name__)
 
-GROK_API_URL = "https://api.x.ai/v1/chat/completions"
+GROK_API_URL = "https://api.x.ai/v1/responses"
 GROK_MODEL = "grok-4"
 
 
@@ -21,7 +21,7 @@ def _load_prompt(date: str) -> str:
 
 def fetch_x_cardiology_posts(days_back: int = 1) -> list[dict[str, Any]]:
     """
-    Query Grok for cardiology X/Twitter posts using Chat Completions API with x_search tool.
+    Query Grok for cardiology X/Twitter posts using Responses API (Agent Tools) with x_search tool.
 
     Uses real-time X search (grok-4 + x_search) to return verifiable post URLs.
     Gracefully returns [] if XAI_API_KEY is not set.
@@ -53,10 +53,10 @@ def fetch_x_cardiology_posts(days_back: int = 1) -> list[dict[str, Any]]:
             },
             json={
                 "model": GROK_MODEL,
-                "messages": [{"role": "user", "content": prompt}],
-                "tools": [{"type": "live_search", "sources": [{"type": "x"}]}],
+                "input": [{"role": "user", "content": prompt}],
+                "tools": [{"type": "x_search"}],
                 "temperature": 0.1,
-                "max_tokens": 6000,
+                "max_output_tokens": 6000,
             },
             timeout=120,
         )
@@ -64,11 +64,16 @@ def fetch_x_cardiology_posts(days_back: int = 1) -> list[dict[str, Any]]:
         data = response.json()
         logger.info(f"Grok API response keys: {list(data.keys())}")
 
-        # Chat Completions API: choices[0].message.content
+        # Responses API: extract text from output[].content[].text
         raw = ""
-        choices = data.get("choices", [])
-        if choices:
-            raw = choices[0].get("message", {}).get("content", "") or ""
+        for item in data.get("output", []):
+            if item.get("type") == "message":
+                for block in item.get("content", []):
+                    if block.get("type") == "output_text":
+                        raw = block.get("text", "") or ""
+                        break
+            if raw:
+                break
 
         if not raw:
             logger.warning("No text output in Grok Responses API response")
