@@ -10,7 +10,7 @@ from typing import Any
 logger = logging.getLogger(__name__)
 
 GROK_API_URL = "https://api.x.ai/v1/responses"
-GROK_MODEL = "grok-4"
+GROK_MODEL = os.environ.get("GROK_MODEL", "grok-4")
 
 
 def _load_prompt(date: str) -> str:
@@ -77,6 +77,7 @@ def fetch_x_cardiology_posts(days_back: int = 1) -> list[dict[str, Any]]:
 
         if not raw:
             logger.warning("No text output in Grok Responses API response")
+            logger.warning(f"Raw response (first 1000 chars): {json.dumps(data)[:1000]}")
             return []
 
     except Exception as e:
