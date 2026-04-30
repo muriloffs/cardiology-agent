@@ -63,9 +63,6 @@
 
       <!-- Footer -->
       <div class="flex-shrink-0 p-4 border-t border-gray-200 flex gap-3 rounded-b-lg" style="padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 1rem)">
-        <DownloadButton
-          @download="$emit('download')"
-        />
         <a
           v-if="articleUrl"
           :href="articleUrl"
@@ -80,13 +77,12 @@
 
 <script setup>
 import { computed } from 'vue'
-import DownloadButton from './DownloadButton.vue'
 
 const props = defineProps({
   article: Object
 })
 
-defineEmits(['close', 'download'])
+defineEmits(['close'])
 
 const articleUrl = computed(() => {
   const l = props.article?.links

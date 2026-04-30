@@ -92,7 +92,6 @@
               :key="article.id"
               :article="article"
               @click="selectedArticle = article"
-              @download="handleDownload(article)"
             />
           </div>
         </div>
@@ -108,7 +107,6 @@
       v-if="selectedArticle"
       :article="selectedArticle"
       @close="selectedArticle = null"
-      @download="handleDownload(selectedArticle)"
     />
 
     <!-- X Discussion Detail Modal -->
@@ -118,16 +116,6 @@
       @close="selectedDiscussion = null"
     />
 
-    <!-- Download Toast -->
-    <div
-      v-if="downloadStatus"
-      :class="[
-        'fixed bottom-4 right-4 px-4 py-3 rounded-lg shadow-lg text-white',
-        downloadStatus.type === 'success' ? 'bg-green-500' : 'bg-red-500'
-      ]"
-    >
-      {{ downloadStatus.message }}
-    </div>
   </div>
 </template>
 
@@ -139,7 +127,7 @@ import ArticleCard from './components/ArticleCard.vue'
 import ArticleDetail from './components/ArticleDetail.vue'
 import XDiscussionCard from './components/XDiscussionCard.vue'
 import XDiscussionDetail from './components/XDiscussionDetail.vue'
-import { fetchLatestReport, fetchIndex, fetchReportByDate, downloadArticle } from './utils/api'
+import { fetchLatestReport, fetchIndex, fetchReportByDate } from './utils/api'
 
 const report = ref(null)
 const selectedArticle = ref(null)
@@ -147,7 +135,6 @@ const selectedDiscussion = ref(null)
 const selectedClass = ref('all')
 const selectedSource = ref('all')
 const searchQuery = ref('')
-const downloadStatus = ref(null)
 const loading = ref(false)
 const selectedXCategoria = ref('all')
 const availableDates = ref([])
@@ -207,33 +194,9 @@ async function loadReport() {
       currentDateIndex.value = 0
     }
   } catch (error) {
-    downloadStatus.value = {
-      type: 'error',
-      message: error.message
-    }
+    console.error('Failed to load report:', error)
   } finally {
     loading.value = false
-  }
-}
-
-async function handleDownload(article) {
-  downloadStatus.value = {
-    type: 'info',
-    message: '⏳ Baixando artigo...'
-  }
-
-  try {
-    const result = await downloadArticle(article.id, article.titulo, article.links.url)
-    downloadStatus.value = {
-      type: 'success',
-      message: `✅ PDF salvo no Drive: ${article.titulo.substring(0, 30)}...`
-    }
-    setTimeout(() => { downloadStatus.value = null }, 5000)
-  } catch (error) {
-    downloadStatus.value = {
-      type: 'error',
-      message: `❌ Erro ao baixar: ${error.message}`
-    }
   }
 }
 
