@@ -58,7 +58,7 @@ def fetch_x_cardiology_posts(days_back: int = 1) -> list[dict[str, Any]]:
                 "temperature": 0.1,
                 "max_output_tokens": 6000,
             },
-            timeout=120,
+            timeout=300,
         )
         response.raise_for_status()
         data = response.json()
