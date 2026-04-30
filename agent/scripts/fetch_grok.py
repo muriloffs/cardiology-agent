@@ -54,7 +54,7 @@ def fetch_x_cardiology_posts(days_back: int = 1) -> list[dict[str, Any]]:
             json={
                 "model": GROK_MODEL,
                 "messages": [{"role": "user", "content": prompt}],
-                "tools": [{"type": "live_search"}],
+                "tools": [{"type": "live_search", "sources": [{"type": "x"}]}],
                 "temperature": 0.1,
                 "max_tokens": 6000,
             },
