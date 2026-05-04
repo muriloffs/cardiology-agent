@@ -1,0 +1,637 @@
+{
+  "relatorio_data": "2026-05-03",
+  "gerado_em": "2026-05-03T12:00:00Z",
+  "resumo": {
+    "total_artigos": 24,
+    "tempo_leitura_minutos": 48,
+    "classe_a_count": 2,
+    "classe_b_count": 12,
+    "classe_c_count": 10
+  },
+  "discussoes_x": [
+    {
+      "id": "x_001",
+      "titulo": "ALONE-AF: Parar anticoagulação após ablação de FA não piora função cognitiva",
+      "autor": "@TCTMD",
+      "categoria": "sociedade",
+      "emoji": "🫀",
+      "classe": "A",
+      "score": 8.2,
+      "resumo": "O trial ALONE-AF, apresentado no HRS2026, demonstrou que descontinuar anticoagulação oral após um ano livre de recorrência de FA pós-ablação não compromete a função cognitiva. Resultado relevante para tomada de decisão sobre OAC de longo prazo.",
+      "impacto_clinico": "Permite descontinuação segura de OAC em pacientes selecionados pós-ablação bem-sucedida, reduzindo risco de sangramento sem prejuízo cognitivo, especialmente em idosos com baixo risco de recorrência.",
+      "links": {
+        "post_url": "https://x.com/TCTMD/status/2051050439420883237",
+        "url": "https://www.tctmd.com/news/alone-af-stopping-oac-after-ablation-doesnt-reduce-cognitive-function",
+        "doi": null,
+        "pubmed": null
+      }
+    },
+    {
+      "id": "x_002",
+      "titulo": "Aptidão cardiorrespiratória associada a maior longevidade e healthspan",
+      "autor": "@ACCinTouch",
+      "categoria": "sociedade",
+      "emoji": "📊",
+      "classe": "B",
+      "score": 7.0,
+      "resumo": "Estudo de coorte do Cooper Center Longitudinal Study mostra que maior aptidão cardiorrespiratória está associada a maior lifespan, healthspan e menor multimorbidade em ambos os sexos. Reforça o papel central do fitness na prevenção cardiovascular.",
+      "impacto_clinico": "Justifica prescrição estruturada de exercício para melhorar aptidão cardiorrespiratória como estratégia de prevenção primária de multimorbidade e prolongamento da saúde.",
+      "links": {
+        "post_url": "https://x.com/ACCinTouch/status/2050937946681880744",
+        "url": "https://www.acc.org/Latest-in-Cardiology/Journal-Scans/2026/04/22/11/23/Is-High-Cardiorespiratory-Fitness",
+        "doi": null,
+        "pubmed": null
+      }
+    },
+    {
+      "id": "x_003",
+      "titulo": "Impacto da PA sistólica e estratégia antitrombótica em FA com DAC estável (AFIRE)",
+      "autor": "@Hypertens_Res",
+      "categoria": "revista",
+      "emoji": "💊",
+      "classe": "B",
+      "score": 6.8,
+      "resumo": "Análise post-hoc do trial AFIRE avalia o impacto prognóstico da pressão arterial sistólica combinada à estratégia antitrombótica em pacientes com fibrilação atrial e doença arterial coronariana estável. Sugere que controle pressórico modula desfechos cardiovasculares.",
+      "impacto_clinico": "Reforça a necessidade de controle pressórico rigoroso ao definir estratégia antitrombótica (monoterapia vs. terapia combinada) em pacientes com FA e DAC estável.",
+      "links": {
+        "post_url": "https://x.com/Hypertens_Res/status/2050844374666494144",
+        "url": "https://www.nature.com/articles/s41440-025-02449-9",
+        "doi": null,
+        "pubmed": null
+      }
+    },
+    {
+      "id": "x_004",
+      "titulo": "Diagnóstico diferencial de IAM em pacientes idosos",
+      "autor": "@JACCJournals",
+      "categoria": "revista",
+      "emoji": "🩺",
+      "classe": "B",
+      "score": 6.2,
+      "resumo": "Discussão no JACC Case Reports sobre os desafios para distinguir infarto agudo do miocárdio de outras condições em idosos, devido a sintomas sobrepostos e fatores de risco compartilhados. Enfatiza a necessidade de raciocínio clínico amplo.",
+      "impacto_clinico": "Estimula abordagem multidisciplinar e amplo diagnóstico diferencial em idosos com dor torácica atípica para reduzir erros diagnósticos e otimizar manejo.",
+      "links": {
+        "post_url": "https://x.com/JACCJournals/status/2050973179456143712",
+        "url": "https://www.jacc.org/doi/10.1016/j.jaccas.2026.107619",
+        "doi": "10.1016/j.jaccas.2026.107619",
+        "pubmed": null
+      }
+    },
+    {
+      "id": "x_005",
+      "titulo": "GLP-1 RA e risco de transtornos alimentares: perspectiva NEJM",
+      "autor": "@NEJM",
+      "categoria": "revista",
+      "emoji": "💊",
+      "classe": "C",
+      "score": 5.5,
+      "resumo": "Perspectiva no NEJM discute potenciais associações entre uso de agonistas do receptor GLP-1 e transtornos alimentares, no contexto da expansão dessas drogas para obesidade e prevenção cardiovascular.",
+      "impacto_clinico": "Recomenda triagem e monitoramento de comportamentos alimentares disfuncionais em pacientes em terapia com GLP-1, balanceando benefícios cardiometabólicos.",
+      "links": {
+        "post_url": "https://x.com/NEJM/status/2051046663741915297",
+        "url": "https://www.nejm.org/doi/full/10.1056/NEJMp2600300",
+        "doi": "10.1056/NEJMp2600300",
+        "pubmed": null
+      }
+    },
+    {
+      "id": "x_006",
+      "titulo": "Risco cardiovascular elevado entre internistas indonésios",
+      "autor": "@JACCJournals",
+      "categoria": "revista",
+      "emoji": "📊",
+      "classe": "C",
+      "score": 4.8,
+      "resumo": "Estudo no JACC Asia revela alta prevalência de dislipidemia (85%), obesidade (61%) e risco ASCVD elevado (6%) entre internistas indonésios. Destaca paradoxo do autocuidado cardiovascular entre profissionais de saúde.",
+      "impacto_clinico": "Aponta necessidade de programas de saúde ocupacional voltados a médicos para mitigar risco cardiovascular nessa população.",
+      "links": {
+        "post_url": "https://x.com/JACCJournals/status/2050876038574436799",
+        "url": "https://www.jacc.org/doi/10.1016/j.jacasi.2025.09.024",
+        "doi": "10.1016/j.jacasi.2025.09.024",
+        "pubmed": null
+      }
+    }
+  ],
+  "artigos": [
+    {
+      "id": "art_001",
+      "titulo": "Effect of the cardiac myosin activator omecamtiv mecarbil on ventricular arrhythmias, cardiac arrest, and sudden death in heart failure with reduced ejection fraction: the GALACTIC-HF trial",
+      "publicacao": "European journal of heart failure",
+      "autores": [
+        "Foà A",
+        "Vaduganathan M",
+        "Claggett BL",
+        "Diaz R"
+      ],
+      "classe": "A",
+      "score": 8.5,
+      "categoria_fonte": "revista",
+      "emoji": "🫀",
+      "resumo": "Análise pré-especificada do GALACTIC-HF avaliou o efeito do omecamtiv mecarbil sobre arritmias ventriculares, parada cardíaca e morte súbita em ICFER. Os resultados informam o perfil de segurança arrítmica desse ativador da miosina cardíaca.",
+      "impacto_clinico": "Define o perfil de segurança arrítmica do omecamtiv mecarbil, dado fundamental para considerar seu papel terapêutico em pacientes com ICFER avançada e risco arrítmico elevado.",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41771140/",
+        "doi": "10.1093/ejhf/xuag023",
+        "pubmed": "41771140"
+      }
+    },
+    {
+      "id": "art_002",
+      "titulo": "Efficacy of finerenone in patients with heart failure and mildly reduced or preserved ejection fraction: a prespecified analysis of heart rate and heart rhythm in the FINEARTS-HF trial",
+      "publicacao": "European journal of heart failure",
+      "autores": [
+        "Chimura M",
+        "Jhund PS",
+        "Henderson AD",
+        "Claggett BL"
+      ],
+      "classe": "A",
+      "score": 8.2,
+      "categoria_fonte": "revista",
+      "emoji": "❤️",
+      "resumo": "Análise pré-especificada do FINEARTS-HF avaliou eficácia da finerenona conforme frequência cardíaca e ritmo (sinusal vs. FA) em pacientes com ICFEP/ICFEmr. Resultados consolidam o benefício do MRA não esteroidal em diferentes subgrupos.",
+      "impacto_clinico": "Apoia a finerenona como pilar terapêutico independentemente do ritmo cardíaco em ICFEP/ICFEmr, ampliando sua aplicabilidade na prática clínica diária.",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41771075/",
+        "doi": "10.1093/ejhf/xuag008",
+        "pubmed": "41771075"
+      }
+    },
+    {
+      "id": "art_003",
+      "titulo": "Cancer and heart failure: prevalence, incidence, and prognosis in Scotland",
+      "publicacao": "European heart journal",
+      "autores": [
+        "Iaconelli A",
+        "Morsy MI",
+        "Friday JM",
+        "Pellicori P"
+      ],
+      "classe": "B",
+      "score": 7.8,
+      "categoria_fonte": "revista",
+      "emoji": "📊",
+      "resumo": "Estudo populacional escocês descreve prevalência, incidência e prognóstico da coexistência entre câncer e insuficiência cardíaca. Fornece dados epidemiológicos robustos sobre esta interface clínica crescente.",
+      "impacto_clinico": "Reforça a necessidade de equipes cardio-oncológicas integradas e vigilância prognóstica reforçada em pacientes com IC e câncer concomitantes.",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42068332/",
+        "doi": "10.1093/eurheartj/ehag120",
+        "pubmed": "42068332"
+      }
+    },
+    {
+      "id": "art_004",
+      "titulo": "Magnitude of and outcome associated with inappropriate prescribing in heart failure with reduced ejection fraction: an analysis of 50 348 patients from the Swedish Heart Failure Registry",
+      "publicacao": "European journal of heart failure",
+      "autores": [
+        "El-Hadidi S",
+        "Lindberg F",
+        "Benson L",
+        "Uijl A"
+      ],
+      "classe": "B",
+      "score": 7.6,
+      "categoria_fonte": "revista",
+      "emoji": "💊",
+      "resumo": "Análise de mais de 50.000 pacientes do Swedish Heart Failure Registry quantifica a prescrição inadequada em ICFER e seus desfechos. Demonstra impacto significativo na morbidade e mortalidade.",
+      "impacto_clinico": "Realça a urgência de auditorias de prescrição e programas de stewardship farmacoterapêutico para reduzir desfechos adversos em ICFER no mundo real.",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41771119/",
+        "doi": "10.1093/ejhf/xuaf026",
+        "pubmed": "41771119"
+      }
+    },
+    {
+      "id": "art_005",
+      "titulo": "Mineralocorticoid receptor antagonists reduce new-onset atrial fibrillation across the cardio-kidney-metabolic spectrum: a meta-analysis of randomized clinical trials",
+      "publicacao": "European journal of heart failure",
+      "autores": [
+        "Marques P",
+        "Vasques-Nóvoa F",
+        "Zannad F",
+        "Rossignol P"
+      ],
+      "classe": "B",
+      "score": 7.5,
+      "categoria_fonte": "revista",
+      "emoji": "🫀",
+      "resumo": "Meta-análise de ensaios randomizados demonstra que antagonistas do receptor mineralocorticoide (MRA) reduzem a incidência de FA de novo em todo o espectro cardio-renal-metabólico. Reforça benefício pleiotrópico dos MRAs.",
+      "impacto_clinico": "Sustenta uso ampliado de MRA não apenas para IC e DRC, mas também como estratégia de prevenção primária de FA em pacientes de alto risco cardiometabólico.",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41771089/",
+        "doi": "10.1093/ejhf/xuaf009",
+        "pubmed": "41771089"
+      }
+    },
+    {
+      "id": "art_006",
+      "titulo": "Erythropoiesis-stimulating agents to reduce heart failure hospitalization: a systematic review and meta-analysis",
+      "publicacao": "European journal of heart failure",
+      "autores": [
+        "Bunting KV",
+        "Tica O",
+        "Champsi A",
+        "Perrett M"
+      ],
+      "classe": "B",
+      "score": 7.3,
+      "categoria_fonte": "revista",
+      "emoji": "🩺",
+      "resumo": "Revisão sistemática com meta-análise avalia o efeito de agentes estimuladores da eritropoiese (ESA) sobre hospitalização por IC. Sintetiza dados controversos sobre essa estratégia em pacientes anêmicos.",
+      "impacto_clinico": "Auxilia clínicos na decisão sobre o uso de ESA em IC anêmica, contextualizando risco-benefício e direcionando seleção mais criteriosa de pacientes.",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41771081/",
+        "doi": "10.1093/ejhf/xuaf012",
+        "pubmed": "41771081"
+      }
+    },
+    {
+      "id": "art_007",
+      "titulo": "Clinical impact of early changes in guideline-directed medical therapy after mitral valve transcatheter edge-to-edge repair",
+      "publicacao": "European journal of heart failure",
+      "autores": [
+        "Yoshida A",
+        "Yamamoto M",
+        "Nakazawa G",
+        "Mizutani K"
+      ],
+      "classe": "B",
+      "score": 7.2,
+      "categoria_fonte": "revista",
+      "emoji": "💉",
+      "resumo": "Estudo avalia impacto clínico das modificações precoces na terapia medicamentosa otimizada (GDMT) após TEER mitral. Mostra que ajuste pró-ativo da GDMT pós-procedimento influencia desfechos.",
+      "impacto_clinico": "Apoia manutenção e otimização ativa da GDMT após TEER mitral em vez de desescalonar, com possíveis ganhos em sobrevida e hospitalizações.",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41771141/",
+        "doi": "10.1093/ejhf/xuag005",
+        "pubmed": "41771141"
+      }
+    },
+    {
+      "id": "art_008",
+      "titulo": "SUBCUT HF II: rationale and design of a multicentre randomized controlled trial of SUBCUTaneous furosemide to support early discharge in patients admitted to hospital due to Heart Failure",
+      "publicacao": "European journal of heart failure",
+      "autores": [
+        "Campbell RT",
+        "Osmanska J",
+        "Docherty KF",
+        "Ahmed FZ"
+      ],
+      "classe": "B",
+      "score": 7.0,
+      "categoria_fonte": "revista",
+      "emoji": "💊",
+      "resumo": "Apresenta racional e desenho do SUBCUT HF II, ensaio multicêntrico randomizado avaliando furosemida subcutânea para suportar alta hospitalar precoce em IC descompensada. Pode redefinir transição para o ambulatório.",
+      "impacto_clinico": "Se positivo, viabilizará alta hospitalar mais precoce e diuréticos domiciliares parenterais, reduzindo permanência hospitalar e custos em IC.",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41771109/",
+        "doi": "10.1093/ejhf/xuaf018",
+        "pubmed": "41771109"
+      }
+    },
+    {
+      "id": "art_009",
+      "titulo": "The efficacy and safety of qiliqiangxin according to baseline ejection fraction in patients with heart failure and reduced ejection fraction in QUEST",
+      "publicacao": "European journal of heart failure",
+      "autores": [
+        "Shen L",
+        "Shen L",
+        "Cheang I",
+        "Yao W"
+      ],
+      "classe": "B",
+      "score": 6.8,
+      "categoria_fonte": "revista",
+      "emoji": "💊",
+      "resumo": "Análise do trial QUEST avalia eficácia e segurança do qiliqiangxin (composto de medicina tradicional chinesa) em ICFER conforme fração de ejeção basal. Fornece dados estratificados úteis para uso clínico.",
+      "impacto_clinico": "Auxilia decisão sobre incorporação do qiliqiangxin como terapia adjuvante em ICFER em contextos onde está disponível, com base em FE basal.",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41771073/",
+        "doi": "10.1093/ejhf/xuaf017",
+        "pubmed": "41771073"
+      }
+    },
+    {
+      "id": "art_010",
+      "titulo": "Short and long-term prognosis of hospitalization for dyspnoea based on aetiology and hospitalization ward: insights from the PARADISE cohort",
+      "publicacao": "European journal of heart failure",
+      "autores": [
+        "Baudry G",
+        "Lacomblez C",
+        "Bresso E",
+        "Monzo L"
+      ],
+      "classe": "B",
+      "score": 6.7,
+      "categoria_fonte": "revista",
+      "emoji": "📊",
+      "resumo": "Coorte PARADISE avalia prognóstico de curto e longo prazo de hospitalizações por dispneia conforme etiologia e enfermaria de internação. Destaca heterogeneidade prognóstica significativa.",
+      "impacto_clinico": "Auxilia triagem e direcionamento de pacientes com dispneia para enfermarias adequadas (cardiologia vs. clínica), com potencial impacto sobre desfechos.",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41771066/",
+        "doi": "10.1093/ejhf/xuaf027",
+        "pubmed": "41771066"
+      }
+    },
+    {
+      "id": "art_011",
+      "titulo": "Contemporary heart failure evidence in 2025: a joint summary of key trials from the European Journal of Heart Failure and ESC Heart Failure Journal",
+      "publicacao": "European journal of heart failure",
+      "autores": [
+        "Biegus J",
+        "Bayes-Genis A",
+        "von Haehling S",
+        "Kosmala W"
+      ],
+      "classe": "B",
+      "score": 6.6,
+      "categoria_fonte": "revista",
+      "emoji": "📰",
+      "resumo": "Sumário conjunto consolida os principais ensaios em IC publicados em 2025 nas revistas EJHF e ESC HF Journal. Oferece visão integrada das evoluções terapêuticas recentes.",
+      "impacto_clinico": "Material de referência para atualização rápida do clínico sobre o estado da arte em IC, apoiando incorporação das evidências mais recentes à prática.",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41771104/",
+        "doi": "10.1093/ejhf/xuag015",
+        "pubmed": "41771104"
+      }
+    },
+    {
+      "id": "art_012",
+      "titulo": "Digitalis - back on centre stage for HFrEF",
+      "publicacao": "European journal of heart failure",
+      "autores": [
+        "Bauersachs J",
+        "Savarese G",
+        "Böhm M",
+        "Anker SD"
+      ],
+      "classe": "B",
+      "score": 6.5,
+      "categoria_fonte": "revista",
+      "emoji": "💊",
+      "resumo": "Editorial reavalia o papel da digital na ICFER moderna à luz de evidências recentes, sugerindo possível ressurgimento desta terapia clássica em pacientes selecionados.",
+      "impacto_clinico": "Estimula reconsideração da digital em ICFER refratária ou com FA, reposicionando-a como opção em arsenal terapêutico individualizado.",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41771064/",
+        "doi": "10.1093/ejhf/xuaf002",
+        "pubmed": "41771064"
+      }
+    },
+    {
+      "id": "art_013",
+      "titulo": "Congestion in acute heart failure: a moving target in transition",
+      "publicacao": "European journal of heart failure",
+      "autores": [
+        "Rakisheva A",
+        "Biegus J",
+        "Chioncel O"
+      ],
+      "classe": "B",
+      "score": 6.4,
+      "categoria_fonte": "revista",
+      "emoji": "❤️",
+      "resumo": "Revisão discute o conceito dinâmico de congestão na IC aguda e durante a transição hospital-ambulatório. Destaca a necessidade de avaliação multimodal e contínua.",
+      "impacto_clinico": "Orienta o clínico a usar múltiplas ferramentas (clínica, biomarcadores, US pulmonar) para detectar congestão residual e prevenir reinternações.",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41771113/",
+        "doi": "10.1093/ejhf/xuaf013",
+        "pubmed": "41771113"
+      }
+    },
+    {
+      "id": "art_014",
+      "titulo": "Finerenone across the HFpEF and HFmrEF spectrum: a step towards multi-pillar care?",
+      "publicacao": "European journal of heart failure",
+      "autores": [
+        "Merlo M",
+        "Soranzo E",
+        "Sinagra G"
+      ],
+      "classe": "B",
+      "score": 6.3,
+      "categoria_fonte": "revista",
+      "emoji": "❤️",
+      "resumo": "Editorial discute o posicionamento da finerenona como pilar terapêutico em ICFEP e ICFEmr à luz dos dados do FINEARTS-HF. Sugere caminho para terapia multi-pilar análoga à ICFER.",
+      "impacto_clinico": "Apoia construção de um esquema multi-pilar (SGLT2i + finerenona + GLP-1 RA) em ICFEP, transformando o manejo dessa população historicamente subtratada.",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41771065/",
+        "doi": "10.1093/ejhf/xuaf021",
+        "pubmed": "41771065"
+      }
+    },
+    {
+      "id": "art_015",
+      "titulo": "Evidence-based medical therapy after structural interventions: when remaining proactive for heart failure medications can save lives",
+      "publicacao": "European journal of heart failure",
+      "autores": [
+        "Yilmaz MB",
+        "Metra M"
+      ],
+      "classe": "B",
+      "score": 6.2,
+      "categoria_fonte": "revista",
+      "emoji": "💉",
+      "resumo": "Editorial argumenta que GDMT deve ser mantida e otimizada — não desescalonada — após intervenções estruturais valvares. Sustenta postura pró-ativa pós-procedimento.",
+      "impacto_clinico": "Reforça que pacientes pós-TEER, TAVI e outras intervenções estruturais permaneçam em GDMT plena, com ganhos potenciais em sobrevida.",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41771149/",
+        "doi": "10.1093/ejhf/xuag001",
+        "pubmed": "41771149"
+      }
+    },
+    {
+      "id": "art_016",
+      "titulo": "AI-echocardiography: an eagle eye for the prognostic staging of ATTR cardiomyopathy",
+      "publicacao": "European journal of heart failure",
+      "autores": [
+        "Kaufmann BA",
+        "Giannitsis E",
+        "Kuster GM"
+      ],
+      "classe": "B",
+      "score": 6.1,
+      "categoria_fonte": "revista",
+      "emoji": "🩻",
+      "resumo": "Editorial aborda o papel da ecocardiografia assistida por IA no estadiamento prognóstico da cardiomiopatia ATTR. Destaca acurácia superior em fenotipagem e prognóstico.",
+      "impacto_clinico": "Sugere incorporação de IA em ecocardiografia para estadiamento prognóstico da amiloidose ATTR, refinando seleção para tafamidis e outras terapias.",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41771142/",
+        "doi": "10.1093/ejhf/xuag006",
+        "pubmed": "41771142"
+      }
+    },
+    {
+      "id": "art_017",
+      "titulo": "From Mechanics to Mitochondria: Dyssynchronous Heart Failure as an Energetic Disease",
+      "publicacao": "European journal of heart failure",
+      "autores": [
+        "Hohendanner F",
+        "Shah AM",
+        "Van Linthout S"
+      ],
+      "classe": "C",
+      "score": 5.8,
+      "categoria_fonte": "revista",
+      "emoji": "🔬",
+      "resumo": "Revisão propõe a IC dissincrônica como doença energético-mitocondrial, integrando mecânica e bioenergética. Reúne evidências fisiopatológicas para reposicionamento conceitual.",
+      "impacto_clinico": "Pode embasar novas estratégias terapêuticas voltadas à função mitocondrial em pacientes candidatos ou respondedores à TRC.",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42068239/",
+        "doi": "10.1093/ejhf/xuag135",
+        "pubmed": "42068239"
+      }
+    },
+    {
+      "id": "art_018",
+      "titulo": "Erythropoiesis-stimulating agents in anaemic patients with HF-a lost cause?",
+      "publicacao": "European journal of heart failure",
+      "autores": [
+        "Anker MS",
+        "Khan MS",
+        "Friede T",
+        "Cleland JGF"
+      ],
+      "classe": "C",
+      "score": 5.7,
+      "categoria_fonte": "revista",
+      "emoji": "💊",
+      "resumo": "Editorial questiona o futuro dos agentes estimuladores da eritropoiese em pacientes anêmicos com IC à luz das evidências atuais. Discute lições e oportunidades para reposicionamento.",
+      "impacto_clinico": "Orienta o clínico a abandonar uso indiscriminado de ESA em IC e priorizar ferro IV em casos com deficiência de ferro documentada.",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41771072/",
+        "doi": "10.1093/ejhf/xuag010",
+        "pubmed": "41771072"
+      }
+    },
+    {
+      "id": "art_019",
+      "titulo": "The Dyspnea Clinic: a new emerging interdisciplinary medical concept",
+      "publicacao": "European journal of heart failure",
+      "autores": [
+        "Breyer-Kohansal R",
+        "Tomasoni D",
+        "Haring B"
+      ],
+      "classe": "C",
+      "score": 5.6,
+      "categoria_fonte": "revista",
+      "emoji": "🩺",
+      "resumo": "Artigo conceitual propõe a 'Clínica de Dispneia' como modelo interdisciplinar para abordagem diagnóstica e terapêutica integrada da dispneia crônica.",
+      "impacto_clinico": "Modelo replicável que pode reduzir tempo até diagnóstico em pacientes com dispneia inexplicada e otimizar manejo de IC, DPOC e doenças mistas.",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41771118/",
+        "doi": "10.1093/ejhf/xuaf005",
+        "pubmed": "41771118"
+      }
+    },
+    {
+      "id": "art_020",
+      "titulo": "Possible ways of building trial-level evidence for heart failure therapies in cardiac amyloidosis",
+      "publicacao": "European journal of heart failure",
+      "autores": [
+        "Aimo A",
+        "Tomasoni D",
+        "Fontana M"
+      ],
+      "classe": "C",
+      "score": 5.5,
+      "categoria_fonte": "revista",
+      "emoji": "🧬",
+      "resumo": "Editorial propõe estratégias metodológicas para gerar evidências de ensaios clínicos sobre terapias de IC em amiloidose cardíaca, doença historicamente excluída de grandes trials.",
+      "impacto_clinico": "Caminhos delineados podem viabilizar futuros trials específicos para amiloidose cardíaca, reduzindo extrapolações inadequadas da literatura geral de IC.",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41771096/",
+        "doi": "10.1093/ejhf/xuag019",
+        "pubmed": "41771096"
+      }
+    },
+    {
+      "id": "art_021",
+      "titulo": "When a single ratio illuminates the grey zone: the prognostic value of neutrophil-to-lymphocyte ratio across the cardiovascular spectrum",
+      "publicacao": "European journal of heart failure",
+      "autores": [
+        "Mapelli M",
+        "Salvioni E",
+        "Campodonico J",
+        "Agostoni P"
+      ],
+      "classe": "C",
+      "score": 5.3,
+      "categoria_fonte": "revista",
+      "emoji": "🔬",
+      "resumo": "Editorial revisa o valor prognóstico da razão neutrófilo-linfócito (NLR) em todo o espectro cardiovascular. Destaca utilidade como biomarcador inflamatório acessível.",
+      "impacto_clinico": "Apoia incorporação da NLR como biomarcador prognóstico de baixo custo em estratificação de risco cardiovascular ambulatorial.",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41771093/",
+        "doi": "10.1093/ejhf/xuaf029",
+        "pubmed": "41771093"
+      }
+    },
+    {
+      "id": "art_022",
+      "titulo": "Reference Standards for Blood Pressure Response During Peak Exercise in Pediatric Patients with Structurally Normal Hearts",
+      "publicacao": "Pediatric cardiology",
+      "autores": [
+        "Kutrzuba KS",
+        "Wang AP",
+        "Griffith GJ",
+        "Ward KM"
+      ],
+      "classe": "C",
+      "score": 5.0,
+      "categoria_fonte": "revista",
+      "emoji": "📊",
+      "resumo": "Estudo estabelece valores de referência para resposta pressórica em pico de exercício em pacientes pediátricos com corações estruturalmente normais. Lacuna importante na cardiologia pediátrica preventiva.",
+      "impacto_clinico": "Fornece percentis normativos que apoiam interpretação adequada de testes ergométricos pediátricos e identificação precoce de respostas hipertensivas.",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42068338/",
+        "doi": "10.1007/s00246-026-04282-4",
+        "pubmed": "42068338"
+      }
+    },
+    {
+      "id": "art_023",
+      "titulo": "Child Opportunity Index and Prevalence of Obesity and Hypertension in Adolescents with Congenital Heart Disease",
+      "publicacao": "Pediatric cardiology",
+      "autores": [
+        "Tran AH",
+        "Dusza PR",
+        "Alexander R",
+        "Alvarado C"
+      ],
+      "classe": "C",
+      "score": 4.9,
+      "categoria_fonte": "revista",
+      "emoji": "📊",
+      "resumo": "Estudo correlaciona o Child Opportunity Index (índice de determinantes sociais) com prevalência de obesidade e HAS em adolescentes com cardiopatia congênita. Destaca disparidades sociais em saúde cardiovascular pediátrica.",
+      "impacto_clinico": "Identifica adolescentes em áreas de baixa oportunidade como grupo prioritário para intervenções preventivas em obesidade e HAS pós-cardiopatia congênita.",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42068340/",
+        "doi": "10.1007/s00246-026-04272-6",
+        "pubmed": "42068340"
+      }
+    },
+    {
+      "id": "art_024",
+      "titulo": "The Value of Inter-Lesion Time in Linear Lesion Formation Across Varying Catheter Angles and Inter-Lesion Distances",
+      "publicacao": "Pacing and clinical electrophysiology (PACE)",
+      "autores": [
+        "Matsui Y",
+        "Higuchi S",
+        "Kataoka S",
+        "Sakai M"
+      ],
+      "classe": "C",
+      "score": 4.7,
+      "categoria_fonte": "revista",
+      "emoji": "🫀",
+      "resumo": "Estudo experimental avalia a importância do tempo entre lesões em formação de lesões lineares em ablação, variando ângulo do cateter e distância entre lesões. Refinamento técnico relevante para EP.",
+      "impacto_clinico": "Pode otimizar protocolos de ablação linear, melhorando continuidade da lesão e reduzindo recorrência arrítmica em FA e flutter.",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42068146/",
+        "doi": "10.1111/pace.70272",
+        "pubmed": "42068146"
+      }
+    }
+  ]
+}
