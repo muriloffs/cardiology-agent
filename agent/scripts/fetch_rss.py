@@ -51,14 +51,8 @@ RSS_FEEDS = [
         "emoji": "📝",
     },
     {
-        "url": "https://drsingh.substack.com/feed",
-        "source": "Dr. Singh (Preventive Cardiology)",
-        "categoria": "substack",
-        "emoji": "📝",
-    },
-    {
-        "url": "https://preventivecardiology.substack.com/feed",
-        "source": "Preventive Cardiology Newsletter",
+        "url": "https://johnmandrola.substack.com/feed",
+        "source": "John Mandrola (EBM Commentary)",
         "categoria": "substack",
         "emoji": "📝",
     },
