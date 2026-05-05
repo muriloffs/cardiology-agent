@@ -137,6 +137,31 @@ Return EXACTLY this JSON structure (no markdown, no text before/after):
       }
     }
   ],
+  "podcasts": [
+    {
+      "id": "pod_001",
+      "titulo": "Exact episode title from provided podcast data",
+      "publicacao": "Podcast show name (e.g. 'This Week in Cardiology (Mandrola)')",
+      "host": "Host name from provided data",
+      "classe": "B",
+      "score": 7.0,
+      "categoria_fonte": "podcast",
+      "emoji": "🎙️",
+      "resumo": "2-3 sentences in Portuguese describing what this episode covers and why a cardiologist should listen.",
+      "bullet_points": [
+        "Tópico 1 — síntese de 1 frase do que foi discutido",
+        "Tópico 2 — síntese de 1 frase",
+        "Tópico 3 — síntese de 1 frase",
+        "Tópico 4 — síntese de 1 frase (opcional)",
+        "Tópico 5 — síntese de 1 frase (opcional)"
+      ],
+      "impacto_clinico": "What practical takeaway or area of update this episode delivers. Em português.",
+      "links": {
+        "episode_url": "https://podcast-episode-url.com",
+        "audio_url": "https://...mp3 or null"
+      }
+    }
+  ],
   "artigos": [
     {
       "id": "art_001",
@@ -165,6 +190,18 @@ Return EXACTLY this JSON structure (no markdown, no text before/after):
 - Never invent url, doi, or pubmed — use null if not provided in the source data
 - Score uses same scale as artigos (A: 8-10, B: 6-7.9, C: 4-5.9)
 
+**`podcasts` rules:**
+- Only include if `source: podcast` items were provided
+- If no podcast sources were provided, omit the `podcasts` field entirely
+- One entry per episode — do not split a single episode into multiple entries
+- `bullet_points`: 3-5 items extracted FROM THE SHOW NOTES. Each is one Portuguese sentence summarizing a topic the episode covers. If show notes are sparse, fall back to the episode title (1-2 bullets is acceptable).
+- `episode_url` must be the real URL provided. `audio_url` may be null if not provided.
+- Classification for podcasts:
+  - **A**: Episode covers a practice-changing trial, new guideline, or hot topic relevant TODAY
+  - **B**: Standard educational content, journal review, expert interview
+  - **C**: General/foundational content, less time-sensitive
+- Score uses same scale as artigos (A: 8-10, B: 6-7.9, C: 4-5.9)
+
 ---
 
 ## Emoji Guide by Topic
@@ -185,7 +222,7 @@ Return EXACTLY this JSON structure (no markdown, no text before/after):
 ## Rules
 
 1. Only use articles from the provided list — no hallucination
-2. `discussoes_x`: up to 30 items (twitter only, generated FIRST); `noticias`: up to 15 items (RSS only); `artigos`: up to 30 items (PubMed only, generated LAST)
+2. `discussoes_x`: up to 30 items (twitter only, generated FIRST); `noticias`: up to 15 items (RSS only); `podcasts`: up to 10 items (podcast only); `artigos`: up to 30 items (PubMed only, generated LAST)
 3. Sort `artigos` by score descending — highest score first
 4. All links must use the real URLs provided — never invent DOI, PubMed, or post URLs
 5. Score must match class (A: 8-10, B: 6-7.9, C: 4-5.9)
@@ -194,5 +231,6 @@ Return EXACTLY this JSON structure (no markdown, no text before/after):
 8. Titles, journal names, and author names stay in original language
 9. If no RSS sources provided, omit `noticias` field entirely
 10. If no twitter sources provided, omit `discussoes_x` field entirely
+11. If no podcast sources provided, omit `podcasts` field entirely
 
 Start your response with `{` — no preamble, no markdown fences.

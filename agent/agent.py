@@ -13,6 +13,7 @@ from agent.parser import parse_report, ParsingError
 from agent.scripts.fetch_articles import fetch_recent_cardiology_articles
 from agent.scripts.fetch_rss import fetch_all_rss
 from agent.scripts.fetch_grok import fetch_x_cardiology_posts
+from agent.scripts.fetch_podcasts import fetch_all_podcasts
 
 
 # Configure logging for GitHub Actions diagnostics
@@ -74,14 +75,21 @@ class CardologyAgent:
         grok_articles = fetch_x_cardiology_posts(days_back=1)
         logger.info(f"Grok/X: {len(grok_articles)} posts")
 
+        # Step 4: Fetch recent cardiology podcast episodes (7-day window — podcasts are weekly)
+        logger.info("Fetching cardiology podcast episodes...")
+        podcast_episodes = fetch_all_podcasts(days_back=7)
+        logger.info(f"Podcasts: {len(podcast_episodes)} episodes")
+
         for a in pubmed_articles:
             a["source_type"] = "pubmed"
         for a in rss_articles:
             a["source_type"] = "rss"
         for a in grok_articles:
             a["source_type"] = "twitter"
+        for a in podcast_episodes:
+            a["source_type"] = "podcast"
 
-        articles = pubmed_articles + rss_articles + grok_articles
+        articles = pubmed_articles + rss_articles + grok_articles + podcast_episodes
 
         if not articles:
             raise RuntimeError("No articles fetched from any source. Cannot generate report.")
@@ -151,10 +159,18 @@ class CardologyAgent:
             lines.append(f"Journal/Source: {a['publicacao']}")
             if a.get("autores"):
                 lines.append(f"Authors: {', '.join(a['autores'][:4])}")
+            if a.get("host"):
+                lines.append(f"Host: {a['host']}")
             lines.append(f"Published: {a['data_publicacao']}")
             if a.get("abstract"):
-                lines.append(f"Abstract: {a['abstract'][:600]}")
-            lines.append(f"URL: {a['pubmed_url']}")
+                # Podcasts get more abstract chars (richer show notes); others get 600
+                abstract_limit = 1500 if source_type == "podcast" else 600
+                lines.append(f"Show Notes/Abstract: {a['abstract'][:abstract_limit]}")
+            url = a.get("pubmed_url") or a.get("episode_url") or ""
+            if url:
+                lines.append(f"URL: {url}")
+            if a.get("audio_url"):
+                lines.append(f"Audio URL: {a['audio_url']}")
             if a.get("doi_url"):
                 lines.append(f"DOI: {a['doi']}")
                 lines.append(f"DOI URL: {a['doi_url']}")

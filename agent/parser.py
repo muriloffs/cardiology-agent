@@ -137,6 +137,19 @@ def _validate(report: Dict[str, Any]) -> None:
                 pass
         report['discussoes_x'] = valid_x
 
+    # Validate podcasts (optional field) — drop incomplete items silently
+    if 'podcasts' in report:
+        if not isinstance(report['podcasts'], list):
+            raise ParsingError("Field 'podcasts' must be a list")
+        valid_podcasts = []
+        for i, item in enumerate(report['podcasts']):
+            try:
+                _validate_podcast(item, context=f"podcasts[{i}]")
+                valid_podcasts.append(item)
+            except ParsingError:
+                pass
+        report['podcasts'] = valid_podcasts
+
 
 def _validate_resumo(resumo: Dict[str, Any]) -> None:
     """Validate resumo (summary) object."""
@@ -229,6 +242,52 @@ def _validate_x_discussion(item: Dict[str, Any], context: str) -> None:
             item['aplicabilidade_brasil'] = ''
 
     _validate_x_links(item['links'], context)
+
+
+def _validate_podcast(item: Dict[str, Any], context: str) -> None:
+    """Validate a single podcasts item."""
+    if not isinstance(item, dict):
+        raise ParsingError(f"Field '{context}' must be a dictionary")
+
+    required_fields = {'id', 'titulo', 'publicacao', 'classe', 'score', 'resumo', 'impacto_clinico', 'links'}
+    missing = required_fields - set(item.keys())
+    if missing:
+        raise ParsingError(f"Field '{context}' missing required fields: {', '.join(sorted(missing))}")
+
+    for field in ['id', 'titulo', 'publicacao', 'resumo', 'impacto_clinico']:
+        _require_non_empty_string(item[field], f"{context}.{field}")
+
+    if isinstance(item['score'], bool):
+        raise ParsingError(f"Field '{context}.score' must be a number, not boolean")
+    if not isinstance(item['score'], (int, float)):
+        raise ParsingError(f"Field '{context}.score' must be a number")
+
+    _validate_score_classe(item['score'], item['classe'], context)
+
+    # bullet_points: optional, default empty list, must be list of strings
+    if 'bullet_points' not in item or not isinstance(item.get('bullet_points'), list):
+        item['bullet_points'] = []
+    item['bullet_points'] = [str(b).strip() for b in item['bullet_points'] if b and str(b).strip()][:5]
+
+    # host: optional string
+    if 'host' not in item or not isinstance(item.get('host'), str):
+        item['host'] = ''
+
+    # emoji: default if missing
+    if not item.get('emoji'):
+        item['emoji'] = '🎙️'
+
+    if not item.get('categoria_fonte'):
+        item['categoria_fonte'] = 'podcast'
+
+    # Validate links — must have episode_url
+    links = item['links']
+    if not isinstance(links, dict):
+        raise ParsingError(f"Field '{context}.links' must be a dictionary")
+    if not links.get('episode_url'):
+        raise ParsingError(f"Field '{context}.links.episode_url' is required")
+    if 'audio_url' not in links:
+        links['audio_url'] = None
 
 
 def _validate_x_links(links: Dict[str, Any], context: str) -> None:
