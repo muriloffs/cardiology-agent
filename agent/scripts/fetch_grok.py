@@ -131,10 +131,19 @@ def _parse_grok_response(raw: str, date: str) -> list[dict[str, Any]]:
         if classe:
             abstract_parts.append(f"[Classe sugerida pelo Grok: {classe}]")
 
+        # Author handling: support both new schema (autor: string) and legacy (autores: list)
+        autores = post.get("autores")
+        if not autores:
+            autor = post.get("autor", "").strip()
+            autores = [autor] if autor else []
+
+        # Publicacao defaults to first handle if not provided
+        publicacao = post.get("publicacao") or (autores[0] if autores else "X/Twitter")
+
         articles.append({
             "titulo": titulo,
-            "publicacao": post.get("publicacao", "X/Twitter"),
-            "autores": post.get("autores", []),
+            "publicacao": publicacao,
+            "autores": autores,
             "data_publicacao": date,
             "abstract": " | ".join(abstract_parts),
             "pubmed_url": post_url or article_url or "",
