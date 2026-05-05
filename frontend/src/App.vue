@@ -39,6 +39,19 @@
       </div>
     </section>
 
+    <!-- Podcasts Section -->
+    <section v-if="report?.podcasts?.length" class="px-4 py-8 max-w-6xl mx-auto border-t border-gray-100">
+      <h2 class="text-2xl font-bold mb-1">🎙️ Podcasts da Semana</h2>
+      <p class="text-sm text-gray-500 mb-4">{{ report.podcasts.length }} episódios recentes de cardiologia</p>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <PodcastCard
+          v-for="podcast in report.podcasts"
+          :key="podcast.id"
+          :podcast="podcast"
+        />
+      </div>
+    </section>
+
     <!-- X/Twitter Discussions -->
     <section v-if="report?.discussoes_x?.length" class="px-4 py-8 max-w-6xl mx-auto border-t border-gray-100">
       <h2 class="text-2xl font-bold mb-1">𝕏 Discussões no X</h2>
@@ -127,6 +140,7 @@ import ArticleCard from './components/ArticleCard.vue'
 import ArticleDetail from './components/ArticleDetail.vue'
 import XDiscussionCard from './components/XDiscussionCard.vue'
 import XDiscussionDetail from './components/XDiscussionDetail.vue'
+import PodcastCard from './components/PodcastCard.vue'
 import { fetchLatestReport, fetchIndex, fetchReportByDate } from './utils/api'
 
 const report = ref(null)
