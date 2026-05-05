@@ -15,32 +15,13 @@ From the articles provided, select and classify:
 - Only articles tagged as `source: rss` (TCTMD, Healio, Substacks) — most clinically relevant only
 - Omit this field entirely if no RSS articles were provided or none meet Classe C threshold
 
-**`discussoes_x` array — 15 to 25 items (curated from raw twitter candidates):**
-
-You will receive a broad list of X/Twitter post candidates (typically 30-40) from the upstream Grok search. **Your job is curation, not just filtering.** Apply these rules in strict order:
-
-**1. Diversity rules (HARD — never violate):**
-- **Maximum 2 posts per handle.** If 4 posts from @TCTMD are provided, pick the 2 most clinically relevant. Drop the rest.
-- **Minimum 12 distinct handles** in the final output. If you only have 8 handles after picking, you're cutting too aggressively from one source — keep more variety.
-
-**2. Distribution targets (SOFT — best effort):**
-- Specialists (`categoria: especialista`): aim for 30-50% (~5-12 posts)
-- Journals (`categoria: revista`): aim for 25-40% (~4-10 posts)
-- Societies (`categoria: sociedade`): aim for 15-30% (~3-7 posts)
-
-**3. Categoria assignment by author profile:**
-- `"especialista"` — individual physicians, researchers, opinion leaders (@EricTopol, @drjohnm, @deepakbhatt1, @hmkyale, @MarthaGulati, etc.)
-- `"revista"` — journal/publication accounts (@NEJM, @CircAHA, @JACCJournals, @JAMACardio, @TheLancet, etc.)
-- `"sociedade"` — medical society accounts (@ACCinTouch, @American_Heart, @escardio, @HRSonline, @cardiol_br, @SOCESP, @TCTMD)
-
-**4. Final count target: 15-25 posts.** Quality and diversity over quantity. If you only have 15 truly distinct/diverse posts, return 15 — don't pad with redundant content. If you have 25 well-distributed candidates, return 25.
-
-**5. Class assignment:**
-- `"A"` (8-10): post about practice-changing trial, new guideline, FDA approval/recall
-- `"B"` (6-7.9): expert commentary with substance, secondary analyses, methodology critique
-- `"C"` (4-5.9): general updates, conference reactions, conceptual discussions
-
-**6. Specialists without external link are VALID** — if @drjohnm posts a substantive comment about a recent trial without including a link, include it. Don't penalize Categoria 2 (specialist commentary).
+**`discussoes_x` array — up to 30 items (only if `source: twitter` articles are provided):**
+- Select the most clinically relevant X/Twitter posts from the provided list
+- Focus on: debates between specialists, links to new studies, guideline discussions
+- Assign `categoria` to each post based on the author profile:
+  - `"especialista"` — individual physicians, researchers, opinion leaders (e.g. @EricTopol, @drjohnm)
+  - `"revista"` — journal accounts (e.g. @NEJM, @CircAHA, @JACCJournals)
+  - `"sociedade"` — medical society accounts (e.g. @ACCinTouch, @escardio, @cardiol_br)
 
 You are NOT inventing articles — only work with what is provided. If fewer articles are available, include all that meet at least Classe C threshold.
 
