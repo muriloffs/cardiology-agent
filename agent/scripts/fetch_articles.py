@@ -12,6 +12,47 @@ PUBMED_BASE = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils"
 
 # Exact journals from the curated list, mapped to their PubMed standard names.
 # Journals not indexed in PubMed (Medscape, CardioSource, ACC News) are omitted.
+# Publication types that signal high impact — keep regardless of journal
+PRIORITY_PUBTYPES = frozenset([
+    "Randomized Controlled Trial",
+    "Clinical Trial",
+    "Clinical Trial, Phase III",
+    "Clinical Trial, Phase IV",
+    "Practice Guideline",
+    "Guideline",
+    "Meta-Analysis",
+    "Systematic Review",
+    "Consensus Development Conference",
+    "Multicenter Study",
+])
+
+# Publication types that signal low impact — drop unless top-tier journal
+JUNK_PUBTYPES = frozenset([
+    "Letter",
+    "Comment",
+    "Editorial",
+    "News",
+    "Newspaper Article",
+    "Published Erratum",
+    "Retraction of Publication",
+    "Retracted Publication",
+    "Biography",
+    "Obituary",
+])
+
+# Top-tier cardiology journals — always keep, even letters/editorials are noteworthy here
+TOP_TIER_JOURNALS = frozenset([
+    "Nat Rev Cardiol",
+    "Circulation",
+    "Eur Heart J",
+    "J Am Coll Cardiol",
+    "JACC Cardiovasc Interv",
+    "JACC Heart Fail",
+    "JACC Cardiovasc Imaging",
+    "Lancet Cardiol",
+    "JAMA Cardiol",
+])
+
 CARDIOLOGY_JOURNALS = [
     "Nat Rev Cardiol",                  # Nature Reviews Cardiology
     "Circulation",                      # Circulation
@@ -143,6 +184,8 @@ def fetch_summaries(pmids: list[str]) -> list[dict[str, Any]]:
             "doi": doi,
             "pubmed_url": f"https://pubmed.ncbi.nlm.nih.gov/{pmid}/",
             "doi_url": f"https://doi.org/{doi}" if doi else None,
+            "_journal_short": item.get("source", ""),  # internal: for quality filter
+            "_pubtype": list(item.get("pubtype", [])),  # internal: for quality filter
         })
 
     # Filter out articles older than 60 days (exclude truly stale entries)
@@ -209,25 +252,71 @@ def _filter_by_date(articles: list, max_days: int = 14) -> list:
     return result
 
 
+def _is_high_quality(article: dict) -> bool:
+    """
+    Apply heuristic filter to keep likely Class A/B candidates and drop low-impact content.
+
+    Rules (in priority order):
+    1. Top-tier journal → always keep (even letters can be impactful here)
+    2. Has priority pubtype (RCT, Guideline, Meta-Analysis, etc.) → always keep
+    3. Has only junk pubtypes (Letter, Editorial, Comment) without priority signal → drop
+    4. Otherwise → keep (let Claude decide)
+    """
+    pubtypes = set(article.get("_pubtype", []))
+    journal = article.get("_journal_short", "")
+
+    # Always keep top-tier journals
+    if journal in TOP_TIER_JOURNALS:
+        return True
+
+    # Always keep articles with priority publication type signals
+    if pubtypes & PRIORITY_PUBTYPES:
+        return True
+
+    # Drop letters/editorials/comments from non-top-tier journals
+    if pubtypes & JUNK_PUBTYPES:
+        return False
+
+    # Default: keep — let Claude decide
+    return True
+
+
 def fetch_recent_cardiology_articles(days_back: int = 1) -> list[dict[str, Any]]:
     """
     Main entry point. Returns real articles from the curated journal list,
-    published in the last N days.
+    published in the last N days, filtered to keep likely A/B candidates.
+
+    Strategy:
+    1. Fetch up to 200 PMIDs from PubMed (cheap — single API call)
+    2. Filter aggressively (drop letters/editorials from non-top-tier journals)
+    3. Cap final result at 100 to keep Claude prompt reasonable
     Falls back to 2-day window if today has fewer than 30 results.
     """
     logger.info(f"Searching {len(CARDIOLOGY_JOURNALS)} curated journals — last {days_back} day(s)...")
-    pmids = search_pubmed(days_back=days_back, max_results=80)
+    pmids = search_pubmed(days_back=days_back, max_results=200)
 
     if len(pmids) < 30:
         logger.warning(f"Only {len(pmids)} results for {days_back}d. Extending to 2 days.")
-        pmids = search_pubmed(days_back=2, max_results=80)
+        pmids = search_pubmed(days_back=2, max_results=200)
 
     if not pmids:
         logger.error("No results from curated journals.")
         return []
 
     time.sleep(0.4)
-    return fetch_summaries(pmids)
+    raw_articles = fetch_summaries(pmids)
+
+    # Quality filter: drop letters/editorials/comments unless from top-tier journal
+    filtered = [a for a in raw_articles if _is_high_quality(a)]
+    dropped = len(raw_articles) - len(filtered)
+    logger.info(f"Quality filter: kept {len(filtered)}, dropped {dropped} (low-impact pubtypes)")
+
+    # Cap at 100 to bound Claude input tokens (relevance-sorted by PubMed)
+    if len(filtered) > 100:
+        logger.info(f"Capping at top 100 of {len(filtered)} (PubMed relevance order)")
+        filtered = filtered[:100]
+
+    return filtered
 
 
 if __name__ == "__main__":
