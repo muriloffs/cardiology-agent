@@ -202,7 +202,7 @@ def _validate_article(article: Dict[str, Any], context: str = "article") -> None
     _validate_score_classe(article['score'], article['classe'], context)
 
     # Normalize categoria_fonte — map any unknown value to 'revista'
-    valid_categories = {'revista', 'noticias', 'podcast', 'twitter', 'substack', 'x/twitter'}
+    valid_categories = {'revista', 'noticias', 'podcast', 'twitter', 'substack', 'x/twitter', 'preprint'}
     cat = article['categoria_fonte'].lower()
     if cat not in valid_categories:
         article['categoria_fonte'] = 'noticias' if article.get('source_type') == 'rss' else 'revista'

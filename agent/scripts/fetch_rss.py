@@ -30,6 +30,13 @@ RSS_FEEDS = [
         "categoria": "noticias",
         "emoji": "📊",
     },
+    # Preprints (medRxiv — pre-peer-review, useful as early signal)
+    {
+        "url": "https://connect.medrxiv.org/medrxiv_xml.php?subject=cardiovascular_medicine",
+        "source": "medRxiv Cardiovascular",
+        "categoria": "preprint",
+        "emoji": "🔬",
+    },
     # Substacks / newsletters (weekly cadence)
     {
         "url": "https://erictopol.substack.com/feed",

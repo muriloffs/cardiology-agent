@@ -43,7 +43,7 @@
                 : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
             ]"
           >
-            {{ { all: 'Todas', revista: 'Revista', noticias: 'Notícias', substack: 'Substack' }[source] || source }}
+            {{ { all: 'Todas', revista: 'Revista', noticias: 'Notícias', substack: 'Substack', preprint: '🔬 Preprint' }[source] || source }}
           </button>
         </div>
       </div>

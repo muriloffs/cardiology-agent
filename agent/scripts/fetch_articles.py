@@ -103,6 +103,17 @@ CARDIOLOGY_JOURNALS = [
     "Future Cardiol",                   # Future Cardiology
     "Struct Heart",                     # Structural Heart
     "JAMA Cardiol",                     # JAMA Cardiology
+    # Added 2026-05: BMJ family + missing JACC sub-journals + EHJ family + prevention
+    "Heart",                            # BMJ Heart (also covers former BMJ Heart RSS)
+    "Open Heart",                       # Open Heart (BMJ open access)
+    "JACC Clin Electrophysiol",         # JACC: Clinical Electrophysiology
+    "JACC Basic Transl Sci",            # JACC: Basic to Translational Science
+    "JACC Asia",                        # JACC: Asia
+    "JACC Adv",                         # JACC: Advances
+    "Eur Heart J Open",                 # EHJ Open
+    "Eur Heart J Acute Cardiovasc Care",# EHJ Acute Cardiovascular Care
+    "Eur Heart J Qual Care Clin Outcomes", # EHJ Quality of Care
+    "Eur J Prev Cardiol",               # European Journal of Preventive Cardiology
 ]
 
 

@@ -190,6 +190,13 @@ Return EXACTLY this JSON structure (no markdown, no text before/after):
 - Never invent url, doi, or pubmed — use null if not provided in the source data
 - Score uses same scale as artigos (A: 8-10, B: 6-7.9, C: 4-5.9)
 
+**Preprint handling (RSS source: medRxiv):**
+- Items from `medRxiv Cardiovascular` arrive via RSS but are PREPRINTS (not yet peer-reviewed)
+- Place them in `noticias` array with `categoria_fonte: "preprint"` and emoji 🔬
+- Treat as **early-signal evidence**: classify Class B max for non-trial preprints; only trials with strong methodology may reach Class A
+- In `resumo`, prepend "[PREPRINT] " to flag pre-peer-review status
+- Always include the medRxiv DOI URL in `links.url`
+
 **`podcasts` rules:**
 - Only include if `source: podcast` items were provided
 - If no podcast sources were provided, omit the `podcasts` field entirely
