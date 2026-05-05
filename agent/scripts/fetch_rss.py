@@ -25,6 +25,12 @@ RSS_FEEDS = [
         "emoji": "📰",
     },
     {
+        "url": "https://cardiovascularbusiness.com/rss.xml",
+        "source": "Cardiovascular Business",
+        "categoria": "noticias",
+        "emoji": "💼",
+    },
+    {
         "url": "https://www.cardiometabolichealth.org/feed",
         "source": "Cardiometabolic Health",
         "categoria": "noticias",
