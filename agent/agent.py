@@ -4,6 +4,7 @@ import json
 import logging
 import os
 import subprocess
+from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
 from typing import Any, Dict, Optional
@@ -42,7 +43,9 @@ class CardologyAgent:
             if not api_key:
                 raise ValueError("ANTHROPIC_API_KEY not set")
 
-        self.client = Anthropic(api_key=api_key)
+        # max_retries=3 covers 429 rate-limits, 5xx server errors, and 529 overloaded
+        # with exponential backoff (Anthropic SDK default behavior).
+        self.client = Anthropic(api_key=api_key, max_retries=3)
         logger.info("CardologyAgent initialized successfully")
 
     def research_daily(self, report_date: str) -> Dict[str, Any]:
@@ -60,24 +63,32 @@ class CardologyAgent:
             APIError: If Claude API call fails.
             FileNotFoundError: If prompt.txt is not found.
         """
-        # Step 1: Fetch real articles from PubMed (curated journals)
-        logger.info("Fetching articles from PubMed curated journals...")
-        pubmed_articles = fetch_recent_cardiology_articles(days_back=1)
+        # Fetch all 4 sources in parallel — independent I/O, capped by slowest (Grok ~30-60s).
+        # Each fetcher is internally fault-tolerant and returns [] on failure.
+        logger.info("Fetching from all sources in parallel (PubMed, RSS, Grok, Podcasts)...")
+        with ThreadPoolExecutor(max_workers=4) as executor:
+            futures = {
+                "PubMed": executor.submit(fetch_recent_cardiology_articles, days_back=1),
+                "RSS": executor.submit(fetch_all_rss, days_back=2),
+                "Grok/X": executor.submit(fetch_x_cardiology_posts, days_back=1),
+                "Podcasts": executor.submit(fetch_all_podcasts, days_back=7),
+            }
+            results = {}
+            for name, future in futures.items():
+                try:
+                    results[name] = future.result()
+                except Exception as e:
+                    logger.error(f"{name} fetcher raised unexpectedly: {e}")
+                    results[name] = []
+
+        pubmed_articles = results["PubMed"]
+        rss_articles = results["RSS"]
+        grok_articles = results["Grok/X"]
+        podcast_episodes = results["Podcasts"]
+
         logger.info(f"PubMed: {len(pubmed_articles)} articles")
-
-        # Step 2: Fetch from RSS feeds (Substacks, news, TCTMD)
-        logger.info("Fetching from RSS feeds...")
-        rss_articles = fetch_all_rss(days_back=2)
         logger.info(f"RSS: {len(rss_articles)} items")
-
-        # Step 3: Fetch cardiology highlights from X via Grok (optional — requires XAI_API_KEY)
-        logger.info("Fetching cardiology highlights from X via Grok...")
-        grok_articles = fetch_x_cardiology_posts(days_back=1)
         logger.info(f"Grok/X: {len(grok_articles)} posts")
-
-        # Step 4: Fetch recent cardiology podcast episodes (7-day window — podcasts are weekly)
-        logger.info("Fetching cardiology podcast episodes...")
-        podcast_episodes = fetch_all_podcasts(days_back=7)
         logger.info(f"Podcasts: {len(podcast_episodes)} episodes")
 
         for a in pubmed_articles:
