@@ -131,8 +131,10 @@ class CardologyAgent:
                         "role": "user",
                         "content": (
                             f"Date: {report_date}\n\n"
-                            f"Here are {len(articles)} real cardiology articles fetched from PubMed, "
-                            f"RSS feeds, and X/Twitter in the last 24 hours. Classify and include up to 50 per the instructions:\n\n"
+                            f"Here are {len(articles)} real cardiology candidates fetched from PubMed, "
+                            f"RSS feeds, X/Twitter, and podcast RSS in the last 24-48 hours. "
+                            f"Classify according to the Priority Rules in the system prompt — "
+                            f"Classe A items in `artigos` are unconditional:\n\n"
                             f"{articles_text}"
                         )
                     }
