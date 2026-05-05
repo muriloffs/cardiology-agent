@@ -15,21 +15,22 @@
       @next="navigateDate(-1)"
     />
 
-    <!-- Filters -->
+    <!-- Filters & Section Navigation -->
     <FilterBar
       :selected-class="selectedClass"
-      :selected-source="selectedSource"
       :search-query="searchQuery"
+      :total-artigos="report?.artigos?.length || 0"
+      :total-noticias="report?.noticias?.length || 0"
+      :total-discussoes="report?.discussoes_x?.length || 0"
+      :total-podcasts="report?.podcasts?.length || 0"
       @update:selected-class="selectedClass = $event"
-      :available-sources="availableSources"
-      @update:selected-source="selectedSource = $event"
       @update:search-query="searchQuery = $event"
       @refresh="loadReport"
     />
 
 
     <!-- News Section -->
-    <section v-if="report?.noticias?.length" class="px-4 py-8 max-w-6xl mx-auto border-t border-gray-100">
+    <section id="section-noticias" v-if="report?.noticias?.length" class="px-4 py-8 max-w-6xl mx-auto border-t border-gray-100 scroll-mt-4">
       <h2 class="text-2xl font-bold mb-1">📰 Notícias Clínicas</h2>
       <p class="text-sm text-gray-500 mb-4">{{ report.noticias.length }} notícias selecionadas das últimas 24h</p>
       <div class="space-y-3">
@@ -43,7 +44,7 @@
     </section>
 
     <!-- Podcasts Section -->
-    <section v-if="report?.podcasts?.length" class="px-4 py-8 max-w-6xl mx-auto border-t border-gray-100">
+    <section id="section-podcasts" v-if="report?.podcasts?.length" class="px-4 py-8 max-w-6xl mx-auto border-t border-gray-100 scroll-mt-4">
       <h2 class="text-2xl font-bold mb-1">🎙️ Podcasts da Semana</h2>
       <p class="text-sm text-gray-500 mb-4">{{ report.podcasts.length }} episódios recentes de cardiologia</p>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -56,7 +57,7 @@
     </section>
 
     <!-- X/Twitter Discussions -->
-    <section v-if="report?.discussoes_x?.length" class="px-4 py-8 max-w-6xl mx-auto border-t border-gray-100">
+    <section id="section-discussoes" v-if="report?.discussoes_x?.length" class="px-4 py-8 max-w-6xl mx-auto border-t border-gray-100 scroll-mt-4">
       <h2 class="text-2xl font-bold mb-1">𝕏 Discussões no X</h2>
       <p class="text-sm text-gray-500 mb-3">{{ report.discussoes_x.length }} discussões selecionadas das últimas 24h</p>
       <div class="flex gap-2 flex-wrap mb-4">
@@ -88,7 +89,7 @@
     </section>
 
     <!-- Main Article List -->
-    <section class="px-4 py-8 max-w-6xl mx-auto border-t border-gray-100">
+    <section id="section-artigos" class="px-4 py-8 max-w-6xl mx-auto border-t border-gray-100 scroll-mt-4">
       <h2 class="text-2xl font-bold mb-4">
         📚 Todos os Artigos
         <span class="text-base font-normal text-gray-500 ml-2">
@@ -150,7 +151,6 @@ const report = ref(null)
 const selectedArticle = ref(null)
 const selectedDiscussion = ref(null)
 const selectedClass = ref('all')
-const selectedSource = ref('all')
 const searchQuery = ref('')
 const loading = ref(false)
 const selectedXCategoria = ref('all')
@@ -177,20 +177,12 @@ const filteredArticles = computed(() => {
 
   return report.value.artigos.filter(article => {
     const matchClass = selectedClass.value === 'all' || article.classe === selectedClass.value
-    const matchSource = selectedSource.value === 'all' || article.categoria_fonte === selectedSource.value
     const matchSearch = !searchQuery.value ||
       article.titulo.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
       article.publicacao.toLowerCase().includes(searchQuery.value.toLowerCase())
 
-    return matchClass && matchSource && matchSearch
+    return matchClass && matchSearch
   })
-})
-
-const availableSources = computed(() => {
-  if (!report.value?.artigos) return ['all', 'revista']
-  const found = new Set(report.value.artigos.map(a => a.categoria_fonte).filter(Boolean))
-  const order = ['all', 'revista', 'noticias', 'substack']
-  return order.filter(s => s === 'all' || found.has(s))
 })
 
 const articlesByClass = computed(() => {

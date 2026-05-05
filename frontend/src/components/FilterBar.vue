@@ -28,22 +28,23 @@
         </div>
       </div>
 
-      <!-- Source Filters -->
+      <!-- Section Navigation -->
       <div class="mb-4">
-        <p class="text-sm font-semibold text-gray-700 mb-2">Fonte</p>
+        <p class="text-sm font-semibold text-gray-700 mb-2">Ir para</p>
         <div class="flex gap-2 flex-wrap">
           <button
-            v-for="source in availableSources"
-            :key="source"
-            @click="$emit('update:selected-source', source)"
+            v-for="section in sections"
+            :key="section.id"
+            @click="scrollToSection(section.id)"
+            :disabled="!section.count"
             :class="[
               'px-4 py-2 rounded-full text-sm font-medium transition-all',
-              selectedSource === source
-                ? 'bg-purple-600 text-white'
-                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+              section.count
+                ? 'bg-gray-200 text-gray-700 hover:bg-purple-600 hover:text-white'
+                : 'bg-gray-100 text-gray-400 cursor-not-allowed opacity-50'
             ]"
           >
-            {{ { all: 'Todas', revista: 'Revista', noticias: 'Notícias', substack: 'Substack', preprint: '🔬 Preprint' }[source] || source }}
+            {{ section.label }}{{ section.count ? ` (${section.count})` : '' }}
           </button>
         </div>
       </div>
@@ -71,15 +72,30 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
+
 const props = defineProps({
   selectedClass: String,
-  selectedSource: String,
   searchQuery: String,
-  availableSources: {
-    type: Array,
-    default: () => ['all', 'revista']
-  }
+  totalArtigos: { type: Number, default: 0 },
+  totalNoticias: { type: Number, default: 0 },
+  totalDiscussoes: { type: Number, default: 0 },
+  totalPodcasts: { type: Number, default: 0 }
 })
 
-defineEmits(['update:selected-class', 'update:selected-source', 'update:search-query', 'refresh'])
+defineEmits(['update:selected-class', 'update:search-query', 'refresh'])
+
+const sections = computed(() => [
+  { id: 'section-artigos',    label: '📚 Artigos',     count: props.totalArtigos },
+  { id: 'section-noticias',   label: '📰 Notícias',    count: props.totalNoticias },
+  { id: 'section-discussoes', label: '𝕏 Discussões',  count: props.totalDiscussoes },
+  { id: 'section-podcasts',   label: '🎙️ Podcasts',   count: props.totalPodcasts }
+])
+
+function scrollToSection(id) {
+  const el = document.getElementById(id)
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+}
 </script>
