@@ -21,20 +21,25 @@
         >▶</button>
       </div>
 
-      <div class="grid grid-cols-3 gap-2 md:gap-4">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4">
         <div class="bg-purple-50 rounded-lg p-2 md:p-4">
-          <p class="text-xs md:text-sm text-gray-600">Artigos Hoje</p>
+          <p class="text-xs md:text-sm text-gray-600">📚 Artigos</p>
           <p class="text-xl md:text-2xl font-bold text-purple-600">{{ totalArticles }}</p>
         </div>
-        <div class="bg-blue-50 rounded-lg p-2 md:p-4">
-          <p class="text-xs md:text-sm text-gray-600">Tempo de Leitura</p>
-          <p class="text-xl md:text-2xl font-bold text-blue-600">~{{ readingTime }}m</p>
+        <div class="bg-orange-50 rounded-lg p-2 md:p-4">
+          <p class="text-xs md:text-sm text-gray-600">📰 Notícias</p>
+          <p class="text-xl md:text-2xl font-bold text-orange-600">{{ totalNoticias }}</p>
+        </div>
+        <div class="bg-gray-100 rounded-lg p-2 md:p-4">
+          <p class="text-xs md:text-sm text-gray-600">𝕏 Discussões</p>
+          <p class="text-xl md:text-2xl font-bold text-gray-800">{{ totalDiscussoes }}</p>
         </div>
         <div class="bg-indigo-50 rounded-lg p-2 md:p-4">
-          <p class="text-xs md:text-sm text-gray-600">Atualizado</p>
-          <p class="text-base md:text-lg font-bold text-indigo-600">🔄</p>
+          <p class="text-xs md:text-sm text-gray-600">🎙️ Podcasts</p>
+          <p class="text-xl md:text-2xl font-bold text-indigo-600">{{ totalPodcasts }}</p>
         </div>
       </div>
+      <p class="text-xs text-gray-500 mt-2 md:mt-3">⏱️ Tempo de leitura: ~{{ readingTime }} min</p>
     </div>
   </header>
 </template>
@@ -45,6 +50,9 @@ import { computed } from 'vue'
 const props = defineProps({
   reportDate: String,
   totalArticles: Number,
+  totalNoticias: { type: Number, default: 0 },
+  totalDiscussoes: { type: Number, default: 0 },
+  totalPodcasts: { type: Number, default: 0 },
   readingTime: Number,
   hasPrev: Boolean,
   hasNext: Boolean
