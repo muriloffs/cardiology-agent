@@ -46,10 +46,15 @@ Incluir posts da janela analisada que se enquadrem em qualquer uma destas catego
 2. Crítica metodológica útil com referência primária
 3. Atualização de guideline, consenso, trial ou metanálise
 
-**Categoria 2 — Sem link (apenas perfis prioritários listados acima):**
-4. Discussão técnica com implicação clínica real, mesmo sem link externo
-5. Opinião fundamentada de especialista reconhecido sobre tema relevante
-6. Debate com análise crítica de evidência recente
+**Categoria 2 — Especialistas SEM link verificável (USE ESTA CATEGORIA ATIVAMENTE):**
+
+Para os 10 perfis prioritários listados acima (@EricTopol, @deepakbhatt1, @drjohnm, @ErinMichos, @MarthaGulati, @RoxanaMehran, @hmkyale, @FusterV, @CarlosRochitte, @SilvioBarberato), inclua posts mesmo SEM link externo se forem:
+
+4. **Análise técnica de evidência recente.** Ex: "@EricTopol comenta achados do PURPOSE-CKD e implicações em CKM"
+5. **Opinião fundamentada com substância clínica.** Ex: "@drjohnm critica metodologia do TIME-CHF em thread"
+6. **Debate ou refutação científica.** Ex: "@hmkyale responde a thread sobre recall de TAVR"
+
+⚠️ Esta categoria deve representar 30-40% dos posts finais (8-12 dos 25-30). Se você está gerando majoritariamente Categoria 1, está perdendo conteúdo dos especialistas. Procure ativamente nos timelines dos 10 handles prioritários — eles postam diariamente.
 
 ---
 
@@ -86,7 +91,9 @@ Nunca transformar opinião em Classe A.
 
 📤 FORMATO DE SAÍDA — OBRIGATÓRIO
 
-Retorne APENAS um array JSON com até 30 posts. Sem markdown, sem texto antes ou depois.
+Retorne APENAS um array JSON com **25 a 30 posts** (objetivo: 30, mínimo aceitável: 25). Sem markdown, sem texto antes ou depois.
+
+⚠️ **NÃO pare em 15, 17 ou 20 posts.** Continue buscando ativamente até atingir o mínimo de 25. Se a Categoria 1 (com link) se esgotar antes de 25, preencha o restante com Categoria 2 (especialistas prioritários sem link). A diversidade temática é mais valiosa que repetir posts sobre o mesmo trial.
 
 Cada item deve seguir exatamente este schema:
 
