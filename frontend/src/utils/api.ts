@@ -3,13 +3,6 @@ import axios from 'axios'
 
 const GITHUB_RAW_URL = 'https://raw.githubusercontent.com/muriloffs/cardiology-agent/main/data'
 
-function getTodayDate(): string {
-  const now = new Date()
-  return now.getFullYear() + '-' +
-    String(now.getMonth() + 1).padStart(2, '0') + '-' +
-    String(now.getDate()).padStart(2, '0')
-}
-
 export async function fetchLatestReport() {
   for (let daysBack = 0; daysBack < 7; daysBack++) {
     const date = new Date()
@@ -28,20 +21,6 @@ export async function fetchLatestReport() {
     }
   }
   throw new Error('Nenhum relatório encontrado nos últimos 7 dias')
-}
-
-export async function downloadArticle(articleId: string, titulo: string, url: string) {
-  try {
-    const response = await axios.post('/api/download', {
-      articleId,
-      titulo,
-      url
-    })
-    return response.data
-  } catch (error) {
-    console.error('Download failed:', error)
-    throw new Error('Failed to download article')
-  }
 }
 
 export async function fetchIndex(): Promise<string[]> {
