@@ -64,7 +64,7 @@ def fetch_x_cardiology_posts(days_back: int = 1) -> list[dict[str, Any]]:
                 "max_tool_calls": 8,            # allow up to 8 tool invocations per response
                 "parallel_tool_calls": True,    # let model run searches in parallel
             },
-            timeout=300,
+            timeout=480,                          # 8min — buffer for 8 tool calls + 50-post response
         )
         response.raise_for_status()
         data = response.json()
