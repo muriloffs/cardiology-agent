@@ -52,25 +52,40 @@ def fetch_x_cardiology_posts(days_back: int = 1) -> list[dict[str, Any]]:
             json={
                 "model": GROK_MODEL,
                 "input": [{"role": "user", "content": prompt}],
-                "tools": [{"type": "x_search"}],   # reverted: no tool params (caused silent 0-result)
+                "tools": [{"type": "x_search"}],
                 "temperature": 0.1,
-                "max_output_tokens": 14000,         # kept higher cap for 30+ post target
-                # Removed for diagnostic: max_tool_calls, parallel_tool_calls — re-add one at a time
+                "max_output_tokens": 14000,         # headroom for 25+ posts
+                "max_tool_calls": 4,                # conservative — model can do up to 4 x_search invocations
+                "parallel_tool_calls": True,        # allow concurrent searches (lower latency)
             },
-            timeout=300,                            # back to 300s — no longer expect 8 tool calls
+            timeout=360,                            # 6min — buffer for up to 4 tool calls
         )
         response.raise_for_status()
         data = response.json()
         logger.info(f"Grok API response keys: {list(data.keys())}")
-        # Diagnostic: log error/status/incomplete fields if populated
+
+        # === DIAGNOSTIC LOGGING ===
+        # 1. Error/status fields populated only when API rejects something silently
         for diag_key in ("status", "error", "incomplete_details"):
             val = data.get(diag_key)
             if val:
                 logger.warning(f"Grok response.{diag_key}: {json.dumps(val)[:500]}")
-        # Log usage to detect server-side rejection (zero usage = rejected)
+
+        # 2. Echo of accepted params (confirms server didn't drop them)
+        echoed_max_tools = data.get("max_tool_calls")
+        echoed_parallel = data.get("parallel_tool_calls")
+        logger.info(f"Grok server-echoed params: max_tool_calls={echoed_max_tools}, parallel_tool_calls={echoed_parallel}")
+
+        # 3. Usage tells us if real work happened (zero usage = rejected)
         usage = data.get("usage", {})
         if usage:
-            logger.info(f"Grok usage: {json.dumps(usage)[:200]}")
+            logger.info(f"Grok usage: {json.dumps(usage)[:300]}")
+
+        # 4. Count actual tool invocations from output array
+        tool_calls_count = sum(
+            1 for item in data.get("output", []) if item.get("type") in ("server_tool_call", "tool_use", "function_call")
+        )
+        logger.info(f"Grok actual tool calls observed in output: {tool_calls_count}")
 
         # Responses API: extract text from output[].content[].text
         raw = ""
@@ -82,6 +97,10 @@ def fetch_x_cardiology_posts(days_back: int = 1) -> list[dict[str, Any]]:
                         break
             if raw:
                 break
+
+        # 5. Preview do output (visualização manual do que Grok produziu)
+        if raw:
+            logger.info(f"Grok output preview (first 400 chars): {raw[:400]}")
 
         if not raw:
             logger.warning("No text output in Grok Responses API response")
