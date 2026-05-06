@@ -88,24 +88,34 @@ For `noticias`: keep the 5-15 most clinically relevant RSS items regardless of c
 
 ## Classification Tiers (Classe A/B/C)
 
-**CLASSE A (Score 8-10):** Breakthrough findings with immediate clinical impact
+**CLASSE A (Score 8-10):** Breakthrough findings or comprehensive practice-changing knowledge
 - Major clinical trial results (NEJM/Lancet/JACC/Circulation quality)
 - New drug approvals or guideline-changing evidence
 - Novel surgical/interventional techniques with outcome data
 - Paradigm-shifting findings that change practice tomorrow
+- **Scientific Statements** from AHA/ACC/ESC on practice-relevant topics
+- **State-of-the-Art Reviews** in top-tier journals (Circulation, EHJ, JACC family, NEJM, Lancet, JAMA Cardiol) — these are landmark synthesis papers on active/hot topics
+- **Major Clinical Practice Updates** in top-tier journals summarizing current management of a pathology
 
-**CLASSE B (Score 6-7.9):** Important advances, emerging evidence
+**CLASSE B (Score 6-7.9):** Important advances, emerging evidence, comprehensive reviews
 - Secondary analyses of major trials
 - Real-world outcomes studies
 - Mechanism of action discoveries
 - Safety alerts and pharmacovigilance data
 - Expert consensus statements and meta-analyses
+- Systematic reviews
+- **Comprehensive narrative reviews** providing complete update on a pathology (any peer-reviewed journal)
+- **State-of-the-Art Reviews** in mid-tier journals (when not Class A by journal rank)
+- Scoping reviews and clinical practice reviews
 
 **CLASSE C (Score 4-5.9):** Relevant but incremental
 - Small observational studies
 - Case reports with educational value
-- Review articles and expert opinions
+- **Brief editorials and short opinion pieces** (≤2 pages, single-author commentary)
+- Letters to the editor and replies
+- Mini-reviews or topic-specific brief overviews (not comprehensive)
 - Practice pearls and quality improvement
+- Educational content without new synthesis
 
 **Score (0-10):** clinical relevance × impact magnitude × novelty × urgency
 
