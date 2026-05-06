@@ -33,8 +33,6 @@ def fetch_x_cardiology_posts(days_back: int = 1) -> list[dict[str, Any]]:
 
     brasilia_tz = timezone(timedelta(hours=-3))
     target_date = (datetime.now(brasilia_tz) - timedelta(days=days_back)).strftime("%Y-%m-%d")
-    # from_date = same day (24h window) — server-side enforcement via tool param
-    from_date = target_date
 
     try:
         prompt = _load_prompt(target_date)
@@ -54,21 +52,25 @@ def fetch_x_cardiology_posts(days_back: int = 1) -> list[dict[str, Any]]:
             json={
                 "model": GROK_MODEL,
                 "input": [{"role": "user", "content": prompt}],
-                "tools": [{
-                    "type": "x_search",
-                    "from_date": from_date,
-                    "to_date": target_date,
-                }],
+                "tools": [{"type": "x_search"}],   # reverted: no tool params (caused silent 0-result)
                 "temperature": 0.1,
-                "max_output_tokens": 14000,    # raised from 6000 to fit ~50 posts
-                "max_tool_calls": 8,            # allow up to 8 tool invocations per response
-                "parallel_tool_calls": True,    # let model run searches in parallel
+                "max_output_tokens": 14000,         # kept higher cap for 30+ post target
+                # Removed for diagnostic: max_tool_calls, parallel_tool_calls — re-add one at a time
             },
-            timeout=480,                          # 8min — buffer for 8 tool calls + 50-post response
+            timeout=300,                            # back to 300s — no longer expect 8 tool calls
         )
         response.raise_for_status()
         data = response.json()
         logger.info(f"Grok API response keys: {list(data.keys())}")
+        # Diagnostic: log error/status/incomplete fields if populated
+        for diag_key in ("status", "error", "incomplete_details"):
+            val = data.get(diag_key)
+            if val:
+                logger.warning(f"Grok response.{diag_key}: {json.dumps(val)[:500]}")
+        # Log usage to detect server-side rejection (zero usage = rejected)
+        usage = data.get("usage", {})
+        if usage:
+            logger.info(f"Grok usage: {json.dumps(usage)[:200]}")
 
         # Responses API: extract text from output[].content[].text
         raw = ""
