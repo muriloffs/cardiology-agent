@@ -2,8 +2,10 @@ name: Daily Cardiology Research Report
 
 on:
   schedule:
-    # 3:00 AM Brasília time (UTC-3) = 6:00 AM UTC
-    - cron: '0 6 * * *'
+    # GitHub Actions consistently delays scheduled runs by ~2 hours during peak.
+    # Scheduling for 4:00 UTC (1 AM Brasília) so actual delivery lands at ~3 AM Brasília.
+    # Observed pattern (runs #36-#46): scheduled 6 UTC, executed 7:44-8:29 UTC = 5 AM Brasília.
+    - cron: '0 4 * * *'
   workflow_dispatch:
 
 concurrency:
