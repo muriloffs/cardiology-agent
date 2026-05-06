@@ -33,6 +33,8 @@ def fetch_x_cardiology_posts(days_back: int = 1) -> list[dict[str, Any]]:
 
     brasilia_tz = timezone(timedelta(hours=-3))
     target_date = (datetime.now(brasilia_tz) - timedelta(days=days_back)).strftime("%Y-%m-%d")
+    # from_date = same day (24h window) — server-side enforcement via tool param
+    from_date = target_date
 
     try:
         prompt = _load_prompt(target_date)
@@ -52,9 +54,15 @@ def fetch_x_cardiology_posts(days_back: int = 1) -> list[dict[str, Any]]:
             json={
                 "model": GROK_MODEL,
                 "input": [{"role": "user", "content": prompt}],
-                "tools": [{"type": "x_search"}],
+                "tools": [{
+                    "type": "x_search",
+                    "from_date": from_date,
+                    "to_date": target_date,
+                }],
                 "temperature": 0.1,
-                "max_output_tokens": 6000,
+                "max_output_tokens": 14000,    # raised from 6000 to fit ~50 posts
+                "max_tool_calls": 8,            # allow up to 8 tool invocations per response
+                "parallel_tool_calls": True,    # let model run searches in parallel
             },
             timeout=300,
         )

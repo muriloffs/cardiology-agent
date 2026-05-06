@@ -33,7 +33,15 @@ American College of Cardiology (@ACCinTouch), American Heart Association (@Ameri
 
 Cardiology, heart failure, hypertension, atrial fibrillation, anticoagulation, coronary disease, lipid lowering, GLP-1, SGLT2, obesity, prevention, imaging, echo, CMR, PCI, structural heart, TAVR, myocarditis, sudden death, arrhythmia, EP, cardio-oncology, cardiometabolic, guideline, trial, RCT, meta-analysis, late-breaking, practice changing.
 
-#CardioTwitter #MedTwitter #HeartFailure #AtrialFibrillation #Hypertension #Cardiology #Echocardiography #EPeeps #InterventionalCardiology #CardioMetabolic #Prevention
+**Comunidade geral:** #CardioTwitter #CardioX #MedTwitter #FOAMed #CardioNerds
+
+**Subespecialidades:** #EPeeps #EchoFirst #YesCCT #CVImaging #InterventionalCardiology #ACCIC #CathLab #ACCHFT #CardioOnc
+
+**Doenças/condições:** #HeartFailure #AtrialFibrillation #STEMI #NSTEMI #Hypertension #cvLipids #CardioMetabolic #Prevention
+
+**Procedimentos/imagem:** #TAVR #ECG #Echocardiography #StructuralHeart
+
+**Journals/educação:** #JACC #Cardiology
 
 ---
 
@@ -86,7 +94,9 @@ Nunca transformar opinião em Classe A.
 
 📤 FORMATO DE SAÍDA — OBRIGATÓRIO
 
-Retorne APENAS um array JSON com até 30 posts. Sem markdown, sem texto antes ou depois.
+Retorne APENAS um array JSON com **até 50 posts** (target: 30-50). Sem markdown, sem texto antes ou depois.
+
+Você tem múltiplas tool calls disponíveis (até 8) — use-as para variar buscas: handles, hashtags, termos, datas. Cada tool call traz candidatos diferentes. Agregue todos antes de retornar.
 
 Cada item deve seguir exatamente este schema:
 
