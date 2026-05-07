@@ -59,12 +59,14 @@ def fetch_x_cardiology_posts(days_back: int = 1) -> list[dict[str, Any]]:
         "Content-Type": "application/json",
     }
 
-    # Retry loop: xAI server occasionally drops connections during long tool-use calls.
-    # Connection drops are transient — second attempt usually succeeds with different search path.
+    # Retry loop: xAI server occasionally drops connections OR returns 5xx during high load.
+    # Both are transient — second attempt typically succeeds.
     response = None
     data = None
     last_error = None
+    actual_attempts = 0
     for attempt in range(1, GROK_MAX_ATTEMPTS + 1):
+        actual_attempts = attempt
         try:
             logger.info(f"Calling Grok API (attempt {attempt}/{GROK_MAX_ATTEMPTS}): model={GROK_MODEL}, url={GROK_API_URL}, date={target_date}")
             response = req.post(
@@ -83,17 +85,23 @@ def fetch_x_cardiology_posts(days_back: int = 1) -> list[dict[str, Any]]:
                 logger.info(f"Retrying Grok in {GROK_RETRY_BACKOFF_SECONDS}s...")
                 time.sleep(GROK_RETRY_BACKOFF_SECONDS)
         except req.exceptions.HTTPError as e:
-            # HTTP errors (4xx/5xx) — log body, don't retry (likely persistent issue)
             last_error = e
-            logger.error(f"Grok HTTP error (attempt {attempt}): {e}")
+            status_code = e.response.status_code if e.response is not None else 0
+            logger.error(f"Grok HTTP error {status_code} (attempt {attempt}): {e}")
             try:
                 logger.error(f"Grok response body: {response.text[:500]}")
             except Exception:
                 pass
-            break  # don't retry HTTP errors
+            # Retry on 5xx (server-side, transient: capacity, deploy, etc.)
+            # Do NOT retry on 4xx (client-side, persistent: bad params, auth)
+            if 500 <= status_code < 600 and attempt < GROK_MAX_ATTEMPTS:
+                logger.info(f"5xx is transient — retrying Grok in {GROK_RETRY_BACKOFF_SECONDS}s...")
+                time.sleep(GROK_RETRY_BACKOFF_SECONDS)
+            else:
+                break  # 4xx or final attempt — give up
 
     if data is None:
-        logger.error(f"Grok API call failed after {GROK_MAX_ATTEMPTS} attempts: {last_error}")
+        logger.error(f"Grok API call failed after {actual_attempts} attempt(s): {last_error}")
         return []
 
     try:
