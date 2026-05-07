@@ -2,11 +2,11 @@
   "relatorio_data": "2026-05-06",
   "gerado_em": "2026-05-06T12:00:00Z",
   "resumo": {
-    "total_artigos": 32,
-    "tempo_leitura_minutos": 65,
+    "total_artigos": 30,
+    "tempo_leitura_minutos": 45,
     "classe_a_count": 9,
-    "classe_b_count": 16,
-    "classe_c_count": 7
+    "classe_b_count": 15,
+    "classe_c_count": 6
   },
   "noticias": [
     {
@@ -18,8 +18,8 @@
       "score": 9.0,
       "categoria_fonte": "noticias",
       "emoji": "💊",
-      "resumo": "Resultados preliminares do ACACIA-HCM mostram que aficamten melhorou o KCCQ e o pico de consumo de oxigênio em pacientes com cardiomiopatia hipertrófica não-obstrutiva. É o primeiro inibidor de miosina cardíaca a demonstrar benefício nessa população, em contraste com o ODYSSEY-HCM (mavacamten negativo).",
-      "impacto_clinico": "Potencial primeira terapia específica para CMH não-obstrutiva, população atualmente sem tratamentos aprovados que modifiquem a doença subjacente. Aguardar dataset completo para avaliar magnitude do efeito.",
+      "resumo": "Resultados topline do ACACIA-HCM mostram que aficamten melhorou KCCQ e VO2 pico em pacientes com cardiomiopatia hipertrófica não-obstrutiva. É o primeiro inibidor de miosina cardíaca a demonstrar benefício nessa população, após falha do mavacamten no ODYSSEY-HCM.",
+      "impacto_clinico": "Potencial primeira terapia direcionada para HCM não-obstrutiva, expandindo o arsenal terapêutico além da forma obstrutiva e oferecendo nova opção para pacientes sintomáticos sem obstrução significativa.",
       "links": {
         "url": "https://www.tctmd.com/news/aficamten-meets-mark-nonobstructive-hypertrophic-cardiomyopathy-acacia-hcm"
       }
@@ -33,8 +33,8 @@
       "score": 8.5,
       "categoria_fonte": "noticias",
       "emoji": "💉",
-      "resumo": "Novo estudo sugere que ICP completa imediata em pacientes STEMI com doença multivascular pode ser deletéria comparada à abordagem estagiada. Achados alinhados com CULPRIT-SHOCK reforçam estratégia escalonada como padrão.",
-      "impacto_clinico": "Pode reposicionar a abordagem padrão no STEMI com doença multivascular: revascularização da lesão culpada seguida de procedimento estagiado em vez de PCI completa imediata.",
+      "resumo": "Novos dados sugerem que a abordagem de PCI completa imediata pode ser deletéria em pacientes com STEMI e doença multivaso, em linha com o CULPRIT-SHOCK. Especialistas como Gregg Stone defendem que o procedimento estagiado deve ser o padrão.",
+      "impacto_clinico": "Reforça a recomendação de revascularização estagiada como padrão-ouro em STEMI multiarterial, contrariando tendência recente de PCI completa imediata. Impacta diretamente a estratégia em sala de cateterismo.",
       "links": {
         "url": "https://www.tctmd.com/news/immediate-complete-pci-may-harm-stemi-patients-multivessel-cad"
       }
@@ -48,8 +48,8 @@
       "score": 8.3,
       "categoria_fonte": "noticias",
       "emoji": "🫀",
-      "resumo": "PRAETORIAN-DFT demonstra que dispensar o teste de desfibrilação no implante de S-ICD é seguro. Simplifica o procedimento e pode acelerar adoção da abordagem subcutânea.",
-      "impacto_clinico": "Muda a prática do implante de S-ICD: remove um passo invasivo do procedimento, encurta tempo cirúrgico e reduz riscos relacionados ao teste sob anestesia.",
+      "resumo": "PRAETORIAN-DFT demonstra que omitir o teste de desfibrilação durante implante de S-ICD é seguro. Simplifica o procedimento e pode aumentar adoção da abordagem subcutânea.",
+      "impacto_clinico": "Mudança prática imediata: elimina passo invasivo do implante de S-ICD, reduzindo tempo de procedimento, riscos anestésicos e potencialmente aumentando acesso à terapia subcutânea.",
       "links": {
         "url": "https://www.tctmd.com/news/praetorian-dft-safe-forgo-defibrillation-testing-s-icd-implant"
       }
@@ -63,55 +63,55 @@
       "score": 7.2,
       "categoria_fonte": "noticias",
       "emoji": "🧠",
-      "resumo": "Trial HOPE sugere abordagem individualizada de manejo de pressão arterial após trombectomia em AVC. Resultados são considerados geradores de hipóteses, não definitivos para mudança de prática.",
-      "impacto_clinico": "Reforça a necessidade de individualização do alvo pressórico pós-trombectomia em vez de adotar protocolos rígidos uniformes.",
+      "resumo": "Resultados do HOPE sugerem abordagem individualizada do controle pressórico após trombectomia em AVC. Os achados são considerados geradores de hipótese, não definitivos para mudança de prática.",
+      "impacto_clinico": "Sinaliza que metas pressóricas pós-trombectomia devem ser personalizadas conforme reperfusão alcançada, evitando dogma de meta única para todos os pacientes.",
       "links": {
         "url": "https://www.tctmd.com/news/hope-supports-tailored-approach-bp-after-stroke-thrombectomy"
       }
     },
     {
       "id": "not_005",
-      "titulo": "Conduction system pacing defibrillator lead successful in trial",
+      "titulo": "Conduction system pacing defibrillator lead successful in trial (ASCEND CSP)",
       "publicacao": "Healio Cardiology",
       "autores": [],
       "classe": "B",
       "score": 7.0,
       "categoria_fonte": "noticias",
       "emoji": "🫀",
-      "resumo": "Trial ASCEND CSP avaliou novo eletrodo bipolar de CDI com estimulação do sistema de condução em 205 pacientes, demonstrando segurança e eficácia de curto prazo. Apresentado no Heart Rhythm 2026 e publicado simultaneamente em HeartRhythm.",
-      "impacto_clinico": "Abre caminho para CDI com estimulação fisiológica do feixe esquerdo, integrando os benefícios da CSP com proteção contra arritmias ventriculares em um único eletrodo.",
+      "resumo": "ASCEND CSP demonstrou segurança e eficácia de curto prazo de um eletrodo bipolar de CDI com estimulação do sistema de condução em 205 pacientes. Apresentado no Heart Rhythm 2026 com publicação simultânea.",
+      "impacto_clinico": "Abre caminho para CDI com estimulação fisiológica do ramo esquerdo em pacientes com indicação de TRC ou CDI, integrando duas tecnologias em um único eletrodo.",
       "links": {
         "url": "https://www.healio.com/news/cardiology/20260505/conduction-system-pacing-defibrillator-lead-demonstrates-shortterm-success"
       }
     },
     {
       "id": "not_006",
+      "titulo": "The VESALIUS-CV Trial",
+      "publicacao": "TCTMD",
+      "autores": [],
+      "classe": "B",
+      "score": 7.5,
+      "categoria_fonte": "noticias",
+      "emoji": "💊",
+      "resumo": "Discussão sobre o trial VESALIUS-CV, que estendeu a inibição com evolocumabe a pacientes de alto risco CV sem IM ou AVC prévios. Burton e Gibson exploram implicações para prevenção primária.",
+      "impacto_clinico": "Pode expandir indicação de PCSK9 para prevenção primária em alto risco, ampliando significativamente a população elegível para terapia agressiva de LDL.",
+      "links": {
+        "url": "https://www.tctmd.com/audio/vesalius-cv-trial"
+      }
+    },
+    {
+      "id": "not_007",
       "titulo": "Hiding in Plain Sight: Methamphetamine-Related MIs Not Uncommon",
       "publicacao": "TCTMD",
       "autores": [],
       "classe": "B",
       "score": 6.5,
       "categoria_fonte": "noticias",
-      "emoji": "📊",
-      "resumo": "Estudo californiano detectou que 1 em cada 6 IAMs em adultos jovens estavam associados ao uso de metanfetamina, frequentemente com DAC não-obstrutiva. Alerta para padrão epidemiológico subestimado.",
-      "impacto_clinico": "Reforça a necessidade de rastreamento toxicológico em IAM em jovens, especialmente quando a coronariografia revela padrão não-obstrutivo (MINOCA-like).",
+      "emoji": "🩺",
+      "resumo": "Estudo californiano identificou que 1 em cada 6 IM em adultos jovens está associado a uso de metanfetamina, muitos com DAC não-obstrutiva. Reforça importância de rastreio toxicológico.",
+      "impacto_clinico": "Recomenda triagem rotineira para uso de metanfetamina em IM de jovens, especialmente quando há DAC não-obstrutiva, para orientar prevenção secundária e abordagem do uso de substâncias.",
       "links": {
         "url": "https://www.tctmd.com/news/hiding-plain-sight-methamphetamine-related-mis-not-uncommon"
-      }
-    },
-    {
-      "id": "not_007",
-      "titulo": "TAVR or SAVR? Cardiologists and heart surgeons highlight the care that goes into each decision",
-      "publicacao": "Cardiovascular Business",
-      "autores": [],
-      "classe": "B",
-      "score": 6.8,
-      "categoria_fonte": "noticias",
-      "emoji": "💉",
-      "resumo": "Declaração conjunta entre cardiologistas e cirurgiões cardíacos detalha critérios para escolha entre TAVR e SAVR em estenose aórtica. Reforça abordagem multidisciplinar do Heart Team.",
-      "impacto_clinico": "Atualiza critérios para a tomada de decisão TAVR vs SAVR em discussão de Heart Team, especialmente em pacientes de risco intermediário e jovens.",
-      "links": {
-        "url": "https://cardiovascularbusiness.com/topics/clinical/structural-heart-disease/tavr/tavr-or-savr-cardiologists-and-heart-surgeons-highlight-care-goes-each-decision"
       }
     },
     {
@@ -123,68 +123,98 @@
       "score": 6.3,
       "categoria_fonte": "noticias",
       "emoji": "📊",
-      "resumo": "Coorte japonesa publicada em Circulation: Population Health and Outcomes mostra associação entre síndrome cardiovascular-renal-metabólica avançada e maior risco de câncer incidente. Sugere avaliação de risco para além de desfechos CV e renais.",
-      "impacto_clinico": "Amplia a estratificação de risco em pacientes com síndrome CKM, sugerindo vigilância oncológica adicional nessa população.",
+      "resumo": "Coorte japonesa associa síndrome cardiovascular-renal-metabólica avançada a maior risco de câncer incidente. Reforça avaliação multissistêmica em pacientes com CKM.",
+      "impacto_clinico": "Sugere ampliar estratificação de risco em pacientes com CKM para incluir rastreio oncológico, dada a sobreposição de mecanismos inflamatórios e metabólicos.",
       "links": {
         "url": "https://www.healio.com/news/cardiology/20260506/advanced-cardiovascularkidneymetabolic-syndrome-may-raise-cancer-risk"
       }
     },
     {
       "id": "not_009",
-      "titulo": "First patient enrolled in massive heart failure trial (BENEFIT-HF / Barostim)",
+      "titulo": "Cannabis use increases risk of death, heart attack for ED patients",
       "publicacao": "Cardiovascular Business",
       "autores": [],
-      "classe": "C",
-      "score": 5.5,
+      "classe": "B",
+      "score": 6.2,
       "categoria_fonte": "noticias",
-      "emoji": "❤️",
-      "resumo": "BENEFIT-HF inicia recrutamento para avaliar Barostim (CVRx) em insuficiência cardíaca em estudo randomizado de grande escala. Pode expandir indicação do dispositivo a mais pacientes com IC.",
-      "impacto_clinico": "Aguardar — potencial expansão futura da neuromodulação barorreceptora como terapia adjuvante na IC.",
+      "emoji": "🩺",
+      "resumo": "Pacientes com história de uso de cannabis admitidos no PS apresentam maior risco de desfecho cardiovascular adverso, incluindo IM e morte. Reforça relevância clínica da anamnese sobre cannabis.",
+      "impacto_clinico": "Indica necessidade de avaliação de risco CV diferenciada em usuários de cannabis no atendimento de emergência, mesmo em ausência de fatores de risco tradicionais.",
       "links": {
-        "url": "https://cardiovascularbusiness.com/topics/clinical/heart-failure/first-patient-enrolled-massive-heart-failure-trial"
+        "url": "https://cardiovascularbusiness.com/topics/clinical/heart-health/cannabis-use-increases-risk-death-heart-attack-ed-patients"
       }
     },
     {
       "id": "not_010",
-      "titulo": "Cannabis use increases risk of death, heart attack for ED patients",
+      "titulo": "TAVR or SAVR? Cardiologists and heart surgeons highlight the care that goes into each decision",
       "publicacao": "Cardiovascular Business",
       "autores": [],
-      "classe": "C",
-      "score": 5.3,
+      "classe": "B",
+      "score": 6.5,
       "categoria_fonte": "noticias",
-      "emoji": "📊",
-      "resumo": "Estudo associa histórico de uso de cannabis a maior risco de desfechos adversos (óbito e IAM) em pacientes que se apresentam ao pronto-socorro. Reforça relevância da história de uso de substâncias.",
-      "impacto_clinico": "Incluir uso de cannabis na anamnese de PS e ponderar como fator de risco adicional em jovens com dor torácica.",
+      "emoji": "💉",
+      "resumo": "Declaração conjunta de cardiologistas e cirurgiões cardíacos enfatiza decisão compartilhada e individualizada entre TAVR e SAVR. Reforça papel do Heart Team.",
+      "impacto_clinico": "Reafirma importância da avaliação multidisciplinar em estenose aórtica grave, considerando anatomia, expectativa de vida e durabilidade — não apenas idade.",
       "links": {
-        "url": "https://cardiovascularbusiness.com/topics/clinical/heart-failure/first-patient-enrolled-massive-heart-failure-trial"
+        "url": "https://cardiovascularbusiness.com/topics/clinical/structural-heart-disease/tavr/tavr-or-savr-cardiologists-and-heart-surgeons-highlight-care-goes-each-decision"
       }
     },
     {
       "id": "not_011",
-      "titulo": "[PREPRINT] Flow-gradient Phenotypes and Functional Recovery After TAVI: A COMPARE-TAVI 1 Sub-study",
-      "publicacao": "medRxiv Cardiovascular",
+      "titulo": "Impella 5.5 shows promise in certain non-shock, high-risk cardiac surgery patients",
+      "publicacao": "Cardiovascular Business",
       "autores": [],
       "classe": "B",
-      "score": 6.4,
+      "score": 6.0,
+      "categoria_fonte": "noticias",
+      "emoji": "💉",
+      "resumo": "Dados do AATS Annual Meeting sugerem benefício do Impella 5.5 em cirurgia cardíaca de alto risco fora do contexto de choque. Estratégia de proteção hemodinâmica pré-operatória.",
+      "impacto_clinico": "Pode expandir indicação de suporte mecânico circulatório para pacientes selecionados de alto risco em cirurgia cardíaca eletiva, melhorando desfechos perioperatórios.",
+      "links": {
+        "url": "https://cardiovascularbusiness.com/topics/clinical/cardiac-surgery/impella-55-shows-promise-certain-non-shock-high-risk-cardiac-surgery-patients"
+      }
+    },
+    {
+      "id": "not_012",
+      "titulo": "CCTA brings clarity, better outcomes to CTO PCI",
+      "publicacao": "Cardiovascular Business",
+      "autores": [],
+      "classe": "B",
+      "score": 6.0,
+      "categoria_fonte": "noticias",
+      "emoji": "🩻",
+      "resumo": "Revisão de múltiplos estudos avaliou o valor da angiotomografia coronariana como guia para PCI em oclusão crônica total. Sugere melhor planejamento e desfechos a longo prazo.",
+      "impacto_clinico": "Apoia incorporação rotineira de CCTA pré-procedimento em casos selecionados de CTO, permitindo planejamento técnico e seleção de pacientes mais adequada.",
+      "links": {
+        "url": "https://cardiovascularbusiness.com/topics/clinical/interventional-cardiology/ccta-brings-clarity-better-outcomes-cto-pci"
+      }
+    },
+    {
+      "id": "not_013",
+      "titulo": "Flow-gradient Phenotypes and Functional Recovery After TAVI: COMPARE-TAVI 1 Sub-study",
+      "publicacao": "medRxiv",
+      "autores": [],
+      "classe": "B",
+      "score": 6.5,
       "categoria_fonte": "preprint",
       "emoji": "🔬",
-      "resumo": "[PREPRINT] Sub-análise do COMPARE-TAVI 1 (n=975) avaliou recuperação funcional e remodelamento reverso após TAVI conforme fenótipos de fluxo-gradiente (cLFLG, pLFLG, etc). Demonstra heterogeneidade nos benefícios pós-TAVI.",
-      "impacto_clinico": "Pode refinar expectativas e seleção de pacientes para TAVI conforme fenótipo hemodinâmico, especialmente em LFLG paradoxal e clássica.",
+      "resumo": "[PREPRINT] Subestudo COMPARE-TAVI 1 com 975 pacientes avaliou recuperação funcional e remodelamento reverso após TAVI conforme fenótipos de fluxo-gradiente. Inclui clássico e paradoxal LFLG, fluxo normal alto e baixo gradiente.",
+      "impacto_clinico": "Pode auxiliar prognóstico individualizado pós-TAVI conforme fenótipo hemodinâmico pré-procedimento, refinando aconselhamento e seleção de pacientes.",
       "links": {
         "url": "https://www.medrxiv.org/content/10.64898/2026.05.04.26352421v1?rss=1"
       }
     },
     {
-      "id": "not_012",
-      "titulo": "[PREPRINT] A liver-heart endocrine axis revealed by systems genetics and mediated by hepatocyte growth factor activator",
-      "publicacao": "medRxiv Cardiovascular",
+      "id": "not_014",
+      "titulo": "A liver-heart endocrine axis revealed by systems genetics and mediated by hepatocyte growth factor activator",
+      "publicacao": "medRxiv",
       "autores": [],
-      "classe": "C",
-      "score": 5.0,
+      "classe": "B",
+      "score": 6.0,
       "categoria_fonte": "preprint",
       "emoji": "🔬",
-      "resumo": "[PREPRINT] Estudo de genética de sistemas identifica eixo endócrino fígado-coração mediado por HGFA, potencialmente explicando a disfunção cardíaca em doenças hepáticas. Foco mecanístico, ainda longe da aplicação clínica.",
-      "impacto_clinico": "Fornece base mecanística para o eixo cardio-hepático e sugere alvos terapêuticos futuros em IC associada a doença hepática.",
+      "resumo": "[PREPRINT] Estudo de genética de sistemas identifica eixo endócrino fígado-coração mediado pelo ativador do fator de crescimento hepatocitário. Pode explicar a associação entre doença hepática e disfunção cardíaca.",
+      "impacto_clinico": "Abre caminho mecanístico para entender insuficiência cardíaca em hepatopatas e potencial alvo terapêutico no eixo fígado-coração.",
       "links": {
         "url": "https://www.medrxiv.org/content/10.64898/2026.05.05.26352474v1?rss=1"
       }
@@ -195,20 +225,20 @@
       "id": "pod_001",
       "titulo": "May 01 2026 This Week in Cardiology",
       "publicacao": "This Week in Cardiology (Mandrola)",
-      "host": "John Mandrola",
+      "host": "Medscape / John Mandrola",
       "classe": "A",
-      "score": 8.2,
+      "score": 8.5,
       "categoria_fonte": "podcast",
       "emoji": "🎙️",
-      "resumo": "Episódio comenta atualizações práticas em cardiologia: tempo para terapia quádrupla na ICFER, resultados decepcionantes do AVANT GUARD, riscos da PFA, trial TREAT-PVC e cuidados do NSTEMI no idoso frágil.",
+      "resumo": "Mandrola revisa temas críticos da semana incluindo o trial AVANT GUARD (decepcionante para PFA em FA persistente), riscos de PFA no estudo TIFFANY, o trial TREAT-PVC e cuidado de NSTEMI em idosos frágeis. Inclui também debate sobre tempo até quadrupla terapia em ICFEr.",
       "bullet_points": [
-        "Tempo para terapia quádrupla após diagnóstico de ICFER — análise do JAMA Cardiology",
-        "AVANT GUARD — PFA como primeira linha em FA persistente decepciona em trial randomizado",
-        "TIFFANY Study — isquemia miocárdica tardia e arritmias malignas após PFA levantam alerta de segurança",
-        "TREAT-PVC trial — manejo de extrassístoles ventriculares",
-        "Cuidado do NSTEMI no idoso frágil — implicações práticas"
+        "Tempo até quadrupla terapia após diagnóstico de ICFEr — análise crítica de inércia terapêutica",
+        "AVANT GUARD — PFA como primeira linha em FA persistente decepciona vs medicamentos",
+        "TIFFANY Study — sinais preocupantes de isquemia miocárdica tardia e arritmias malignas após PFA",
+        "TREAT-PVC — abordagem de extrassístoles ventriculares com impacto em remodelamento",
+        "NSTEMI em idosos frágeis — quando a estratégia invasiva ainda faz sentido"
       ],
-      "impacto_clinico": "Atualização densa em eletrofisiologia (segurança da PFA), IC (timing da terapia quádrupla) e SCA no idoso. Leitura/escuta obrigatória para o clínico.",
+      "impacto_clinico": "Episódio essencial para atualização semanal: traz sinais de segurança importantes sobre PFA que podem mudar prática, debate sobre titulação de terapia em IC e nuances no manejo de NSTEMI no idoso.",
       "links": {
         "episode_url": "https://twicardiology.libsyn.com/may-01-2026-this-week-in-cardiology",
         "audio_url": "https://traffic.libsyn.com/secure/twicardiology/58692585-TWIC-050126-v1.mp3?dest-id=668006"
@@ -218,19 +248,18 @@
       "id": "pod_002",
       "titulo": "Pulsed Field Ablation and PAS; TRIDENT & Antihypertensive Polypharmacy; NOBLE and PCI vs. CABG",
       "publicacao": "Eagle's Eye View",
-      "host": "Kim Eagle (ACC)",
+      "host": "American College of Cardiology",
       "classe": "A",
-      "score": 8.0,
+      "score": 8.3,
       "categoria_fonte": "podcast",
       "emoji": "🎙️",
-      "resumo": "Dr. Eagle revisa três estudos de alto impacto: NOBLE (PCI vs. CABG em tronco de coronária esquerda), nsPFA em 1 ano para FA paroxística e TRIDENT (estratégia tripla anti-hipertensiva pós-AVC hemorrágico).",
+      "resumo": "Dr. Eagle revisa três estudos de alto impacto: NOBLE (PCI vs CABG em DAC de tronco não protegido), segurança e eficácia de PFA com nanossegundos em FA paroxística em 1 ano, e o TRIDENT (estratégia tripla anti-hipertensiva pós-AVC hemorrágico).",
       "bullet_points": [
-        "NOBLE — PCI vs. CABG em doença não protegida do tronco de coronária esquerda",
-        "PFA por nanossegundos (nsPFA) — segurança e eficácia em 1 ano para FA paroxística",
-        "TRIDENT — pílula tripla anti-hipertensiva versus terapia convencional pós-hemorragia intracerebral",
-        "Implicações da polifarmácia anti-hipertensiva na prevenção secundária do AVC"
+        "NOBLE trial — atualização de PCI vs CABG em doença de tronco de coronária esquerda",
+        "Nanosecond PFA — eficácia e segurança em 1 ano para FA paroxística",
+        "TRIDENT — pílula tripla anti-hipertensiva reduz risco de AVC após hemorragia intracerebral"
       ],
-      "impacto_clinico": "Cobertura tripla de tópicos práticos: revascularização do tronco, segurança da PFA de longo prazo e estratégia anti-hipertensiva pós-AVC.",
+      "impacto_clinico": "Atualização densa em três frentes-chave: revascularização do tronco, ablação de FA com tecnologia emergente e otimização do controle pressórico pós-AVCh.",
       "links": {
         "episode_url": "https://eagleseye.acc.org/pulsed-field-ablation-and-pas-trident-antihypertensive-polypharmacy-noble-and-pci-vs-cabg",
         "audio_url": "https://traffic.libsyn.com/secure/accorg/EEV_May_6.mp3?dest-id=563201"
@@ -238,20 +267,20 @@
     },
     {
       "id": "pod_003",
-      "titulo": "Circulation May 5, 2026 Issue — Multiorgan Physiologic Deficits in HFpEF",
+      "titulo": "Circulation May 5, 2026 Issue",
       "publicacao": "Circulation on the Run",
       "host": "AHA / Circulation",
       "classe": "B",
       "score": 7.0,
       "categoria_fonte": "podcast",
       "emoji": "🎙️",
-      "resumo": "Greg Lewis e Ravi Shah discutem artigo sobre déficits fisiológicos multiorgânicos durante exercício como preditores clínicos e moleculares de predisposição a ICFEP.",
+      "resumo": "Lewis e Shah discutem estudo sobre déficits fisiológicos multiorgânicos durante exercício como preditores clínicos e moleculares de predisposição à ICFEP. Aborda fenotipagem por exercício e identificação de pacientes em risco.",
       "bullet_points": [
-        "Avaliação fisiológica multiorgânica durante exercício em risco de ICFEP",
-        "Marcadores moleculares de predisposição à ICFEP",
-        "Implicações para fenotipagem e prevenção precoce da ICFEP"
+        "Déficits fisiológicos multiorgânicos no exercício como preditor de ICFEP",
+        "Predisposição clínica e molecular — integração entre fenótipo funcional e biomarcadores",
+        "Implicações para identificação precoce de pacientes em risco de ICFEP"
       ],
-      "impacto_clinico": "Avança a compreensão da ICFEP como síndrome multissistêmica, abrindo possibilidades de identificação precoce em estágio pré-clínico.",
+      "impacto_clinico": "Pode refinar abordagem diagnóstica precoce de ICFEP, valorizando teste de exercício com avaliação multissistêmica para identificar pacientes pré-clínicos.",
       "links": {
         "episode_url": "https://circulation.libsyn.com/circulation-may-5-2026-issue",
         "audio_url": null
@@ -263,16 +292,16 @@
       "publicacao": "ESC Cardio Talk",
       "host": "European Society of Cardiology",
       "classe": "B",
-      "score": 6.5,
+      "score": 6.8,
       "categoria_fonte": "podcast",
       "emoji": "🎙️",
-      "resumo": "Crespo-Leiro, Barge-Caballero e Couto-Mallon discutem otimização da qualidade da anticoagulação em receptores de LVAD, com foco em redução de eventos trombóticos e hemorrágicos.",
+      "resumo": "Crespo-Leiro, Barge-Caballero e Couto-Mallon discutem otimização da qualidade da anticoagulação em receptores de LVAD para melhorar desfechos clínicos. Editorial relevante para programas de IC avançada.",
       "bullet_points": [
-        "Qualidade do controle anticoagulante (TTR) em pacientes com LVAD",
-        "Estratégias para reduzir eventos hemorrágicos e trombóticos",
-        "Recomendações práticas para o seguimento ambulatorial"
+        "Qualidade da anticoagulação como determinante de desfecho em LVAD",
+        "Métricas de TTR e estratégias de monitoramento em pacientes com LVAD",
+        "Impacto em complicações tromboembólicas e hemorrágicas"
       ],
-      "impacto_clinico": "Ferramenta prática para centros de IC avançada que manejam pacientes com dispositivos de assistência ventricular esquerda.",
+      "impacto_clinico": "Conteúdo direcionado a centros de IC avançada — reforça monitoramento rigoroso de INR e estratégias para manter pacientes em janela terapêutica.",
       "links": {
         "episode_url": "https://escardio.libsyn.com/journal-editorial-optimizing-anticoagulation-quality-to-improve-outcomes-in-lvad-recipients",
         "audio_url": "https://traffic.libsyn.com/secure/escardio/Cardio_Talk_Crespo-Leiro_FINAL.mp3?dest-id=1060319"
@@ -287,14 +316,14 @@
       "score": 5.5,
       "categoria_fonte": "podcast",
       "emoji": "🎙️",
-      "resumo": "Tributo completo em 6 capítulos a Eugene Braunwald, traçando a história da cardiologia moderna através de descobertas fisiológicas, acesso transeptal, história natural das valvopatias e terapias do IAM.",
+      "resumo": "Tributo em série completa a Eugene Braunwald, pai da cardiologia moderna. Seis capítulos cobrindo descobertas fisiológicas, acesso transeptal, história natural de doença valvar e terapias do IM.",
       "bullet_points": [
-        "História do desenvolvimento do acesso transeptal",
-        "História natural das valvopatias",
-        "Evolução das terapias para infarto do miocárdio",
-        "Princípios de mentoria e perseverança na carreira acadêmica"
+        "Descobertas fisiológicas iniciais e desenvolvimento do acesso transeptal",
+        "História natural da doença valvar — contribuições seminais",
+        "Modernas terapias do infarto agudo do miocárdio",
+        "Reflexões sobre mentoria, curiosidade e perseverança na pesquisa"
       ],
-      "impacto_clinico": "Conteúdo histórico-formativo: contexto sobre a base conceitual da cardiologia atual, ideal para aprimoramento profissional não-urgente.",
+      "impacto_clinico": "Conteúdo histórico-educacional valioso para formação cardiológica — perspectiva única sobre evolução da especialidade pelos olhos de seu maior protagonista.",
       "links": {
         "episode_url": "https://www.cardionerds.com/448-the-braunwald-chronicles-the-complete-series-a-cardionerds-tribute-to-dr-eugene-braunwald/",
         "audio_url": "https://media.blubrry.com/cardionerds/content.blubrry.com/cardionerds/CN_448.mp3"
@@ -316,8 +345,8 @@
       "score": 9.2,
       "categoria_fonte": "revista",
       "emoji": "💉",
-      "resumo": "Análise do TRISCEND II avalia desfechos do implante transcateter de válvula tricúspide estratificados pela gravidade basal da regurgitação tricúspide. Trial pivotal que orienta seleção de pacientes para essa terapia emergente.",
-      "impacto_clinico": "Define o 'sweet spot' para intervenção transcateter na tricúspide — quais perfis de IT severa beneficiam-se mais. Diretamente aplicável à prática do Heart Team em valvopatia tricúspide.",
+      "resumo": "Análise do TRISCEND II avalia desfechos da substituição transcateter da valva tricúspide conforme gravidade basal da regurgitação tricúspide. Define qual subgrupo se beneficia mais da intervenção.",
+      "impacto_clinico": "Refina seleção de pacientes para TTVR — identifica em qual estágio da regurgitação tricúspide a intervenção transcateter agrega maior benefício, orientando timing da intervenção na doença valvar tricúspide.",
       "links": {
         "url": "https://pubmed.ncbi.nlm.nih.gov/40878717/",
         "doi": "10.1093/eurheartj/ehaf676",
@@ -338,8 +367,8 @@
       "score": 9.0,
       "categoria_fonte": "revista",
       "emoji": "💊",
-      "resumo": "Trial randomizado TAILORED-CHIP testou modulação temporal da terapia antiplaquetária em pacientes de alto risco submetidos a ICP complexa. Estratégia individualizada de DAPT em CHIP.",
-      "impacto_clinico": "Pode refinar o regime de antiagregação em ICP complexa de alto risco, equilibrando isquemia vs. sangramento de forma dinâmica ao longo do tempo.",
+      "resumo": "TAILORED-CHIP é um ECR avaliando modulação temporal da terapia antiplaquetária em pacientes de alto risco submetidos a PCI complexa. Aborda equilíbrio crítico entre risco isquêmico e hemorrágico.",
+      "impacto_clinico": "Pode estabelecer estratégia de DAPT individualizada e tempo-dependente em PCI complexa de alto risco, orientando intensidade e duração da terapia antiplaquetária.",
       "links": {
         "url": "https://pubmed.ncbi.nlm.nih.gov/40886179/",
         "doi": "10.1093/eurheartj/ehaf652",
@@ -357,11 +386,11 @@
         "La Sala R"
       ],
       "classe": "A",
-      "score": 8.8,
+      "score": 8.5,
       "categoria_fonte": "revista",
       "emoji": "🩺",
-      "resumo": "Trial ALLEPRE compara programa de prevenção secundária coordenado por enfermagem versus cuidado padrão após síndrome coronariana aguda. Avalia desfechos clínicos e adesão a terapias baseadas em evidência.",
-      "impacto_clinico": "Pode justificar implementação de programas estruturados de prevenção secundária liderados por enfermagem após SCA, melhorando adesão e desfechos.",
+      "resumo": "ALLEPRE comparou programa de intervenção coordenada por enfermagem vs cuidado padrão após SCA. ECR aborda lacuna crítica em prevenção secundária.",
+      "impacto_clinico": "Pode validar modelo de cuidado coordenado por enfermagem como estratégia escalável para melhorar adesão e desfechos pós-SCA, com implicações para reorganização de programas de prevenção secundária.",
       "links": {
         "url": "https://pubmed.ncbi.nlm.nih.gov/42085325/",
         "doi": "10.1093/eurheartj/ehag255",
@@ -370,28 +399,6 @@
     },
     {
       "id": "art_004",
-      "titulo": "Update on heart transplantation: a clinical consensus statement of the Advanced Heart Failure Committee of the HFA-ESC",
-      "publicacao": "European Journal of Heart Failure",
-      "autores": [
-        "Milicic D",
-        "Planinc I",
-        "Adamopoulos S",
-        "Gal TB"
-      ],
-      "classe": "A",
-      "score": 9.0,
-      "categoria_fonte": "revista",
-      "emoji": "❤️",
-      "resumo": "Consenso clínico da HFA-ESC atualiza recomendações sobre transplante cardíaco — indicações, seleção de candidatos, manejo perioperatório e seguimento. Documento de referência para centros de IC avançada.",
-      "impacto_clinico": "Documento norteador da prática em transplante cardíaco na Europa e referência global; atualiza critérios de listagem, manejo de doadores e imunossupressão.",
-      "links": {
-        "url": "https://pubmed.ncbi.nlm.nih.gov/42085519/",
-        "doi": "10.1093/ejhf/xuag051",
-        "pubmed": "42085519"
-      }
-    },
-    {
-      "id": "art_005",
       "titulo": "Drug-coated vs non-drug-coated devices for femoropopliteal artery interventions: long-term outcomes of the SAFE-PAD study",
       "publicacao": "European Heart Journal",
       "autores": [
@@ -404,8 +411,8 @@
       "score": 8.7,
       "categoria_fonte": "revista",
       "emoji": "💉",
-      "resumo": "Desfechos de longo prazo do SAFE-PAD comparam dispositivos com e sem drogas em intervenções femoropoplíteas, em coorte ampla via dados de claims. Aborda controvérsia histórica sobre mortalidade com paclitaxel.",
-      "impacto_clinico": "Reforça segurança de longo prazo dos dispositivos eluidores em DAOP femoropoplítea, encerrando dúvidas remanescentes do alerta original do FDA.",
+      "resumo": "SAFE-PAD apresenta desfechos de longo prazo comparando dispositivos com e sem fármaco em intervenções femoropoplíteas. Aborda controvérsia de segurança após sinais iniciais de mortalidade.",
+      "impacto_clinico": "Resolve definitivamente debate sobre segurança de longo prazo de balões e stents recobertos com paclitaxel em DAOP, orientando escolha de dispositivos e tranquilizando comunidade vascular.",
       "links": {
         "url": "https://pubmed.ncbi.nlm.nih.gov/40996087/",
         "doi": "10.1093/eurheartj/ehaf721",
@@ -413,7 +420,7 @@
       }
     },
     {
-      "id": "art_006",
+      "id": "art_005",
       "titulo": "Cardiovascular benefit of continuous positive airway pressure according to high-risk obstructive sleep apnoea: a multi-trial analysis",
       "publicacao": "European Heart Journal",
       "autores": [
@@ -423,11 +430,11 @@
         "Wellman A"
       ],
       "classe": "A",
-      "score": 8.8,
+      "score": 8.5,
       "categoria_fonte": "revista",
       "emoji": "🩺",
-      "resumo": "Análise multi-trial identifica subgrupo de AOS de alto risco que se beneficia cardiovascularmente do CPAP, ajudando a explicar resultados neutros de estudos prévios e propondo fenotipagem para seleção.",
-      "impacto_clinico": "Permite identificar quais pacientes com AOS realmente se beneficiam do CPAP em prevenção cardiovascular — pode ressignificar indicações após décadas de incerteza.",
+      "resumo": "Análise multi-trial identifica subgrupo de alto risco de AOS que se beneficia de CPAP em desfechos cardiovasculares. Resolve paradoxo dos trials prévios negativos.",
+      "impacto_clinico": "Permite identificar pacientes com AOS que efetivamente se beneficiam de CPAP em prevenção cardiovascular, mudando estratégia de tudo-ou-nada para abordagem fenótipo-dirigida.",
       "links": {
         "url": "https://pubmed.ncbi.nlm.nih.gov/40794640/",
         "doi": "10.1093/eurheartj/ehaf447",
@@ -435,30 +442,8 @@
       }
     },
     {
-      "id": "art_007",
-      "titulo": "High-Sensitivity Cardiac Troponin T-gen6 Assay in Suspected Myocardial Infarction: Diagnostic Accuracy, Cutoffs, and Clinical Implications",
-      "publicacao": "Journal of the American College of Cardiology",
-      "autores": [
-        "Koechlin L",
-        "Lopez-Ayala P",
-        "Thurston AJF",
-        "Tew YY"
-      ],
-      "classe": "A",
-      "score": 8.5,
-      "categoria_fonte": "revista",
-      "emoji": "🔬",
-      "resumo": "Estudo multicêntrico avalia o desempenho diagnóstico do ensaio de troponina T-gen6 (próxima geração) em IAM suspeito, define novos cortes e implicações clínicas para algoritmos de descarte rápido.",
-      "impacto_clinico": "Define parâmetros operacionais do novo ensaio hsTnT-gen6 — laboratórios e protocolos de PS precisarão atualizar cortes e tempos de algoritmo 0/1h.",
-      "links": {
-        "url": "https://pubmed.ncbi.nlm.nih.gov/41879583/",
-        "doi": "10.1016/j.jacc.2025.12.052",
-        "pubmed": "41879583"
-      }
-    },
-    {
-      "id": "art_008",
-      "titulo": "Effect of Tocilizumab on Pro-B-Type Natriuretic Peptide and Infarct Size in Patients With Acute MI at Risk of Cardiogenic Shock (DOBERMANN-T)",
+      "id": "art_006",
+      "titulo": "Effect of Tocilizumab on Pro-B-Type Natriuretic Peptide and Infarct Size in Patients With Acute Myocardial Infarction at Risk of Cardiogenic Shock (DOBERMANN-T)",
       "publicacao": "Journal of the American College of Cardiology",
       "autores": [
         "Kunkel JB",
@@ -467,11 +452,11 @@
         "Pecini R"
       ],
       "classe": "A",
-      "score": 8.7,
+      "score": 8.8,
       "categoria_fonte": "revista",
       "emoji": "💊",
-      "resumo": "Trial DOBERMANN-T testou tocilizumabe (anti-IL-6) em pacientes com IAM em risco de choque cardiogênico, avaliando NT-proBNP e tamanho do infarto. Aborda janela pré-choque com modulação inflamatória.",
-      "impacto_clinico": "Explora intervenção precoce na cascata inflamatória do IAM antes da instalação do choque — potencial para prevenir progressão e reduzir tamanho do infarto.",
+      "resumo": "DOBERMANN-T avaliou tocilizumabe (anti-IL6) em IM com risco de choque cardiogênico, com NT-proBNP e tamanho do infarto como desfechos. Estende paradigma de modulação inflamatória.",
+      "impacto_clinico": "Pode estabelecer anti-inflamatório direcionado (anti-IL6) como nova estratégia adjuvante em IM de alto risco para reduzir lesão miocárdica e progressão para choque.",
       "links": {
         "url": "https://pubmed.ncbi.nlm.nih.gov/41801170/",
         "doi": "10.1016/j.jacc.2026.01.019",
@@ -479,8 +464,8 @@
       }
     },
     {
-      "id": "art_009",
-      "titulo": "Effect of Low-Dose Dobutamine Infusion on NT-proBNP in At-Risk Patients With Acute MI (DOBERMANN-D): A Randomized Clinical Trial",
+      "id": "art_007",
+      "titulo": "Effect of Low-Dose Dobutamine Infusion on N-Terminal Pro-B-Type Natriuretic Peptide in At-Risk Patients With Acute Myocardial Infarction (DOBERMANN-D)",
       "publicacao": "Journal of the American College of Cardiology",
       "autores": [
         "Holle SLD",
@@ -489,11 +474,11 @@
         "Wiberg S"
       ],
       "classe": "A",
-      "score": 8.5,
+      "score": 8.3,
       "categoria_fonte": "revista",
       "emoji": "💊",
-      "resumo": "Trial DOBERMANN-D avaliou dobutamina em baixa dose em pacientes com IAM em risco de choque cardiogênico — abordagem inotrópica precoce na 'janela pré-choque' para prevenir descompensação.",
-      "impacto_clinico": "Explora se intervenção inotrópica precoce, antes do choque estabelecido, melhora desfechos — pode reformular conduta na fase pré-shock do IAM.",
+      "resumo": "DOBERMANN-D testou dobutamina em baixa dose no IM em risco de choque para reduzir NT-proBNP. Aborda janela pré-choque com inotrópico em estratégia preventiva.",
+      "impacto_clinico": "Explora conceito de intervenção pré-choque — se positivo, mudaria paradigma de aguardar choque manifesto para abordagem proativa de pacientes de alto risco.",
       "links": {
         "url": "https://pubmed.ncbi.nlm.nih.gov/41801171/",
         "doi": "10.1016/j.jacc.2026.01.020",
@@ -501,30 +486,74 @@
       }
     },
     {
-      "id": "art_010",
-      "titulo": "Cardiovascular Risk Across Myocardial Injury and Infarction Categories Using the Universal Definition: An Individual Patient-Level Data Meta-Analysis",
+      "id": "art_008",
+      "titulo": "Digital Cognitive Behavioral Therapy for Cardiac Anxiety After Myocardial Infarction: Effects on Disease-Specific Health Status-Randomized Trial Results",
       "publicacao": "Journal of the American College of Cardiology",
       "autores": [
-        "Boeddinghaus J",
+        "Johnsson A",
+        "Ljótsson B",
+        "Liliequist BE",
+        "Lidin M"
+      ],
+      "classe": "A",
+      "score": 8.0,
+      "categoria_fonte": "revista",
+      "emoji": "🩺",
+      "resumo": "ECR de TCC digital para ansiedade cardíaca pós-IM mostra efeitos em status de saúde específico da doença. Aborda necessidade não atendida em prevenção secundária.",
+      "impacto_clinico": "Valida intervenção digital escalável para tratar ansiedade cardíaca pós-IM, condição comum mas frequentemente negligenciada que afeta qualidade de vida e adesão.",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41879588/",
+        "doi": "10.1016/j.jacc.2026.02.5068",
+        "pubmed": "41879588"
+      }
+    },
+    {
+      "id": "art_009",
+      "titulo": "Update on heart transplantation: a clinical consensus statement of the Advanced Heart Failure Committee of the Heart Failure Association of the ESC",
+      "publicacao": "European Journal of Heart Failure",
+      "autores": [
+        "Milicic D",
+        "Planinc I",
+        "Adamopoulos S",
+        "Gal TB"
+      ],
+      "classe": "A",
+      "score": 8.5,
+      "categoria_fonte": "revista",
+      "emoji": "❤️",
+      "resumo": "Consenso clínico da HFA-ESC atualiza recomendações sobre transplante cardíaco, abrangendo seleção, timing, manejo perioperatório e seguimento. Documento de referência prática.",
+      "impacto_clinico": "Documento essencial para programas de IC avançada — atualiza critérios de listagem, manejo de candidatos em ponte e seguimento pós-transplante conforme evidências mais recentes.",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42085519/",
+        "doi": "10.1093/ejhf/xuag051",
+        "pubmed": "42085519"
+      }
+    },
+    {
+      "id": "art_010",
+      "titulo": "High-Sensitivity Cardiac Troponin T-gen6 Assay in Suspected Myocardial Infarction: Diagnostic Accuracy, Cutoffs, and Clinical Implications",
+      "publicacao": "Journal of the American College of Cardiology",
+      "autores": [
+        "Koechlin L",
         "Lopez-Ayala P",
         "Thurston AJF",
-        "Lee KK"
+        "Tew YY"
       ],
       "classe": "B",
       "score": 7.8,
       "categoria_fonte": "revista",
-      "emoji": "📊",
-      "resumo": "Meta-análise de dados individuais avalia risco cardiovascular através das categorias de injúria/infarto miocárdico segundo a Definição Universal. Sintetiza prognóstico em larga escala.",
-      "impacto_clinico": "Refina estratificação prognóstica entre lesão miocárdica aguda/crônica e tipos de IAM — informa intensidade do tratamento na alta hospitalar.",
+      "emoji": "🩺",
+      "resumo": "Estudo avalia acurácia diagnóstica e cutoffs do novo ensaio hs-cTnT-gen6 em suspeita de IM. Define implicações clínicas para algoritmos rápidos.",
+      "impacto_clinico": "Define cutoffs validados para nova geração de troponina T ultrassensível, permitindo atualização de protocolos 0/1h e melhor performance diagnóstica em PS.",
       "links": {
-        "url": "https://pubmed.ncbi.nlm.nih.gov/41553312/",
-        "doi": "10.1016/j.jacc.2025.11.043",
-        "pubmed": "41553312"
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41879583/",
+        "doi": "10.1016/j.jacc.2025.12.052",
+        "pubmed": "41879583"
       }
     },
     {
       "id": "art_011",
-      "titulo": "Comparison of the ESC 0/1-Hour and 0/2- or 0/3-Hour Algorithms for Rapid MI Diagnosis: A Prospective Multicenter Study",
+      "titulo": "Comparison of the ESC 0/1-Hour and High-Sensitivity Troponin 0/2-or-0/3-Hour Algorithms for Rapid Myocardial Infarction Diagnosis: A Prospective Multicenter Study",
       "publicacao": "Journal of the American College of Cardiology",
       "autores": [
         "Glaeser J",
@@ -536,8 +565,8 @@
       "score": 7.7,
       "categoria_fonte": "revista",
       "emoji": "🩺",
-      "resumo": "Estudo prospectivo multicêntrico compara algoritmos ESC 0/1h vs 0/2h/0/3h em pacientes com suspeita de SCA, avaliando sensibilidade, especificidade e descarte seguro de IAM.",
-      "impacto_clinico": "Orienta escolha do algoritmo de descarte rápido no PS — implicações diretas para tempo de permanência e segurança no manejo de dor torácica.",
+      "resumo": "Estudo multicêntrico prospectivo compara algoritmos 0/1h vs 0/2h-0/3h da ESC para diagnóstico rápido de IM com troponina ultrassensível. Define qual estratégia é superior.",
+      "impacto_clinico": "Orienta escolha entre algoritmos de exclusão rápida de IM no PS, com impacto direto em fluxo, alta precoce segura e ocupação de leitos.",
       "links": {
         "url": "https://pubmed.ncbi.nlm.nih.gov/41706062/",
         "doi": "10.1016/j.jacc.2025.12.056",
@@ -546,7 +575,29 @@
     },
     {
       "id": "art_012",
-      "titulo": "Cardiac Arrest and Outcome in Patients With Cardiogenic Shock Complicating Acute MI: A Pooled Analysis of Randomized Controlled Trials",
+      "titulo": "Cardiovascular Risk Across Myocardial Injury and Infarction Categories Using the Universal Definition: An Individual Patient-Level Data Meta-Analysis",
+      "publicacao": "Journal of the American College of Cardiology",
+      "autores": [
+        "Boeddinghaus J",
+        "Lopez-Ayala P",
+        "Thurston AJF",
+        "Lee KK"
+      ],
+      "classe": "B",
+      "score": 7.7,
+      "categoria_fonte": "revista",
+      "emoji": "📊",
+      "resumo": "Metanálise de dados individuais avalia risco CV entre categorias de injúria e infarto miocárdico pela Definição Universal. Estratifica prognóstico por categoria.",
+      "impacto_clinico": "Refina estratificação prognóstica em pacientes com troponina elevada — orienta intensidade de investigação e tratamento conforme categoria de injúria/infarto.",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41553312/",
+        "doi": "10.1016/j.jacc.2025.11.043",
+        "pubmed": "41553312"
+      }
+    },
+    {
+      "id": "art_013",
+      "titulo": "Cardiac Arrest and Outcome in Patients With Cardiogenic Shock Complicating Acute Myocardial Infarction: A Pooled Analysis of Randomized Controlled Trials",
       "publicacao": "Journal of the American College of Cardiology",
       "autores": [
         "Freund A",
@@ -555,11 +606,11 @@
         "Fuernau G"
       ],
       "classe": "B",
-      "score": 7.6,
+      "score": 7.5,
       "categoria_fonte": "revista",
       "emoji": "🩺",
-      "resumo": "Análise agrupada de RCTs avalia o impacto da PCR sobre desfechos no choque cardiogênico pós-IAM. Quantifica diferença prognóstica e implicações terapêuticas.",
-      "impacto_clinico": "Subgrupo PCR+CS é o de pior prognóstico em IAM — orienta seleção e expectativa de benefício das terapias avançadas (suporte mecânico, transferência).",
+      "resumo": "Análise pooled de ECRs avalia impacto de PCR em desfechos de pacientes com choque cardiogênico complicando IM. Caracteriza prognóstico desse subgrupo crítico.",
+      "impacto_clinico": "Quantifica peso prognóstico da PCR no choque cardiogênico pós-IM, informando triagem para suporte mecânico e decisões de futilidade em UTI.",
       "links": {
         "url": "https://pubmed.ncbi.nlm.nih.gov/41879581/",
         "doi": "10.1016/j.jacc.2026.01.068",
@@ -567,29 +618,29 @@
       }
     },
     {
-      "id": "art_013",
-      "titulo": "Digital Cognitive Behavioral Therapy for Cardiac Anxiety After MI: Randomized Trial Results",
+      "id": "art_014",
+      "titulo": "Single-Pill Combination Therapy for Hypertension: Persistent Underuse in the United States, 2015-2025",
       "publicacao": "Journal of the American College of Cardiology",
       "autores": [
-        "Johnsson A",
-        "Ljótsson B",
-        "Liliequist BE",
-        "Lidin M"
+        "Choi K",
+        "Kim C",
+        "Spatz ES",
+        "Krumholz HM"
       ],
       "classe": "B",
       "score": 7.5,
       "categoria_fonte": "revista",
-      "emoji": "🩺",
-      "resumo": "RCT testou TCC digital para ansiedade cardíaca pós-IAM, avaliando efeitos no estado de saúde específico da doença. Aborda necessidade não atendida na reabilitação cardíaca.",
-      "impacto_clinico": "Valida intervenção digital escalável para ansiedade cardíaca pós-IAM — pode ser incorporada à reabilitação cardíaca como ferramenta de baixo custo.",
+      "emoji": "💊",
+      "resumo": "Análise de 10 anos documenta subutilização persistente de combinações fixas em HAS nos EUA, apesar de evidências de melhor adesão e desfechos. Lacuna de implementação.",
+      "impacto_clinico": "Evidencia gap implementação-evidência em HAS — incentiva mudança de prática rotineira para combinações fixas como primeira linha, especialmente em estágio 2.",
       "links": {
-        "url": "https://pubmed.ncbi.nlm.nih.gov/41879588/",
-        "doi": "10.1016/j.jacc.2026.02.5068",
-        "pubmed": "41879588"
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42089854/",
+        "doi": "10.1016/j.jacc.2026.03.088",
+        "pubmed": "42089854"
       }
     },
     {
-      "id": "art_014",
+      "id": "art_015",
       "titulo": "Secondary Prevention After Myocardial Infarction in the United States",
       "publicacao": "Journal of the American College of Cardiology",
       "autores": [
@@ -601,9 +652,9 @@
       "classe": "B",
       "score": 7.5,
       "categoria_fonte": "revista",
-      "emoji": "📊",
-      "resumo": "Análise epidemiológica do estado da prevenção secundária pós-IAM nos EUA, avaliando lacunas no uso de estatinas, antiagregantes, IECA/BRA e estilo de vida.",
-      "impacto_clinico": "Quantifica lacunas terapêuticas pós-IAM e identifica alvos para intervenção em qualidade assistencial — espelho útil para auditoria local.",
+      "emoji": "🩺",
+      "resumo": "Análise abrangente da prevenção secundária pós-IM nos EUA, identificando lacunas persistentes em uso de terapias baseadas em evidência. Inclui adesão a estatinas, antiplaquetários e outros pilares.",
+      "impacto_clinico": "Documenta oportunidades de melhoria em prevenção secundária — informa estratégias de qualidade assistencial e foco em terapias subutilizadas em pacientes pós-IM.",
       "links": {
         "url": "https://pubmed.ncbi.nlm.nih.gov/42089852/",
         "doi": "10.1016/j.jacc.2026.03.157",
@@ -611,29 +662,29 @@
       }
     },
     {
-      "id": "art_015",
-      "titulo": "Single-Pill Combination Therapy for Hypertension: Persistent Underuse in the United States, 2015-2025",
+      "id": "art_016",
+      "titulo": "The cTnI/cTnT Ratio in Myocardial Injury: A Multicohort and Experimental Synthesis",
       "publicacao": "Journal of the American College of Cardiology",
       "autores": [
-        "Choi K",
-        "Kim C",
-        "Spatz ES",
-        "Krumholz HM"
+        "Zimmermann T",
+        "Koechlin L",
+        "Walter J",
+        "Kimenai DM"
       ],
       "classe": "B",
-      "score": 7.4,
+      "score": 7.5,
       "categoria_fonte": "revista",
-      "emoji": "💊",
-      "resumo": "Estudo de 10 anos documenta subutilização persistente da combinação em pílula única para hipertensão nos EUA, contrastando com recomendações das diretrizes que privilegiam SPC.",
-      "impacto_clinico": "Reforça gap implementação–evidência: prescritores devem priorizar SPC para melhorar adesão e controle pressórico, conforme diretrizes atuais.",
+      "emoji": "🔬",
+      "resumo": "Síntese multicoortes e experimental investiga utilidade da razão cTnI/cTnT em injúria miocárdica. Pode discriminar mecanismos isquêmicos vs não-isquêmicos.",
+      "impacto_clinico": "Pode introduzir biomarcador composto para diferenciar etiologias de injúria miocárdica, refinando avaliação além da troponina isolada em casos ambíguos.",
       "links": {
-        "url": "https://pubmed.ncbi.nlm.nih.gov/42089854/",
-        "doi": "10.1016/j.jacc.2026.03.088",
-        "pubmed": "42089854"
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41739020/",
+        "doi": "10.1016/j.jacc.2025.12.078",
+        "pubmed": "41739020"
       }
     },
     {
-      "id": "art_016",
+      "id": "art_017",
       "titulo": "Sex-Based Patterns and Trends in Transcatheter Aortic Valve Implantation",
       "publicacao": "JAMA Cardiology",
       "autores": [
@@ -645,9 +696,9 @@
       "classe": "B",
       "score": 7.3,
       "categoria_fonte": "revista",
-      "emoji": "📊",
-      "resumo": "Análise de tendências de TAVI segundo sexo identifica padrões diferenciais de uso, complicações e desfechos em mulheres versus homens ao longo do tempo.",
-      "impacto_clinico": "Identifica disparidades de gênero em TAVI — pode informar abordagem específica em seleção de prótese, vias de acesso e seguimento em mulheres.",
+      "emoji": "💉",
+      "resumo": "Análise de padrões e tendências de TAVR estratificada por sexo. Identifica disparidades em acesso, técnica e desfechos entre homens e mulheres.",
+      "impacto_clinico": "Informa abordagem específica por sexo em TAVR — pode orientar seleção de prótese, técnica de acesso e acompanhamento diferenciado em mulheres.",
       "links": {
         "url": "https://pubmed.ncbi.nlm.nih.gov/42090130/",
         "doi": "10.1001/jamacardio.2026.0941",
@@ -655,7 +706,7 @@
       }
     },
     {
-      "id": "art_017",
+      "id": "art_018",
       "titulo": "Artificial Intelligence Electrocardiogram and Left Ventricular Systolic Dysfunction in Kenya",
       "publicacao": "JAMA Cardiology",
       "autores": [
@@ -665,11 +716,11 @@
         "Kwon JM"
       ],
       "classe": "B",
-      "score": 7.4,
+      "score": 7.2,
       "categoria_fonte": "revista",
-      "emoji": "🩻",
-      "resumo": "Estudo de validação de algoritmo de IA em ECG para detectar disfunção sistólica do VE em ambiente de recursos limitados (Quênia). Avalia performance fora de populações ocidentais.",
-      "impacto_clinico": "Sustenta uso de IA-ECG como ferramenta de rastreio escalável de disfunção VE em regiões com baixo acesso a ecocardiografia — alta relevância para saúde global.",
+      "emoji": "🩺",
+      "resumo": "Estudo avalia desempenho de IA aplicada ao ECG para detecção de disfunção sistólica de VE no Quênia. Aborda viabilidade em ambientes de recursos limitados.",
+      "impacto_clinico": "Demonstra potencial de IA-ECG como ferramenta de rastreio de IC em regiões com acesso limitado a ecocardiografia, com impacto em saúde global cardiovascular.",
       "links": {
         "url": "https://pubmed.ncbi.nlm.nih.gov/42090146/",
         "doi": "10.1001/jamacardio.2026.0908",
@@ -677,94 +728,7 @@
       }
     },
     {
-      "id": "art_018",
-      "titulo": "Transcatheter aortic valve-in-mechanical valve replacement: a first-in-human study",
-      "publicacao": "European Heart Journal",
-      "autores": [
-        "Amat-Santos IJ",
-        "Real C",
-        "Galán-Arriola C",
-        "Diz-Díaz J"
-      ],
-      "classe": "B",
-      "score": 7.6,
-      "categoria_fonte": "revista",
-      "emoji": "💉",
-      "resumo": "Primeiro estudo em humanos de TAVI valve-in-valve em prótese mecânica disfuncional. Abre potencial nova fronteira para reintervenção valvar sem nova esternotomia.",
-      "impacto_clinico": "Pode oferecer alternativa percutânea para disfunção de prótese mecânica em pacientes de alto risco cirúrgico — paradigma até então restrito a próteses biológicas.",
-      "links": {
-        "url": "https://pubmed.ncbi.nlm.nih.gov/41614684/",
-        "doi": "10.1093/eurheartj/ehag019",
-        "pubmed": "41614684"
-      }
-    },
-    {
       "id": "art_019",
-      "titulo": "Clinical Experience With a Novel Percutaneous LV Assist Device in High-Risk PCI: Primary Results From the SUPPORT I Study",
-      "publicacao": "Circulation: Cardiovascular Interventions",
-      "autores": [
-        "Kandzari DE",
-        "Mignatti A",
-        "Kini A",
-        "Wong G"
-      ],
-      "classe": "B",
-      "score": 7.3,
-      "categoria_fonte": "revista",
-      "emoji": "💉",
-      "resumo": "SUPPORT I avalia um novo dispositivo percutâneo de assistência ventricular esquerda em ICP de alto risco. Resultados primários incluem desempenho hemodinâmico e segurança.",
-      "impacto_clinico": "Expande arsenal de dispositivos de suporte circulatório mecânico em ICP complexa, potencialmente competindo com Impella em segmentos específicos.",
-      "links": {
-        "url": "https://pubmed.ncbi.nlm.nih.gov/42083862/",
-        "doi": "10.1161/CIRCINTERVENTIONS.125.016010",
-        "pubmed": "42083862"
-      }
-    },
-    {
-      "id": "art_020",
-      "titulo": "One-Year Outcomes of Screen Failures for Transcatheter Tricuspid Valve Repair: Insights From the TriSelect Study",
-      "publicacao": "Circulation: Cardiovascular Interventions",
-      "autores": [
-        "Rudolph F",
-        "Goncharov A",
-        "Narang A",
-        "Körber ML"
-      ],
-      "classe": "B",
-      "score": 7.0,
-      "categoria_fonte": "revista",
-      "emoji": "💉",
-      "resumo": "TriSelect avalia desfechos em 1 ano de pacientes excluídos do reparo transcateter tricúspide (screen failures), revelando alta morbimortalidade nessa população 'órfã'.",
-      "impacto_clinico": "Destaca prognóstico ruim de pacientes com IT severa não candidatos à intervenção — argumento para ampliar critérios de elegibilidade ou desenvolver novas tecnologias.",
-      "links": {
-        "url": "https://pubmed.ncbi.nlm.nih.gov/42083864/",
-        "doi": "10.1161/CIRCINTERVENTIONS.125.016124",
-        "pubmed": "42083864"
-      }
-    },
-    {
-      "id": "art_021",
-      "titulo": "Intermediate Effect Variants in HCM: Integration into Clinical Practice and Family Screening",
-      "publicacao": "Circulation",
-      "autores": [
-        "Walsh R",
-        "Garcia-Pavia P",
-        "Ochoa JP"
-      ],
-      "classe": "B",
-      "score": 7.5,
-      "categoria_fonte": "revista",
-      "emoji": "🧬",
-      "resumo": "Revisão estado-da-arte sobre variantes de efeito intermediário em CMH e como integrá-las na avaliação genética clínica e no rastreamento familiar.",
-      "impacto_clinico": "Atualiza interpretação de variantes não-clássicas (intermediárias) no aconselhamento genético da CMH — diretamente útil para clínicas de cardiogenética.",
-      "links": {
-        "url": "https://pubmed.ncbi.nlm.nih.gov/42081598/",
-        "doi": "10.1161/CIRCULATIONAHA.125.077435",
-        "pubmed": "42081598"
-      }
-    },
-    {
-      "id": "art_022",
       "titulo": "Vascular Aging",
       "publicacao": "Circulation",
       "autores": [
@@ -776,8 +740,8 @@
       "score": 7.2,
       "categoria_fonte": "revista",
       "emoji": "🔬",
-      "resumo": "Revisão estado-da-arte sobre envelhecimento vascular: mecanismos celulares, biomarcadores e implicações terapêuticas. Síntese de fronteira em cardiogeriatria molecular.",
-      "impacto_clinico": "Fundamenta novas abordagens preventivas e terapêuticas baseadas em biologia do envelhecimento vascular (senolíticos, intervenções metabólicas).",
+      "resumo": "Revisão abrangente sobre envelhecimento vascular — mecanismos celulares, moleculares e implicações clínicas. Cobre senescência, rigidez arterial e disfunção endotelial.",
+      "impacto_clinico": "Síntese state-of-the-art sobre senescência vascular — fundamenta racional para intervenções anti-envelhecimento e biomarcadores de idade vascular na prática clínica.",
       "links": {
         "url": "https://pubmed.ncbi.nlm.nih.gov/42081599/",
         "doi": "10.1161/CIRCULATIONAHA.125.075567",
@@ -785,128 +749,61 @@
       }
     },
     {
-      "id": "art_023",
-      "titulo": "The cTnI/cTnT Ratio in Myocardial Injury: A Multicohort and Experimental Synthesis",
-      "publicacao": "Journal of the American College of Cardiology",
+      "id": "art_020",
+      "titulo": "Intermediate Effect Variants in HCM: Integration into Clinical Practice and Family Screening",
+      "publicacao": "Circulation",
       "autores": [
-        "Zimmermann T",
-        "Koechlin L",
-        "Walter J",
-        "Kimenai DM"
+        "Walsh R",
+        "Garcia-Pavia P",
+        "Ochoa JP"
       ],
       "classe": "B",
       "score": 7.2,
       "categoria_fonte": "revista",
-      "emoji": "🔬",
-      "resumo": "Síntese multicoorte e experimental sobre a razão cTnI/cTnT na injúria miocárdica, propondo a relação como biomarcador adicional para discriminação etiológica.",
-      "impacto_clinico": "Pode auxiliar a diferenciar entre causas isquêmicas e não-isquêmicas de elevação de troponina — relevante em MINOCA e injúria miocárdica em UTI.",
+      "emoji": "🧬",
+      "resumo": "Discussão sobre variantes de efeito intermediário em CMH e sua integração em rastreio familiar e prática clínica. Aborda zona cinzenta da genética.",
+      "impacto_clinico": "Orienta abordagem prática para variantes genéticas de efeito intermediário em CMH — refina aconselhamento genético familiar e estratificação de risco em portadores.",
       "links": {
-        "url": "https://pubmed.ncbi.nlm.nih.gov/41739020/",
-        "doi": "10.1016/j.jacc.2025.12.078",
-        "pubmed": "41739020"
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42081598/",
+        "doi": "10.1161/CIRCULATIONAHA.125.077435",
+        "pubmed": "42081598"
       }
     },
     {
-      "id": "art_024",
-      "titulo": "Cardiovascular Risk in Women with Metabolic Dysfunction-Associated Steatotic Liver Disease Across the Menopausal Transition",
-      "publicacao": "European Journal of Preventive Cardiology",
+      "id": "art_021",
+      "titulo": "Implications of Cranial Arterial Stenosis and Dolichoectasia for Cerebral Small-Vessel Disease Etiopathogenesis",
+      "publicacao": "Circulation",
       "autores": [
-        "Choi YJ",
-        "Bea S",
-        "Chung SW",
-        "Seo HT"
+        "Han F",
+        "Clancy U",
+        "Arteaga-Reyes C",
+        "Thrippleton MJ"
       ],
       "classe": "B",
-      "score": 6.8,
+      "score": 7.0,
       "categoria_fonte": "revista",
-      "emoji": "📊",
-      "resumo": "Estudo avalia risco cardiovascular em mulheres com MASLD (esteatose hepática metabólica) ao longo da transição menopáusica, evidenciando interação metabólica-hormonal.",
-      "impacto_clinico": "Sustenta avaliação CV mais agressiva em mulheres na perimenopausa com MASLD — populaçao de risco subestimado em escores tradicionais.",
+      "emoji": "🧠",
+      "resumo": "Coorte prospectiva de AVC leve avalia papel da estenose e dolicoectasia arterial craniana na etiopatogenia da doença de pequenos vasos cerebrais. Conecta macro e microvasculatura.",
+      "impacto_clinico": "Pode redefinir entendimento mecanístico da doença de pequenos vasos cerebrais, com implicações para abordagem diagnóstica e prevenção em AVC lacunar.",
       "links": {
-        "url": "https://pubmed.ncbi.nlm.nih.gov/42084338/",
-        "doi": "10.1093/eurjpc/zwag254",
-        "pubmed": "42084338"
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42090170/",
+        "doi": "10.1161/CIRCULATIONAHA.126.079493",
+        "pubmed": "42090170"
       }
     },
     {
-      "id": "art_025",
-      "titulo": "Fragility Analysis of Cardiovascular Outcomes with Finerenone in Patients with T2DM and CKD",
-      "publicacao": "European Journal of Heart Failure",
-      "autores": [
-        "Zuin M",
-        "Bilato C",
-        "Temporelli P",
-        "Oliva F"
-      ],
-      "classe": "B",
-      "score": 6.7,
-      "categoria_fonte": "revista",
-      "emoji": "📊",
-      "resumo": "Análise de fragilidade dos desfechos CV com finerenona em DM2 e DRC, avaliando robustez estatística dos efeitos demonstrados nos trials FIDELIO/FIGARO.",
-      "impacto_clinico": "Informa quão robustos são os benefícios da finerenona — relevante na escolha de inclusão da droga em protocolos institucionais.",
-      "links": {
-        "url": "https://pubmed.ncbi.nlm.nih.gov/42087276/",
-        "doi": "10.1093/ejhf/xuag150",
-        "pubmed": "42087276"
-      }
-    },
-    {
-      "id": "art_026",
-      "titulo": "Semaglutide Reverses Ectopic Lipid Accumulation, Impaired Myocardial Perfusion Reserve, and Diastolic Dysfunction in a Mouse Model",
-      "publicacao": "JACC: Basic to Translational Science",
-      "autores": [
-        "Skacel TP",
-        "Saleh NR",
-        "Pavelec CM",
-        "Quach K"
-      ],
-      "classe": "B",
-      "score": 6.8,
-      "categoria_fonte": "revista",
-      "emoji": "🔬",
-      "resumo": "Estudo translacional demonstra que semaglutida reverte acúmulo lipídico ectópico, melhora reserva de perfusão miocárdica e disfunção diastólica em modelo murino de doença cardíaca cardiometabólica.",
-      "impacto_clinico": "Fornece base mecanística para benefícios cardíacos do GLP-1 RA na ICFEP cardiometabólica — alinhado com STEP-HFpEF e SUMMIT.",
-      "links": {
-        "url": "https://pubmed.ncbi.nlm.nih.gov/42090755/",
-        "doi": "10.1016/j.jacbts.2026.101554",
-        "pubmed": "42090755"
-      }
-    },
-    {
-      "id": "art_027",
-      "titulo": "Interleukin-1β Drives Disease Progression in Arrhythmogenic Cardiomyopathy",
-      "publicacao": "JACC: Basic to Translational Science",
-      "autores": [
-        "Penna VR",
-        "Amrute JM",
-        "Engel M",
-        "Shiel EA"
-      ],
-      "classe": "B",
-      "score": 6.7,
-      "categoria_fonte": "revista",
-      "emoji": "🔬",
-      "resumo": "Demonstra papel da IL-1β na progressão da cardiomiopatia arritmogênica, sugerindo via inflamatória como alvo terapêutico potencial.",
-      "impacto_clinico": "Abre perspectiva de terapia anti-inflamatória (anti-IL-1) na CMA, doença ainda sem tratamento modificador da história natural.",
-      "links": {
-        "url": "https://pubmed.ncbi.nlm.nih.gov/42090754/",
-        "doi": "10.1016/j.jacbts.2026.101542",
-        "pubmed": "42090754"
-      }
-    },
-    {
-      "id": "art_028",
+      "id": "art_022",
       "titulo": "A comprehensive update on interventional cardiology: coronary arteries, peripheral arteries, and valves",
       "publicacao": "European Heart Journal",
       "autores": [
         "Crea F"
       ],
       "classe": "B",
-      "score": 6.5,
+      "score": 7.0,
       "categoria_fonte": "revista",
       "emoji": "💉",
-      "resumo": "Atualização abrangente em cardiologia intervencionista cobrindo coronárias, periféricas e valvas. Editorial sintetizando avanços do número.",
-      "impacto_clinico": "Visão panorâmica dos progressos recentes — útil para atualização rápida do cardiologista clínico.",
+      "resumo": "Atualização compreensiva em cardiologia intervencionista cobrindo coronárias, artérias periféricas e valvas. Editorial-síntese de Filippo Crea sobre o estado atual da especialidade.",
+      "impacto_clinico": "Atualização panorâmica útil para revisão geral da cardiologia intervencionista — útil para atualização rápida de praticantes em todas as três frentes.",
       "links": {
         "url": "https://pubmed.ncbi.nlm.nih.gov/42082188/",
         "doi": "10.1093/eurheartj/ehag281",
@@ -914,7 +811,7 @@
       }
     },
     {
-      "id": "art_029",
+      "id": "art_023",
       "titulo": "Haemodynamic diagnosis of pulmonary vascular disease in heart failure",
       "publicacao": "European Heart Journal",
       "autores": [
@@ -924,9 +821,9 @@
       "classe": "B",
       "score": 7.0,
       "categoria_fonte": "revista",
-      "emoji": "🩻",
-      "resumo": "Revisão estado-da-arte sobre o diagnóstico hemodinâmico de doença vascular pulmonar em IC, incluindo definições atualizadas (PVR, hipertensão pulmonar combinada).",
-      "impacto_clinico": "Atualiza interpretação de cateterismo direito em IC — relevante para HP do tipo 2 e seleção de candidatos a transplante/MCS.",
+      "emoji": "❤️",
+      "resumo": "Revisão sobre diagnóstico hemodinâmico de doença vascular pulmonar em IC. Aborda HP combinada pré e pós-capilar com critérios atualizados.",
+      "impacto_clinico": "Refina abordagem diagnóstica de HP em IC, orientando interpretação de cateterismo direito e seleção de candidatos a terapia vasodilatadora pulmonar.",
       "links": {
         "url": "https://pubmed.ncbi.nlm.nih.gov/42086303/",
         "doi": "10.1093/eurheartj/ehag318",
@@ -934,7 +831,7 @@
       }
     },
     {
-      "id": "art_030",
+      "id": "art_024",
       "titulo": "Hemodynamic Patterns During Veno-Arterial ECMO Flow Ramp Testing in Cardiogenic Shock",
       "publicacao": "Journal of the American College of Cardiology",
       "autores": [
@@ -944,59 +841,147 @@
         "Wang D"
       ],
       "classe": "B",
-      "score": 6.6,
+      "score": 7.0,
       "categoria_fonte": "revista",
-      "emoji": "🩺",
-      "resumo": "Estudo caracteriza padrões hemodinâmicos durante teste de rampa de fluxo no V-A ECMO em choque cardiogênico, ferramenta para guiar desmame.",
-      "impacto_clinico": "Auxilia clínicos de UTI cardio na avaliação de prontidão para desmame de V-A ECMO usando rampa hemodinâmica padronizada.",
+      "emoji": "💉",
+      "resumo": "Estudo caracteriza padrões hemodinâmicos durante teste de rampa de fluxo em VA-ECMO no choque cardiogênico. Permite avaliar reserva cardíaca e prontidão para desmame.",
+      "impacto_clinico": "Informa estratégia de desmame de VA-ECMO — teste de rampa pode tornar-se ferramenta padronizada para avaliar recuperação miocárdica antes do desmame.",
       "links": {
         "url": "https://pubmed.ncbi.nlm.nih.gov/41532936/",
-        "doi": "10.1016/j.jacc.2025.09.1612",
+        "doi": "10.1016/j.jacc.2025.09.1610",
         "pubmed": "41532936"
       }
     },
     {
-      "id": "art_031",
-      "titulo": "Daily Stellate Ganglion Phototherapy for Ventricular Arrhythmias: A Noninvasive Neuromodulation Approach",
-      "publicacao": "Circulation",
+      "id": "art_025",
+      "titulo": "Postapproval Study Outcomes of Muscular Ventricular Septal Defect Closure With the Amplatzer Muscular VSD Occluder",
+      "publicacao": "Circulation: Cardiovascular Interventions",
       "autores": [
-        "Harano Y",
-        "Shinoda Y",
-        "Iioka Y",
-        "Oda Y"
+        "Qureshi AM",
+        "Justino H",
+        "Owada C",
+        "Numan M"
       ],
       "classe": "B",
-      "score": 6.5,
+      "score": 6.8,
       "categoria_fonte": "revista",
-      "emoji": "🫀",
-      "resumo": "Estudo introduz fototerapia diária do gânglio estrelado como abordagem não-invasiva de neuromodulação para arritmias ventriculares ambulatoriais.",
-      "impacto_clinico": "Conceito inovador de neuromodulação não-invasiva para tempestade elétrica/TVR — alternativa à denervação simpática cirúrgica em casos selecionados.",
+      "emoji": "💉",
+      "resumo": "Estudo pós-aprovação avalia desfechos do oclusor Amplatzer para CIV muscular. Dados de mundo real após aprovação regulatória.",
+      "impacto_clinico": "Confirma segurança e eficácia do fechamento percutâneo de CIV muscular no mundo real, suportando uso em centros experientes como alternativa à cirurgia.",
       "links": {
-        "url": "https://pubmed.ncbi.nlm.nih.gov/42081605/",
-        "doi": "10.1161/CIRCULATIONAHA.125.078175",
-        "pubmed": "42081605"
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42083863/",
+        "doi": "10.1161/CIRCINTERVENTIONS.125.016121",
+        "pubmed": "42083863"
       }
     },
     {
-      "id": "art_032",
-      "titulo": "CD8(+) T cells in atherosclerosis and coronary artery disease",
-      "publicacao": "Nature Reviews Cardiology",
+      "id": "art_026",
+      "titulo": "One-Year Outcomes of Screen Failures for Transcatheter Tricuspid Valve Repair: Insights From the TriSelect Study",
+      "publicacao": "Circulation: Cardiovascular Interventions",
       "autores": [
-        "Tandon I",
-        "Yosri M",
-        "Soliman H",
-        "Khalifa AM"
+        "Rudolph F",
+        "Goncharov A",
+        "Narang A",
+        "Körber ML"
       ],
       "classe": "B",
-      "score": 7.0,
+      "score": 6.8,
       "categoria_fonte": "revista",
-      "emoji": "🔬",
-      "resumo": "Revisão abrangente em Nature Reviews Cardiology sobre o papel dos linfócitos T CD8+ na aterosclerose e DAC, integrando achados imunológicos recentes em modelos e humanos.",
-      "impacto_clinico": "Fundamenta novos alvos imunoterapêuticos na aterosclerose — base científica para próxima geração de anti-inflamatórios cardiovasculares.",
+      "emoji": "💉",
+      "resumo": "TriSelect avalia desfechos em 1 ano de pacientes não selecionados (screen failures) para reparo transcateter da valva tricúspide. Caracteriza prognóstico desse grupo.",
+      "impacto_clinico": "Quantifica prognóstico de pacientes excluídos do TTVR, informando aconselhamento e identificando lacunas de tratamento na regurgitação tricúspide grave.",
       "links": {
-        "url": "https://pubmed.ncbi.nlm.nih.gov/42086715/",
-        "doi": "10.1038/s41569-026-01295-7",
-        "pubmed": "42086715"
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42083864/",
+        "doi": "10.1161/CIRCINTERVENTIONS.125.016124",
+        "pubmed": "42083864"
+      }
+    },
+    {
+      "id": "art_027",
+      "titulo": "Clinical Experience With a Novel Percutaneous LV Assist Device in High-Risk PCI: Primary Results From the SUPPORT I Study",
+      "publicacao": "Circulation: Cardiovascular Interventions",
+      "autores": [
+        "Kandzari DE",
+        "Mignatti A",
+        "Kini A",
+        "Wong G"
+      ],
+      "classe": "B",
+      "score": 6.8,
+      "categoria_fonte": "revista",
+      "emoji": "💉",
+      "resumo": "SUPPORT I apresenta experiência clínica com novo dispositivo percutâneo de assistência ventricular esquerda em PCI de alto risco. Amplia alternativas ao Impella.",
+      "impacto_clinico": "Introduz nova opção tecnológica para suporte hemodinâmico em PCI complexa de alto risco, potencialmente expandindo acesso e reduzindo custos.",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42083862/",
+        "doi": "10.1161/CIRCINTERVENTIONS.125.016010",
+        "pubmed": "42083862"
+      }
+    },
+    {
+      "id": "art_028",
+      "titulo": "Prevalence and Association of Atherosclerosis to Ischemic Stroke in Patients With Atrial Fibrillation on Anticoagulation",
+      "publicacao": "Stroke",
+      "autores": [
+        "Veltkamp AW",
+        "Kinzler D",
+        "Hellwig B",
+        "Heeger A"
+      ],
+      "classe": "B",
+      "score": 6.8,
+      "categoria_fonte": "revista",
+      "emoji": "🧠",
+      "resumo": "Estudo investiga papel da aterosclerose como mecanismo competitivo de AVC isquêmico em pacientes com FA anticoagulados. Aborda falhas de anticoagulação.",
+      "impacto_clinico": "Reforça necessidade de avaliar e tratar aterosclerose concomitante em pacientes com FA — anticoagulação isolada pode ser insuficiente quando há doença ateromatosa significativa.",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42087546/",
+        "doi": "10.1161/STROKEAHA.126.055284",
+        "pubmed": "42087546"
+      }
+    },
+    {
+      "id": "art_029",
+      "titulo": "Cardiovascular Risk in Women with Metabolic Dysfunction-Associated Steatotic Liver Disease Across the Menopausal Transition",
+      "publicacao": "European Journal of Preventive Cardiology",
+      "autores": [
+        "Choi YJ",
+        "Bea S",
+        "Chung SW",
+        "Seo HT"
+      ],
+      "classe": "C",
+      "score": 5.8,
+      "categoria_fonte": "revista",
+      "emoji": "📊",
+      "resumo": "Avalia risco cardiovascular em mulheres com MASLD na transição menopáusica. Caracteriza modificação de risco por status hormonal.",
+      "impacto_clinico": "Informa estratificação de risco CV em mulheres com esteatose hepática na perimenopausa e menopausa, orientando vigilância e intervenção precoce.",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42084338/",
+        "doi": "10.1093/eurjpc/zwag254",
+        "pubmed": "42084338"
+      }
+    },
+    {
+      "id": "art_030",
+      "titulo": "Fragility Analysis of Cardiovascular Outcomes with Finerenone in Patients with T2DM and CKD",
+      "publicacao": "European Journal of Heart Failure",
+      "autores": [
+        "Zuin M",
+        "Bilato C",
+        "Temporelli P",
+        "Oliva F"
+      ],
+      "classe": "C",
+      "score": 5.7,
+      "categoria_fonte": "revista",
+      "emoji": "📊",
+      "resumo": "Análise de fragilidade dos desfechos CV com finerenona em DM2 e DRC. Avalia robustez estatística dos resultados pivotais.",
+      "impacto_clinico": "Avalia confiabilidade dos achados positivos da finerenona — informa interpretação cautelosa ou robusta dos benefícios CV em DM2/DRC.",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42087276/",
+        "doi": "10.1093/ejhf/xuag150",
+        "pubmed": "42087276"
       }
     }
   ]
