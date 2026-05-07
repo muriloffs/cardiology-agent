@@ -12,8 +12,8 @@ logger = logging.getLogger(__name__)
 
 GROK_API_URL = "https://api.x.ai/v1/responses"
 GROK_MODEL = os.environ.get("GROK_MODEL", "grok-4")
-GROK_MAX_ATTEMPTS = 2          # 1 retry on connection drops / timeouts
-GROK_RETRY_BACKOFF_SECONDS = 30  # wait between attempts
+GROK_MAX_ATTEMPTS = 3          # 2 retries on connection drops / 5xx / timeouts
+GROK_RETRY_BACKOFF_SECONDS = 60  # 1min between attempts (covers most capacity windows)
 
 
 def _load_prompt(date: str) -> str:
