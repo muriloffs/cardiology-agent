@@ -3,6 +3,7 @@
 import json
 import logging
 import os
+import time
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
 from typing import Any
@@ -11,6 +12,8 @@ logger = logging.getLogger(__name__)
 
 GROK_API_URL = "https://api.x.ai/v1/responses"
 GROK_MODEL = os.environ.get("GROK_MODEL", "grok-4")
+GROK_MAX_ATTEMPTS = 2          # 1 retry on connection drops / timeouts
+GROK_RETRY_BACKOFF_SECONDS = 30  # wait between attempts
 
 
 def _load_prompt(date: str) -> str:
@@ -40,28 +43,60 @@ def fetch_x_cardiology_posts(days_back: int = 1) -> list[dict[str, Any]]:
         logger.error("grok_x_prompt.txt not found in agent/prompts/")
         return []
 
+    import requests as req
+
+    request_payload = {
+        "model": GROK_MODEL,
+        "input": [{"role": "user", "content": prompt}],
+        "tools": [{"type": "x_search"}],
+        "temperature": 0.1,
+        "max_output_tokens": 14000,         # headroom for 25+ posts
+        "max_tool_calls": 4,                # conservative — model can do up to 4 x_search invocations
+        "parallel_tool_calls": True,        # allow concurrent searches (lower latency)
+    }
+    request_headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json",
+    }
+
+    # Retry loop: xAI server occasionally drops connections during long tool-use calls.
+    # Connection drops are transient — second attempt usually succeeds with different search path.
+    response = None
+    data = None
+    last_error = None
+    for attempt in range(1, GROK_MAX_ATTEMPTS + 1):
+        try:
+            logger.info(f"Calling Grok API (attempt {attempt}/{GROK_MAX_ATTEMPTS}): model={GROK_MODEL}, url={GROK_API_URL}, date={target_date}")
+            response = req.post(
+                GROK_API_URL,
+                headers=request_headers,
+                json=request_payload,
+                timeout=360,                # 6min per attempt
+            )
+            response.raise_for_status()
+            data = response.json()
+            break  # success — exit retry loop
+        except (req.exceptions.ConnectionError, req.exceptions.Timeout) as e:
+            last_error = e
+            logger.warning(f"Grok attempt {attempt} failed (transient: {type(e).__name__}): {e}")
+            if attempt < GROK_MAX_ATTEMPTS:
+                logger.info(f"Retrying Grok in {GROK_RETRY_BACKOFF_SECONDS}s...")
+                time.sleep(GROK_RETRY_BACKOFF_SECONDS)
+        except req.exceptions.HTTPError as e:
+            # HTTP errors (4xx/5xx) — log body, don't retry (likely persistent issue)
+            last_error = e
+            logger.error(f"Grok HTTP error (attempt {attempt}): {e}")
+            try:
+                logger.error(f"Grok response body: {response.text[:500]}")
+            except Exception:
+                pass
+            break  # don't retry HTTP errors
+
+    if data is None:
+        logger.error(f"Grok API call failed after {GROK_MAX_ATTEMPTS} attempts: {last_error}")
+        return []
+
     try:
-        import requests as req
-        logger.info(f"Calling Grok API: model={GROK_MODEL}, url={GROK_API_URL}, date={target_date}")
-        response = req.post(
-            GROK_API_URL,
-            headers={
-                "Authorization": f"Bearer {api_key}",
-                "Content-Type": "application/json",
-            },
-            json={
-                "model": GROK_MODEL,
-                "input": [{"role": "user", "content": prompt}],
-                "tools": [{"type": "x_search"}],
-                "temperature": 0.1,
-                "max_output_tokens": 14000,         # headroom for 25+ posts
-                "max_tool_calls": 4,                # conservative — model can do up to 4 x_search invocations
-                "parallel_tool_calls": True,        # allow concurrent searches (lower latency)
-            },
-            timeout=360,                            # 6min — buffer for up to 4 tool calls
-        )
-        response.raise_for_status()
-        data = response.json()
         logger.info(f"Grok API response keys: {list(data.keys())}")
 
         # === DIAGNOSTIC LOGGING ===
@@ -108,11 +143,7 @@ def fetch_x_cardiology_posts(days_back: int = 1) -> list[dict[str, Any]]:
             return []
 
     except Exception as e:
-        logger.error(f"Grok API call failed: {e}")
-        try:
-            logger.error(f"Grok response body: {response.text[:500]}")
-        except Exception:
-            pass
+        logger.error(f"Grok response processing failed: {e}")
         return []
 
     return _parse_grok_response(raw, target_date)
