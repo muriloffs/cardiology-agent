@@ -12,11 +12,14 @@ logger = logging.getLogger(__name__)
 
 GROK_API_URL = "https://api.x.ai/v1/responses"
 GROK_MODEL = os.environ.get("GROK_MODEL", "grok-4")
-GROK_MAX_ATTEMPTS = 2          # 1 retry only (initial + 1 retry = 2 total)
 GROK_RETRY_BACKOFF_SECONDS = 60  # 1min between attempts
-# Two-tier target system:
-#   TRIGGER (20)  — below this → retry once with aggressive feedback
-#   ASPIRATIONAL (40) — what we ask Grok to produce on retries (signal, not enforced)
+# Separate retry budgets — one type's failure doesn't consume the other:
+#   ERROR_RETRIES: ConnectionError, Timeout, 5xx (transient infrastructure)
+#   LOWCOUNT_RETRIES: valid response but < TRIGGER posts (Grok was lazy)
+GROK_MAX_ERROR_RETRIES = 1       # 1 retry on infrastructure errors
+GROK_MAX_LOWCOUNT_RETRIES = 1    # 1 retry on low-count with aggressive feedback
+GROK_MAX_TOTAL_ATTEMPTS = 3      # hard cap (1 initial + up to 2 retries of either type)
+# Target system:
 GROK_MIN_POSTS_TRIGGER = int(os.environ.get("GROK_MIN_POSTS", "20"))
 GROK_TARGET_POSTS = int(os.environ.get("GROK_TARGET_POSTS", "40"))
 
@@ -68,20 +71,23 @@ def fetch_x_cardiology_posts(days_back: int = 1) -> list[dict[str, Any]]:
             "parallel_tool_calls": True,
         }
 
-    # Retry loop:
-    #   1. Network/HTTP errors → retry once
-    #   2. Low post count (< TRIGGER) → retry once with aggressive feedback prompt
-    # Single retry only. Best-of-N: keep highest count across attempts.
+    # SEPARATE retry budgets — one type's failure doesn't consume the other.
+    # ERROR_RETRIES (1):   ConnectionError, Timeout, 5xx — infrastructure transient
+    # LOWCOUNT_RETRIES (1): valid response but < TRIGGER posts — Grok was lazy
+    # Hard cap: 3 total attempts (1 initial + up to 2 retries).
     best_articles: list[dict[str, Any]] = []
     previous_count: int | None = None
     last_error = None
-    actual_attempts = 0
-    for attempt in range(1, GROK_MAX_ATTEMPTS + 1):
-        actual_attempts = attempt
+    error_retries_remaining = GROK_MAX_ERROR_RETRIES
+    lowcount_retries_remaining = GROK_MAX_LOWCOUNT_RETRIES
+    attempt = 0
+
+    while attempt < GROK_MAX_TOTAL_ATTEMPTS:
+        attempt += 1
         response = None
         data = None
 
-        # Build payload — on retry, inject aggressive feedback if previous was low
+        # Build payload — inject aggressive feedback if last attempt was low-count
         retry_feedback = ""
         if attempt > 1 and previous_count is not None and previous_count < GROK_MIN_POSTS_TRIGGER:
             retry_feedback = (
@@ -101,7 +107,11 @@ def fetch_x_cardiology_posts(days_back: int = 1) -> list[dict[str, Any]]:
         request_payload = _build_payload(retry_feedback)
 
         try:
-            logger.info(f"Calling Grok API (attempt {attempt}/{GROK_MAX_ATTEMPTS}): model={GROK_MODEL}, url={GROK_API_URL}, date={target_date}")
+            logger.info(
+                f"Calling Grok API (attempt {attempt}/{GROK_MAX_TOTAL_ATTEMPTS}; "
+                f"err_retries={error_retries_remaining}, low_retries={lowcount_retries_remaining}): "
+                f"model={GROK_MODEL}, url={GROK_API_URL}, date={target_date}"
+            )
             response = req.post(
                 GROK_API_URL,
                 headers=request_headers,
@@ -113,10 +123,14 @@ def fetch_x_cardiology_posts(days_back: int = 1) -> list[dict[str, Any]]:
         except (req.exceptions.ConnectionError, req.exceptions.Timeout) as e:
             last_error = e
             logger.warning(f"Grok attempt {attempt} failed (transient: {type(e).__name__}): {e}")
-            if attempt < GROK_MAX_ATTEMPTS:
-                logger.info(f"Retrying Grok in {GROK_RETRY_BACKOFF_SECONDS}s...")
+            if error_retries_remaining > 0:
+                error_retries_remaining -= 1
+                logger.info(f"Consuming error retry budget. Retrying Grok in {GROK_RETRY_BACKOFF_SECONDS}s...")
                 time.sleep(GROK_RETRY_BACKOFF_SECONDS)
-            continue
+                continue
+            else:
+                logger.warning("No error retries remaining. Giving up on errors.")
+                break
         except req.exceptions.HTTPError as e:
             last_error = e
             status_code = e.response.status_code if e.response is not None else 0
@@ -125,12 +139,18 @@ def fetch_x_cardiology_posts(days_back: int = 1) -> list[dict[str, Any]]:
                 logger.error(f"Grok response body: {response.text[:500]}")
             except Exception:
                 pass
-            if 500 <= status_code < 600 and attempt < GROK_MAX_ATTEMPTS:
-                logger.info(f"5xx is transient — retrying Grok in {GROK_RETRY_BACKOFF_SECONDS}s...")
+            # 4xx → don't retry (persistent, our fault)
+            if status_code < 500:
+                break
+            # 5xx → retry if error budget remains
+            if error_retries_remaining > 0:
+                error_retries_remaining -= 1
+                logger.info(f"5xx is transient. Consuming error retry. Retrying in {GROK_RETRY_BACKOFF_SECONDS}s...")
                 time.sleep(GROK_RETRY_BACKOFF_SECONDS)
                 continue
             else:
-                break  # 4xx or final attempt — give up
+                logger.warning("No error retries remaining for 5xx. Giving up.")
+                break
 
         # Got valid data — process and check quality
         try:
@@ -171,9 +191,10 @@ def fetch_x_cardiology_posts(days_back: int = 1) -> list[dict[str, Any]]:
             else:
                 logger.warning("No text output in Grok Responses API response")
                 logger.warning(f"Raw response (first 1000 chars): {json.dumps(data)[:1000]}")
-                # Empty response — try retry
-                if attempt < GROK_MAX_ATTEMPTS:
-                    logger.info(f"Retrying for non-empty response in {GROK_RETRY_BACKOFF_SECONDS}s...")
+                # Empty response treated as error — consume error budget
+                if error_retries_remaining > 0:
+                    error_retries_remaining -= 1
+                    logger.info(f"Empty output. Consuming error retry. Retrying in {GROK_RETRY_BACKOFF_SECONDS}s...")
                     time.sleep(GROK_RETRY_BACKOFF_SECONDS)
                     continue
                 else:
@@ -181,37 +202,43 @@ def fetch_x_cardiology_posts(days_back: int = 1) -> list[dict[str, Any]]:
 
             # Parse and track best
             articles = _parse_grok_response(raw, target_date)
-            previous_count = len(articles)  # for retry feedback message
+            previous_count = len(articles)
             if len(articles) > len(best_articles):
                 best_articles = articles
                 logger.info(f"New best result: {len(best_articles)} posts (attempt {attempt})")
 
-            # If meets trigger threshold, accept immediately (no retry needed)
+            # If meets trigger, accept immediately
             if len(articles) >= GROK_MIN_POSTS_TRIGGER:
                 logger.info(f"Grok threshold met ({len(articles)} >= {GROK_MIN_POSTS_TRIGGER}) — accepting")
                 return articles
 
-            # Below trigger — retry once with aggressive feedback if attempts remain
-            if attempt < GROK_MAX_ATTEMPTS:
+            # Below trigger — retry with feedback if low-count budget remains
+            if lowcount_retries_remaining > 0:
+                lowcount_retries_remaining -= 1
                 logger.warning(
-                    f"Grok returned {len(articles)} posts (trigger: {GROK_MIN_POSTS_TRIGGER}, target: {GROK_TARGET_POSTS}+) — "
-                    f"retrying with aggressive feedback in {GROK_RETRY_BACKOFF_SECONDS}s..."
+                    f"Grok returned {len(articles)} posts (trigger: {GROK_MIN_POSTS_TRIGGER}, target: {GROK_TARGET_POSTS}+). "
+                    f"Consuming lowcount retry. Retrying with aggressive feedback in {GROK_RETRY_BACKOFF_SECONDS}s..."
                 )
                 time.sleep(GROK_RETRY_BACKOFF_SECONDS)
+                continue
             else:
                 logger.warning(
-                    f"Final attempt yielded {len(articles)} posts. "
-                    f"Returning best across {actual_attempts} attempts: {len(best_articles)} posts."
+                    f"No lowcount retries remaining. Final yield: {len(articles)} posts. "
+                    f"Returning best across {attempt} attempts: {len(best_articles)} posts."
                 )
+                break
 
         except Exception as e:
             logger.error(f"Grok response processing failed (attempt {attempt}): {e}")
-            if attempt < GROK_MAX_ATTEMPTS:
+            if error_retries_remaining > 0:
+                error_retries_remaining -= 1
                 time.sleep(GROK_RETRY_BACKOFF_SECONDS)
                 continue
+            else:
+                break
 
     if not best_articles and last_error:
-        logger.error(f"Grok API call failed after {actual_attempts} attempt(s): {last_error}")
+        logger.error(f"Grok API call failed after {attempt} attempt(s): {last_error}")
 
     return best_articles
 
