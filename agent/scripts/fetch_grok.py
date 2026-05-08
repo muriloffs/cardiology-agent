@@ -12,9 +12,13 @@ logger = logging.getLogger(__name__)
 
 GROK_API_URL = "https://api.x.ai/v1/responses"
 GROK_MODEL = os.environ.get("GROK_MODEL", "grok-4")
-GROK_MAX_ATTEMPTS = 3          # 2 retries on connection drops / 5xx / timeouts / low-count
-GROK_RETRY_BACKOFF_SECONDS = 60  # 1min between attempts (covers most capacity windows)
-GROK_MIN_POSTS_TARGET = int(os.environ.get("GROK_MIN_POSTS", "25"))  # below this → retry
+GROK_MAX_ATTEMPTS = 2          # 1 retry only (initial + 1 retry = 2 total)
+GROK_RETRY_BACKOFF_SECONDS = 60  # 1min between attempts
+# Two-tier target system:
+#   TRIGGER (20)  — below this → retry once with aggressive feedback
+#   ASPIRATIONAL (40) — what we ask Grok to produce on retries (signal, not enforced)
+GROK_MIN_POSTS_TRIGGER = int(os.environ.get("GROK_MIN_POSTS", "20"))
+GROK_TARGET_POSTS = int(os.environ.get("GROK_TARGET_POSTS", "40"))
 
 
 def _load_prompt(date: str) -> str:
@@ -46,32 +50,56 @@ def fetch_x_cardiology_posts(days_back: int = 1) -> list[dict[str, Any]]:
 
     import requests as req
 
-    request_payload = {
-        "model": GROK_MODEL,
-        "input": [{"role": "user", "content": prompt}],
-        "tools": [{"type": "x_search"}],
-        "temperature": 0.1,
-        "max_output_tokens": 14000,         # headroom for 25+ posts
-        "max_tool_calls": 4,                # conservative — model can do up to 4 x_search invocations
-        "parallel_tool_calls": True,        # allow concurrent searches (lower latency)
-    }
     request_headers = {
         "Authorization": f"Bearer {api_key}",
         "Content-Type": "application/json",
     }
 
-    # Retry loop with TWO retry triggers:
-    #   1. Network/HTTP errors (connection drops, 5xx) — transient infrastructure
-    #   2. Low post count (< GROK_MIN_POSTS_TARGET) — Grok was "lazy" this attempt
-    # Best-of-N strategy: track highest count across attempts, return that even if
-    # final attempt produced fewer (avoids regression).
+    def _build_payload(retry_feedback: str = "") -> dict:
+        """Build Grok request payload, optionally with retry feedback appended."""
+        content = prompt + retry_feedback if retry_feedback else prompt
+        return {
+            "model": GROK_MODEL,
+            "input": [{"role": "user", "content": content}],
+            "tools": [{"type": "x_search"}],
+            "temperature": 0.1,
+            "max_output_tokens": 14000,
+            "max_tool_calls": 4,
+            "parallel_tool_calls": True,
+        }
+
+    # Retry loop:
+    #   1. Network/HTTP errors → retry once
+    #   2. Low post count (< TRIGGER) → retry once with aggressive feedback prompt
+    # Single retry only. Best-of-N: keep highest count across attempts.
     best_articles: list[dict[str, Any]] = []
+    previous_count: int | None = None
     last_error = None
     actual_attempts = 0
     for attempt in range(1, GROK_MAX_ATTEMPTS + 1):
         actual_attempts = attempt
         response = None
         data = None
+
+        # Build payload — on retry, inject aggressive feedback if previous was low
+        retry_feedback = ""
+        if attempt > 1 and previous_count is not None and previous_count < GROK_MIN_POSTS_TRIGGER:
+            retry_feedback = (
+                f"\n\n---\n"
+                f"⚠️ **RETRY ATTEMPT** — Sua tentativa anterior retornou apenas **{previous_count} posts**. "
+                f"Isso está MUITO abaixo do alvo. Há claramente conteúdo cardiológico relevante no X "
+                f"que você não capturou ou rejeitou em excesso.\n\n"
+                f"NESTE RETRY:\n"
+                f"- Use TODAS as tool calls disponíveis (até 4) para buscar amplamente\n"
+                f"- Aceite posts marginais que rejeitou antes (qualidade média também conta)\n"
+                f"- Busque em mais handles individuais (não só institucionais)\n"
+                f"- Use mais hashtags variadas\n"
+                f"- **ALVO MÍNIMO: {GROK_TARGET_POSTS} posts.** Não pare antes."
+            )
+            logger.info(f"Building retry payload with aggressive feedback (previous attempt: {previous_count} posts)")
+
+        request_payload = _build_payload(retry_feedback)
+
         try:
             logger.info(f"Calling Grok API (attempt {attempt}/{GROK_MAX_ATTEMPTS}): model={GROK_MODEL}, url={GROK_API_URL}, date={target_date}")
             response = req.post(
@@ -153,20 +181,21 @@ def fetch_x_cardiology_posts(days_back: int = 1) -> list[dict[str, Any]]:
 
             # Parse and track best
             articles = _parse_grok_response(raw, target_date)
+            previous_count = len(articles)  # for retry feedback message
             if len(articles) > len(best_articles):
                 best_articles = articles
                 logger.info(f"New best result: {len(best_articles)} posts (attempt {attempt})")
 
-            # If meets target, accept immediately
-            if len(articles) >= GROK_MIN_POSTS_TARGET:
-                logger.info(f"Grok target met ({len(articles)} >= {GROK_MIN_POSTS_TARGET}) — accepting")
+            # If meets trigger threshold, accept immediately (no retry needed)
+            if len(articles) >= GROK_MIN_POSTS_TRIGGER:
+                logger.info(f"Grok threshold met ({len(articles)} >= {GROK_MIN_POSTS_TRIGGER}) — accepting")
                 return articles
 
-            # Below target — retry if attempts remain
+            # Below trigger — retry once with aggressive feedback if attempts remain
             if attempt < GROK_MAX_ATTEMPTS:
                 logger.warning(
-                    f"Grok returned {len(articles)} posts (target: {GROK_MIN_POSTS_TARGET}+) — "
-                    f"retrying in {GROK_RETRY_BACKOFF_SECONDS}s..."
+                    f"Grok returned {len(articles)} posts (trigger: {GROK_MIN_POSTS_TRIGGER}, target: {GROK_TARGET_POSTS}+) — "
+                    f"retrying with aggressive feedback in {GROK_RETRY_BACKOFF_SECONDS}s..."
                 )
                 time.sleep(GROK_RETRY_BACKOFF_SECONDS)
             else:
