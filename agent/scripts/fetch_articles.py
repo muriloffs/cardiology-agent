@@ -57,6 +57,8 @@ TOP_TIER_JOURNALS = frozenset([
     "JAMA",             # JAMA general (IF ~120)
     "BMJ",              # BMJ general (IF ~105)
     "Ann Intern Med",   # Annals (IF ~40)
+    "NEJM Evid",        # NEJM Evidence (curated evidence synthesis)
+    "JAMA Intern Med",  # JAMA Internal Medicine (IF ~25, IM clinical practice)
 ])
 
 # Top general medical journals — fetched via secondary query filtered by cardio MeSH/title
@@ -68,6 +70,8 @@ GENERAL_MEDICAL_JOURNALS = [
     "Lancet",
     "BMJ",
     "Ann Intern Med",
+    "NEJM Evid",       # NEJM Evidence (newer 2022, high-quality trials/systematic reviews)
+    "JAMA Intern Med", # JAMA Internal Medicine (CV studies in IM context, e.g. TEE-guided CPR)
 ]
 
 CARDIOLOGY_JOURNALS = [
