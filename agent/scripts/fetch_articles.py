@@ -131,6 +131,13 @@ CARDIOLOGY_JOURNALS = [
     "Eur Heart J Acute Cardiovasc Care",# EHJ Acute Cardiovascular Care
     "Eur Heart J Qual Care Clin Outcomes", # EHJ Quality of Care
     "Eur J Prev Cardiol",               # European Journal of Preventive Cardiology
+    # Added 2026-05-07: hypertension + atherosclerosis/lipidology specialty coverage
+    "Am J Hypertens",                   # American Journal of Hypertension
+    "J Lipid Res",                      # Journal of Lipid Research
+    "J Clin Lipidol",                   # Journal of Clinical Lipidology (clinical lipid)
+    "Curr Atheroscler Rep",             # Current Atherosclerosis Reports (review-heavy)
+    "Curr Hypertens Rep",               # Current Hypertension Reports (review-heavy)
+    "J Atheroscler Thromb",             # Journal of Atherosclerosis and Thrombosis (Japan)
 ]
 
 
