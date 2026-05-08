@@ -13,7 +13,7 @@ from anthropic import Anthropic, APIError
 from agent.parser import parse_report, ParsingError
 from agent.scripts.fetch_articles import fetch_recent_cardiology_articles
 from agent.scripts.fetch_rss import fetch_all_rss
-from agent.scripts.fetch_grok import fetch_x_cardiology_posts
+from agent.scripts.fetch_grok import fetch_x_cardiology_posts, transform_to_discussoes_x
 from agent.scripts.fetch_podcasts import fetch_all_podcasts
 
 
@@ -95,17 +95,22 @@ class CardologyAgent:
             a["source_type"] = "pubmed"
         for a in rss_articles:
             a["source_type"] = "rss"
-        for a in grok_articles:
-            a["source_type"] = "twitter"
         for a in podcast_episodes:
             a["source_type"] = "podcast"
 
-        articles = pubmed_articles + rss_articles + grok_articles + podcast_episodes
+        # X discussions BYPASS Claude — Grok output is transformed directly into
+        # discussoes_x schema and injected into final report. Trades Claude's
+        # semantic curation for ~2x more posts and lower API cost.
+        direct_discussoes_x = transform_to_discussoes_x(grok_articles)
+        logger.info(f"X discussions (direct from Grok, no Claude curation): {len(direct_discussoes_x)} items")
+
+        # Claude only sees PubMed + RSS + Podcasts now
+        articles = pubmed_articles + rss_articles + podcast_episodes
 
         if not articles:
             raise RuntimeError("No articles fetched from any source. Cannot generate report.")
 
-        logger.info(f"Total: {len(articles)} articles from all sources")
+        logger.info(f"Total to Claude (excluding X): {len(articles)} articles from PubMed/RSS/Podcasts")
 
         # Step 2: Format articles for Claude
         articles_text = self._format_articles_for_claude(articles)
@@ -156,6 +161,12 @@ class CardologyAgent:
             logger.debug(f"Raw response length: {len(raw_response)} characters")
             report = parse_report(raw_response)
             logger.info(f"Report successfully parsed and validated for {report_date}")
+
+            # Inject Grok-direct X discussions (bypass Claude curation)
+            if direct_discussoes_x:
+                report["discussoes_x"] = direct_discussoes_x
+                logger.info(f"Injected {len(direct_discussoes_x)} X discussions directly from Grok (bypass)")
+
             return report
         except ParsingError as e:
             logger.error(f"Failed to parse report: {e}")

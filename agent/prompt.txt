@@ -15,13 +15,13 @@ From the articles provided, select and classify:
 - Only articles tagged as `source: rss` (TCTMD, Healio, Substacks) — most clinically relevant only
 - Omit this field entirely if no RSS articles were provided or none meet Classe C threshold
 
-**`discussoes_x` array — up to 50 items (only if `source: twitter` articles are provided):**
-- Select the most clinically relevant X/Twitter posts from the provided list
-- Focus on: debates between specialists, links to new studies, guideline discussions
-- Assign `categoria` to each post based on the author profile:
-  - `"especialista"` — individual physicians, researchers, opinion leaders (e.g. @EricTopol, @drjohnm)
-  - `"revista"` — journal accounts (e.g. @NEJM, @CircAHA, @JACCJournals)
-  - `"sociedade"` — medical society accounts (e.g. @ACCinTouch, @escardio, @cardiol_br)
+**`discussoes_x` array — DO NOT generate this field.**
+
+X/Twitter discussions are now produced by a separate Grok-direct pipeline and injected
+into the final report after your response. You will NOT receive any `source: twitter`
+articles in the input. Even if you somehow think there are X posts to include, OMIT the
+`discussoes_x` field entirely from your output. The Python code injects it after parsing
+your JSON.
 
 You are NOT inventing articles — only work with what is provided. If fewer articles are available, include all that meet at least Classe C threshold.
 

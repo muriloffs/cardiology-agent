@@ -208,6 +208,11 @@ def _parse_grok_response(raw: str, date: str) -> list[dict[str, Any]]:
         # Publicacao defaults to first handle if not provided
         publicacao = post.get("publicacao") or (autores[0] if autores else "X/Twitter")
 
+        # Normalize classe_sugerida
+        norm_classe = (classe or "").strip().upper()
+        if norm_classe not in ("A", "B", "C"):
+            norm_classe = "C"  # default to C if missing/invalid
+
         articles.append({
             "titulo": titulo,
             "publicacao": publicacao,
@@ -220,7 +225,87 @@ def _parse_grok_response(raw: str, date: str) -> list[dict[str, Any]]:
             "pmid": pubmed_id,
             "_post_url": post_url,
             "_article_url": article_url,
+            # Raw Grok fields preserved for direct-bypass transformation
+            "_grok_classe": norm_classe,
+            "_grok_resumo": resumo.strip() if resumo else "",
+            "_grok_impacto": impacto.strip() if impacto else "",
         })
 
     logger.info(f"Grok/X: {len(articles)} posts parsed")
     return articles
+
+
+# ============================================================
+# Direct-bypass transformation: Grok output → discussoes_x schema
+# Used when we want to skip Claude curation and inject Grok's posts
+# directly into the final report.
+# ============================================================
+
+# Map @handle → categoria. Lowercased for case-insensitive lookup.
+HANDLE_CATEGORIES = {
+    # Specialists / individual physicians
+    **{h.lower(): "especialista" for h in [
+        "@EricTopol", "@deepakbhatt1", "@drjohnm", "@ErinMichos",
+        "@MarthaGulati", "@RoxanaMehran", "@hmkyale", "@FusterV",
+        "@CarlosRochitte", "@SilvioBarberato", "@sciqst",
+        "@CritCareReviews", "@CardiologyToday",
+    ]},
+    # Journals / publications
+    **{h.lower(): "revista" for h in [
+        "@NEJM", "@TheLancet", "@JACCJournals", "@CircAHA",
+        "@JAMACardio", "@EuroHeartJ", "@bmj_latest", "@JACCCRJournals",
+    ]},
+    # Medical societies
+    **{h.lower(): "sociedade" for h in [
+        "@ACCinTouch", "@American_Heart", "@escardio", "@HRSonline",
+        "@TCTMD", "@cardiol_br", "@SOCESP",
+    ]},
+}
+
+CLASSE_TO_SCORE = {"A": 9.0, "B": 7.0, "C": 5.0}
+
+
+def transform_to_discussoes_x(grok_articles: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """
+    Convert Grok's raw articles into discussoes_x schema items for direct injection
+    into the final report (bypassing Claude curation).
+
+    Schema produced (matches what Claude would output for discussoes_x):
+        {id, titulo, autor, categoria, emoji, classe, score, resumo, impacto_clinico, links{}}
+    """
+    result = []
+    for i, post in enumerate(grok_articles, 1):
+        autor_list = post.get("autores") or []
+        autor = autor_list[0] if autor_list else "@unknown"
+        # Normalize handle: ensure @ prefix
+        if autor and not autor.startswith("@"):
+            autor = "@" + autor
+
+        # Categoria: lookup or default to "especialista"
+        categoria = HANDLE_CATEGORIES.get(autor.lower(), "especialista")
+
+        classe = post.get("_grok_classe", "C") or "C"
+        score = CLASSE_TO_SCORE.get(classe, 5.0)
+
+        resumo = post.get("_grok_resumo") or "Discussão clínica relevante no X."
+        impacto = post.get("_grok_impacto") or "Atualização para acompanhamento."
+
+        result.append({
+            "id": f"x_{i:03d}",
+            "titulo": post.get("titulo", ""),
+            "autor": autor,
+            "categoria": categoria,
+            "emoji": "🫀",
+            "classe": classe,
+            "score": score,
+            "resumo": resumo,
+            "impacto_clinico": impacto,
+            "links": {
+                "post_url": post.get("_post_url"),
+                "url": post.get("_article_url"),
+                "doi": post.get("doi"),
+                "pubmed": post.get("pmid"),
+            },
+        })
+    logger.info(f"transform_to_discussoes_x: {len(result)} items ready for direct injection")
+    return result
