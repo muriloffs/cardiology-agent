@@ -119,27 +119,29 @@ class CardologyAgent:
             logger.error(f"Prompt file not found at {prompt_path}")
             raise
 
-        # Step 4: Call Claude to classify
+        # Step 4: Call Claude to classify (STREAMING to avoid 5-min proxy idle timeout)
+        # With ~135 candidates input and 25k+ output tokens, opus-4-7 can take 5-6 min thinking.
+        # Non-streaming connections get killed by proxies (RemoteProtocolError observed).
+        # Streaming keeps connection active by sending chunks continuously.
         try:
-            logger.info(f"Calling Claude API to classify {len(articles)} articles for {report_date}")
-            response = self.client.messages.create(
-                model="claude-opus-4-7",
-                max_tokens=48000,  # raised from 32k for peak days: 50 X + 40 artigos + 15 noticias + 10 podcasts
-                system=system_prompt,
-                messages=[
-                    {
-                        "role": "user",
-                        "content": (
-                            f"Date: {report_date}\n\n"
-                            f"Here are {len(articles)} real cardiology candidates fetched from PubMed, "
-                            f"RSS feeds, X/Twitter, and podcast RSS in the last 24-48 hours. "
-                            f"Classify according to the Priority Rules in the system prompt — "
-                            f"Classe A items in `artigos` are unconditional:\n\n"
-                            f"{articles_text}"
-                        )
-                    }
-                ]
+            logger.info(f"Calling Claude API (streaming) to classify {len(articles)} articles for {report_date}")
+            user_message = (
+                f"Date: {report_date}\n\n"
+                f"Here are {len(articles)} real cardiology candidates fetched from PubMed, "
+                f"RSS feeds, X/Twitter, and podcast RSS in the last 24-48 hours. "
+                f"Classify according to the Priority Rules in the system prompt — "
+                f"Classe A items in `artigos` are unconditional:\n\n"
+                f"{articles_text}"
             )
+            with self.client.messages.stream(
+                model="claude-opus-4-7",
+                max_tokens=48000,  # 50 X + 40 artigos + 15 noticias + 10 podcasts headroom
+                system=system_prompt,
+                messages=[{"role": "user", "content": user_message}],
+            ) as stream:
+                response = stream.get_final_message()
+            usage_str = f"{getattr(response.usage, 'output_tokens', '?')} output tokens" if response.usage else "?"
+            logger.info(f"Claude streaming completed: {usage_str}")
         except APIError as e:
             logger.error(f"Claude API error: {e}")
             raise
