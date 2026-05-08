@@ -51,7 +51,24 @@ TOP_TIER_JOURNALS = frozenset([
     "JACC Cardiovasc Imaging",
     "Lancet Cardiol",
     "JAMA Cardiol",
+    # Top general medical journals (highest impact factor — landmark trials live here)
+    "N Engl J Med",     # NEJM (IF ~176)
+    "Lancet",           # Lancet general (IF ~168)
+    "JAMA",             # JAMA general (IF ~120)
+    "BMJ",              # BMJ general (IF ~105)
+    "Ann Intern Med",   # Annals (IF ~40)
 ])
+
+# Top general medical journals — fetched via secondary query filtered by cardio MeSH/title
+# These don't appear in CARDIOLOGY_JOURNALS because they publish >90% non-cardio content;
+# we use a topic filter to extract just their CV papers.
+GENERAL_MEDICAL_JOURNALS = [
+    "N Engl J Med",
+    "JAMA",
+    "Lancet",
+    "BMJ",
+    "Ann Intern Med",
+]
 
 CARDIOLOGY_JOURNALS = [
     "Nat Rev Cardiol",                  # Nature Reviews Cardiology
@@ -143,10 +160,49 @@ def search_pubmed(days_back: int = 1, max_results: int = 50) -> list[str]:
         data = response.json()
         pmids = data.get("esearchresult", {}).get("idlist", [])
         count = data.get("esearchresult", {}).get("count", "?")
-        logger.info(f"PubMed: {count} total matches, fetching top {len(pmids)}")
+        logger.info(f"PubMed (cardio journals): {count} total matches, fetching top {len(pmids)}")
         return pmids
     except Exception as e:
-        logger.error(f"PubMed search failed: {e}")
+        logger.error(f"PubMed search (cardio journals) failed: {e}")
+        return []
+
+
+def search_general_journals_for_cardio(days_back: int = 1, max_results: int = 50) -> list[str]:
+    """
+    Secondary query: cardiology content published in top general medical journals
+    (NEJM, JAMA, Lancet, BMJ, Annals). Catches landmark trials that often appear
+    in general journals rather than cardio sub-publications.
+
+    Strategy: filter by journal AND (cardiovascular MeSH OR cardio keywords in title)
+    """
+    journals_clause = " OR ".join(f'"{j}"[Journal]' for j in GENERAL_MEDICAL_JOURNALS)
+    cardio_clause = (
+        '"Cardiovascular Diseases"[MeSH] OR '
+        'cardiac[Title] OR cardiovascular[Title] OR heart[Title] OR coronary[Title] OR '
+        'atrial[Title] OR ventricular[Title] OR myocardial[Title] OR aortic[Title]'
+    )
+    query = f"({journals_clause}) AND ({cardio_clause})"
+
+    params = {
+        "db": "pubmed",
+        "term": query,
+        "datetype": "pdat",
+        "reldate": days_back,
+        "retmax": max_results,
+        "retmode": "json",
+        "sort": "relevance",
+    }
+
+    try:
+        response = requests.get(f"{PUBMED_BASE}/esearch.fcgi", params=params, timeout=20)
+        response.raise_for_status()
+        data = response.json()
+        pmids = data.get("esearchresult", {}).get("idlist", [])
+        count = data.get("esearchresult", {}).get("count", "?")
+        logger.info(f"PubMed (general+cardio): {count} total matches, fetching top {len(pmids)}")
+        return pmids
+    except Exception as e:
+        logger.error(f"PubMed search (general+cardio) failed: {e}")
         return []
 
 
@@ -292,26 +348,51 @@ def _is_high_quality(article: dict) -> bool:
     return True
 
 
+def _merge_pmid_lists(*lists: list[str]) -> list[str]:
+    """Merge multiple PMID lists, preserving order, deduplicating."""
+    seen = set()
+    out = []
+    for lst in lists:
+        for pmid in lst:
+            if pmid not in seen:
+                seen.add(pmid)
+                out.append(pmid)
+    return out
+
+
 def fetch_recent_cardiology_articles(days_back: int = 1) -> list[dict[str, Any]]:
     """
-    Main entry point. Returns real articles from the curated journal list,
-    published in the last N days, filtered to keep likely A/B candidates.
+    Main entry point. Combines TWO PubMed queries:
+    (a) Curated cardiology journals (47+ specialty journals — most volume)
+    (b) Top general medical journals filtered by cardio MeSH/title (NEJM, JAMA,
+        Lancet, BMJ, Annals — landmark trials live here, often missed otherwise)
 
     Strategy:
-    1. Fetch up to 200 PMIDs from PubMed (cheap — single API call)
+    1. Fetch from both queries, dedupe PMIDs
     2. Filter aggressively (drop letters/editorials from non-top-tier journals)
     3. Cap final result at 100 to keep Claude prompt reasonable
-    Falls back to 2-day window if today has fewer than 30 results.
+    Falls back to 2-day window if today has fewer than 30 unique results.
     """
-    logger.info(f"Searching {len(CARDIOLOGY_JOURNALS)} curated journals — last {days_back} day(s)...")
-    pmids = search_pubmed(days_back=days_back, max_results=200)
+    logger.info(
+        f"Searching {len(CARDIOLOGY_JOURNALS)} curated cardio journals "
+        f"+ {len(GENERAL_MEDICAL_JOURNALS)} general journals (cardio-filtered) "
+        f"— last {days_back} day(s)..."
+    )
+
+    pmids_curated = search_pubmed(days_back=days_back, max_results=200)
+    pmids_general = search_general_journals_for_cardio(days_back=days_back, max_results=50)
+    pmids = _merge_pmid_lists(pmids_curated, pmids_general)
+    logger.info(f"PubMed merged: {len(pmids_curated)} curated + {len(pmids_general)} general = {len(pmids)} unique")
 
     if len(pmids) < 30:
-        logger.warning(f"Only {len(pmids)} results for {days_back}d. Extending to 2 days.")
-        pmids = search_pubmed(days_back=2, max_results=200)
+        logger.warning(f"Only {len(pmids)} unique results for {days_back}d. Extending to 2 days.")
+        pmids_curated = search_pubmed(days_back=2, max_results=200)
+        pmids_general = search_general_journals_for_cardio(days_back=2, max_results=50)
+        pmids = _merge_pmid_lists(pmids_curated, pmids_general)
+        logger.info(f"PubMed merged (2-day): {len(pmids_curated)} curated + {len(pmids_general)} general = {len(pmids)} unique")
 
     if not pmids:
-        logger.error("No results from curated journals.")
+        logger.error("No results from any PubMed query.")
         return []
 
     time.sleep(0.4)
