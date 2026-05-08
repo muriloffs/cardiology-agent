@@ -12,8 +12,9 @@ logger = logging.getLogger(__name__)
 
 GROK_API_URL = "https://api.x.ai/v1/responses"
 GROK_MODEL = os.environ.get("GROK_MODEL", "grok-4")
-GROK_MAX_ATTEMPTS = 3          # 2 retries on connection drops / 5xx / timeouts
+GROK_MAX_ATTEMPTS = 3          # 2 retries on connection drops / 5xx / timeouts / low-count
 GROK_RETRY_BACKOFF_SECONDS = 60  # 1min between attempts (covers most capacity windows)
+GROK_MIN_POSTS_TARGET = int(os.environ.get("GROK_MIN_POSTS", "25"))  # below this → retry
 
 
 def _load_prompt(date: str) -> str:
@@ -59,31 +60,35 @@ def fetch_x_cardiology_posts(days_back: int = 1) -> list[dict[str, Any]]:
         "Content-Type": "application/json",
     }
 
-    # Retry loop: xAI server occasionally drops connections OR returns 5xx during high load.
-    # Both are transient — second attempt typically succeeds.
-    response = None
-    data = None
+    # Retry loop with TWO retry triggers:
+    #   1. Network/HTTP errors (connection drops, 5xx) — transient infrastructure
+    #   2. Low post count (< GROK_MIN_POSTS_TARGET) — Grok was "lazy" this attempt
+    # Best-of-N strategy: track highest count across attempts, return that even if
+    # final attempt produced fewer (avoids regression).
+    best_articles: list[dict[str, Any]] = []
     last_error = None
     actual_attempts = 0
     for attempt in range(1, GROK_MAX_ATTEMPTS + 1):
         actual_attempts = attempt
+        response = None
+        data = None
         try:
             logger.info(f"Calling Grok API (attempt {attempt}/{GROK_MAX_ATTEMPTS}): model={GROK_MODEL}, url={GROK_API_URL}, date={target_date}")
             response = req.post(
                 GROK_API_URL,
                 headers=request_headers,
                 json=request_payload,
-                timeout=360,                # 6min per attempt
+                timeout=360,
             )
             response.raise_for_status()
             data = response.json()
-            break  # success — exit retry loop
         except (req.exceptions.ConnectionError, req.exceptions.Timeout) as e:
             last_error = e
             logger.warning(f"Grok attempt {attempt} failed (transient: {type(e).__name__}): {e}")
             if attempt < GROK_MAX_ATTEMPTS:
                 logger.info(f"Retrying Grok in {GROK_RETRY_BACKOFF_SECONDS}s...")
                 time.sleep(GROK_RETRY_BACKOFF_SECONDS)
+            continue
         except req.exceptions.HTTPError as e:
             last_error = e
             status_code = e.response.status_code if e.response is not None else 0
@@ -92,69 +97,94 @@ def fetch_x_cardiology_posts(days_back: int = 1) -> list[dict[str, Any]]:
                 logger.error(f"Grok response body: {response.text[:500]}")
             except Exception:
                 pass
-            # Retry on 5xx (server-side, transient: capacity, deploy, etc.)
-            # Do NOT retry on 4xx (client-side, persistent: bad params, auth)
             if 500 <= status_code < 600 and attempt < GROK_MAX_ATTEMPTS:
                 logger.info(f"5xx is transient — retrying Grok in {GROK_RETRY_BACKOFF_SECONDS}s...")
                 time.sleep(GROK_RETRY_BACKOFF_SECONDS)
+                continue
             else:
                 break  # 4xx or final attempt — give up
 
-    if data is None:
-        logger.error(f"Grok API call failed after {actual_attempts} attempt(s): {last_error}")
-        return []
+        # Got valid data — process and check quality
+        try:
+            logger.info(f"Grok API response keys: {list(data.keys())}")
 
-    try:
-        logger.info(f"Grok API response keys: {list(data.keys())}")
+            # === DIAGNOSTIC LOGGING ===
+            for diag_key in ("status", "error", "incomplete_details"):
+                val = data.get(diag_key)
+                if val:
+                    logger.warning(f"Grok response.{diag_key}: {json.dumps(val)[:500]}")
 
-        # === DIAGNOSTIC LOGGING ===
-        # 1. Error/status fields populated only when API rejects something silently
-        for diag_key in ("status", "error", "incomplete_details"):
-            val = data.get(diag_key)
-            if val:
-                logger.warning(f"Grok response.{diag_key}: {json.dumps(val)[:500]}")
+            echoed_max_tools = data.get("max_tool_calls")
+            echoed_parallel = data.get("parallel_tool_calls")
+            logger.info(f"Grok server-echoed params: max_tool_calls={echoed_max_tools}, parallel_tool_calls={echoed_parallel}")
 
-        # 2. Echo of accepted params (confirms server didn't drop them)
-        echoed_max_tools = data.get("max_tool_calls")
-        echoed_parallel = data.get("parallel_tool_calls")
-        logger.info(f"Grok server-echoed params: max_tool_calls={echoed_max_tools}, parallel_tool_calls={echoed_parallel}")
+            usage = data.get("usage", {})
+            if usage:
+                logger.info(f"Grok usage: {json.dumps(usage)[:300]}")
 
-        # 3. Usage tells us if real work happened (zero usage = rejected)
-        usage = data.get("usage", {})
-        if usage:
-            logger.info(f"Grok usage: {json.dumps(usage)[:300]}")
+            tool_calls_count = sum(
+                1 for item in data.get("output", []) if item.get("type") in ("server_tool_call", "tool_use", "function_call")
+            )
+            logger.info(f"Grok actual tool calls observed in output: {tool_calls_count}")
 
-        # 4. Count actual tool invocations from output array
-        tool_calls_count = sum(
-            1 for item in data.get("output", []) if item.get("type") in ("server_tool_call", "tool_use", "function_call")
-        )
-        logger.info(f"Grok actual tool calls observed in output: {tool_calls_count}")
+            # Extract text
+            raw = ""
+            for item in data.get("output", []):
+                if item.get("type") == "message":
+                    for block in item.get("content", []):
+                        if block.get("type") == "output_text":
+                            raw = block.get("text", "") or ""
+                            break
+                if raw:
+                    break
 
-        # Responses API: extract text from output[].content[].text
-        raw = ""
-        for item in data.get("output", []):
-            if item.get("type") == "message":
-                for block in item.get("content", []):
-                    if block.get("type") == "output_text":
-                        raw = block.get("text", "") or ""
-                        break
             if raw:
-                break
+                logger.info(f"Grok output preview (first 400 chars): {raw[:400]}")
+            else:
+                logger.warning("No text output in Grok Responses API response")
+                logger.warning(f"Raw response (first 1000 chars): {json.dumps(data)[:1000]}")
+                # Empty response — try retry
+                if attempt < GROK_MAX_ATTEMPTS:
+                    logger.info(f"Retrying for non-empty response in {GROK_RETRY_BACKOFF_SECONDS}s...")
+                    time.sleep(GROK_RETRY_BACKOFF_SECONDS)
+                    continue
+                else:
+                    break
 
-        # 5. Preview do output (visualização manual do que Grok produziu)
-        if raw:
-            logger.info(f"Grok output preview (first 400 chars): {raw[:400]}")
+            # Parse and track best
+            articles = _parse_grok_response(raw, target_date)
+            if len(articles) > len(best_articles):
+                best_articles = articles
+                logger.info(f"New best result: {len(best_articles)} posts (attempt {attempt})")
 
-        if not raw:
-            logger.warning("No text output in Grok Responses API response")
-            logger.warning(f"Raw response (first 1000 chars): {json.dumps(data)[:1000]}")
-            return []
+            # If meets target, accept immediately
+            if len(articles) >= GROK_MIN_POSTS_TARGET:
+                logger.info(f"Grok target met ({len(articles)} >= {GROK_MIN_POSTS_TARGET}) — accepting")
+                return articles
 
-    except Exception as e:
-        logger.error(f"Grok response processing failed: {e}")
-        return []
+            # Below target — retry if attempts remain
+            if attempt < GROK_MAX_ATTEMPTS:
+                logger.warning(
+                    f"Grok returned {len(articles)} posts (target: {GROK_MIN_POSTS_TARGET}+) — "
+                    f"retrying in {GROK_RETRY_BACKOFF_SECONDS}s..."
+                )
+                time.sleep(GROK_RETRY_BACKOFF_SECONDS)
+            else:
+                logger.warning(
+                    f"Final attempt yielded {len(articles)} posts. "
+                    f"Returning best across {actual_attempts} attempts: {len(best_articles)} posts."
+                )
 
-    return _parse_grok_response(raw, target_date)
+        except Exception as e:
+            logger.error(f"Grok response processing failed (attempt {attempt}): {e}")
+            if attempt < GROK_MAX_ATTEMPTS:
+                time.sleep(GROK_RETRY_BACKOFF_SECONDS)
+                continue
+
+    if not best_articles and last_error:
+        logger.error(f"Grok API call failed after {actual_attempts} attempt(s): {last_error}")
+
+    return best_articles
 
 
 def _parse_grok_response(raw: str, date: str) -> list[dict[str, Any]]:
