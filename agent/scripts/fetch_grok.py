@@ -12,16 +12,16 @@ logger = logging.getLogger(__name__)
 
 GROK_API_URL = "https://api.x.ai/v1/responses"
 GROK_MODEL = os.environ.get("GROK_MODEL", "grok-4")
-GROK_RETRY_BACKOFF_SECONDS = 60  # 1min between attempts
+GROK_RETRY_BACKOFF_SECONDS = 120  # 2min between attempts (was 60s — give xAI more recovery time)
 # Separate retry budgets — one type's failure doesn't consume the other:
 #   ERROR_RETRIES: ConnectionError, Timeout, 5xx (transient infrastructure)
 #   LOWCOUNT_RETRIES: valid response but < TRIGGER posts (Grok was lazy)
 GROK_MAX_ERROR_RETRIES = 1       # 1 retry on infrastructure errors
 GROK_MAX_LOWCOUNT_RETRIES = 1    # 1 retry on low-count with aggressive feedback
 GROK_MAX_TOTAL_ATTEMPTS = 3      # hard cap (1 initial + up to 2 retries of either type)
-# Target system:
-GROK_MIN_POSTS_TRIGGER = int(os.environ.get("GROK_MIN_POSTS", "20"))
-GROK_TARGET_POSTS = int(os.environ.get("GROK_TARGET_POSTS", "40"))
+# Target system (calibrated for reduced-complexity request):
+GROK_MIN_POSTS_TRIGGER = int(os.environ.get("GROK_MIN_POSTS", "12"))   # was 20 — adjusted for lower max_tool_calls
+GROK_TARGET_POSTS = int(os.environ.get("GROK_TARGET_POSTS", "25"))     # was 40 — realistic with 2 tool calls
 
 
 def _load_prompt(date: str) -> str:
@@ -66,8 +66,10 @@ def fetch_x_cardiology_posts(days_back: int = 1) -> list[dict[str, Any]]:
             "input": [{"role": "user", "content": content}],
             "tools": [{"type": "x_search"}],
             "temperature": 0.1,
-            "max_output_tokens": 14000,
-            "max_tool_calls": 4,
+            # Reduced complexity (was 14000/4) — keeps Grok under xAI's 5-min server timeout.
+            # Trade-off: fewer posts but vastly more reliable completion.
+            "max_output_tokens": 8000,
+            "max_tool_calls": 2,
             "parallel_tool_calls": True,
         }
 
@@ -93,13 +95,12 @@ def fetch_x_cardiology_posts(days_back: int = 1) -> list[dict[str, Any]]:
             retry_feedback = (
                 f"\n\n---\n"
                 f"⚠️ **RETRY ATTEMPT** — Sua tentativa anterior retornou apenas **{previous_count} posts**. "
-                f"Isso está MUITO abaixo do alvo. Há claramente conteúdo cardiológico relevante no X "
+                f"Isso está abaixo do alvo. Há claramente conteúdo cardiológico relevante no X "
                 f"que você não capturou ou rejeitou em excesso.\n\n"
                 f"NESTE RETRY:\n"
-                f"- Use TODAS as tool calls disponíveis (até 4) para buscar amplamente\n"
+                f"- Use suas tool calls disponíveis (até 2) com queries DIFERENTES da tentativa anterior\n"
                 f"- Aceite posts marginais que rejeitou antes (qualidade média também conta)\n"
-                f"- Busque em mais handles individuais (não só institucionais)\n"
-                f"- Use mais hashtags variadas\n"
+                f"- Busque em handles individuais variados (não só institucionais)\n"
                 f"- **ALVO MÍNIMO: {GROK_TARGET_POSTS} posts.** Não pare antes."
             )
             logger.info(f"Building retry payload with aggressive feedback (previous attempt: {previous_count} posts)")
