@@ -23,6 +23,7 @@
       :total-noticias="report?.noticias?.length || 0"
       :total-discussoes="report?.discussoes_x?.length || 0"
       :total-podcasts="report?.podcasts?.length || 0"
+      :total-videos="report?.videos_youtube?.length || 0"
       @update:selected-class="selectedClass = $event"
       @update:search-query="searchQuery = $event"
       @refresh="loadReport"
@@ -52,6 +53,38 @@
           v-for="podcast in report.podcasts"
           :key="podcast.id"
           :podcast="podcast"
+        />
+      </div>
+    </section>
+
+    <!-- YouTube Videos Section -->
+    <section id="section-videos" v-if="report?.videos_youtube?.length" class="px-4 py-8 max-w-6xl mx-auto border-t border-gray-100 scroll-mt-4">
+      <h2 class="text-2xl font-bold mb-1">📺 Vídeos</h2>
+      <p class="text-sm text-gray-500 mb-3">{{ report.videos_youtube.length }} vídeos de canais cardiológicos das últimas 48h</p>
+      <div class="flex gap-2 flex-wrap mb-4">
+        <button
+          v-for="t in [-1, 0, 1, 2]"
+          :key="t"
+          @click="selectedVideoTier = t"
+          :class="[
+            'px-3 py-1.5 rounded-full text-xs font-medium transition-all',
+            selectedVideoTier === t
+              ? t === 0 ? 'bg-yellow-500 text-white'
+              : t === 1 ? 'bg-purple-600 text-white'
+              : t === 2 ? 'bg-blue-600 text-white'
+              : 'bg-gray-800 text-white'
+              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+          ]"
+        >
+          {{ { '-1': 'Todos', '0': '★ BR Pinned', '1': 'Sociedades/Journals', '2': 'Hospitais/Subesp.' }[t] }}
+          <span class="ml-1 opacity-70">({{ videoTierCounts[t] || 0 }})</span>
+        </button>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <VideoCard
+          v-for="video in filteredVideos"
+          :key="video.video_url"
+          :video="video"
         />
       </div>
     </section>
@@ -145,6 +178,7 @@ import ArticleDetail from './components/ArticleDetail.vue'
 import XDiscussionCard from './components/XDiscussionCard.vue'
 import XDiscussionDetail from './components/XDiscussionDetail.vue'
 import PodcastCard from './components/PodcastCard.vue'
+import VideoCard from './components/VideoCard.vue'
 import { fetchLatestReport, fetchIndex, fetchReportByDate } from './utils/api'
 
 const report = ref(null)
@@ -154,6 +188,7 @@ const selectedClass = ref('all')
 const searchQuery = ref('')
 const loading = ref(false)
 const selectedXCategoria = ref('all')
+const selectedVideoTier = ref(-1)  // -1 = all
 const availableDates = ref([])
 const currentDateIndex = ref(0)
 
@@ -170,6 +205,21 @@ const filteredDiscussoes = computed(() => {
   const list = report.value?.discussoes_x || []
   if (selectedXCategoria.value === 'all') return list
   return list.filter(d => d.categoria === selectedXCategoria.value)
+})
+
+const filteredVideos = computed(() => {
+  const list = report.value?.videos_youtube || []
+  if (selectedVideoTier.value === -1) return list
+  return list.filter(v => v.tier === selectedVideoTier.value)
+})
+
+const videoTierCounts = computed(() => {
+  const list = report.value?.videos_youtube || []
+  const counts = { '-1': list.length, '0': 0, '1': 0, '2': 0 }
+  for (const v of list) {
+    counts[String(v.tier)] = (counts[String(v.tier)] || 0) + 1
+  }
+  return counts
 })
 
 const filteredArticles = computed(() => {

@@ -80,7 +80,8 @@ const props = defineProps({
   totalArtigos: { type: Number, default: 0 },
   totalNoticias: { type: Number, default: 0 },
   totalDiscussoes: { type: Number, default: 0 },
-  totalPodcasts: { type: Number, default: 0 }
+  totalPodcasts: { type: Number, default: 0 },
+  totalVideos: { type: Number, default: 0 }
 })
 
 defineEmits(['update:selected-class', 'update:search-query', 'refresh'])
@@ -88,6 +89,7 @@ defineEmits(['update:selected-class', 'update:search-query', 'refresh'])
 const sections = computed(() => [
   { id: 'section-artigos',    label: '📚 Artigos',     count: props.totalArtigos },
   { id: 'section-noticias',   label: '📰 Notícias',    count: props.totalNoticias },
+  { id: 'section-videos',     label: '📺 Vídeos',      count: props.totalVideos },
   { id: 'section-discussoes', label: '𝕏 Discussões',  count: props.totalDiscussoes },
   { id: 'section-podcasts',   label: '🎙️ Podcasts',   count: props.totalPodcasts }
 ])

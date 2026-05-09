@@ -15,6 +15,7 @@ from agent.scripts.fetch_articles import fetch_recent_cardiology_articles
 from agent.scripts.fetch_rss import fetch_all_rss
 from agent.scripts.fetch_grok import fetch_x_cardiology_posts, transform_to_discussoes_x
 from agent.scripts.fetch_podcasts import fetch_all_podcasts
+from agent.scripts.fetch_youtube import fetch_all_youtube, transform_to_videos_youtube
 
 
 # Configure logging for GitHub Actions diagnostics
@@ -63,15 +64,16 @@ class CardologyAgent:
             APIError: If Claude API call fails.
             FileNotFoundError: If prompt.txt is not found.
         """
-        # Fetch all 4 sources in parallel — independent I/O, capped by slowest (Grok ~30-60s).
+        # Fetch all 5 sources in parallel — independent I/O, capped by slowest (Grok ~30-60s).
         # Each fetcher is internally fault-tolerant and returns [] on failure.
-        logger.info("Fetching from all sources in parallel (PubMed, RSS, Grok, Podcasts)...")
-        with ThreadPoolExecutor(max_workers=4) as executor:
+        logger.info("Fetching from all sources in parallel (PubMed, RSS, Grok, Podcasts, YouTube)...")
+        with ThreadPoolExecutor(max_workers=5) as executor:
             futures = {
                 "PubMed": executor.submit(fetch_recent_cardiology_articles, days_back=1),
                 "RSS": executor.submit(fetch_all_rss, days_back=2),
                 "Grok/X": executor.submit(fetch_x_cardiology_posts, days_back=1),
                 "Podcasts": executor.submit(fetch_all_podcasts, days_back=7),
+                "YouTube": executor.submit(fetch_all_youtube, days_back=2),
             }
             results = {}
             for name, future in futures.items():
@@ -85,11 +87,13 @@ class CardologyAgent:
         rss_articles = results["RSS"]
         grok_articles = results["Grok/X"]
         podcast_episodes = results["Podcasts"]
+        youtube_videos = results["YouTube"]
 
         logger.info(f"PubMed: {len(pubmed_articles)} articles")
         logger.info(f"RSS: {len(rss_articles)} items")
         logger.info(f"Grok/X: {len(grok_articles)} posts")
         logger.info(f"Podcasts: {len(podcast_episodes)} episodes")
+        logger.info(f"YouTube: {len(youtube_videos)} videos")
 
         for a in pubmed_articles:
             a["source_type"] = "pubmed"
@@ -103,6 +107,12 @@ class CardologyAgent:
         # semantic curation for ~2x more posts and lower API cost.
         direct_discussoes_x = transform_to_discussoes_x(grok_articles)
         logger.info(f"X discussions (direct from Grok, no Claude curation): {len(direct_discussoes_x)} items")
+
+        # YouTube videos also BYPASS Claude — channel descriptions are already
+        # curated by source organizations (ESC, ACC, Radcliffe, etc.), so we keep
+        # the per-channel ranking intact and inject directly into the final report.
+        direct_videos_youtube = transform_to_videos_youtube(youtube_videos)
+        logger.info(f"YouTube videos (direct from RSS, no Claude curation): {len(direct_videos_youtube)} items")
 
         # Claude only sees PubMed + RSS + Podcasts now
         articles = pubmed_articles + rss_articles + podcast_episodes
@@ -166,6 +176,11 @@ class CardologyAgent:
             if direct_discussoes_x:
                 report["discussoes_x"] = direct_discussoes_x
                 logger.info(f"Injected {len(direct_discussoes_x)} X discussions directly from Grok (bypass)")
+
+            # Inject YouTube videos (bypass Claude curation — already pre-ranked by tier)
+            if direct_videos_youtube:
+                report["videos_youtube"] = direct_videos_youtube
+                logger.info(f"Injected {len(direct_videos_youtube)} YouTube videos directly (bypass)")
 
             return report
         except ParsingError as e:

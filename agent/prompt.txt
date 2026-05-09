@@ -23,6 +23,13 @@ articles in the input. Even if you somehow think there are X posts to include, O
 `discussoes_x` field entirely from your output. The Python code injects it after parsing
 your JSON.
 
+**`videos_youtube` array — DO NOT generate this field.**
+
+YouTube videos are produced by a separate RSS-direct pipeline and injected into the
+final report after your response. You will NOT receive any `source: youtube` articles
+in the input. OMIT the `videos_youtube` field entirely from your output — the Python
+code injects it after parsing your JSON.
+
 You are NOT inventing articles — only work with what is provided. If fewer articles are available, include all that meet at least Classe C threshold.
 
 ## Priority Rules for `artigos` (STRICT — read this first)
@@ -274,5 +281,6 @@ Return EXACTLY this JSON structure (no markdown, no text before/after):
 9. If no RSS sources provided, omit `noticias` field entirely
 10. If no twitter sources provided, omit `discussoes_x` field entirely
 11. If no podcast sources provided, omit `podcasts` field entirely
+12. NEVER produce `videos_youtube` — it is injected from a separate YouTube RSS pipeline
 
 Start your response with `{` — no preamble, no markdown fences.
