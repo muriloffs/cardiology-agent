@@ -8,6 +8,7 @@
       :total-noticias="report?.noticias?.length || 0"
       :total-discussoes="report?.discussoes_x?.length || 0"
       :total-podcasts="report?.podcasts?.length || 0"
+      :total-videos="report?.videos_youtube?.length || 0"
       :reading-time="report?.resumo?.tempo_leitura_minutos || 0"
       :has-prev="currentDateIndex < availableDates.length - 1"
       :has-next="currentDateIndex > 0"

@@ -30,6 +30,26 @@ RSS_FEEDS = [
         "categoria": "noticias",
         "emoji": "📊",
     },
+    # Industry + clinical news (BIBA Group — UK editorial)
+    {
+        "url": "https://cardiovascularnews.com/feed/",
+        "source": "Cardiovascular News",
+        "categoria": "noticias",
+        "emoji": "🌐",
+    },
+    {
+        "url": "https://cardiacrhythmnews.com/feed/",
+        "source": "Cardiac Rhythm News",
+        "categoria": "noticias",
+        "emoji": "⚡",
+    },
+    # Imaging / interventional industry news
+    {
+        "url": "https://www.dicardiology.com/rss.xml",
+        "source": "DAIC (Imaging+Intervention)",
+        "categoria": "noticias",
+        "emoji": "🩻",
+    },
     # Preprints (medRxiv — pre-peer-review, useful as early signal)
     {
         "url": "https://connect.medrxiv.org/medrxiv_xml.php?subject=cardiovascular_medicine",
