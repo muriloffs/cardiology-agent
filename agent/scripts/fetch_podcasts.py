@@ -65,6 +65,19 @@ PODCAST_FEEDS = [
         "host": "Curbsiders Internal Medicine",
         "filter_cardio": True,  # General IM podcast — keep only cardio episodes
     },
+    # Brazilian podcasts (Portuguese, daily/weekly clinical content)
+    {
+        "name": "Afya Cardiopapers",
+        "url": "https://feeds.soundcloud.com/users/soundcloud:users:181883235/sounds.rss",
+        "host": "Afya Educação Médica",
+        "filter_cardio": False,  # already cardio-focused
+    },
+    {
+        "name": "DozeCast - Cardiologia",
+        "url": "https://anchor.fm/s/63d6fd90/podcast/rss",
+        "host": "DozeCast",
+        "filter_cardio": False,  # already cardio-focused
+    },
 ]
 
 CARDIO_KEYWORDS = [
