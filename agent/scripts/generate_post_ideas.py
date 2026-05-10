@@ -17,8 +17,9 @@ from anthropic import Anthropic, APIError
 logger = logging.getLogger(__name__)
 
 POST_IDEAS_MODEL = os.environ.get("POST_IDEAS_MODEL", "claude-sonnet-4-6")
-# 20 ideas with bullets + formato_visual + fonte ≈ 8K output tokens (margin: 9K)
-POST_IDEAS_MAX_TOKENS = 9000
+# 30 ideas with bullets + formato_visual + fonte ≈ 12K output tokens (margin: 14K)
+# Each idea avg ~400 tokens (ideia + 4 bullets + formato_visual + fonte structure)
+POST_IDEAS_MAX_TOKENS = 14000
 
 
 def _extract_compact_report(report: dict) -> str:
