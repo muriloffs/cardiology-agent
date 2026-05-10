@@ -110,10 +110,46 @@ Retorne APENAS o JSON array, sem markdown, sem explicação."""
             contents=fetcher_prompt,
             config=config,
         )
-        text = response.text.strip()
-        print(f"✓ Response received ({len(text)} chars)")
-        print(f"\nFirst 2000 chars of output:")
-        print(text[:2000])
+
+        # Robust text extraction (response.text can be None with grounding)
+        text = None
+        if hasattr(response, "text") and response.text:
+            text = response.text
+        elif hasattr(response, "candidates") and response.candidates:
+            parts_text = []
+            for cand in response.candidates:
+                if hasattr(cand, "content") and cand.content and hasattr(cand.content, "parts"):
+                    for part in cand.content.parts or []:
+                        if hasattr(part, "text") and part.text:
+                            parts_text.append(part.text)
+            text = "\n".join(parts_text) if parts_text else None
+
+        if not text:
+            print("⚠ Response has no text. Response object structure:")
+            print(f"  type: {type(response).__name__}")
+            if hasattr(response, "candidates") and response.candidates:
+                cand = response.candidates[0]
+                print(f"  candidates[0].finish_reason: {getattr(cand, 'finish_reason', 'N/A')}")
+                if hasattr(cand, "content"):
+                    print(f"  candidates[0].content: {cand.content}")
+                if hasattr(cand, "grounding_metadata") and cand.grounding_metadata:
+                    print(f"  grounding_metadata exists with chunks")
+            if hasattr(response, "prompt_feedback"):
+                print(f"  prompt_feedback: {response.prompt_feedback}")
+            if hasattr(response, "usage_metadata"):
+                print(f"  usage: {response.usage_metadata}")
+            print()
+            print("Diagnosis: provavelmente o modelo invocou tool mas não gerou texto.")
+            print("Possíveis causas: (1) prompt complexo demais; (2) grounding sem síntese final;")
+            print("(3) safety filter; (4) Flash com grounding tem comportamento diferente")
+            text = ""
+        else:
+            text = text.strip()
+
+        print(f"✓ Response text length: {len(text)} chars")
+        if text:
+            print(f"\nFirst 2000 chars of output:")
+            print(text[:2000])
         print()
 
         # Try to parse as JSON
@@ -147,6 +183,61 @@ Retorne APENAS o JSON array, sem markdown, sem explicação."""
     except Exception as e:
         print(f"✗ TEST 2 FAILED: {type(e).__name__}: {e}")
         # Don't exit — continue to test 3
+        print()
+
+    # ============================================================
+    # TEST 2B: Simpler grounding test — just ask for one journal site
+    # ============================================================
+    print("─" * 70)
+    print("TEST 2B: Simpler grounded query (1 site, 1 question)")
+    print("─" * 70)
+
+    simple_prompt = (
+        "Use Google Search to find the title of the most recent article published "
+        "this week on circulationaha.org or ahajournals.org Circulation. "
+        "Respond with just: TITLE: <title> | URL: <url> | DATE: <date>. "
+        "Do not invent. If you cannot find, say: NOT FOUND."
+    )
+
+    try:
+        config = types.GenerateContentConfig(
+            tools=[types.Tool(google_search=types.GoogleSearch())],
+            temperature=0.0,
+        )
+        response = client.models.generate_content(
+            model="gemini-2.5-flash",
+            contents=simple_prompt,
+            config=config,
+        )
+
+        text = None
+        if hasattr(response, "text") and response.text:
+            text = response.text
+        elif hasattr(response, "candidates") and response.candidates:
+            parts_text = []
+            for cand in response.candidates:
+                if hasattr(cand, "content") and cand.content and hasattr(cand.content, "parts"):
+                    for part in cand.content.parts or []:
+                        if hasattr(part, "text") and part.text:
+                            parts_text.append(part.text)
+            text = "\n".join(parts_text) if parts_text else None
+
+        print(f"Response: {text or '(empty)'}")
+        if hasattr(response, "candidates") and response.candidates:
+            cand = response.candidates[0]
+            if hasattr(cand, "grounding_metadata") and cand.grounding_metadata:
+                gm = cand.grounding_metadata
+                if hasattr(gm, "grounding_chunks") and gm.grounding_chunks:
+                    print(f"\n📚 Grounding sources cited: {len(gm.grounding_chunks)}")
+                    for i, chunk in enumerate(gm.grounding_chunks[:3], 1):
+                        if hasattr(chunk, "web") and chunk.web:
+                            print(f"  [{i}] {chunk.web.title or '?'}")
+                            print(f"      {chunk.web.uri or '?'}")
+                if hasattr(gm, "search_entry_point") and gm.search_entry_point:
+                    print(f"  search_entry_point exists")
+        print()
+    except Exception as e:
+        print(f"✗ TEST 2B FAILED: {type(e).__name__}: {e}")
         print()
 
     # ============================================================
