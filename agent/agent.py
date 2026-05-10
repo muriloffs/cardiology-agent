@@ -17,6 +17,7 @@ from agent.scripts.fetch_grok import fetch_x_cardiology_posts, transform_to_disc
 from agent.scripts.fetch_podcasts import fetch_all_podcasts
 from agent.scripts.fetch_youtube import fetch_all_youtube, transform_to_videos_youtube
 from agent.scripts.fetch_gemini_external import fetch_all_external
+from agent.scripts.fetch_gemini_substacks import fetch_all_substacks
 from agent.scripts.generate_post_ideas import generate_post_ideas
 from agent.scripts.generate_pulso import generate_pulso
 
@@ -67,11 +68,11 @@ class CardologyAgent:
             APIError: If Claude API call fails.
             FileNotFoundError: If prompt.txt is not found.
         """
-        # Fetch all 6 sources in parallel — independent I/O, capped by slowest.
+        # Fetch all 7 sources in parallel — independent I/O, capped by slowest.
         # Each fetcher is internally fault-tolerant and returns [] / {} on failure.
-        # Gemini external fetcher graceful-degrades if GOOGLE_API_KEY not set.
-        logger.info("Fetching from all sources in parallel (PubMed, RSS, Grok, Podcasts, YouTube, Gemini)...")
-        with ThreadPoolExecutor(max_workers=6) as executor:
+        # Gemini-based fetchers graceful-degrade if GOOGLE_API_KEY not set.
+        logger.info("Fetching from all sources in parallel (PubMed, RSS, Grok, Podcasts, YouTube, GeminiNews, GeminiSubstacks)...")
+        with ThreadPoolExecutor(max_workers=7) as executor:
             futures = {
                 "PubMed": executor.submit(fetch_recent_cardiology_articles, days_back=1),
                 "RSS": executor.submit(fetch_all_rss, days_back=2),
@@ -79,6 +80,7 @@ class CardologyAgent:
                 "Podcasts": executor.submit(fetch_all_podcasts, days_back=7),
                 "YouTube": executor.submit(fetch_all_youtube, days_back=2),
                 "GeminiExternal": executor.submit(fetch_all_external, days_back=2),
+                "GeminiSubstacks": executor.submit(fetch_all_substacks),
             }
             results = {}
             for name, future in futures.items():
@@ -100,6 +102,9 @@ class CardologyAgent:
         gemini_noticias = gemini_external.get("noticias_external", [])
         gemini_bluesky = gemini_external.get("discussoes_bluesky", [])
 
+        # Gemini Substacks returns flat list of substack post dicts
+        gemini_substacks = results.get("GeminiSubstacks") or []
+
         # Merge Gemini-discovered articles into RSS articles (deduped by URL)
         existing_urls = {a.get("pubmed_url", "") for a in rss_articles if a.get("pubmed_url")}
         for item in gemini_noticias:
@@ -112,6 +117,7 @@ class CardologyAgent:
                     f"({len(gemini_noticias)} from Gemini fetcher)")
         logger.info(f"Grok/X: {len(grok_articles)} posts")
         logger.info(f"Bluesky (Gemini): {len(gemini_bluesky)} posts")
+        logger.info(f"Substacks (Gemini): {len(gemini_substacks)} posts")
         logger.info(f"Podcasts: {len(podcast_episodes)} episodes")
         logger.info(f"YouTube: {len(youtube_videos)} videos")
 
@@ -206,6 +212,12 @@ class CardologyAgent:
             if gemini_bluesky:
                 report["discussoes_bluesky"] = gemini_bluesky
                 logger.info(f"Injected {len(gemini_bluesky)} Bluesky discussions (bypass)")
+
+            # Inject Substack posts (bypass — Gemini already extracted rich content).
+            # Pulso/post_ideas can reference these; frontend renders dedicated tab.
+            if gemini_substacks:
+                report["substacks"] = gemini_substacks
+                logger.info(f"Injected {len(gemini_substacks)} Substack posts (bypass)")
 
             # Inject original RSS show notes (EN) into each podcast item for the
             # detail modal. Claude rewrites titulo so we match by `publicacao`
@@ -399,12 +411,15 @@ class CardologyAgent:
             logger.info("Phase 2: Saving report...")
             file_path = self.save_report(report, report_date)
 
-            # Commit
+            # Commit (best-effort; the workflow has its own fallback commit step)
             logger.info("Phase 3: Committing to git...")
             commit_result = self.commit_report(file_path, report_date)
 
-            # Success
-            logger.info(f"✅ Report generated and committed: {file_path}")
+            # Success — distinguish between actually committed and saved-only
+            if isinstance(commit_result, str) and commit_result.startswith("git_error"):
+                logger.info(f"✅ Report saved (commit deferred to workflow): {file_path}")
+            else:
+                logger.info(f"✅ Report generated and committed: {file_path}")
             return report
 
         except ParsingError as e:

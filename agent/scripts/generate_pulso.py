@@ -115,6 +115,21 @@ def _extract_compact_report(report: dict) -> str:
                 lines.append(f"   impacto: {d['impacto_clinico'][:180]}")
             lines.append("")
 
+    substacks = report.get("substacks", [])[:20]
+    if substacks:
+        lines.append("\n=== SUBSTACKS (newsletters de cardiologistas — voz da comunidade) ===")
+        for s in substacks:
+            autor = s.get("autor") or s.get("publicacao", "?")
+            lines.append(f"[id={s.get('id', '?')}] {s.get('publicacao', '')} ({autor}): {s.get('titulo', '')[:140]}")
+            if s.get("tema"):
+                lines.append(f"   tema: {s['tema'][:80]}")
+            if s.get("resumo"):
+                lines.append(f"   resumo: {s['resumo'][:280]}")
+            if s.get("bullets"):
+                bullets_str = " | ".join(s["bullets"][:3])
+                lines.append(f"   bullets: {bullets_str[:280]}")
+            lines.append("")
+
     return "\n".join(lines)
 
 

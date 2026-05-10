@@ -142,18 +142,20 @@ function fonteEmoji(tipo) {
     podcast: '🎙️',
     video: '📺',
     x: '𝕏',
-    bluesky: '🦋'
+    bluesky: '🦋',
+    substack: '📝'
   }[tipo] || '📎'
 }
 
 function fonteBadgeColor(tipo) {
   return {
-    artigo:  'bg-purple-100 text-purple-800',
-    noticia: 'bg-orange-100 text-orange-800',
-    podcast: 'bg-indigo-100 text-indigo-800',
-    video:   'bg-red-100 text-red-800',
-    x:       'bg-gray-200 text-gray-800',
-    bluesky: 'bg-sky-100 text-sky-800'
+    artigo:   'bg-purple-100 text-purple-800',
+    noticia:  'bg-orange-100 text-orange-800',
+    podcast:  'bg-indigo-100 text-indigo-800',
+    video:    'bg-red-100 text-red-800',
+    x:        'bg-gray-200 text-gray-800',
+    bluesky:  'bg-sky-100 text-sky-800',
+    substack: 'bg-fuchsia-100 text-fuchsia-800'
   }[tipo] || 'bg-gray-100 text-gray-700'
 }
 
@@ -171,16 +173,21 @@ function fonteUrl(fonte) {
   if (!props.report || !fonte.id) return null
 
   const sourceMap = {
-    artigo:  props.report.artigos,
-    noticia: props.report.noticias,
-    podcast: props.report.podcasts,
-    x:       props.report.discussoes_x,
-    bluesky: props.report.discussoes_bluesky || props.report.discussoes_x
+    artigo:   props.report.artigos,
+    noticia:  props.report.noticias,
+    podcast:  props.report.podcasts,
+    x:        props.report.discussoes_x,
+    bluesky:  props.report.discussoes_bluesky || props.report.discussoes_x,
+    substack: props.report.substacks
   }
   const list = sourceMap[fonte.tipo]
   if (!Array.isArray(list)) return null
   const match = list.find(s => s.id === fonte.id)
-  if (!match || !match.links) return null
+  if (!match) return null
+
+  // Substack posts store URL at top level (no links{} wrapper)
+  if (fonte.tipo === 'substack' && match.url) return match.url
+  if (!match.links) return null
 
   const links = match.links
   if (links.url)         return links.url

@@ -42,6 +42,20 @@
           </span>
         </button>
         <button
+          @click="currentView = 'substacks'"
+          :class="['px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2',
+                   currentView === 'substacks'
+                     ? 'bg-purple-700 text-white shadow-sm'
+                     : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200']"
+        >
+          📝 Substacks
+          <span v-if="report?.substacks?.length"
+                :class="['px-1.5 py-0.5 rounded-full text-xs font-bold',
+                         currentView === 'substacks' ? 'bg-white text-purple-700' : 'bg-purple-100 text-purple-700']">
+            {{ report.substacks.length }}
+          </span>
+        </button>
+        <button
           @click="currentView = 'ideas'"
           :class="['px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2',
                    currentView === 'ideas'
@@ -229,7 +243,62 @@
 
 
     <!-- ============================================================ -->
-    <!-- VIEW 3: IDEIAS DO DIA -->
+    <!-- VIEW 3: SUBSTACKS -->
+    <!-- ============================================================ -->
+    <template v-else-if="currentView === 'substacks'">
+      <section class="px-4 py-8 max-w-6xl mx-auto">
+        <div class="mb-6">
+          <h2 class="text-2xl md:text-3xl font-bold mb-2">📝 Substacks de Cardiologia</h2>
+          <p class="text-sm text-gray-600 mb-1">
+            <strong>Análise crítica e curadoria especializada.</strong> Posts recentes (últimos 7 dias) de 12 newsletters lideradas por cardiologistas — voz da comunidade fora dos journals tradicionais.
+          </p>
+          <p v-if="report?.substacks?.length" class="text-xs text-gray-500">
+            {{ report.substacks.length }} post{{ report.substacks.length > 1 ? 's' : '' }} · {{ uniqueSubstackPubs }} fonte{{ uniqueSubstackPubs > 1 ? 's' : '' }}
+          </p>
+        </div>
+
+        <!-- Filter by publication -->
+        <div v-if="substackPubFilters.length > 1" class="flex gap-2 flex-wrap mb-6">
+          <button
+            v-for="f in substackPubFilters"
+            :key="f.key"
+            @click="selectedSubstackPub = f.key"
+            :class="['px-3 py-1.5 rounded-full text-xs font-medium transition-all flex items-center gap-1.5',
+                     selectedSubstackPub === f.key
+                       ? 'bg-purple-700 text-white shadow-sm'
+                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200']"
+          >
+            <span>{{ f.label }}</span>
+            <span class="opacity-70">({{ f.count }})</span>
+          </button>
+        </div>
+
+        <!-- Cards grid -->
+        <div v-if="filteredSubstacks.length" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <SubstackCard
+            v-for="post in filteredSubstacks"
+            :key="post.id || post.url"
+            :post="post"
+          />
+        </div>
+
+        <!-- Empty / loading -->
+        <div v-else-if="!report" class="text-center py-12 text-gray-500">
+          Carregando relatório...
+        </div>
+        <div v-else-if="!report.substacks?.length" class="text-center py-12 text-gray-500">
+          <p class="text-lg mb-2">📭 Sem posts de Substacks neste relatório</p>
+          <p class="text-sm">Newsletters publicam 1-3x por semana. Próxima coleta: meia-noite Brasília.</p>
+        </div>
+        <div v-else class="text-center py-12 text-gray-500">
+          Nenhum post encontrado para esta fonte.
+        </div>
+      </section>
+    </template>
+
+
+    <!-- ============================================================ -->
+    <!-- VIEW 4: IDEIAS DO DIA -->
     <!-- ============================================================ -->
     <template v-else-if="currentView === 'ideas'">
       <section class="px-4 py-8 max-w-6xl mx-auto">
@@ -309,6 +378,7 @@ import XDiscussionDetail from './components/XDiscussionDetail.vue'
 import VideoCard from './components/VideoCard.vue'
 import PostIdeaCard from './components/PostIdeaCard.vue'
 import PulsoCard from './components/PulsoCard.vue'
+import SubstackCard from './components/SubstackCard.vue'
 import { fetchLatestReport, fetchIndex, fetchReportByDate } from './utils/api'
 
 const report = ref(null)
@@ -319,8 +389,9 @@ const searchQuery = ref('')
 const loading = ref(false)
 const selectedXCategoria = ref('all')
 const selectedVideoTier = ref(-1)  // -1 = all
-const currentView = ref('report')  // 'report' | 'pulso' | 'ideas'
+const currentView = ref('report')  // 'report' | 'pulso' | 'substacks' | 'ideas'
 const selectedIdeaType = ref('all')
+const selectedSubstackPub = ref('all')
 const availableDates = ref([])
 const currentDateIndex = ref(0)
 
@@ -398,6 +469,33 @@ const filteredIdeas = computed(() => {
   if (selectedIdeaType.value === 'all') return ideas
   const target = selectedIdeaType.value
   return ideas.filter(i => normalizeTipo(i.tipo) === target)
+})
+
+// Substack filters: by publication name. Always show "Todas" first.
+const substackPubFilters = computed(() => {
+  const posts = report.value?.substacks || []
+  if (!posts.length) return []
+  const counts = new Map()
+  for (const p of posts) {
+    const pub = p.publicacao || '(sem nome)'
+    counts.set(pub, (counts.get(pub) || 0) + 1)
+  }
+  const filters = [{ key: 'all', label: 'Todas', count: posts.length }]
+  for (const [pub, count] of [...counts.entries()].sort((a, b) => b[1] - a[1])) {
+    filters.push({ key: pub, label: pub, count })
+  }
+  return filters
+})
+
+const filteredSubstacks = computed(() => {
+  const posts = report.value?.substacks || []
+  if (selectedSubstackPub.value === 'all') return posts
+  return posts.filter(p => p.publicacao === selectedSubstackPub.value)
+})
+
+const uniqueSubstackPubs = computed(() => {
+  const posts = report.value?.substacks || []
+  return new Set(posts.map(p => p.publicacao)).size
 })
 
 const filteredArticles = computed(() => {

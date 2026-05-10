@@ -55,11 +55,12 @@ Cada destaque deve seguir este JSON:
 2. **Apenas 1 item recebe `is_destaque_do_dia: true`** — o "Big One" do dia, escolhido pelo maior score combinado de relevância clínica + cobertura cruzada.
 
 3. **`fontes_cobertura` DEVE conter ≥ 1 entry com `id` REAL do relatório.** IDs disponíveis:
-   - `art_001`, `art_002`... → de `artigos[]`
-   - `not_001`, `not_002`... → de `noticias[]`
-   - `pod_001`, `pod_002`... → de `podcasts[]`
-   - `x_001`, `x_002`... → de `discussoes_x[]`
-   - Para vídeos, use `video_url` como id (ex: video URL completa)
+   - `art_001`, `art_002`... → de `artigos[]` (tipo: "artigo")
+   - `not_001`, `not_002`... → de `noticias[]` (tipo: "noticia")
+   - `pod_001`, `pod_002`... → de `podcasts[]` (tipo: "podcast")
+   - `x_001`, `x_002`... → de `discussoes_x[]` (tipo: "x")
+   - `sub_001`, `sub_002`... → de `substacks[]` (tipo: "substack") — newsletters Mandrola/Topol/Skeptical/etc
+   - Para vídeos, use `video_url` como id e tipo: "video"
 
 4. **`interpretacao_comunidade` DEVE citar concretamente** — se você diz "Mandrola comentou", o Mandrola PRECISA estar no relatório de hoje (em podcasts ou X). Se não está, diga "Discussão na comunidade ainda incipiente."
 

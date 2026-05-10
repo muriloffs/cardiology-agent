@@ -149,8 +149,8 @@ def _validate(report: Dict[str, Any]) -> None:
 
     # Soft-guard: pipeline survives if at least one Claude-curated source has content.
     # PubMed can rate-limit (429) or have empty cardio days — RSS + podcasts still
-    # carry the day. discussoes_x/videos_youtube are injected post-parse, so they
-    # don't count here, but Claude's three buckets are what we check.
+    # carry the day. discussoes_x/videos_youtube/substacks are injected post-parse,
+    # so they don't count here, but Claude's three buckets are what we check.
     if (not report['artigos']
             and not report.get('noticias')
             and not report.get('podcasts')
@@ -172,6 +172,43 @@ def _validate(report: Dict[str, Any]) -> None:
                 report.pop('destaque_do_dia', None)
             elif d.get('tipo_origem') not in {'artigo', 'noticia', 'podcast'}:
                 report.pop('destaque_do_dia', None)
+
+    # substacks (optional list) — Phase 7 addition. Gemini fetches rich-format posts
+    # from 12 cardiology Substacks. Bypass-injected post-parse, but validated here
+    # for safety. Drop malformed items silently to keep partial results.
+    if 'substacks' in report:
+        if not isinstance(report['substacks'], list):
+            report.pop('substacks', None)
+        else:
+            valid_substacks = []
+            required_sub = {'titulo', 'url', 'publicacao'}
+            for i, item in enumerate(report['substacks']):
+                if not isinstance(item, dict):
+                    continue
+                if not required_sub.issubset(item.keys()):
+                    continue
+                if not all(isinstance(item.get(k), str) and item[k].strip() for k in required_sub):
+                    continue
+                if not item['url'].startswith('http'):
+                    continue
+                # Normalize optional fields
+                item.setdefault('autor', '')
+                item.setdefault('data_pub', '')
+                item.setdefault('tema', '')
+                item.setdefault('resumo', '')
+                item.setdefault('categoria', '')
+                if not isinstance(item.get('bullets'), list):
+                    item['bullets'] = []
+                else:
+                    item['bullets'] = [str(b).strip() for b in item['bullets'] if b and str(b).strip()][:6]
+                if not isinstance(item.get('tags'), list):
+                    item['tags'] = []
+                else:
+                    item['tags'] = [str(t).strip().lstrip('#') for t in item['tags'] if t and str(t).strip()][:8]
+                if not item.get('id'):
+                    item['id'] = f"sub_{len(valid_substacks)+1:03d}"
+                valid_substacks.append(item)
+            report['substacks'] = valid_substacks
 
     # pulso (optional list) — Phase 4 addition. Sonnet generates 5-10 highlights
     # with multi-source interpretation. First item flagged is_destaque_do_dia=true.
