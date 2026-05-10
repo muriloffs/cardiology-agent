@@ -7,7 +7,6 @@
       :total-articles="report?.artigos?.length || 0"
       :total-noticias="report?.noticias?.length || 0"
       :total-discussoes="report?.discussoes_x?.length || 0"
-      :total-podcasts="report?.podcasts?.length || 0"
       :total-videos="report?.videos_youtube?.length || 0"
       :reading-time="report?.resumo?.tempo_leitura_minutos || 0"
       :has-prev="currentDateIndex < availableDates.length - 1"
@@ -57,7 +56,6 @@
       :total-artigos="report?.artigos?.length || 0"
       :total-noticias="report?.noticias?.length || 0"
       :total-discussoes="report?.discussoes_x?.length || 0"
-      :total-podcasts="report?.podcasts?.length || 0"
       :total-videos="report?.videos_youtube?.length || 0"
       @update:selected-class="selectedClass = $event"
       @update:search-query="searchQuery = $event"
@@ -81,20 +79,6 @@
           :key="article.id"
           :article="article"
           @click="selectedArticle = article"
-        />
-      </div>
-    </section>
-
-    <!-- Podcasts Section -->
-    <section id="section-podcasts" v-if="report?.podcasts?.length" class="px-4 py-8 max-w-6xl mx-auto border-t border-gray-100 scroll-mt-4">
-      <h2 class="text-2xl font-bold mb-1">🎙️ Podcasts da Semana</h2>
-      <p class="text-sm text-gray-500 mb-4">{{ report.podcasts.length }} episódios recentes de cardiologia</p>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-        <PodcastCard
-          v-for="podcast in report.podcasts"
-          :key="podcast.id"
-          :podcast="podcast"
-          @click="selectedPodcast = podcast"
         />
       </div>
     </section>
@@ -267,13 +251,6 @@
       @close="selectedDiscussion = null"
     />
 
-    <!-- Podcast Detail Modal -->
-    <PodcastDetail
-      v-if="selectedPodcast"
-      :podcast="selectedPodcast"
-      @close="selectedPodcast = null"
-    />
-
   </div>
 </template>
 
@@ -285,8 +262,6 @@ import ArticleCard from './components/ArticleCard.vue'
 import ArticleDetail from './components/ArticleDetail.vue'
 import XDiscussionCard from './components/XDiscussionCard.vue'
 import XDiscussionDetail from './components/XDiscussionDetail.vue'
-import PodcastCard from './components/PodcastCard.vue'
-import PodcastDetail from './components/PodcastDetail.vue'
 import VideoCard from './components/VideoCard.vue'
 import PostIdeaCard from './components/PostIdeaCard.vue'
 import DestaqueDoDia from './components/DestaqueDoDia.vue'
@@ -295,7 +270,6 @@ import { fetchLatestReport, fetchIndex, fetchReportByDate } from './utils/api'
 const report = ref(null)
 const selectedArticle = ref(null)
 const selectedDiscussion = ref(null)
-const selectedPodcast = ref(null)
 const selectedClass = ref('all')
 const searchQuery = ref('')
 const loading = ref(false)
@@ -316,10 +290,8 @@ function jumpToDestaqueItem(destaque) {
   } else if (tipo === 'noticia') {
     const found = (report.value.noticias || []).find(n => n.id === itemId)
     if (found) selectedArticle.value = found
-  } else if (tipo === 'podcast') {
-    const found = (report.value.podcasts || []).find(p => p.id === itemId)
-    if (found) selectedPodcast.value = found
   }
+  // Note: tipo === 'podcast' was removed as Podcasts UI is no longer rendered
 }
 
 async function navigateDate(direction) {

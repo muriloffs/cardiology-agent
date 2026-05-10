@@ -21,7 +21,7 @@
         >▶</button>
       </div>
 
-      <div class="grid grid-cols-2 md:grid-cols-5 gap-2 md:gap-3">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3">
         <div class="bg-purple-50 rounded-lg p-2 md:p-4">
           <p class="text-xs md:text-sm text-gray-600">📚 Artigos</p>
           <p class="text-xl md:text-2xl font-bold text-purple-600">{{ totalArticles }}</p>
@@ -38,10 +38,6 @@
           <p class="text-xs md:text-sm text-gray-600">𝕏 Discussões</p>
           <p class="text-xl md:text-2xl font-bold text-gray-800">{{ totalDiscussoes }}</p>
         </div>
-        <div class="bg-indigo-50 rounded-lg p-2 md:p-4">
-          <p class="text-xs md:text-sm text-gray-600">🎙️ Podcasts</p>
-          <p class="text-xl md:text-2xl font-bold text-indigo-600">{{ totalPodcasts }}</p>
-        </div>
       </div>
       <p class="text-xs text-gray-500 mt-2 md:mt-3">⏱️ Tempo de leitura: ~{{ readingTime }} min</p>
     </div>
@@ -56,7 +52,6 @@ const props = defineProps({
   totalArticles: Number,
   totalNoticias: { type: Number, default: 0 },
   totalDiscussoes: { type: Number, default: 0 },
-  totalPodcasts: { type: Number, default: 0 },
   totalVideos: { type: Number, default: 0 },
   readingTime: Number,
   hasPrev: Boolean,
