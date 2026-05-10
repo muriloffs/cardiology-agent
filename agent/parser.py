@@ -191,12 +191,15 @@ def _validate(report: Dict[str, Any]) -> None:
                     continue
                 if not item['url'].startswith('http'):
                     continue
-                # Normalize optional fields
+                # Normalize optional fields (Combo Total adds 3 new contextual fields)
                 item.setdefault('autor', '')
                 item.setdefault('data_pub', '')
                 item.setdefault('tema', '')
                 item.setdefault('resumo', '')
                 item.setdefault('categoria', '')
+                item.setdefault('quem_se_aplica', '')
+                item.setdefault('evidencia_chave', '')
+                item.setdefault('contraponto', '')
                 if not isinstance(item.get('bullets'), list):
                     item['bullets'] = []
                 else:

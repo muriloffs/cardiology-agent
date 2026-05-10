@@ -27,8 +27,8 @@ from typing import Any
 
 logger = logging.getLogger(__name__)
 
-GEMINI_MODEL = "gemini-2.5-flash"
-GEMINI_CALL_TIMEOUT = 90  # per call (grounded calls take ~30s typically)
+GEMINI_MODEL = "gemini-2.5-pro"
+GEMINI_CALL_TIMEOUT = 120  # Pro is 2-3x slower than Flash; grounded calls ~60s
 
 # Cardio keyword filter — broad enough to catch most cardio content
 # Reused from fetch_articles.py / fetch_youtube.py

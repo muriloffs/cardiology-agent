@@ -70,22 +70,27 @@ def _extract_compact_report(report: dict) -> str:
                 lines.append(f"   url: {url}")
             lines.append("")
 
-    # VIDEOS YOUTUBE — top 25. Use Phase-6 Gemini-enriched fields when available
-    # (resumo_pt/bullets_pt/tema in PT-BR), fall back to raw RSS description.
+    # VIDEOS YOUTUBE — top 25. Use Combo-Total enriched fields (Pro + transcript)
+    # when available, fall back to raw RSS description.
     videos = report.get("videos_youtube", [])[:25]
     if videos:
         lines.append("\n=== VÍDEOS YOUTUBE ===")
         for v in videos:
-            lines.append(f"[v_{videos.index(v)+1:03d}] [{v.get('canal', '')}] {v.get('titulo', '')[:140]}")
+            transcript_flag = " [TRANSCRIPT-BASED]" if v.get("_transcript_used") else ""
+            lines.append(f"[v_{videos.index(v)+1:03d}]{transcript_flag} [{v.get('canal', '')}] {v.get('titulo', '')[:140]}")
             if v.get("tema"):
                 lines.append(f"   tema: {v['tema'][:80]}")
             if v.get("resumo_pt"):
-                lines.append(f"   resumo: {v['resumo_pt'][:280]}")
+                lines.append(f"   resumo: {v['resumo_pt'][:400]}")
             elif v.get("descricao_preview"):
                 lines.append(f"   desc: {v['descricao_preview'][:200]}")
             if v.get("bullets_pt"):
-                bullets_str = " | ".join(v["bullets_pt"][:3])
-                lines.append(f"   bullets: {bullets_str[:280]}")
+                bullets_str = " | ".join(v["bullets_pt"][:5])
+                lines.append(f"   bullets: {bullets_str[:400]}")
+            if v.get("evidencia_chave"):
+                lines.append(f"   evidencia: {v['evidencia_chave'][:200]}")
+            if v.get("contraponto"):
+                lines.append(f"   contraponto: {v['contraponto'][:200]}")
             lines.append(f"   url: {v.get('video_url', '')}")
             lines.append("")
 
@@ -101,8 +106,7 @@ def _extract_compact_report(report: dict) -> str:
                 lines.append(f"   url: {url}")
             lines.append("")
 
-    # SUBSTACKS — Phase 7 newsletters de cardiologistas (Topol, Mandrola, etc).
-    # Voz da comunidade — útil pra ângulos de divulgação leiga.
+    # SUBSTACKS — Phase 7 + Combo-Total enriched (Pro + 3 new contextual fields).
     substacks = report.get("substacks", [])[:15]
     if substacks:
         lines.append("\n=== SUBSTACKS (newsletters de cardiologistas) ===")
@@ -112,10 +116,14 @@ def _extract_compact_report(report: dict) -> str:
             if s.get("tema"):
                 lines.append(f"   tema: {s['tema'][:80]}")
             if s.get("resumo"):
-                lines.append(f"   resumo: {s['resumo'][:280]}")
+                lines.append(f"   resumo: {s['resumo'][:400]}")
             if s.get("bullets"):
-                bullets_str = " | ".join(s["bullets"][:3])
-                lines.append(f"   bullets: {bullets_str[:280]}")
+                bullets_str = " | ".join(s["bullets"][:5])
+                lines.append(f"   bullets: {bullets_str[:400]}")
+            if s.get("evidencia_chave"):
+                lines.append(f"   evidencia: {s['evidencia_chave'][:200]}")
+            if s.get("contraponto"):
+                lines.append(f"   contraponto: {s['contraponto'][:200]}")
             if s.get("url"):
                 lines.append(f"   url: {s['url']}")
             lines.append("")

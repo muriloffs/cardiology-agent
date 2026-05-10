@@ -22,8 +22,8 @@ from typing import Any
 
 logger = logging.getLogger(__name__)
 
-GEMINI_MODEL = "gemini-2.5-flash"
-GEMINI_CALL_TIMEOUT = 90
+GEMINI_MODEL = "gemini-2.5-pro"
+GEMINI_CALL_TIMEOUT = 120  # Pro is 2-3x slower than Flash, give more headroom
 DEFAULT_DAYS_BACK = 7  # Substacks publish 1-3x/week
 DEFAULT_MAX_ITEMS = 3
 
@@ -139,7 +139,7 @@ def _parse_substack_blocks(text: str) -> list[dict]:
 
 
 def _parse_single_block(block: str) -> dict | None:
-    """Extract fields from one post block."""
+    """Extract fields from one post block (Nível-1: includes 3 new contextual fields)."""
     lines = block.split("\n")
 
     post = {
@@ -151,71 +151,69 @@ def _parse_single_block(block: str) -> dict | None:
         "bullets": [],
         "resumo": "",
         "tags": [],
+        "quem_se_aplica": "",
+        "evidencia_chave": "",
+        "contraponto": "",
     }
 
     current_field = None
     bullet_buffer = []
+
+    # Label → post-field mapping (multi-line capable for resumo/contraponto/quem_se_aplica/evidencia_chave)
+    LABEL_MAP = {
+        "TITLE": "titulo", "TITULO": "titulo",
+        "URL": "url",
+        "DATE": "data_pub", "DATA": "data_pub",
+        "AUTOR": "autor", "AUTHOR": "autor",
+        "TEMA": "tema",
+        "RESUMO": "resumo",
+        "QUEM_SE_APLICA": "quem_se_aplica", "QUEMSEAPLICA": "quem_se_aplica",
+        "EVIDENCIA_CHAVE": "evidencia_chave", "EVIDENCIACHAVE": "evidencia_chave",
+        "CONTRAPONTO": "contraponto",
+    }
+    MULTILINE_FIELDS = {"resumo", "quem_se_aplica", "evidencia_chave", "contraponto", "titulo"}
 
     for raw_line in lines:
         line = raw_line.rstrip()
         if not line.strip():
             continue
 
-        # Match LABEL: value pattern (case-insensitive)
-        m = re.match(r"^\s*([A-Za-zÁÉÍÓÚá-ú]+)\s*:\s*(.*)$", line)
+        m = re.match(r"^\s*([A-Za-z_ÁÉÍÓÚá-ú]+)\s*:\s*(.*)$", line)
         if m:
-            label = m.group(1).upper()
+            label = m.group(1).upper().replace(" ", "_")
             value = m.group(2).strip()
 
-            if label in ("TITLE", "TITULO"):
-                current_field = "titulo"
-                post["titulo"] = _strip_markdown(value)
-            elif label == "URL":
-                current_field = "url"
-                # Sometimes Gemini wraps URLs in markdown — strip
-                v = re.sub(r"^\[.*?\]\((.*)\)$", r"\1", value)
-                v = v.strip("()<>[] ")
-                post["url"] = v
-            elif label in ("DATE", "DATA"):
-                current_field = "data_pub"
-                post["data_pub"] = value
-            elif label in ("AUTOR", "AUTHOR"):
-                current_field = "autor"
-                post["autor"] = _strip_markdown(value)
-            elif label == "TEMA":
-                current_field = "tema"
-                post["tema"] = _strip_markdown(value)
+            if label in LABEL_MAP:
+                field = LABEL_MAP[label]
+                current_field = field
+                if field == "url":
+                    v = re.sub(r"^\[.*?\]\((.*)\)$", r"\1", value)
+                    post["url"] = v.strip("()<>[] ")
+                else:
+                    post[field] = _strip_markdown(value)
             elif label == "BULLETS":
                 current_field = "bullets"
-                # If bullets are inline on same line (rare), capture
                 if value:
                     bullet_buffer.append(value)
-            elif label == "RESUMO":
-                current_field = "resumo"
-                post["resumo"] = _strip_markdown(value)
             elif label == "TAGS":
                 current_field = "tags"
                 post["tags"] = [t.strip().lstrip("#") for t in value.split(",") if t.strip()]
             else:
-                current_field = None  # unknown label
+                current_field = None
             continue
 
         # Continuation lines for current_field
         stripped = line.strip()
         if current_field == "bullets":
-            # Bullet lines start with -, *, •, or number.
             bullet_text = re.sub(r"^[\-\*•\d\.\)]+\s*", "", stripped).strip()
             if bullet_text:
                 bullet_buffer.append(bullet_text)
-        elif current_field == "resumo":
-            post["resumo"] = (post["resumo"] + " " + stripped).strip()
-        elif current_field == "titulo":
-            post["titulo"] = (post["titulo"] + " " + stripped).strip()
+        elif current_field in MULTILINE_FIELDS:
+            post[current_field] = (post[current_field] + " " + stripped).strip()
 
     if bullet_buffer:
-        post["bullets"] = [_strip_markdown(b) for b in bullet_buffer[:6]]
+        post["bullets"] = [_strip_markdown(b) for b in bullet_buffer[:8]]
 
-    # URL must look like one
     if not post["url"].startswith("http"):
         return None
     if not post["titulo"]:
@@ -247,31 +245,47 @@ def _build_substack_prompt(
     days_back: int = DEFAULT_DAYS_BACK,
     max_items: int = DEFAULT_MAX_ITEMS,
 ) -> str:
-    """Build a Substack fetch prompt that forces PT-BR for human-readable fields.
+    """Build a Substack fetch prompt with deep clinical analysis (Pro + Nível 1).
 
-    Title, tema, bullets, and resumo are ALL in Brazilian Portuguese — the dashboard
-    is consumed by a Brazilian cardiologist. Original-language URL still resolves
-    to the original post when the user clicks "Ler completo →".
+    Title, tema, bullets, resumo, and contextual fields ALL in PT-BR — the
+    dashboard is consumed by a Brazilian cardiologist. Author stays in
+    original form. URL resolves to original post on click.
+
+    Nível-1 enhancements: 5-7 bullets (vs 3), 5-7 sentence resumo (vs 2-3),
+    plus 3 new contextual fields: quem_se_aplica, evidencia_chave, contraponto.
     """
-    return f"""Use Google Search to find the {max_items} most recent cardiology posts published on the Substack "{publication_name}" ({publication_url}).
+    return f"""Você é um cardiologista revisor sênior analisando posts recentes da newsletter "{publication_name}" ({publication_url}) para um dashboard clínico brasileiro.
 
-For each post, respond using EXACTLY this format. Separate posts with a line containing only '---'.
+Use Google Search para encontrar os {max_items} posts mais recentes (últimos {days_back} dias). Leia o conteúdo de cada post com profundidade — não apenas o título.
 
-TITLE: <título do post traduzido para português brasileiro — natural, não literal>
-URL: <complete post URL on substack.com or the publication's domain>
-DATE: <publication date as YYYY-MM-DD>
-AUTOR: <author name as it appears, in original form>
-TEMA: <tema principal em 2 a 5 palavras, em português brasileiro>
+Para cada post, responda EXATAMENTE neste formato. Separe posts com uma linha contendo apenas '---'.
+
+TITLE: <título traduzido para português brasileiro — natural, fluente, não literal>
+URL: <URL completa do post>
+DATE: <data de publicação no formato YYYY-MM-DD>
+AUTOR: <nome do autor original, sem traduzir>
+TEMA: <tema principal em 2 a 5 palavras em português brasileiro>
 BULLETS:
-- <takeaway clínico 1 em português brasileiro, frase curta e direta>
-- <takeaway clínico 2 em português brasileiro>
-- <takeaway clínico 3 em português brasileiro>
-RESUMO: <resumo em 2-3 frases em português brasileiro sobre a mensagem clínica do post>
-TAGS: <3 a 5 keywords curtas separadas por vírgulas, em português ou termos técnicos consagrados em inglês (HFpEF, TAVR, etc) — sem '#'>
+- <takeaway clínico 1 — frase curta, específica (números/nomes/contexto quando houver)>
+- <takeaway clínico 2>
+- <takeaway clínico 3>
+- <takeaway clínico 4>
+- <takeaway clínico 5>
+- <takeaway 6 se relevante>
+- <takeaway 7 se relevante>
+RESUMO: <resumo em 5-7 frases em português brasileiro. Inclua: (1) o que o autor argumenta, (2) o contexto clínico/científico, (3) a evidência citada, (4) a conclusão prática. Densidade editorial, não feed-style.>
+QUEM_SE_APLICA: <1-2 frases sobre o perfil de paciente / contexto clínico em que a discussão importa (ex: "Pacientes com FA não-valvar e CHA2DS2-VASc ≥ 2", "Cardiologistas que prescrevem PCSK9i")>
+EVIDENCIA_CHAVE: <1 frase com o datapoint mais relevante citado no post — número, trial, estudo (ex: "HR 0,75 IC 95% 0,65-0,86 no VESALIUS-CV n=12.301", "Redução de 40% em tempo de procedimento")>
+CONTRAPONTO: <1-2 frases com o caveat/crítica/limitação principal — o "porém". Se o post não tem contraponto óbvio, escreva "Sem contraponto significativo neste post.">
+TAGS: <3 a 5 keywords curtas separadas por vírgulas, em português ou termos técnicos consagrados (TAVR, HFpEF, GLP-1, SGLT2) — sem '#'>
 
-Idioma das saídas TITLE/TEMA/BULLETS/RESUMO: português brasileiro OBRIGATORIAMENTE. Termos técnicos consagrados (TAVR, PCI, HFpEF, GLP-1, SGLT2, late-breaking) podem ficar em inglês mas a estrutura da frase deve ser portuguesa.
-
-Plain text only. No JSON. No markdown formatting like ** or ##. If no posts found in the window: respond with the single word NONE."""
+REGRAS:
+- Idioma OBRIGATÓRIO português brasileiro para TITLE/TEMA/BULLETS/RESUMO/QUEM_SE_APLICA/EVIDENCIA_CHAVE/CONTRAPONTO
+- Termos técnicos consagrados em inglês são OK
+- Não invente números/citações que não estão no post
+- Não use markdown (** ou ##)
+- Plain text only, sem JSON
+- Se nenhum post no período: responda apenas NONE"""
 
 
 # ──────────────────────────────────────────────────────────────────────

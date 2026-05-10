@@ -63,6 +63,22 @@
         {{ post.resumo }}
       </p>
 
+      <!-- Contextual fields (Combo Total) — only render when present -->
+      <div v-if="post.quem_se_aplica || post.evidencia_chave || post.contraponto" class="space-y-2 pt-1 border-t border-gray-100">
+        <div v-if="post.quem_se_aplica" class="text-xs">
+          <span class="font-bold text-blue-700 uppercase tracking-wide">👥 Para quem </span>
+          <span class="text-gray-700">{{ post.quem_se_aplica }}</span>
+        </div>
+        <div v-if="post.evidencia_chave" class="text-xs">
+          <span class="font-bold text-emerald-700 uppercase tracking-wide">📊 Evidência </span>
+          <span class="text-gray-700">{{ post.evidencia_chave }}</span>
+        </div>
+        <div v-if="post.contraponto" class="text-xs">
+          <span class="font-bold text-amber-700 uppercase tracking-wide">⚠️ Contraponto </span>
+          <span class="text-gray-700">{{ post.contraponto }}</span>
+        </div>
+      </div>
+
       <!-- Tags + Read more -->
       <div class="flex items-center justify-between gap-3 pt-1 flex-wrap">
         <div v-if="post.tags?.length" class="flex flex-wrap gap-1">

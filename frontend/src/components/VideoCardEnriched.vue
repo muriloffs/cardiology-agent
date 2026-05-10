@@ -83,6 +83,25 @@
         {{ video.descricao_preview }}
       </p>
 
+      <!-- Contextual fields (Combo Total) — only render when present -->
+      <div v-if="video.quem_se_aplica || video.evidencia_chave || video.contraponto" class="space-y-2 pt-1 border-t border-gray-100">
+        <div v-if="video.quem_se_aplica" class="text-xs">
+          <span class="font-bold text-blue-700 uppercase tracking-wide">👥 Para quem </span>
+          <span class="text-gray-700">{{ video.quem_se_aplica }}</span>
+        </div>
+        <div v-if="video.evidencia_chave" class="text-xs">
+          <span class="font-bold text-emerald-700 uppercase tracking-wide">📊 Evidência </span>
+          <span class="text-gray-700">{{ video.evidencia_chave }}</span>
+        </div>
+        <div v-if="video.contraponto" class="text-xs">
+          <span class="font-bold text-amber-700 uppercase tracking-wide">⚠️ Contraponto </span>
+          <span class="text-gray-700">{{ video.contraponto }}</span>
+        </div>
+        <div v-if="video._transcript_used" class="text-xs">
+          <span class="font-bold text-purple-700 uppercase tracking-wide">📝 Baseado em transcript</span>
+        </div>
+      </div>
+
       <!-- Tags + Watch -->
       <div class="flex items-center justify-between gap-3 pt-2 mt-auto flex-wrap">
         <div v-if="video.tags?.length" class="flex flex-wrap gap-1">

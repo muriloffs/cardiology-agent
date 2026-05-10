@@ -98,18 +98,25 @@ def _extract_compact_report(report: dict) -> str:
     if videos:
         lines.append("\n=== VÍDEOS YOUTUBE (use video_url como id em fontes_cobertura) ===")
         for v in videos:
-            lines.append(f"[url={v.get('video_url', '?')}] [{v.get('canal', '')}]: {v.get('titulo', '')[:140]}")
-            # Phase 6: prefer Gemini-enriched PT-BR fields when available; fall back
-            # to RSS description for non-enriched videos (older reports / first run).
+            transcript_flag = " [TRANSCRIPT]" if v.get("_transcript_used") else ""
+            lines.append(f"[url={v.get('video_url', '?')}]{transcript_flag} [{v.get('canal', '')}]: {v.get('titulo', '')[:140]}")
+            # Phase 6 + Combo Total: prefer Gemini-enriched PT-BR fields with rich
+            # Nível-1 schema (5-7 bullets, 5-7 sentence resumo, 3 contextual fields).
             if v.get("tema"):
                 lines.append(f"   tema: {v['tema'][:80]}")
             if v.get("resumo_pt"):
-                lines.append(f"   resumo: {v['resumo_pt'][:280]}")
+                lines.append(f"   resumo: {v['resumo_pt'][:400]}")
             elif v.get("descricao_preview"):
                 lines.append(f"   desc: {v['descricao_preview'][:200]}")
             if v.get("bullets_pt"):
-                bullets_str = " | ".join(v["bullets_pt"][:3])
-                lines.append(f"   bullets: {bullets_str[:280]}")
+                bullets_str = " | ".join(v["bullets_pt"][:5])
+                lines.append(f"   bullets: {bullets_str[:400]}")
+            if v.get("evidencia_chave"):
+                lines.append(f"   evidencia: {v['evidencia_chave'][:200]}")
+            if v.get("contraponto"):
+                lines.append(f"   contraponto: {v['contraponto'][:200]}")
+            if v.get("quem_se_aplica"):
+                lines.append(f"   aplicacao: {v['quem_se_aplica'][:160]}")
             lines.append("")
 
     disc = report.get("discussoes_x", [])[:25]
@@ -133,10 +140,16 @@ def _extract_compact_report(report: dict) -> str:
             if s.get("tema"):
                 lines.append(f"   tema: {s['tema'][:80]}")
             if s.get("resumo"):
-                lines.append(f"   resumo: {s['resumo'][:280]}")
+                lines.append(f"   resumo: {s['resumo'][:400]}")
             if s.get("bullets"):
-                bullets_str = " | ".join(s["bullets"][:3])
-                lines.append(f"   bullets: {bullets_str[:280]}")
+                bullets_str = " | ".join(s["bullets"][:5])
+                lines.append(f"   bullets: {bullets_str[:400]}")
+            if s.get("evidencia_chave"):
+                lines.append(f"   evidencia: {s['evidencia_chave'][:200]}")
+            if s.get("contraponto"):
+                lines.append(f"   contraponto: {s['contraponto'][:200]}")
+            if s.get("quem_se_aplica"):
+                lines.append(f"   aplicacao: {s['quem_se_aplica'][:160]}")
             lines.append("")
 
     return "\n".join(lines)
