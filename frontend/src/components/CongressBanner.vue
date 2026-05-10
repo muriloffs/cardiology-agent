@@ -14,27 +14,28 @@
       <div
         v-for="c in active"
         :key="c.slug"
-        :class="['inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium ring-1',
+        :class="['inline-flex items-center gap-1.5 md:gap-2 px-2.5 md:px-3 py-1.5 rounded-full text-xs md:text-sm font-medium ring-1',
                  colorFor(c).bg, colorFor(c).text, colorFor(c).ring]"
       >
-        <span class="text-base">{{ c.emoji }}</span>
-        <span class="font-bold">🎪 Acontecendo agora · {{ c.shortName }}</span>
+        <span class="text-sm md:text-base">{{ c.emoji }}</span>
+        <span class="font-bold">🎪 <span class="hidden md:inline">Acontecendo agora · </span>{{ c.shortName }}</span>
         <span class="hidden md:inline opacity-75 text-xs">
           Dia {{ dayOf(c).current }} de {{ dayOf(c).total }} · {{ c.city }}
         </span>
+        <span class="md:hidden opacity-75 text-[10px]">D{{ dayOf(c).current }}/{{ dayOf(c).total }}</span>
       </div>
 
       <!-- Recently ended (last 3 days) — retrospective analyses peak here -->
       <div
         v-for="item in recentlyEnded"
         :key="item.c.slug"
-        :class="['inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium opacity-90',
+        :class="['inline-flex items-center gap-1.5 md:gap-2 px-2.5 md:px-3 py-1 rounded-full text-xs font-medium opacity-90',
                  colorFor(item.c).bg, colorFor(item.c).text]"
       >
         <span>{{ item.c.emoji }}</span>
         <span class="font-semibold">📍 {{ item.c.shortName }} acabou</span>
         <span class="opacity-75">
-          {{ item.daysSince === 1 ? 'ontem' : `há ${item.daysSince} dias` }} · análises retrospectivas em alta
+          {{ item.daysSince === 1 ? 'ontem' : `há ${item.daysSince}d` }}<span class="hidden md:inline"> · análises retrospectivas em alta</span>
         </span>
       </div>
 

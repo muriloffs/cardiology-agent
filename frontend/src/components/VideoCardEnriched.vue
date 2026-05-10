@@ -99,16 +99,20 @@
         </div>
       </div>
 
-      <!-- Source-of-truth signal — explicit so reader knows if AI watched
-           the actual content (transcript) or inferred from web search. -->
+      <!-- Source-of-truth signal — 3 tiers of fidelity so reader knows
+           where the clinical content came from. -->
       <div v-if="video._enriched" class="text-[10px] mt-1">
-        <span v-if="video._transcript_used"
+        <span v-if="video._source === 'transcript' || video._transcript_used"
               class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-purple-100 text-purple-800 font-medium">
           📝 Análise feita sobre o transcript do vídeo
         </span>
+        <span v-else-if="video._source === 'description'"
+              class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-blue-100 text-blue-800 font-medium">
+          📋 Síntese da descrição do canal (texto que o uploader escreveu)
+        </span>
         <span v-else
               class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-yellow-100 text-yellow-800 font-medium">
-          🔍 Análise via pesquisa Google (vídeo sem transcript) — pode divergir do conteúdo real
+          🔍 Pesquisa Google (sem transcript ou descrição rica) — pode divergir do conteúdo real
         </span>
       </div>
 

@@ -142,7 +142,11 @@ def fetch_channel_videos(channel: dict, days_back: int = 2) -> list[dict[str, An
             "data_publicacao": pub_date.strftime("%Y-%m-%d") if pub_date else "recent",
             "thumbnail": f"https://i.ytimg.com/vi/{video_id}/hqdefault.jpg",
             "video_url": f"https://www.youtube.com/watch?v={video_id}",
-            "descricao_preview": summary[:500],
+            # 2500 chars covers full description for ESC/Radcliffe/Cleveland
+            # (rich uploaders); thinner channels naturally cap themselves.
+            # Used by Phase-6 enrichment as PRIMARY source-of-truth when
+            # transcripts unavailable (real text from uploader vs. AI inference).
+            "descricao_preview": summary[:2500],
             "categoria_fonte": "youtube",
             "emoji": "📺",
         })

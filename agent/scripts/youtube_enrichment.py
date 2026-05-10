@@ -161,46 +161,59 @@ def _video_id_from_url(url: str) -> str:
     return m.group(1) if m else ""
 
 
-def _build_video_prompt(video: dict, transcript: str = "") -> str:
-    """Build enrichment prompt. If transcript provided, prefer it over description.
+def _build_video_prompt(video: dict, transcript: str = "") -> tuple[str, str]:
+    """Build enrichment prompt with 3-tier source-of-truth strategy.
 
-    Nível 1 (richer schema): 5-7 bullets, 5-7 sentence resumo, +3 new fields
-    (quem_se_aplica, evidencia_chave, contraponto).
-    Nível 2 (transcript): pass actual subtitle text when available — Gemini reads
-    the real content vs. guessing from RSS description.
+    Returns (prompt, source_label) where source_label ∈ {transcript, description, search}.
+
+    Tier 1 — transcript: literal spoken content. Best fidelity.
+    Tier 2 — description (≥150 chars): real text from channel uploader. Real but summarized.
+    Tier 3 — search-only: Gemini infers from title + Google grounding. Lowest fidelity.
+
+    The 150-char threshold is empirical: descriptions ≥150 chars from major cardio
+    channels (ESC TV ~500, Radcliffe ~500, ASE ~360, NEJM ~174) consistently carry
+    real content. Shorter ones (≤150) tend to be promotional one-liners and fall
+    back to search grounding.
     """
     titulo = video.get("titulo", "")
     canal = video.get("canal", "")
     url = video.get("video_url", "")
-    desc = (video.get("descricao_preview") or "")[:500]
+    desc = (video.get("descricao_preview") or "")[:2000]  # bumped 500→2000
 
     if transcript:
         content_block = (
             f"TRANSCRIPT (auto-generated subtitles, may have typos):\n"
             f"{transcript}\n\n"
-            f"Base sua análise PRIMARIAMENTE no transcript acima — é o conteúdo real do vídeo."
+            f"Base sua análise PRIMARIAMENTE no transcript acima — é o conteúdo real falado no vídeo.\n"
+            f"Cite dados específicos (números, nomes de speakers, estudos) que aparecem no transcript."
         )
-    else:
-        # No transcript: use grounding aggressively. Pro must do deep search,
-        # not just paraphrase the description. The clinical content of the
-        # video can be inferred from: channel's recent activity, related trials,
-        # news coverage of the topic, speaker's other public commentary.
+        source = "transcript"
+    elif len(desc) >= 150:
         content_block = (
-            f"Description (RSS metadata):\n{desc}\n\n"
-            f"⚠️ SEM TRANSCRIPT DISPONÍVEL. Você DEVE usar Google Search agressivamente para:\n"
-            f"1. Pesquisar o título do vídeo + nome do canal — encontrar coberturas/resumos do conteúdo\n"
-            f"2. Identificar o trial/paper/guideline central que o vídeo discute (se houver)\n"
-            f"3. Buscar análises do mesmo tópico em journals, news sites, X/Twitter\n"
-            f"4. Inferir o conteúdo clínico provável baseado em: (a) padrão de conteúdo do canal,\n"
-            f"   (b) tópico do título, (c) cobertura paralela em outras fontes\n\n"
-            f"Produza síntese clínica como se tivesse efetivamente assistido — usando o conhecimento\n"
-            f"coletado via Search. NÃO se limite a parafrasear a descrição RSS (que tem 1-2 frases).\n"
-            f"Bullets devem citar dados/conceitos REAIS que apareceriam num vídeo desse tópico\n"
-            f"(ex: se é sobre HFA-2026 Heart Failure trials, mencione SUBCUT HF II, REDOX-AHF, etc).\n"
-            f"Se realmente não conseguir inferir conteúdo, retorne TEMA='N/D' e RESUMO curto explicando."
+            f"DESCRIÇÃO DO CANAL (texto que o uploader escreveu sobre o vídeo):\n"
+            f"{desc}\n\n"
+            f"Base sua análise PRIMARIAMENTE na descrição acima — é texto REAL do canal sobre o vídeo,\n"
+            f"escrito pelo próprio uploader. Geralmente contém speakers, estudos citados, key findings.\n"
+            f"Você pode usar Google Search COMPLEMENTARMENTE para entender melhor um estudo/conceito\n"
+            f"mencionado na descrição, mas NÃO invente conteúdo que não esteja insinuado na descrição.\n"
+            f"Se a descrição cita 'Dr Smith discute trial XYZ', seus bullets devem refletir isso."
         )
+        source = "description"
+    else:
+        # Description too thin (<150 chars). Fall back to aggressive search.
+        content_block = (
+            f"Description (RSS metadata, MUITO CURTA — só {len(desc)} chars):\n{desc}\n\n"
+            f"⚠️ SEM CONTEÚDO REAL DISPONÍVEL. Use Google Search agressivamente para:\n"
+            f"1. Pesquisar o título do vídeo + nome do canal\n"
+            f"2. Identificar o trial/paper/guideline central provável (se inferível)\n"
+            f"3. Buscar cobertura paralela em journals, news, X\n"
+            f"4. Inferir conteúdo a partir do padrão do canal + tópico do título\n\n"
+            f"Bullets devem citar dados/conceitos REAIS que apareceriam num vídeo desse tópico.\n"
+            f"Se realmente não conseguir inferir, retorne TEMA='N/D' e RESUMO explicando."
+        )
+        source = "search"
 
-    return f"""Você é um cardiologista revisor analisando um vídeo do YouTube para um dashboard clínico brasileiro.
+    prompt = f"""Você é um cardiologista revisor analisando um vídeo do YouTube para um dashboard clínico brasileiro.
 
 Metadata do vídeo:
 - Channel: {canal}
@@ -230,6 +243,7 @@ REGRAS:
 - Idioma OBRIGATÓRIO português brasileiro
 - Não invente números/citações que não estão no conteúdo
 - Plain text only, sem JSON, sem markdown (** ou ##)"""
+    return prompt, source
 
 
 def _parse_video_response(text: str) -> dict | None:
@@ -396,32 +410,55 @@ def enrich_videos(videos: list[dict]) -> list[dict]:
         else:
             logger.info(f"YouTube transcripts: {with_transcript}/{len(to_enrich)} fetched")
 
+        # Pre-build prompts so we know each video's source-of-truth tier.
+        prompts_and_sources: dict[str, tuple[str, str]] = {}
+        for idx, v in to_enrich:
+            url = v.get("video_url", "")
+            if not url:
+                continue
+            prompt, source = _build_video_prompt(v, transcripts.get(url, ""))
+            prompts_and_sources[url] = (prompt, source)
+
+        source_counts: dict[str, int] = {}
+        for _, s in prompts_and_sources.values():
+            source_counts[s] = source_counts.get(s, 0) + 1
+        logger.info(f"YouTube enrichment source mix: {source_counts}")
+
         # 3 workers for parallel Gemini calls
         with ThreadPoolExecutor(max_workers=3) as pool:
             futures = {
                 pool.submit(
                     _grounded_call, client,
-                    _build_video_prompt(v, transcripts.get(v.get("video_url", ""), "")),
+                    prompts_and_sources[v.get("video_url", "")][0],
                     f"yt:{v.get('video_url','?')[-20:]}"
                 ): (idx, v)
                 for idx, v in to_enrich
+                if v.get("video_url", "") in prompts_and_sources
             }
             for future in as_completed(futures):
                 idx, video = futures[future]
                 url = video.get("video_url", "")
+                source = prompts_and_sources[url][1]
                 try:
                     text = future.result(timeout=GEMINI_CALL_TIMEOUT)
                     parsed = _parse_video_response(text)
                     if parsed:
-                        had_transcript = bool(transcripts.get(url))
                         video.update(parsed)
                         video["_enriched"] = True
                         video["_enriched_at"] = today_iso
-                        video["_transcript_used"] = had_transcript
-                        cache[url] = {**parsed, "enriched_at": today_iso, "_transcript_used": had_transcript}
+                        # Backwards-compat: keep _transcript_used flag, plus new _source field
+                        video["_transcript_used"] = (source == "transcript")
+                        video["_source"] = source  # 'transcript' | 'description' | 'search'
+                        cache[url] = {
+                            **parsed,
+                            "enriched_at": today_iso,
+                            "_transcript_used": (source == "transcript"),
+                            "_source": source,
+                        }
                         new_enrichments += 1
                     else:
                         video["_enriched"] = False
+                        video["_source"] = source
                         failures += 1
                 except Exception as e:
                     logger.warning(f"Enrich failed for {url}: {e}")

@@ -19,98 +19,98 @@
       <div class="max-w-6xl mx-auto px-4 py-3 flex gap-2 md:gap-3 flex-wrap">
         <button
           @click="currentView = 'artigos'"
-          :class="['px-4 md:px-5 py-2.5 md:py-3 rounded-lg text-base md:text-lg font-semibold transition-all flex items-center gap-2.5',
+          :class="['px-2.5 md:px-5 py-1.5 md:py-3 rounded-lg text-sm md:text-lg font-semibold transition-all flex items-center gap-1.5 md:gap-2.5',
                    currentView === 'artigos'
                      ? 'bg-purple-600 text-white shadow-md'
                      : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200']"
         >
           📚 Artigos
           <span v-if="report?.artigos?.length"
-                :class="['px-2 py-0.5 rounded-full text-sm font-bold',
+                :class="['px-1.5 md:px-2 py-0.5 rounded-full text-xs md:text-sm font-bold',
                          currentView === 'artigos' ? 'bg-white text-purple-700' : 'bg-purple-100 text-purple-700']">
             {{ report.artigos.length }}
           </span>
         </button>
         <button
           @click="currentView = 'noticias'"
-          :class="['px-4 md:px-5 py-2.5 md:py-3 rounded-lg text-base md:text-lg font-semibold transition-all flex items-center gap-2.5',
+          :class="['px-2.5 md:px-5 py-1.5 md:py-3 rounded-lg text-sm md:text-lg font-semibold transition-all flex items-center gap-1.5 md:gap-2.5',
                    currentView === 'noticias'
                      ? 'bg-orange-600 text-white shadow-md'
                      : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200']"
         >
           📰 Notícias
           <span v-if="report?.noticias?.length"
-                :class="['px-2 py-0.5 rounded-full text-sm font-bold',
+                :class="['px-1.5 md:px-2 py-0.5 rounded-full text-xs md:text-sm font-bold',
                          currentView === 'noticias' ? 'bg-white text-orange-700' : 'bg-orange-100 text-orange-700']">
             {{ report.noticias.length }}
           </span>
         </button>
         <button
           @click="currentView = 'discussoes'"
-          :class="['px-4 md:px-5 py-2.5 md:py-3 rounded-lg text-base md:text-lg font-semibold transition-all flex items-center gap-2.5',
+          :class="['px-2.5 md:px-5 py-1.5 md:py-3 rounded-lg text-sm md:text-lg font-semibold transition-all flex items-center gap-1.5 md:gap-2.5',
                    currentView === 'discussoes'
                      ? 'bg-gray-800 text-white shadow-md'
                      : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200']"
         >
           𝕏 Discussões
           <span v-if="report?.discussoes_x?.length"
-                :class="['px-2 py-0.5 rounded-full text-sm font-bold',
+                :class="['px-1.5 md:px-2 py-0.5 rounded-full text-xs md:text-sm font-bold',
                          currentView === 'discussoes' ? 'bg-white text-gray-800' : 'bg-gray-200 text-gray-800']">
             {{ report.discussoes_x.length }}
           </span>
         </button>
         <button
           @click="currentView = 'pulso'"
-          :class="['px-4 md:px-5 py-2.5 md:py-3 rounded-lg text-base md:text-lg font-semibold transition-all flex items-center gap-2.5',
+          :class="['px-2.5 md:px-5 py-1.5 md:py-3 rounded-lg text-sm md:text-lg font-semibold transition-all flex items-center gap-1.5 md:gap-2.5',
                    currentView === 'pulso'
                      ? 'bg-amber-600 text-white shadow-md'
                      : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200']"
         >
           🌍 Pulso
           <span v-if="report?.pulso?.length"
-                :class="['px-2 py-0.5 rounded-full text-sm font-bold',
+                :class="['px-1.5 md:px-2 py-0.5 rounded-full text-xs md:text-sm font-bold',
                          currentView === 'pulso' ? 'bg-white text-amber-700' : 'bg-amber-100 text-amber-700']">
             {{ report.pulso.length }}
           </span>
         </button>
         <button
           @click="currentView = 'substacks'"
-          :class="['px-4 md:px-5 py-2.5 md:py-3 rounded-lg text-base md:text-lg font-semibold transition-all flex items-center gap-2.5',
+          :class="['px-2.5 md:px-5 py-1.5 md:py-3 rounded-lg text-sm md:text-lg font-semibold transition-all flex items-center gap-1.5 md:gap-2.5',
                    currentView === 'substacks'
                      ? 'bg-fuchsia-700 text-white shadow-md'
                      : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200']"
         >
           📝 Substacks
           <span v-if="report?.substacks?.length"
-                :class="['px-2 py-0.5 rounded-full text-sm font-bold',
+                :class="['px-1.5 md:px-2 py-0.5 rounded-full text-xs md:text-sm font-bold',
                          currentView === 'substacks' ? 'bg-white text-fuchsia-700' : 'bg-fuchsia-100 text-fuchsia-700']">
             {{ report.substacks.length }}
           </span>
         </button>
         <button
           @click="currentView = 'videos'"
-          :class="['px-4 md:px-5 py-2.5 md:py-3 rounded-lg text-base md:text-lg font-semibold transition-all flex items-center gap-2.5',
+          :class="['px-2.5 md:px-5 py-1.5 md:py-3 rounded-lg text-sm md:text-lg font-semibold transition-all flex items-center gap-1.5 md:gap-2.5',
                    currentView === 'videos'
                      ? 'bg-red-600 text-white shadow-md'
                      : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200']"
         >
           📺 Vídeos
           <span v-if="report?.videos_youtube?.length"
-                :class="['px-2 py-0.5 rounded-full text-sm font-bold',
+                :class="['px-1.5 md:px-2 py-0.5 rounded-full text-xs md:text-sm font-bold',
                          currentView === 'videos' ? 'bg-white text-red-600' : 'bg-red-100 text-red-700']">
             {{ report.videos_youtube.length }}
           </span>
         </button>
         <button
           @click="currentView = 'ideas'"
-          :class="['px-4 md:px-5 py-2.5 md:py-3 rounded-lg text-base md:text-lg font-semibold transition-all flex items-center gap-2.5',
+          :class="['px-2.5 md:px-5 py-1.5 md:py-3 rounded-lg text-sm md:text-lg font-semibold transition-all flex items-center gap-1.5 md:gap-2.5',
                    currentView === 'ideas'
                      ? 'bg-pink-600 text-white shadow-md'
                      : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200']"
         >
           💡 Ideias
           <span v-if="report?.post_ideas?.length"
-                :class="['px-2 py-0.5 rounded-full text-sm font-bold',
+                :class="['px-1.5 md:px-2 py-0.5 rounded-full text-xs md:text-sm font-bold',
                          currentView === 'ideas' ? 'bg-white text-pink-600' : 'bg-pink-100 text-pink-700']">
             {{ report.post_ideas.length }}
           </span>
