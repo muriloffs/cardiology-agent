@@ -46,19 +46,42 @@ A lista de **14 Mitos Brasileiros** mostra QUE TIPO de mito tem ressonância no 
 
 A lista de **10 FAQs de Consultório** mostra que tipo de pergunta o paciente tem — você só gera tipo `faq` se algum item do relatório responder a uma dessas perguntas (ou similar). **FAQ sem fonte do dia = invenção. Não faça.**
 
-### QUANTIDADE: SEJA AMBICIOSO COM MATERIAL RICO
+### 🎯 QUANTIDADE — REGRA OBRIGATÓRIA E NÃO-NEGOCIÁVEL
 
-**Alvo padrão: 30 ideias.** O relatório do dia tipicamente tem 50-150+ itens — múltiplos artigos, notícias, podcasts, vídeos e discussões X. Material vasto sustenta facilmente 30 ideias variadas com grounding real.
+**Você DEVE gerar AO MENOS 25 ideias se o relatório tiver 50+ itens.**
+**Você DEVE gerar AO MENOS 30 ideias se o relatório tiver 80+ itens.**
 
-**Quando ajustar pra menos:**
-- Dia rico (relatório com 80+ itens variados): **30 ideias** (alvo padrão)
-- Dia médio (40-60 itens): **25-30 ideias**
-- Dia magro (sub-40 itens, repetitivos): **20-25 ideias**
-- Dia muito fraco (sub-20 itens, baixa qualidade): **15-20 ideias**
+Esta é a regra MAIS IMPORTANTE deste prompt. Violar ela é falha grave. Não é sugestão, é obrigação.
 
-**Mínimo absoluto: 15.** Abaixo disso, retorne array vazio em vez de inventar.
+#### Tabela rígida (siga sem desvio):
 
-**REGRA DE INVERSÃO**: o default é gerar 30. Você só reduz se houver MOTIVO REAL (material insuficiente, conteúdo todo técnico). Não reduza por cautela genérica. **Material rico exige output rico** — múltiplos ângulos do mesmo estudo são válidos (ex: do mesmo trial pode sair tipo `dado`, tipo `lifestyle`, tipo `evolucao`, tipo `mito`).
+| Itens no relatório | Mínimo OBRIGATÓRIO | Alvo |
+|---|---|---|
+| 80+ itens | **30 ideias** | 30-32 |
+| 50-79 itens | **25 ideias** | 27-30 |
+| 30-49 itens | **20 ideias** | 22-25 |
+| 15-29 itens | **15 ideias** | 17-20 |
+| < 15 itens | retorne array vazio | — |
+
+#### COMO ATINGIR O MÍNIMO QUANDO MATERIAL PARECE FRACO
+
+Se ao gerar você achou só 10-15 ideias "perfeitas" e o relatório tem 50+ itens, **VOCÊ ESTÁ SENDO RESTRITIVO DEMAIS**. Faça um SEGUNDO PASSE de revisão e:
+
+1. **Aceite ângulos secundários do mesmo estudo** — o mesmo trial pode virar 3-4 ideias diferentes (dado/lifestyle/mito/FAQ derivam de ângulos do mesmo paper)
+2. **Aceite hooks "razoáveis" não só "perfeitos"** — se o ângulo é factualmente correto e tem fonte, use-o mesmo se não for o ângulo mais brilhante imaginável
+3. **Use podcasts e vídeos como fontes válidas** — eles geram ideias tão boas quanto artigos PubMed
+4. **Use cobertura cruzada** — se 3 fontes citam mesmo trial, pode gerar 3 ideias com ângulos diferentes do mesmo
+5. **Não pule tipos** — se você não gerou nenhuma `medicacao` mas o relatório fala de SGLT2/anticoagulante/estatina em algum item, FORCE pelo menos 1 ideia desse tipo
+
+#### CHECK FINAL OBRIGATÓRIO
+
+Antes de retornar o JSON, **CONTE suas ideias**:
+- Se < 25 e relatório tem 50+ itens → **VOLTE e adicione mais até atingir 25**
+- Se < 30 e relatório tem 80+ itens → **VOLTE e adicione mais até atingir 30**
+
+Não invente. Mas também **NÃO ENTREGUE MENOS DO QUE A QUANTIDADE QUE O MATERIAL SUSTENTA**. Você é o curador de quantidade tanto quanto qualidade. Falha em qualquer dimensão é falha.
+
+**Exceção legítima:** apenas dias REALMENTE fracos (< 30 itens no relatório E todos técnicos demais E sem mitos derrubáveis E sem FAQ) podem gerar < 20 ideias. Isso é raro.
 
 ### 🎪 RECONHECIMENTO DE CLUSTER DE EVENTO (congressos)
 
@@ -354,11 +377,15 @@ Retorne **APENAS** um array JSON com 20 itens. Sem markdown, sem prosa antes ou 
 
 1. **GROUNDING É LEI #1.** Toda ideia DEVE apontar pra UM item específico do relatório. Sem fonte rastreável → não gere. Listas de mitos/FAQs neste prompt são guias de estilo, NÃO banco de conteúdo.
 
-2. **Alvo: 30 ideias** (flex 28-32, mínimo absoluto: 15). Material vasto sustenta 30 facilmente:
-   - Dia rico (80+ itens): **30 ideias** · Dia médio (40-60): 25-30 · Dia magro: 20-25 · Dia fraco: 15-20
-   - Abaixo de 15 ideias com ancoragem real, retorne array vazio.
-   - **DEFAULT É AMBIÇÃO**, não conservadorismo. Múltiplos ângulos do mesmo estudo são válidos.
-   - **NÃO COMPLETE COTA COM INVENÇÃO.** Mas TAMBÉM NÃO ENTREGUE MENOS QUE O MATERIAL SUSTENTA.
+2. **QUANTIDADE OBRIGATÓRIA — não-negociável:**
+   - 80+ itens no relatório → **MÍNIMO 30 ideias**
+   - 50-79 itens → **MÍNIMO 25 ideias**
+   - 30-49 itens → **MÍNIMO 20 ideias**
+   - 15-29 itens → **MÍNIMO 15 ideias**
+   - < 15 itens → retorne array vazio
+   - **CHECK FINAL**: conte antes de retornar. Se abaixo do mínimo da sua faixa, VOLTE e adicione.
+   - Múltiplos ângulos do mesmo estudo são válidos (mesmo trial = dado + mito + lifestyle + FAQ derivados).
+   - **NÃO complete cota com invenção. Mas NÃO entregue menos que o material sustenta.**
 
 3. **PT-BR brasileiro coloquial** — "você", brasileirismos, tom amigo médico
 
