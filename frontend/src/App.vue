@@ -98,7 +98,6 @@
       :total-artigos="report?.artigos?.length || 0"
       :total-noticias="report?.noticias?.length || 0"
       :total-discussoes="report?.discussoes_x?.length || 0"
-      :total-videos="report?.videos_youtube?.length || 0"
       @update:selected-class="selectedClass = $event"
       @update:search-query="searchQuery = $event"
       @refresh="loadReport"
@@ -114,38 +113,6 @@
           :key="article.id"
           :article="article"
           @click="selectedArticle = article"
-        />
-      </div>
-    </section>
-
-    <!-- YouTube Videos Section -->
-    <section id="section-videos" v-if="report?.videos_youtube?.length" class="px-4 py-8 max-w-6xl mx-auto border-t border-gray-100 scroll-mt-4">
-      <h2 class="text-2xl font-bold mb-1">📺 Vídeos</h2>
-      <p class="text-sm text-gray-500 mb-3">{{ report.videos_youtube.length }} vídeos de canais cardiológicos das últimas 72h</p>
-      <div class="flex gap-2 flex-wrap mb-4">
-        <button
-          v-for="t in [-1, 0, 1, 2]"
-          :key="t"
-          @click="selectedVideoTier = t"
-          :class="[
-            'px-3 py-1.5 rounded-full text-xs font-medium transition-all',
-            selectedVideoTier === t
-              ? t === 0 ? 'bg-yellow-500 text-white'
-              : t === 1 ? 'bg-purple-600 text-white'
-              : t === 2 ? 'bg-blue-600 text-white'
-              : 'bg-gray-800 text-white'
-              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-          ]"
-        >
-          {{ { '-1': 'Todos', '0': '★ BR Pinned', '1': 'Sociedades/Journals', '2': 'Hospitais/Subesp.' }[t] }}
-          <span class="ml-1 opacity-70">({{ videoTierCounts[t] || 0 }})</span>
-        </button>
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-        <VideoCard
-          v-for="video in filteredVideos"
-          :key="video.video_url"
-          :video="video"
         />
       </div>
     </section>
@@ -450,7 +417,6 @@ import ArticleCard from './components/ArticleCard.vue'
 import ArticleDetail from './components/ArticleDetail.vue'
 import XDiscussionCard from './components/XDiscussionCard.vue'
 import XDiscussionDetail from './components/XDiscussionDetail.vue'
-import VideoCard from './components/VideoCard.vue'
 import PostIdeaCard from './components/PostIdeaCard.vue'
 import PulsoCard from './components/PulsoCard.vue'
 import SubstackCard from './components/SubstackCard.vue'
