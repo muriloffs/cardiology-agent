@@ -234,8 +234,56 @@ def search_general_journals_for_cardio(days_back: int = 1, max_results: int = 50
         return []
 
 
+def _fetch_esummary_with_retry(params: dict, n_pmids: int, max_attempts: int = 3) -> dict:
+    """Call esummary.fcgi with retries when NCBI returns empty result.
+
+    Strategy:
+    - Attempt 1: GET with api_key
+    - Attempt 2: POST (NCBI's recommended method for larger id lists)
+    - Attempt 3: GET again after longer delay
+    Returns the 'result' dict from NCBI, or {} if all attempts fail.
+    """
+    url = f"{PUBMED_BASE}/esummary.fcgi"
+    full_params = _ncbi_params(params.copy())
+
+    for attempt in range(1, max_attempts + 1):
+        try:
+            if attempt == 2:
+                # POST is NCBI's recommended method for large id lists
+                response = requests.post(url, data=full_params, timeout=25)
+            else:
+                response = requests.get(url, params=full_params, timeout=25)
+            response.raise_for_status()
+            data = response.json()
+            results = data.get("result", {})
+            uids = results.get("uids", [])
+            if uids:
+                if attempt > 1:
+                    logger.info(f"esummary recovered on attempt {attempt} ({len(uids)}/{n_pmids} PMIDs)")
+                return results
+            # 200 OK but empty — log diagnostic and retry
+            error_msg = data.get("error") or data.get("esummaryresult", "no error key")
+            logger.warning(
+                f"esummary attempt {attempt}/{max_attempts}: empty result for {n_pmids} PMIDs "
+                f"(server response had keys={list(data.keys())[:5]}, error='{error_msg}')"
+            )
+        except Exception as e:
+            logger.warning(f"esummary attempt {attempt}/{max_attempts} failed: {type(e).__name__}: {e}")
+        if attempt < max_attempts:
+            time.sleep(1.5 * attempt)  # 1.5s, 3s
+
+    logger.error(f"esummary exhausted {max_attempts} attempts — returning empty (will degrade gracefully)")
+    return {}
+
+
 def fetch_summaries(pmids: list[str]) -> list[dict[str, Any]]:
-    """Fetch title, journal, authors, DOI for each PMID."""
+    """Fetch title, journal, authors, DOI for each PMID.
+
+    NCBI esummary endpoint occasionally returns HTTP 200 with empty `result`
+    even for valid PMIDs (server-side flakiness, intermittent). Retry once
+    after a short delay; switch to POST on retry (NCBI's recommendation for
+    larger PMID lists, less likely to hit transient GET issues).
+    """
     if not pmids:
         return []
 
@@ -245,13 +293,7 @@ def fetch_summaries(pmids: list[str]) -> list[dict[str, Any]]:
         "retmode": "json",
     }
 
-    try:
-        response = requests.get(f"{PUBMED_BASE}/esummary.fcgi", params=_ncbi_params(params), timeout=20)
-        response.raise_for_status()
-        results = response.json().get("result", {})
-    except Exception as e:
-        logger.error(f"PubMed summary fetch failed: {e}")
-        return []
+    results = _fetch_esummary_with_retry(params, n_pmids=len(pmids))
 
     time.sleep(0.4)
     abstracts = _fetch_abstracts(pmids)
