@@ -95,15 +95,20 @@
           🔗 Cobertura cruzada ({{ item.fontes_cobertura.length }} fonte{{ item.fontes_cobertura.length > 1 ? 's' : '' }})
         </p>
         <div class="flex flex-wrap gap-1.5">
-          <span
+          <component
             v-for="(fonte, i) in item.fontes_cobertura"
+            :is="fonteUrl(fonte) ? 'a' : 'span'"
+            :href="fonteUrl(fonte) || null"
+            :target="fonteUrl(fonte) ? '_blank' : null"
+            :rel="fonteUrl(fonte) ? 'noopener noreferrer' : null"
             :key="i"
             :class="['inline-flex items-center gap-1 px-2 py-1 rounded text-xs',
-                     fonteBadgeColor(fonte.tipo)]"
+                     fonteBadgeColor(fonte.tipo),
+                     fonteUrl(fonte) ? 'hover:underline hover:opacity-80 transition cursor-pointer' : '']"
           >
             <span>{{ fonteEmoji(fonte.tipo) }}</span>
             <span class="font-medium">{{ fonte.publicacao || fonte.autor || fonte.tipo }}</span>
-          </span>
+          </component>
         </div>
       </div>
     </div>
@@ -114,7 +119,8 @@
 import { computed } from 'vue'
 
 const props = defineProps({
-  item: { type: Object, required: true }
+  item: { type: Object, required: true },
+  report: { type: Object, default: null }
 })
 
 const classeBorderColor = computed(() => {
@@ -149,5 +155,39 @@ function fonteBadgeColor(tipo) {
     x:       'bg-gray-200 text-gray-800',
     bluesky: 'bg-sky-100 text-sky-800'
   }[tipo] || 'bg-gray-100 text-gray-700'
+}
+
+// Resolve a clickable URL for a fonte by looking it up in the parent report.
+// Videos use video_url as their id; everything else looks up by id in the
+// matching source array and pulls a URL from links{}. Returns null when no
+// URL can be resolved — caller renders as <span> in that case.
+function fonteUrl(fonte) {
+  if (!fonte || !fonte.tipo) return null
+
+  if (fonte.tipo === 'video' || fonte.tipo === 'youtube') {
+    return fonte.id || null
+  }
+
+  if (!props.report || !fonte.id) return null
+
+  const sourceMap = {
+    artigo:  props.report.artigos,
+    noticia: props.report.noticias,
+    podcast: props.report.podcasts,
+    x:       props.report.discussoes_x,
+    bluesky: props.report.discussoes_bluesky || props.report.discussoes_x
+  }
+  const list = sourceMap[fonte.tipo]
+  if (!Array.isArray(list)) return null
+  const match = list.find(s => s.id === fonte.id)
+  if (!match || !match.links) return null
+
+  const links = match.links
+  if (links.url)         return links.url
+  if (links.post_url)    return links.post_url
+  if (links.episode_url) return links.episode_url
+  if (links.doi)         return `https://doi.org/${links.doi}`
+  if (links.pubmed)      return `https://pubmed.ncbi.nlm.nih.gov/${links.pubmed}`
+  return null
 }
 </script>

@@ -212,6 +212,7 @@
             v-for="item in report.pulso"
             :key="item.id"
             :item="item"
+            :report="report"
           />
         </div>
 
