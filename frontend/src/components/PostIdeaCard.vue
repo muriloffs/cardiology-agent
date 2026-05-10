@@ -75,7 +75,9 @@ const copied = ref(false)
 
 const TIPO_CONFIG = {
   novidade:    { label: 'Novidade',    border: 'border-blue-500',    badge: 'bg-blue-100 text-blue-800',    accent: 'text-blue-500' },
-  atencao:     { label: 'Atenção',     border: 'border-red-500',     badge: 'bg-red-100 text-red-800',      accent: 'text-red-500' },
+  alerta:      { label: 'Alerta',      border: 'border-red-500',     badge: 'bg-red-100 text-red-800',      accent: 'text-red-500' },
+  // Backwards-compat: legacy 'atencao' renders as Alerta (same red palette)
+  atencao:     { label: 'Alerta',      border: 'border-red-500',     badge: 'bg-red-100 text-red-800',      accent: 'text-red-500' },
   lifestyle:   { label: 'Lifestyle',   border: 'border-green-500',   badge: 'bg-green-100 text-green-800',  accent: 'text-green-500' },
   medicacao:   { label: 'Medicação',   border: 'border-indigo-500',  badge: 'bg-indigo-100 text-indigo-800',accent: 'text-indigo-500' },
   evolucao:    { label: 'Evolução',    border: 'border-purple-500',  badge: 'bg-purple-100 text-purple-800',accent: 'text-purple-500' },

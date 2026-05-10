@@ -332,7 +332,7 @@ const videoTierCounts = computed(() => {
 const TIPO_META = [
   { key: 'all',         emoji: '📚', label: 'Todas' },
   { key: 'novidade',    emoji: '🆕', label: 'Novidade' },
-  { key: 'atencao',     emoji: '⚠️', label: 'Atenção' },
+  { key: 'alerta',      emoji: '🚨', label: 'Alerta' },
   { key: 'lifestyle',   emoji: '🥗', label: 'Lifestyle' },
   { key: 'medicacao',   emoji: '💊', label: 'Medicação' },
   { key: 'evolucao',    emoji: '🔄', label: 'Evolução' },
@@ -344,16 +344,23 @@ const TIPO_META = [
   { key: 'comparativo', emoji: '🆚', label: 'Comparativo' },
 ]
 
+// Normalize legacy tipos for filtering/counting (older reports may have these):
+// - 'paradigma' (v1) → 'evolucao'
+// - 'atencao'   (v2) → 'alerta'
+const normalizeTipo = (t) => {
+  if (t === 'paradigma') return 'evolucao'
+  if (t === 'atencao') return 'alerta'
+  return t
+}
+
 const availableTypes = computed(() => {
   const ideas = report.value?.post_ideas || []
-  // Treat 'paradigma' (legacy) as 'evolucao' for counting
-  const norm = (t) => t === 'paradigma' ? 'evolucao' : t
   return TIPO_META
     .map(t => ({
       ...t,
       count: t.key === 'all'
         ? ideas.length
-        : ideas.filter(i => norm(i.tipo) === t.key).length
+        : ideas.filter(i => normalizeTipo(i.tipo) === t.key).length
     }))
     .filter(t => t.key === 'all' || t.count > 0)
 })
@@ -365,10 +372,7 @@ const filteredIdeas = computed(() => {
   const ideas = report.value?.post_ideas || []
   if (selectedIdeaType.value === 'all') return ideas
   const target = selectedIdeaType.value
-  return ideas.filter(i => {
-    const t = i.tipo === 'paradigma' ? 'evolucao' : i.tipo
-    return t === target
-  })
+  return ideas.filter(i => normalizeTipo(i.tipo) === target)
 })
 
 const filteredArticles = computed(() => {

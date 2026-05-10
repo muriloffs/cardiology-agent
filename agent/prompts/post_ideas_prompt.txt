@@ -25,7 +25,7 @@ O cardiologista usa essas ideias como inspiração + skeleton + direção visual
 
 Distribuição sugerida (ajuste se um tema do dia não couber em algum tipo):
 - 🆕 **novidade** (3): trial novo, guideline atualizada, descoberta que afeta paciente
-- ⚠️ **atencao** (3): alerta, sintoma a vigiar, fator de risco subestimado
+- 🚨 **alerta** (3): sintoma a vigiar, fator de risco subestimado, contraindicação importante. **Sempre factual e acionável** — todo alerta deve ter um próximo passo claro (quando procurar PS, o que observar, quando agendar consulta). Tom de "cardiologista te avisa", não de "URGENTE!!!"
 - 🥗 **lifestyle** (2): dieta, exercício, sono, stress
 - 💊 **medicacao** (2): nova droga, efeito colateral importante, cuidado com remédio
 - 🔄 **evolucao** (1): algo que mudou no que se sabia (antes vs hoje)
@@ -132,8 +132,8 @@ Retorne **APENAS** um array JSON com 20 itens. Sem markdown, sem prosa antes ou 
 ```json
 [
   {
-    "tipo": "novidade" | "atencao" | "lifestyle" | "medicacao" | "evolucao" | "mito" | "prevencao" | "dado" | "faq" | "checklist" | "comparativo",
-    "emoji": "🆕" | "⚠️" | "🥗" | "💊" | "🔄" | "🚫" | "🛡️" | "📊" | "❓" | "📋" | "🆚",
+    "tipo": "novidade" | "alerta" | "lifestyle" | "medicacao" | "evolucao" | "mito" | "prevencao" | "dado" | "faq" | "checklist" | "comparativo",
+    "emoji": "🆕" | "🚨" | "🥗" | "💊" | "🔄" | "🚫" | "🛡️" | "📊" | "❓" | "📋" | "🆚",
     "ideia": "1-2 frases — ângulo do post usando hook IG",
     "bullets": [
       "Ponto-chave 1: fato específico vindo do relatório",

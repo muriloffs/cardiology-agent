@@ -187,8 +187,9 @@ def generate_post_ideas(report: dict, anthropic_client: Anthropic = None) -> lis
     # `formato_visual` is required per upgraded prompt — drop items without it.
     valid = []
     required = {"tipo", "emoji", "ideia", "bullets", "fonte", "formato_visual"}
-    valid_tipos = {"novidade", "atencao", "lifestyle", "medicacao", "evolucao",
+    valid_tipos = {"novidade", "alerta", "atencao", "lifestyle", "medicacao", "evolucao",
                    "mito", "prevencao", "dado", "faq", "checklist", "comparativo"}
+    # Note: 'atencao' kept for backwards-compat with reports generated before alerta rename
     for i, idea in enumerate(ideas, 1):
         if not isinstance(idea, dict):
             continue
