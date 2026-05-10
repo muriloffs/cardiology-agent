@@ -15,9 +15,9 @@
       @next="navigateDate(-1)"
     />
 
-    <!-- View Toggle: Relatório vs Ideias do Dia -->
+    <!-- View Toggle: Relatório · Pulso · Ideias do Dia -->
     <div class="bg-gray-50 border-b border-gray-200">
-      <div class="max-w-6xl mx-auto px-4 py-2 flex gap-2">
+      <div class="max-w-6xl mx-auto px-4 py-2 flex gap-2 flex-wrap">
         <button
           @click="currentView = 'report'"
           :class="['px-4 py-2 rounded-lg text-sm font-medium transition-all',
@@ -26,6 +26,20 @@
                      : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200']"
         >
           📰 Relatório
+        </button>
+        <button
+          @click="currentView = 'pulso'"
+          :class="['px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2',
+                   currentView === 'pulso'
+                     ? 'bg-amber-600 text-white shadow-sm'
+                     : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200']"
+        >
+          🌍 Pulso do Dia
+          <span v-if="report?.pulso?.length"
+                :class="['px-1.5 py-0.5 rounded-full text-xs font-bold',
+                         currentView === 'pulso' ? 'bg-white text-amber-700' : 'bg-amber-100 text-amber-700']">
+            {{ report.pulso.length }}
+          </span>
         </button>
         <button
           @click="currentView = 'ideas'"
@@ -60,13 +74,6 @@
       @update:selected-class="selectedClass = $event"
       @update:search-query="searchQuery = $event"
       @refresh="loadReport"
-    />
-
-    <!-- 🌟 Destaque do Dia (Big One) — único campo destacado no topo -->
-    <DestaqueDoDia
-      v-if="report?.destaque_do_dia"
-      :destaque="report.destaque_do_dia"
-      :on-jump-to-item="jumpToDestaqueItem"
     />
 
     <!-- News Section -->
@@ -185,7 +192,43 @@
 
 
     <!-- ============================================================ -->
-    <!-- VIEW 2: IDEIAS DO DIA -->
+    <!-- VIEW 2: PULSO DO DIA -->
+    <!-- ============================================================ -->
+    <template v-else-if="currentView === 'pulso'">
+      <section class="px-4 py-8 max-w-6xl mx-auto">
+        <div class="mb-6">
+          <h2 class="text-2xl md:text-3xl font-bold mb-2">🌍 Pulso do Dia</h2>
+          <p class="text-sm text-gray-600 mb-1">
+            <strong>O que fez diferença hoje na cardiologia.</strong> Síntese multi-fonte de 5-10 destaques com cruzamento de artigos, podcasts, vídeos e discussões da comunidade.
+          </p>
+          <p v-if="report?.pulso?.length" class="text-xs text-gray-500">
+            {{ report.pulso.length }} destaque{{ report.pulso.length > 1 ? 's' : '' }} · Leitura ~{{ Math.ceil((report.pulso.length || 0) * 1.5) }} min
+          </p>
+        </div>
+
+        <!-- Pulso cards -->
+        <div v-if="report?.pulso?.length" class="space-y-4">
+          <PulsoCard
+            v-for="item in report.pulso"
+            :key="item.id"
+            :item="item"
+          />
+        </div>
+
+        <!-- Empty / loading state -->
+        <div v-else-if="!report" class="text-center py-12 text-gray-500">
+          Carregando relatório...
+        </div>
+        <div v-else class="text-center py-12 text-gray-500">
+          <p class="text-lg mb-2">📭 Pulso ainda não gerado para este dia</p>
+          <p class="text-sm">A síntese multi-fonte aparece a partir do próximo run automático (3 UTC = meia-noite Brasília).</p>
+        </div>
+      </section>
+    </template>
+
+
+    <!-- ============================================================ -->
+    <!-- VIEW 3: IDEIAS DO DIA -->
     <!-- ============================================================ -->
     <template v-else-if="currentView === 'ideas'">
       <section class="px-4 py-8 max-w-6xl mx-auto">
@@ -264,7 +307,7 @@ import XDiscussionCard from './components/XDiscussionCard.vue'
 import XDiscussionDetail from './components/XDiscussionDetail.vue'
 import VideoCard from './components/VideoCard.vue'
 import PostIdeaCard from './components/PostIdeaCard.vue'
-import DestaqueDoDia from './components/DestaqueDoDia.vue'
+import PulsoCard from './components/PulsoCard.vue'
 import { fetchLatestReport, fetchIndex, fetchReportByDate } from './utils/api'
 
 const report = ref(null)
@@ -275,24 +318,10 @@ const searchQuery = ref('')
 const loading = ref(false)
 const selectedXCategoria = ref('all')
 const selectedVideoTier = ref(-1)  // -1 = all
-const currentView = ref('report')  // 'report' | 'ideas'
+const currentView = ref('report')  // 'report' | 'pulso' | 'ideas'
 const selectedIdeaType = ref('all')
 const availableDates = ref([])
 const currentDateIndex = ref(0)
-
-function jumpToDestaqueItem(destaque) {
-  if (!destaque || !report.value) return
-  const itemId = destaque.item_id
-  const tipo = destaque.tipo_origem
-  if (tipo === 'artigo') {
-    const found = (report.value.artigos || []).find(a => a.id === itemId)
-    if (found) selectedArticle.value = found
-  } else if (tipo === 'noticia') {
-    const found = (report.value.noticias || []).find(n => n.id === itemId)
-    if (found) selectedArticle.value = found
-  }
-  // Note: tipo === 'podcast' was removed as Podcasts UI is no longer rendered
-}
 
 async function navigateDate(direction) {
   const newIndex = currentDateIndex.value + direction
