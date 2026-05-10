@@ -1,8 +1,9 @@
 """Generate Instagram post ideas for lay-audience patients from the curated report.
 
 Uses Claude Sonnet 4.6 (cheaper than Opus, plenty for creative-structured task).
-Output is a list of 8-10 ideas, each with: tipo, emoji, ideia, bullets, fonte.
-The cardiologist uses these as inspiration to write the actual post elsewhere.
+Output is a list of 20-30 ideas (scales with report size — see prompt's quantity
+table), each with: tipo, emoji, ideia, bullets, formato_visual, fonte. The
+cardiologist uses these as inspiration to write the actual post elsewhere.
 """
 
 import json
@@ -171,10 +172,43 @@ def generate_post_ideas(report: dict, anthropic_client: Anthropic = None) -> lis
         logger.warning("Compact report is suspiciously small — skipping post ideas generation")
         return []
 
+    # Count total items so the user message can reinforce the quantity table.
+    # System prompt has the authoritative table; this echoes it explicitly so
+    # Sonnet doesn't ignore the rule (history: it does ignore generic system
+    # rules when user message says something different).
+    n_items = (
+        len(report.get("artigos", []))
+        + len(report.get("noticias", []))
+        + len(report.get("podcasts", []))
+        + len(report.get("videos_youtube", []))
+        + len(report.get("discussoes_x", []))
+        + len(report.get("substacks", []))
+    )
+    if n_items >= 80:
+        target = "30"
+        minimum = "30"
+    elif n_items >= 50:
+        target = "27-30"
+        minimum = "25"
+    elif n_items >= 30:
+        target = "22-25"
+        minimum = "20"
+    elif n_items >= 15:
+        target = "17-20"
+        minimum = "15"
+    else:
+        target = "5-8"
+        minimum = "5"
+
     user_message = (
-        f"Gere 8-10 ideias de posts a partir do relatório abaixo.\n\n"
+        f"O relatório abaixo tem {n_items} itens curados. Conforme a tabela do system_prompt, "
+        f"você DEVE gerar NO MÍNIMO {minimum} ideias (alvo: {target}). Não retorne menos — "
+        f"se achar só 10-15 'perfeitas', faça segundo passe pra atingir o mínimo conforme as "
+        f"regras do system_prompt (ângulos secundários, cobertura cruzada, hooks razoáveis vs perfeitos).\n\n"
+        f"Material disponível ({n_items} itens):\n\n"
         f"{compact}"
     )
+    logger.info(f"Post ideas: target {target} ideias (minimum {minimum}) for {n_items} items")
 
     try:
         logger.info(f"Calling Claude {POST_IDEAS_MODEL} for post ideas generation")
