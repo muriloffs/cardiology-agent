@@ -11,17 +11,61 @@ from typing import Any
 logger = logging.getLogger(__name__)
 
 GROK_API_URL = "https://api.x.ai/v1/responses"
-GROK_MODEL = os.environ.get("GROK_MODEL", "grok-4")
-GROK_RETRY_BACKOFF_SECONDS = 120  # 2min between attempts (was 60s — give xAI more recovery time)
-# Separate retry budgets — one type's failure doesn't consume the other:
-#   ERROR_RETRIES: ConnectionError, Timeout, 5xx (transient infrastructure)
+GROK_MODEL_PRIMARY = os.environ.get("GROK_MODEL", "grok-4")
+GROK_MODEL_FALLBACK = os.environ.get("GROK_MODEL_FALLBACK", "grok-3")
+# Separate retry budgets:
+#   ERROR_RETRIES: ConnectionError, Timeout, 5xx — boosted from 1→3 with exponential backoff
 #   LOWCOUNT_RETRIES: valid response but < TRIGGER posts (Grok was lazy)
-GROK_MAX_ERROR_RETRIES = 1       # 1 retry on infrastructure errors
+GROK_MAX_ERROR_RETRIES = 3       # 3 retries on infrastructure errors (was 1)
 GROK_MAX_LOWCOUNT_RETRIES = 1    # 1 retry on low-count with aggressive feedback
-GROK_MAX_TOTAL_ATTEMPTS = 3      # hard cap (1 initial + up to 2 retries of either type)
+GROK_MAX_TOTAL_ATTEMPTS = 5      # hard cap (1 initial + up to 4 retries of either type) (was 3)
+# Exponential backoff schedule (in seconds): 60, 120, 240
+# After error attempt N (1-indexed), wait GROK_BACKOFF_SCHEDULE[N-1] before next retry
+GROK_BACKOFF_SCHEDULE = [60, 120, 240]
 # Target system (calibrated for reduced-complexity request):
 GROK_MIN_POSTS_TRIGGER = int(os.environ.get("GROK_MIN_POSTS", "12"))   # was 20 — adjusted for lower max_tool_calls
 GROK_TARGET_POSTS = int(os.environ.get("GROK_TARGET_POSTS", "25"))     # was 40 — realistic with 2 tool calls
+
+
+def _get_backoff_seconds(retry_number: int) -> int:
+    """Exponential backoff schedule: 60s, 120s, 240s. Caps at 240."""
+    if retry_number <= 0:
+        return 60
+    idx = min(retry_number - 1, len(GROK_BACKOFF_SCHEDULE) - 1)
+    return GROK_BACKOFF_SCHEDULE[idx]
+
+
+def _load_cached_discussoes_x() -> list[dict[str, Any]]:
+    """Final fallback: load yesterday's discussoes_x from the most recent committed report.
+
+    Items are tagged with `_cache_fallback: True` so frontend can show staleness warning.
+    Returns empty list if no cache available.
+    """
+    try:
+        data_dir = Path(__file__).parent.parent.parent / "data"
+        if not data_dir.exists():
+            return []
+        report_files = sorted(data_dir.glob("relatorio-*.json"), reverse=True)
+        if not report_files:
+            return []
+        with open(report_files[0], "r", encoding="utf-8") as f:
+            cached_report = json.load(f)
+        cached_discussoes = cached_report.get("discussoes_x", [])
+        if not cached_discussoes:
+            return []
+        # Mark each item as cache-fallback for frontend awareness
+        for item in cached_discussoes:
+            item["_cache_fallback"] = True
+            item["_cache_source_date"] = cached_report.get("relatorio_data", "anterior")
+        logger.warning(
+            f"Grok unavailable — fallback to cached discussoes_x from "
+            f"{cached_report.get('relatorio_data', 'anterior')} "
+            f"({len(cached_discussoes)} items marked _cache_fallback)"
+        )
+        return cached_discussoes
+    except Exception as e:
+        logger.error(f"Failed to load cached discussoes_x: {e}")
+        return []
 
 
 def _load_prompt(date: str) -> str:
@@ -58,11 +102,11 @@ def fetch_x_cardiology_posts(days_back: int = 1) -> list[dict[str, Any]]:
         "Content-Type": "application/json",
     }
 
-    def _build_payload(retry_feedback: str = "") -> dict:
+    def _build_payload(model: str, retry_feedback: str = "") -> dict:
         """Build Grok request payload, optionally with retry feedback appended."""
         content = prompt + retry_feedback if retry_feedback else prompt
         return {
-            "model": GROK_MODEL,
+            "model": model,
             "input": [{"role": "user", "content": content}],
             "tools": [{"type": "x_search"}],
             "temperature": 0.1,
@@ -73,15 +117,18 @@ def fetch_x_cardiology_posts(days_back: int = 1) -> list[dict[str, Any]]:
             "parallel_tool_calls": True,
         }
 
-    # SEPARATE retry budgets — one type's failure doesn't consume the other.
-    # ERROR_RETRIES (1):   ConnectionError, Timeout, 5xx — infrastructure transient
-    # LOWCOUNT_RETRIES (1): valid response but < TRIGGER posts — Grok was lazy
-    # Hard cap: 3 total attempts (1 initial + up to 2 retries).
+    # SEPARATE retry budgets:
+    #   ERROR_RETRIES (3):   ConnectionError/Timeout/5xx with exponential backoff
+    #   LOWCOUNT_RETRIES (1): valid response but < TRIGGER posts
+    # When grok-4 returns 503 "model at capacity" → switch to grok-3 fallback model.
     best_articles: list[dict[str, Any]] = []
     previous_count: int | None = None
     last_error = None
     error_retries_remaining = GROK_MAX_ERROR_RETRIES
     lowcount_retries_remaining = GROK_MAX_LOWCOUNT_RETRIES
+    error_retry_count = 0  # for exponential backoff tracking
+    current_model = GROK_MODEL_PRIMARY  # may swap to fallback after capacity errors
+    fallback_model_used = False
     attempt = 0
 
     while attempt < GROK_MAX_TOTAL_ATTEMPTS:
@@ -105,13 +152,13 @@ def fetch_x_cardiology_posts(days_back: int = 1) -> list[dict[str, Any]]:
             )
             logger.info(f"Building retry payload with aggressive feedback (previous attempt: {previous_count} posts)")
 
-        request_payload = _build_payload(retry_feedback)
+        request_payload = _build_payload(current_model, retry_feedback)
 
         try:
             logger.info(
                 f"Calling Grok API (attempt {attempt}/{GROK_MAX_TOTAL_ATTEMPTS}; "
                 f"err_retries={error_retries_remaining}, low_retries={lowcount_retries_remaining}): "
-                f"model={GROK_MODEL}, url={GROK_API_URL}, date={target_date}"
+                f"model={current_model}, url={GROK_API_URL}, date={target_date}"
             )
             response = req.post(
                 GROK_API_URL,
@@ -126,8 +173,10 @@ def fetch_x_cardiology_posts(days_back: int = 1) -> list[dict[str, Any]]:
             logger.warning(f"Grok attempt {attempt} failed (transient: {type(e).__name__}): {e}")
             if error_retries_remaining > 0:
                 error_retries_remaining -= 1
-                logger.info(f"Consuming error retry budget. Retrying Grok in {GROK_RETRY_BACKOFF_SECONDS}s...")
-                time.sleep(GROK_RETRY_BACKOFF_SECONDS)
+                error_retry_count += 1
+                backoff = _get_backoff_seconds(error_retry_count)
+                logger.info(f"Consuming error retry. Backoff {backoff}s (exp: 60→120→240). Retrying...")
+                time.sleep(backoff)
                 continue
             else:
                 logger.warning("No error retries remaining. Giving up on errors.")
@@ -135,19 +184,41 @@ def fetch_x_cardiology_posts(days_back: int = 1) -> list[dict[str, Any]]:
         except req.exceptions.HTTPError as e:
             last_error = e
             status_code = e.response.status_code if e.response is not None else 0
-            logger.error(f"Grok HTTP error {status_code} (attempt {attempt}): {e}")
+            response_body = ""
             try:
-                logger.error(f"Grok response body: {response.text[:500]}")
+                response_body = response.text[:500]
             except Exception:
                 pass
+            logger.error(f"Grok HTTP error {status_code} (attempt {attempt}, model={current_model}): {e}")
+            if response_body:
+                logger.error(f"Grok response body: {response_body}")
+
             # 4xx → don't retry (persistent, our fault)
             if status_code < 500:
                 break
+
+            # CAPACITY DETECTION: Switch to fallback model on first capacity-related 503
+            is_capacity_error = "capacity" in response_body.lower() or "model is at capacity" in response_body.lower()
+            if (status_code == 503 and is_capacity_error
+                    and not fallback_model_used
+                    and current_model == GROK_MODEL_PRIMARY):
+                logger.warning(
+                    f"Grok {GROK_MODEL_PRIMARY} at capacity. Switching to fallback "
+                    f"{GROK_MODEL_FALLBACK} on next attempt (no retry budget consumed)."
+                )
+                current_model = GROK_MODEL_FALLBACK
+                fallback_model_used = True
+                # Brief pause to let switching settle, but don't consume error budget
+                time.sleep(15)
+                continue
+
             # 5xx → retry if error budget remains
             if error_retries_remaining > 0:
                 error_retries_remaining -= 1
-                logger.info(f"5xx is transient. Consuming error retry. Retrying in {GROK_RETRY_BACKOFF_SECONDS}s...")
-                time.sleep(GROK_RETRY_BACKOFF_SECONDS)
+                error_retry_count += 1
+                backoff = _get_backoff_seconds(error_retry_count)
+                logger.info(f"5xx transient. Consuming error retry. Backoff {backoff}s. Retrying...")
+                time.sleep(backoff)
                 continue
             else:
                 logger.warning("No error retries remaining for 5xx. Giving up.")
@@ -195,8 +266,10 @@ def fetch_x_cardiology_posts(days_back: int = 1) -> list[dict[str, Any]]:
                 # Empty response treated as error — consume error budget
                 if error_retries_remaining > 0:
                     error_retries_remaining -= 1
-                    logger.info(f"Empty output. Consuming error retry. Retrying in {GROK_RETRY_BACKOFF_SECONDS}s...")
-                    time.sleep(GROK_RETRY_BACKOFF_SECONDS)
+                    error_retry_count += 1
+                    backoff = _get_backoff_seconds(error_retry_count)
+                    logger.info(f"Empty output. Consuming error retry. Backoff {backoff}s. Retrying...")
+                    time.sleep(backoff)
                     continue
                 else:
                     break
@@ -218,9 +291,9 @@ def fetch_x_cardiology_posts(days_back: int = 1) -> list[dict[str, Any]]:
                 lowcount_retries_remaining -= 1
                 logger.warning(
                     f"Grok returned {len(articles)} posts (trigger: {GROK_MIN_POSTS_TRIGGER}, target: {GROK_TARGET_POSTS}+). "
-                    f"Consuming lowcount retry. Retrying with aggressive feedback in {GROK_RETRY_BACKOFF_SECONDS}s..."
+                    f"Consuming lowcount retry. Retrying with aggressive feedback in 90s..."
                 )
-                time.sleep(GROK_RETRY_BACKOFF_SECONDS)
+                time.sleep(90)
                 continue
             else:
                 logger.warning(
@@ -233,13 +306,27 @@ def fetch_x_cardiology_posts(days_back: int = 1) -> list[dict[str, Any]]:
             logger.error(f"Grok response processing failed (attempt {attempt}): {e}")
             if error_retries_remaining > 0:
                 error_retries_remaining -= 1
-                time.sleep(GROK_RETRY_BACKOFF_SECONDS)
+                error_retry_count += 1
+                backoff = _get_backoff_seconds(error_retry_count)
+                time.sleep(backoff)
                 continue
             else:
                 break
 
     if not best_articles and last_error:
         logger.error(f"Grok API call failed after {attempt} attempt(s): {last_error}")
+
+    # LEVEL 3 FALLBACK: if all live attempts failed, try yesterday's cached discussoes_x.
+    # Items are tagged with `_cache_fallback: True` for frontend awareness.
+    # NOTE: cached items already in discussoes_x schema (transformed yesterday).
+    # We return them in the GROK schema and let transform_to_discussoes_x handle below.
+    if not best_articles:
+        cached = _load_cached_discussoes_x()
+        if cached:
+            # Mark as a special "already-transformed" payload for downstream handling
+            for item in cached:
+                item["_already_transformed"] = True
+            return cached
 
     return best_articles
 
@@ -359,7 +446,24 @@ def transform_to_discussoes_x(grok_articles: list[dict[str, Any]]) -> list[dict[
 
     Schema produced (matches what Claude would output for discussoes_x):
         {id, titulo, autor, categoria, emoji, classe, score, resumo, impacto_clinico, links{}}
+
+    SPECIAL CASE: cache fallback items already have discussoes_x schema (loaded
+    from yesterday's report). They have `_already_transformed: True` flag and
+    `_cache_fallback: True`. Pass through unchanged.
     """
+    # Detect cache fallback: if items have _already_transformed flag, return as-is
+    if grok_articles and grok_articles[0].get("_already_transformed"):
+        logger.info(
+            f"transform_to_discussoes_x: pass-through {len(grok_articles)} cached items "
+            f"(Grok unavailable today, using yesterday's data)"
+        )
+        # Strip internal flags but keep _cache_fallback for frontend
+        cleaned = []
+        for item in grok_articles:
+            item_copy = {k: v for k, v in item.items() if k != "_already_transformed"}
+            cleaned.append(item_copy)
+        return cleaned
+
     result = []
     for i, post in enumerate(grok_articles, 1):
         autor_list = post.get("autores") or []
