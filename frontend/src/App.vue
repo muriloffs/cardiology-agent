@@ -482,6 +482,7 @@ import PostIdeaCard from './components/PostIdeaCard.vue'
 import PulsoCard from './components/PulsoCard.vue'
 import SubstackCard from './components/SubstackCard.vue'
 import VideoCardEnriched from './components/VideoCardEnriched.vue'
+import CongressBanner from './components/CongressBanner.vue'
 import { fetchLatestReport, fetchIndex, fetchReportByDate } from './utils/api'
 
 const report = ref(null)
