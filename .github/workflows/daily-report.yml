@@ -45,6 +45,8 @@ jobs:
           XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
           GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
           NCBI_API_KEY: ${{ secrets.NCBI_API_KEY }}
+          WEBSHARE_PROXY_USERNAME: ${{ secrets.WEBSHARE_PROXY_USERNAME }}
+          WEBSHARE_PROXY_PASSWORD: ${{ secrets.WEBSHARE_PROXY_PASSWORD }}
           GROK_MODEL: ${{ vars.GROK_MODEL || 'grok-4' }}
         run: python agent/scripts/generate_report.py
 

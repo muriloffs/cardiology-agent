@@ -84,6 +84,30 @@ def _grounded_call(client, prompt: str, label: str, _is_retry: bool = False) -> 
         return ""
 
 
+def _build_ytt_api():
+    """Build YouTubeTranscriptApi instance, with Webshare residential proxy
+    when WEBSHARE_PROXY_USERNAME + WEBSHARE_PROXY_PASSWORD are set.
+
+    Returns (api_instance, uses_proxy_bool). When proxy is configured, YouTube
+    requests route through residential IPs that bypass datacenter blocking.
+    """
+    from youtube_transcript_api import YouTubeTranscriptApi
+
+    proxy_user = os.environ.get("WEBSHARE_PROXY_USERNAME")
+    proxy_pass = os.environ.get("WEBSHARE_PROXY_PASSWORD")
+    if proxy_user and proxy_pass:
+        try:
+            from youtube_transcript_api.proxies import WebshareProxyConfig
+            api = YouTubeTranscriptApi(proxy_config=WebshareProxyConfig(
+                proxy_username=proxy_user,
+                proxy_password=proxy_pass,
+            ))
+            return api, True
+        except (ImportError, AttributeError) as e:
+            logger.warning(f"WebshareProxyConfig unavailable ({e}); falling back to direct")
+    return YouTubeTranscriptApi(), False
+
+
 def _fetch_transcript(video_url: str, max_chars: int = 12000) -> tuple[str, str]:
     """Fetch auto-generated transcript from YouTube.
 
@@ -99,7 +123,8 @@ def _fetch_transcript(video_url: str, max_chars: int = 12000) -> tuple[str, str]
       other            → unexpected error (raw type logged separately)
 
     Tries PT first, then EN, then any language. Truncates to max_chars to keep
-    prompt size manageable.
+    prompt size manageable. When WEBSHARE_PROXY_USERNAME/PASSWORD env vars are
+    set, routes through Webshare residential proxies (bypasses GH Actions IP block).
     """
     video_id = _video_id_from_url(video_url)
     if not video_id:
@@ -112,19 +137,21 @@ def _fetch_transcript(video_url: str, max_chars: int = 12000) -> tuple[str, str]
     except ImportError:
         return "", "no_library"
 
-    # Try new API (v1.x: instance.fetch) AND old API (v0.6: class.get_transcript)
-    # Library API changed in v1.0 — support both for resilience to version drift.
+    # Build API once per call (cheap — just stores proxy config)
+    ytt_api, _ = _build_ytt_api()
+
+    # Library API changed in v1.0 — support both v1.x (instance.fetch) and v0.6.x
+    # (class.get_transcript) for resilience to version drift. Proxy only works in v1.x.
     def _call_api(vid: str, lang_list: list[str] | None):
-        if hasattr(YouTubeTranscriptApi, "get_transcript"):
-            # v0.6.x — classmethod style
+        # v1.x — instance + fetch() — supports proxy
+        if hasattr(ytt_api, "fetch"):
             if lang_list:
-                return YouTubeTranscriptApi.get_transcript(vid, languages=lang_list)
-            return YouTubeTranscriptApi.get_transcript(vid)
-        # v1.x — instance + fetch()
-        ytt = YouTubeTranscriptApi()
+                return ytt_api.fetch(vid, languages=lang_list).to_raw_data()
+            return ytt_api.fetch(vid).to_raw_data()
+        # v0.6.x — classmethod fallback (no proxy support)
         if lang_list:
-            return ytt.fetch(vid, languages=lang_list).to_raw_data()
-        return ytt.fetch(vid).to_raw_data()
+            return YouTubeTranscriptApi.get_transcript(vid, languages=lang_list)
+        return YouTubeTranscriptApi.get_transcript(vid)
 
     last_failure = "other"
     for langs in (["pt", "pt-BR"], ["en", "en-US"], None):
@@ -388,6 +415,10 @@ def enrich_videos(videos: list[dict]) -> list[dict]:
     logger.info(f"YouTube enrichment: {cache_hits} cache hits, {len(to_enrich)} new videos to enrich")
 
     if to_enrich:
+        # Diagnostic: log whether Webshare proxy is configured for this run
+        proxy_active = bool(os.environ.get("WEBSHARE_PROXY_USERNAME") and os.environ.get("WEBSHARE_PROXY_PASSWORD"))
+        logger.info(f"YouTube transcript proxy: {'WEBSHARE active' if proxy_active else 'direct (likely IP-blocked in CI)'}")
+
         # Step 1: fetch transcripts in parallel (cheap, no API key needed).
         # Step 2: call Gemini Pro with transcript when available, fallback to desc.
         # We do step 1 sequentially — YouTube rate limits transcript reads on
