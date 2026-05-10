@@ -29,10 +29,20 @@ Ranqueie internamente cada item por estes 4 critérios pesados, depois selecione
 
 ### 🎯 RELEVÂNCIA CLÍNICA — peso 25%
 
-- Practice-changing > update incremental > hipótese ou conceito
-- Artigos com `classe: "A"` > `"B"` > `"C"`
-- Late-breaking trial > estudo observacional > review/consenso de painel
-- Tema com aplicação imediata na conduta > tema teórico
+**FAVOREÇA fortemente:**
+- 🎯 **Mudanças em diretrizes/metas clínicas** — meta LDL caiu (<55 alto risco), meta PA caiu (<130/80), meta HbA1c, novo target de glicose, nova classificação de risco. **ALTÍSSIMO valor pro paciente — afeta a conduta dele hoje.**
+- ✅ **Estudos que CONFIRMAM/REFORÇAM práticas conhecidas** — mais evidência pra atividade física, dieta mediterrânea, sono 7-8h, redução de sal, parar de fumar. **Engaja mais que estudos que questionam práticas.**
+- 🆕 **Practice-changing com evidência sólida e replicada** — late-breaking trial Classe A com peer-review consolidado
+- 📜 **Novas contraindicações ou cuidados** adicionados a fármacos comuns (estatina, anti-hipertensivo, anticoagulante)
+- 🛡️ **Atualização de scores de risco** acessíveis (CHADS-VASc, ASCVD, framingham brasileiro)
+- Artigos `classe: "A"` > `"B"` > `"C"`
+
+**EVITE fortemente** (perdem peso mesmo sendo "publicados em revista boa"):
+- 🚫 **Pesquisa preliminar / hipóteses sem replicação** — fase II isolada, "primeiros achados sugerem", sub-análise post-hoc, single-center sem validação externa
+- 🚫 **Achados conflitantes** — "estudo A disse X, estudo B disse Y, ainda não sabemos" → confunde paciente, gera ansiedade. PULE.
+- 🚫 **Associações sem causalidade clara** — "pacientes com X tiveram mais Y, mas não sabemos por quê / mecanismo desconhecido"
+- 🚫 **Doenças raras** — cardiomiopatia hipertrófica de subgrupo X, amiloidose ATTR, sarcoidose cardíaca, transplante, miocardite específica. Baixa prevalência = "isso não é comigo". **EXCEÇÃO única:** se a rara virou mito popular (ex: amiloidose 2023 → "esse exame existe? quando seu cardio pede?"), aí vale.
+- 🚫 **Subespecialidade ultra-nicho** — pacing biventricular técnico, ablação de VT específica, técnicas de implante
 
 ### 📱 ENGAJAMENTO INSTAGRAM — peso 30%
 
@@ -99,9 +109,9 @@ Exemplo:
 Distribuição sugerida (ajuste se um tema do dia não couber em algum tipo):
 - 🆕 **novidade** (3): trial novo, guideline atualizada, descoberta que afeta paciente
 - 🚨 **alerta** (3): sintoma a vigiar, fator de risco subestimado, contraindicação importante. **Sempre factual e acionável** — todo alerta deve ter um próximo passo claro (quando procurar PS, o que observar, quando agendar consulta). Tom de "cardiologista te avisa", não de "URGENTE!!!"
-- 🥗 **lifestyle** (2): dieta, exercício, sono, stress
+- 🥗 **lifestyle** (3-4): dieta (mediterrânea, jejum, plant-based), exercício (qual tipo, quanto, intensidade), sono (qualidade, duração), stress, hábitos cotidianos. **Dê preferência a estudos que REFORÇAM práticas conhecidas** (mais evidência pra exercício, dieta mediterrânea, parar de fumar) — engajam mais que estudos que questionam. **Suba para 4 ideias se o relatório tiver bons reforços.**
 - 💊 **medicacao** (2): nova droga, efeito colateral importante, cuidado com remédio
-- 🔄 **evolucao** (1): algo que mudou no que se sabia (antes vs hoje)
+- 🔄 **evolucao** (1-2): algo que mudou no que se sabia. **Caso paradigmático:** mudança em diretriz/meta clínica (meta LDL <55 hoje vs antes <70; meta PA <130/80 em alto risco; nova contraindicação de fármaco; nova faixa de prescrição). Também: "antes pensávamos X, hoje sabemos Y" baseado em evidência consolidada. **Mantém alvo em 1-2 ideias deste tipo se houver mudança real no relatório do dia.**
 - 🚫 **mito** (2): derruba mito brasileiro com base em evidência
 - 🛡️ **prevencao** (2): como evitar problema cardíaco
 - 📊 **dado** (2): estatística forte, número que assusta ou surpreende
