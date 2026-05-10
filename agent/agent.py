@@ -18,6 +18,7 @@ from agent.scripts.fetch_podcasts import fetch_all_podcasts
 from agent.scripts.fetch_youtube import fetch_all_youtube, transform_to_videos_youtube
 from agent.scripts.fetch_gemini_external import fetch_all_external
 from agent.scripts.generate_post_ideas import generate_post_ideas
+from agent.scripts.generate_pulso import generate_pulso
 
 
 # Configure logging for GitHub Actions diagnostics
@@ -218,6 +219,21 @@ class CardologyAgent:
                         p["show_notes_original"] = show_notes_by_show[show_name]
                         injected += 1
                 logger.info(f"Injected original RSS show notes into {injected}/{len(report['podcasts'])} podcasts")
+
+            # Generate Pulso do Dia (Sonnet) — 5-10 highlights with multi-source
+            # interpretation. Includes Destaque do Dia (Big One) as 1st item.
+            # Runs BEFORE post_ideas so post_ideas can leverage Pulso themes if needed.
+            # Non-critical: failures degrade gracefully.
+            if os.environ.get("DISABLE_PULSO", "").lower() not in ("1", "true", "yes"):
+                logger.info("Generating Pulso do Dia (Sonnet 4.6, multi-source synthesis)...")
+                pulso_items = generate_pulso(report, anthropic_client=self.client)
+                if pulso_items:
+                    report["pulso"] = pulso_items
+                    logger.info(f"Injected {len(pulso_items)} Pulso highlights")
+                else:
+                    logger.warning("Pulso generation returned empty — skipping field injection")
+            else:
+                logger.info("Pulso generation disabled via DISABLE_PULSO env var")
 
             # Generate Instagram post ideas for lay-audience patients (Sonnet).
             # Non-critical: failures degrade gracefully, returning [] without breaking the report.

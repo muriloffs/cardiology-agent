@@ -152,6 +152,9 @@ def _validate(report: Dict[str, Any]) -> None:
 
     # Validate destaque_do_dia (optional field) — drop silently if malformed.
     # Required keys: item_id, tipo_origem, titulo, razao, o_que_muda, o_que_nao_muda_ainda
+    # NOTE: starting Phase 4, destaque_do_dia is being absorbed into pulso[0]
+    # (the Big One is the first Pulso item with is_destaque_do_dia=true).
+    # destaque_do_dia field kept as legacy/transition support; frontend prefers pulso.
     if 'destaque_do_dia' in report:
         d = report['destaque_do_dia']
         if not isinstance(d, dict):
@@ -162,6 +165,43 @@ def _validate(report: Dict[str, Any]) -> None:
                 report.pop('destaque_do_dia', None)
             elif d.get('tipo_origem') not in {'artigo', 'noticia', 'podcast'}:
                 report.pop('destaque_do_dia', None)
+
+    # pulso (optional list) — Phase 4 addition. Sonnet generates 5-10 highlights
+    # with multi-source interpretation. First item flagged is_destaque_do_dia=true.
+    # Validation: drop malformed items silently to keep partial results.
+    if 'pulso' in report:
+        if not isinstance(report['pulso'], list):
+            report.pop('pulso', None)
+        else:
+            valid_pulso = []
+            required_pulso = {'titulo', 'razao_destaque', 'o_que_paper_diz',
+                              'interpretacao_comunidade', 'o_que_muda',
+                              'o_que_nao_muda_ainda', 'fontes_cobertura',
+                              'classe', 'score'}
+            for i, item in enumerate(report['pulso']):
+                if not isinstance(item, dict):
+                    continue
+                if not required_pulso.issubset(item.keys()):
+                    continue
+                # Strings non-empty
+                str_fields = required_pulso - {'fontes_cobertura', 'score'}
+                if not all(isinstance(item.get(k), str) and item[k].strip() for k in str_fields):
+                    continue
+                if item.get('classe') not in {'A', 'B', 'C'}:
+                    continue
+                if isinstance(item.get('score'), bool) or not isinstance(item.get('score'), (int, float)):
+                    continue
+                if not (0 <= item['score'] <= 10):
+                    continue
+                if not isinstance(item.get('fontes_cobertura'), list) or not item['fontes_cobertura']:
+                    continue
+                # Coerce is_destaque_do_dia to bool
+                item['is_destaque_do_dia'] = bool(item.get('is_destaque_do_dia', False))
+                # Ensure id present
+                if not item.get('id'):
+                    item['id'] = f"pulso_{i+1:03d}"
+                valid_pulso.append(item)
+            report['pulso'] = valid_pulso
 
 
 def _validate_resumo(resumo: Dict[str, Any]) -> None:
