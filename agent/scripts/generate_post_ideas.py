@@ -204,13 +204,19 @@ def generate_post_ideas(report: dict, anthropic_client: Anthropic = None) -> lis
             continue
         if not isinstance(idea.get("formato_visual"), dict):
             continue
-        # formato_visual: tipo_post + estilo essenciais; dado_central pode ser vazio
+        # formato_visual: tipo_post + estilo essenciais
         fv = idea["formato_visual"]
         if not fv.get("tipo_post") or not fv.get("estilo"):
             continue
         # Normalize dado_central to string (default empty)
         if not isinstance(fv.get("dado_central"), str):
             fv["dado_central"] = ""
+        # Anti-invention rule: graph/number styles REQUIRE non-empty dado_central
+        # (number must be quotable from source — empty = Sonnet invented or ignored)
+        graph_styles = {"grafico_barras", "grafico_pizza", "grafico_linha", "numero_destacado"}
+        if fv["estilo"] in graph_styles and not fv["dado_central"].strip():
+            logger.debug(f"Dropping idea pi_{i:03d}: estilo={fv['estilo']} sem dado_central — possível invenção")
+            continue
         idea["id"] = f"pi_{i:03d}"
         valid.append(idea)
 
