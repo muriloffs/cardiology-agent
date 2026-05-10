@@ -83,13 +83,18 @@ def _extract_text(response) -> str:
     return ""
 
 
-def _grounded_call(client, prompt: str, label: str = "gemini") -> str:
-    """Make 1 grounded Gemini Flash call. Returns text or empty on failure."""
+def _grounded_call(client, prompt: str, label: str = "gemini", _is_retry: bool = False) -> str:
+    """Make 1 grounded Gemini Flash call. Retries once on empty text.
+
+    Empty-text is a known Flash+grounding pathology — model returns no text
+    even with grounding succeeded. Retry with bumped temp + small prompt nudge
+    typically unsticks it. Same pattern used in fetch_gemini_substacks.py.
+    """
     try:
         from google.genai import types
         config = types.GenerateContentConfig(
             tools=[types.Tool(google_search=types.GoogleSearch())],
-            temperature=0.0,
+            temperature=0.4 if _is_retry else 0.0,
         )
         response = client.models.generate_content(
             model=GEMINI_MODEL,
@@ -97,8 +102,14 @@ def _grounded_call(client, prompt: str, label: str = "gemini") -> str:
             config=config,
         )
         text = _extract_text(response)
+        if not text and not _is_retry:
+            logger.info(f"[{label}] Empty response — retrying once with temp=0.4")
+            retry_prompt = prompt + "\n\nProceed and respond with the requested format now."
+            return _grounded_call(client, retry_prompt, label, _is_retry=True)
         if not text:
-            logger.warning(f"[{label}] Gemini returned empty text")
+            logger.warning(f"[{label}] Gemini returned empty text (after retry)")
+        elif _is_retry:
+            logger.info(f"[{label}] Retry succeeded")
         return text
     except Exception as e:
         logger.warning(f"[{label}] Gemini call failed: {type(e).__name__}: {e}")
