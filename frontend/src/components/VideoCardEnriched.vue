@@ -97,9 +97,19 @@
           <span class="font-bold text-amber-700 uppercase tracking-wide">⚠️ Contraponto </span>
           <span class="text-gray-700">{{ video.contraponto }}</span>
         </div>
-        <div v-if="video._transcript_used" class="text-xs">
-          <span class="font-bold text-purple-700 uppercase tracking-wide">📝 Baseado em transcript</span>
-        </div>
+      </div>
+
+      <!-- Source-of-truth signal — explicit so reader knows if AI watched
+           the actual content (transcript) or inferred from web search. -->
+      <div v-if="video._enriched" class="text-[10px] mt-1">
+        <span v-if="video._transcript_used"
+              class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-purple-100 text-purple-800 font-medium">
+          📝 Análise feita sobre o transcript do vídeo
+        </span>
+        <span v-else
+              class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-yellow-100 text-yellow-800 font-medium">
+          🔍 Análise via pesquisa Google (vídeo sem transcript) — pode divergir do conteúdo real
+        </span>
       </div>
 
       <!-- Tags + Watch -->

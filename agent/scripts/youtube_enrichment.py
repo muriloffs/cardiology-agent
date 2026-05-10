@@ -181,9 +181,23 @@ def _build_video_prompt(video: dict, transcript: str = "") -> str:
             f"Base sua análise PRIMARIAMENTE no transcript acima — é o conteúdo real do vídeo."
         )
     else:
+        # No transcript: use grounding aggressively. Pro must do deep search,
+        # not just paraphrase the description. The clinical content of the
+        # video can be inferred from: channel's recent activity, related trials,
+        # news coverage of the topic, speaker's other public commentary.
         content_block = (
             f"Description (RSS metadata):\n{desc}\n\n"
-            f"Sem transcript disponível. Use Google Search se necessário para entender o tema."
+            f"⚠️ SEM TRANSCRIPT DISPONÍVEL. Você DEVE usar Google Search agressivamente para:\n"
+            f"1. Pesquisar o título do vídeo + nome do canal — encontrar coberturas/resumos do conteúdo\n"
+            f"2. Identificar o trial/paper/guideline central que o vídeo discute (se houver)\n"
+            f"3. Buscar análises do mesmo tópico em journals, news sites, X/Twitter\n"
+            f"4. Inferir o conteúdo clínico provável baseado em: (a) padrão de conteúdo do canal,\n"
+            f"   (b) tópico do título, (c) cobertura paralela em outras fontes\n\n"
+            f"Produza síntese clínica como se tivesse efetivamente assistido — usando o conhecimento\n"
+            f"coletado via Search. NÃO se limite a parafrasear a descrição RSS (que tem 1-2 frases).\n"
+            f"Bullets devem citar dados/conceitos REAIS que apareceriam num vídeo desse tópico\n"
+            f"(ex: se é sobre HFA-2026 Heart Failure trials, mencione SUBCUT HF II, REDOX-AHF, etc).\n"
+            f"Se realmente não conseguir inferir conteúdo, retorne TEMA='N/D' e RESUMO curto explicando."
         )
 
     return f"""Você é um cardiologista revisor analisando um vídeo do YouTube para um dashboard clínico brasileiro.
