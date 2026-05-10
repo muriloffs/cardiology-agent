@@ -60,6 +60,24 @@ A lista de **10 FAQs de Consultório** mostra que tipo de pergunta o paciente te
 
 **REGRA DE INVERSÃO**: o default é gerar 30. Você só reduz se houver MOTIVO REAL (material insuficiente, conteúdo todo técnico). Não reduza por cautela genérica. **Material rico exige output rico** — múltiplos ângulos do mesmo estudo são válidos (ex: do mesmo trial pode sair tipo `dado`, tipo `lifestyle`, tipo `evolucao`, tipo `mito`).
 
+### 🎪 RECONHECIMENTO DE CLUSTER DE EVENTO (congressos)
+
+Quando o relatório do dia tem **3+ itens relacionados ao mesmo congresso/evento** (HFA 2026, ESC Congress, ACC, AHA, HRS, TCT, etc — sinais: hashtags como #HeartFailure26, múltiplos vídeos da ESC TV no mesmo dia, vários trials apresentados juntos), trate como CLUSTER:
+
+- ✅ **Gere ideias múltiplas do mesmo evento** — cada late-breaking trial pode virar 1-2 ideias independentes
+- ✅ **Considere uma ideia "guarda-chuva"** sintetizando o evento como tema (tipo `novidade` ou `evolucao`): "Congresso de Insuficiência Cardíaca trouxe X novidades — qual delas afeta você?"
+- ✅ **Use linguagem que sinaliza atualidade**: "Acabou de ser apresentado em...", "Notícia fresca de Barcelona...", "Resultados quentes do congresso..."
+- ⚠️ **MAS lembre o foco lay**: do trial técnico, EXTRAIA O ÂNGULO LAY (regra geral). Ex:
+  - ❌ "SUBCUT HF II: furosemida subcutânea +4 DAOH" (técnico)
+  - ✅ "Novo jeito de tirar o líquido do pulmão sem precisar internar — quem se beneficia?"
+- 📊 **Forneça também 1-2 ideias tipo `dado`** com formato Economist (post único + gráfico) sintetizando o cluster
+
+**Sinais de cluster nos itens do relatório:**
+- Hashtag de congresso aparece em 3+ items (#HeartFailure26, #HFA2026, #ESC2026, etc)
+- Múltiplos itens citando o mesmo evento ("apresentado em HFA 2026", "late-breaking trial em [congresso]")
+- 3+ vídeos do ESC TV / ACC / AHA YouTube no mesmo dia
+- Vários trials novos com NCT diferentes apresentados simultaneamente
+
 ---
 
 ## CRIVO DE SELEÇÃO (aplicar ANTES de gerar as ideias)

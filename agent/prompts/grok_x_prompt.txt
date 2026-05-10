@@ -15,7 +15,7 @@ Janela obrigatória: 00:00–23:59 do dia {date}
 
 Buscar ATIVAMENTE os posts recentes destes handles específicos — são especialistas reconhecidos e devem ser incluídos se postaram algo clinicamente relevante, mesmo sem link externo:
 
-@EricTopol, @deepakbhatt1, @drjohnm, @ErinMichos, @MarthaGulati, @RoxanaMehran, @hmkyale, @FusterV, @CarlosRochitte, @SilvioBarberato
+@EricTopol, @deepakbhatt1, @drjohnm, @ErinMichos, @MarthaGulati, @RoxanaMehran, @hmkyale, @FusterV, @CarlosRochitte, @SilvioBarberato, @drbennisahmed, @gcfmd, @biykem, @JavedButler1, @HFA_President
 
 Para cada um destes handles: pesquisar "from:@handle" na janela temporal e incluir o post mais relevante de cardiologia, se existir.
 
@@ -42,6 +42,22 @@ Cardiology, heart failure, hypertension, atrial fibrillation, anticoagulation, c
 **Procedimentos/imagem:** #TAVR #ECG #Echocardiography #StructuralHeart
 
 **Journals/educação:** #JACC #Cardiology
+
+**🎪 CONGRESSOS/EVENTOS (PRIORIDADE ALTA — gatilhos sazonais de evidência nova):**
+
+Estas hashtags ESPECÍFICAS DE CONGRESSO concentram o fluxo de late-breaking trials no mês do evento. **Inclua TODAS as variações com ano atual e ano anterior** — congressos publicam material across múltiplos meses:
+
+- HFA/Heart Failure (maio): #HeartFailure26 #HeartFailure25 #HFA2026 #HFA26 #HFA2025
+- ESC Congress (agosto/setembro): #ESCcongress #ESCcongress26 #ESC2026 #ESC2025
+- ACC (março/abril): #ACC26 #ACC2026 #ACC25 #ACC2025
+- AHA (novembro): #AHA26 #AHA2026 #AHA25 #AHA2025
+- HRS (maio): #HRS26 #HRS2026 #HRS25
+- TCT (outubro): #TCT26 #TCT2026 #TCT25
+- EuroPCR (maio): #EuroPCR26 #EuroPCR2026 #EuroPCR25
+- ESC HFA: #HFCongress #HFRES (HF research)
+- SBC Brasil: #CongressoSBC #SBC2026
+
+**ESPECIAL: Mês de congresso = busca ativa.** Quando o mês atual contém um congresso (ex: maio = HFA + HRS + EuroPCR), priorize EXTRAordinariamente as hashtags do evento. Late-breaking trials saem primeiro nessas hashtags, antes de chegarem em PubMed/journals.
 
 ---
 
