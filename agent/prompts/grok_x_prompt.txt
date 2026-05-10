@@ -15,7 +15,7 @@ Janela obrigatória: 00:00–23:59 do dia {date}
 
 Buscar ATIVAMENTE os posts recentes destes handles específicos — são especialistas reconhecidos e devem ser incluídos se postaram algo clinicamente relevante, mesmo sem link externo:
 
-@EricTopol, @deepakbhatt1, @drjohnm, @ErinMichos, @MarthaGulati, @RoxanaMehran, @hmkyale, @FusterV, @CarlosRochitte, @SilvioBarberato, @drbennisahmed, @gcfmd, @biykem, @JavedButler1, @HFA_President
+@EricTopol, @deepakbhatt1, @DLBhattMD, @drjohnm, @ErinMichos, @MarthaGulati, @RoxanaMehran, @hmkyale, @FusterV, @CarlosRochitte, @SilvioBarberato, @drbennisahmed, @gcfmd, @biykem, @JavedButler1, @HFA_President, @CMichaelGibson, @CPCannonMD, @ProfDFrancis, @GreggWStone, @mmamas1973, @MichaelAlbertMD, @purviparwani, @SVRaoMD, @ZierothShelley
 
 Para cada um destes handles: pesquisar "from:@handle" na janela temporal e incluir o post mais relevante de cardiologia, se existir.
 
