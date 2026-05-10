@@ -21,6 +21,54 @@ O cardiologista usa essas ideias como inspiração + skeleton + direção visual
 - Engajam com: "afinal, o que isso significa pra mim?"
 - **Plataforma:** Instagram (carrosséis estáticos OU post único estático — sem reels, sem vídeo)
 
+## CRIVO DE SELEÇÃO (aplicar ANTES de gerar as ideias)
+
+O relatório recebido tipicamente tem 50-100+ itens entre artigos, notícias, podcasts, vídeos e discussões X. Você gera apenas 20 ideias. **Como escolher os 20 melhores candidatos?**
+
+Ranqueie internamente cada item por estes 4 critérios pesados, depois selecione os 20 com maior score combinado:
+
+### 🎯 RELEVÂNCIA CLÍNICA — peso 30%
+
+- Practice-changing > update incremental > hipótese ou conceito
+- Artigos com `classe: "A"` > `"B"` > `"C"`
+- Late-breaking trial > estudo observacional > review/consenso de painel
+- Tema com aplicação imediata na conduta > tema teórico
+
+### 📱 ENGAJAMENTO INSTAGRAM — peso 30%
+
+- **Tem número marcante?** ("redução de 30%", "1 em cada 3", "47% mais risco")
+- **Mito derrubável?** Crença popular brasileira questionada
+- **Comparação direta?** A vs B, antes vs depois, com vs sem
+- **Contraintuitivo?** Surpreende o senso comum
+- **Acionável?** Leitor pode fazer algo concreto após ler
+
+### 👥 ACESSIBILIDADE LEIGO — peso 25%
+
+- **Relata com vida cotidiana?** (sono, café, dor no peito, palpitação, pressão de manhã)
+- **Explicável em ≤2 termos técnicos?** (fora os 2, tudo no português coloquial)
+- **Paciente vê "isso é comigo" em 5 segundos?** (especificidade demográfica concreta)
+- **Não exige fisiopatologia?** (post sobre receptor SGLT2 fica difícil; post sobre "novo remédio para coração e diabetes" funciona)
+
+### ⚡ FACILIDADE DE PRODUÇÃO — peso 15%
+
+- **Fonte tem dado concreto pra arte?** (número, %, taxa, comparativo plottável)
+- **Bullets já claros no resumo da fonte?** (não precisa inventar muito)
+- **Hook IG já evidente sem retorcer?** (a manchete da fonte já é hookável)
+- **Contexto curto?** (não precisa >1 frase de explicação prévia pro paciente entender)
+
+### DESEMPATE (quando 2 ideias têm score similar)
+
+1. **Tema atual (≤7 dias) > tema antigo** — recência amplifica relevância
+2. **BR-relevant > apenas internacional** — sociedade BR mencionada, prática local, dado nacional
+3. **Hook IG mais óbvio > hook que precisa polir** — favoreça o low-effort
+4. **Visual concreto disponível > visual genérico** — fonte que já sustenta gráfico/comparativo
+
+### REGRA DE QUALIDADE > COTA
+
+**Se o relatório do dia for fraco e você não conseguir 20 ideias que passem no crivo com qualidade, gere menos** (mínimo 12, máximo 20). **Não force ideias C marginais só pra cumprir cota.** Qualidade > quantidade.
+
+---
+
 ## TIPOS DE POST (use os 11, distribuídos em 20 ideias)
 
 Distribuição sugerida (ajuste se um tema do dia não couber em algum tipo):
@@ -158,7 +206,7 @@ Retorne **APENAS** um array JSON com 20 itens. Sem markdown, sem prosa antes ou 
 
 ## REGRAS ABSOLUTAS
 
-1. **20 ideias exatas** (não 18, não 22). Distribuídas conforme guia acima.
+1. **Alvo: 20 ideias** (mínimo 12, máximo 20). Aplique o Crivo de Seleção primeiro: se o relatório for fraco e não houver 20 ideias que passem com qualidade, gere menos. Distribuídas conforme guia de tipos quando viável.
 2. **PT-BR brasileiro coloquial** — "você", brasileirismos, tom amigo médico
 3. **Sem jargão sem tradução** — "AFib" → "fibrilação atrial (uma arritmia)"; "TAVR" → "implante de válvula via cateter"
 4. **Cada ideia DEVE ter fonte real do relatório** — não invente
