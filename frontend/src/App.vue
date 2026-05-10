@@ -11,6 +11,9 @@
       @next="navigateDate(-1)"
     />
 
+    <!-- Congress banner (acontecendo agora + próximos 14 dias) -->
+    <CongressBanner />
+
     <!-- View Toggle (also serves as primary counter — replaces HeaderStats grid) -->
     <div class="bg-gray-50 border-b border-gray-200">
       <div class="max-w-6xl mx-auto px-4 py-3 flex gap-2 md:gap-3 flex-wrap">
