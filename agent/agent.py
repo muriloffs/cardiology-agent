@@ -78,7 +78,7 @@ class CardologyAgent:
                 "RSS": executor.submit(fetch_all_rss, days_back=2),
                 "Grok/X": executor.submit(fetch_x_cardiology_posts, days_back=1),
                 "Podcasts": executor.submit(fetch_all_podcasts, days_back=7),
-                "YouTube": executor.submit(fetch_all_youtube, days_back=2),
+                "YouTube": executor.submit(fetch_all_youtube, days_back=3),
                 "GeminiExternal": executor.submit(fetch_all_external, days_back=2),
                 "GeminiSubstacks": executor.submit(fetch_all_substacks),
             }

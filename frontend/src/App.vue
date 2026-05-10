@@ -107,7 +107,7 @@
     <!-- YouTube Videos Section -->
     <section id="section-videos" v-if="report?.videos_youtube?.length" class="px-4 py-8 max-w-6xl mx-auto border-t border-gray-100 scroll-mt-4">
       <h2 class="text-2xl font-bold mb-1">📺 Vídeos</h2>
-      <p class="text-sm text-gray-500 mb-3">{{ report.videos_youtube.length }} vídeos de canais cardiológicos das últimas 48h</p>
+      <p class="text-sm text-gray-500 mb-3">{{ report.videos_youtube.length }} vídeos de canais cardiológicos das últimas 72h</p>
       <div class="flex gap-2 flex-wrap mb-4">
         <button
           v-for="t in [-1, 0, 1, 2]"

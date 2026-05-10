@@ -31,6 +31,7 @@ YOUTUBE_CHANNELS = [
     {"channel_id": "UCyw9Y26bNNhQPkydxY93jyQ", "name": "Medscape", "tier": 1, "filter_cardio": True},
     {"channel_id": "UCHc-EqvlQpCfFYCONhpLk-A", "name": "InCor HC-FMUSP", "tier": 1, "filter_cardio": True},
     {"channel_id": "UCs-5YGSbudHWJ8tocivTSLQ", "name": "Instituto Dante Pazzanese", "tier": 1, "filter_cardio": True},
+    {"channel_id": "UCuu0ig2CLntBf4qNyIGM3-g", "name": "JACC Journals", "tier": 1, "filter_cardio": False},
     # Tier 2 — subspecialty societies (cardio-only, no filter)
     {"channel_id": "UCr8ae-VQRbjd110tbN6VW1A", "name": "Heart Rhythm Society", "tier": 2, "filter_cardio": False},
     {"channel_id": "UCpvyCp4WVmgEvlvui2aoEhA", "name": "SCAI", "tier": 2, "filter_cardio": False},
@@ -46,6 +47,7 @@ YOUTUBE_CHANNELS = [
     {"channel_id": "UCNhXTS_yLO9HgFuiQuhf2AA", "name": "Duke Health", "tier": 2, "filter_cardio": True},
     {"channel_id": "UC7tOeqLpmCejyymIyZlrWNQ", "name": "HCor", "tier": 2, "filter_cardio": True},
     {"channel_id": "UCYlaF2S8zWK7ntqw2vEP8qw", "name": "Hospital Sirio-Libanes", "tier": 2, "filter_cardio": True},
+    {"channel_id": "UCFq5vPnNRNNNysLrktz4aSw", "name": "Strong Medicine", "tier": 2, "filter_cardio": True},
 ]
 
 CARDIO_KEYWORDS = [
