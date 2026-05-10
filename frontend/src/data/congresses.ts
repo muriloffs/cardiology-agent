@@ -215,14 +215,20 @@ export const CATEGORY_COLORS: Record<Congress['category'], { bg: string; text: s
 }
 
 /**
- * Returns congresses split into: currently active, starting in the next 14 days,
- * and recently ended (last 3 days, optional context). Today is treated in
- * America/Sao_Paulo timezone (Brasília).
+ * Returns congresses split into 3 buckets:
+ * - active: today is between startDate and endDate (inclusive)
+ * - upcoming: starting in the next 14 days
+ * - recentlyEnded: ended in the last 3 days (where retrospective analyses peak
+ *   on X/Substacks — Mandrola posts trial critiques 1-2 days post-congress,
+ *   Topol writes overarching threads on weekends, etc.)
+ *
+ * Today is treated in local time (browser-side computation).
  */
 export function classifyCongresses(today: Date = new Date()) {
   const todayStr = formatLocalDate(today)
   const active: Congress[] = []
   const upcoming: { c: Congress; daysAway: number }[] = []
+  const recentlyEnded: { c: Congress; daysSince: number }[] = []
 
   for (const c of CONGRESSES_2026) {
     if (todayStr >= c.startDate && todayStr <= c.endDate) {
@@ -234,10 +240,23 @@ export function classifyCongresses(today: Date = new Date()) {
       if (daysAway <= 14) {
         upcoming.push({ c, daysAway })
       }
+      continue
+    }
+    // c.endDate < todayStr — past congress; was it within last 3 days?
+    if (c.endDate < todayStr) {
+      const daysSince = daysBetween(c.endDate, todayStr)
+      if (daysSince > 0 && daysSince <= 3) {
+        recentlyEnded.push({ c, daysSince })
+      }
     }
   }
   upcoming.sort((a, b) => a.daysAway - b.daysAway)
-  return { active, upcoming: upcoming.slice(0, 2) }
+  recentlyEnded.sort((a, b) => a.daysSince - b.daysSince)
+  return {
+    active,
+    upcoming: upcoming.slice(0, 2),
+    recentlyEnded: recentlyEnded.slice(0, 2),
+  }
 }
 
 function formatLocalDate(d: Date): string {

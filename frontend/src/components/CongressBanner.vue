@@ -8,7 +8,7 @@
   Renders nothing if there's nothing active or upcoming in the next 14 days.
 -->
 <template>
-  <div v-if="active.length || upcoming.length" class="border-b border-gray-200">
+  <div v-if="active.length || upcoming.length || recentlyEnded.length" class="border-b border-gray-200">
     <div class="max-w-6xl mx-auto px-4 py-2.5 flex items-center gap-2 md:gap-3 flex-wrap">
       <!-- Active congresses -->
       <div
@@ -24,6 +24,20 @@
         </span>
       </div>
 
+      <!-- Recently ended (last 3 days) — retrospective analyses peak here -->
+      <div
+        v-for="item in recentlyEnded"
+        :key="item.c.slug"
+        :class="['inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium opacity-90',
+                 colorFor(item.c).bg, colorFor(item.c).text]"
+      >
+        <span>{{ item.c.emoji }}</span>
+        <span class="font-semibold">📍 {{ item.c.shortName }} acabou</span>
+        <span class="opacity-75">
+          {{ item.daysSince === 1 ? 'ontem' : `há ${item.daysSince} dias` }} · análises retrospectivas em alta
+        </span>
+      </div>
+
       <!-- Upcoming (next 14 days) -->
       <div
         v-for="item in upcoming"
@@ -32,7 +46,7 @@
                  colorFor(item.c).bg, colorFor(item.c).text]"
       >
         <span>{{ item.c.emoji }}</span>
-        <span class="font-semibold">{{ item.c.shortName }}</span>
+        <span class="font-semibold">⏳ {{ item.c.shortName }}</span>
         <span class="opacity-75">em {{ item.daysAway }} dia{{ item.daysAway !== 1 ? 's' : '' }} · {{ item.c.city }}</span>
       </div>
 
@@ -51,6 +65,7 @@ import { CONGRESSES_2026, CATEGORY_COLORS, classifyCongresses, dayOfCongress } f
 const classified = computed(() => classifyCongresses(new Date()))
 const active = computed(() => classified.value.active)
 const upcoming = computed(() => classified.value.upcoming)
+const recentlyEnded = computed(() => classified.value.recentlyEnded)
 
 function colorFor(c) {
   return CATEGORY_COLORS[c.category]
