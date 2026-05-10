@@ -86,13 +86,33 @@ def _grounded_call(client, prompt: str, label: str, _is_retry: bool = False) -> 
 
 def _build_ytt_api():
     """Build YouTubeTranscriptApi instance, with Webshare residential proxy
-    when WEBSHARE_PROXY_USERNAME + WEBSHARE_PROXY_PASSWORD are set.
+    when env vars are set.
 
-    Returns (api_instance, uses_proxy_bool). When proxy is configured, YouTube
-    requests route through residential IPs that bypass datacenter blocking.
+    Two configuration paths:
+    1. WEBSHARE_PROXY_URL — full URL override (recommended for plans where
+       'username-rotate' doesn't exist; e.g., entry-tier Rotating Residential
+       only has country-suffixed users like 'gomeecwk-gb-1').
+    2. WEBSHARE_PROXY_USERNAME + WEBSHARE_PROXY_PASSWORD — library appends
+       '-rotate' to username (only works if account has that user provisioned).
+
+    Returns (api_instance, uses_proxy_bool, mode_label).
     """
     from youtube_transcript_api import YouTubeTranscriptApi
 
+    # Path 1: full URL override (bypasses library's auto-rotate suffix)
+    proxy_url = os.environ.get("WEBSHARE_PROXY_URL")
+    if proxy_url:
+        try:
+            from youtube_transcript_api.proxies import GenericProxyConfig
+            api = YouTubeTranscriptApi(proxy_config=GenericProxyConfig(
+                http_url=proxy_url,
+                https_url=proxy_url,
+            ))
+            return api, True, "generic_url"
+        except (ImportError, AttributeError) as e:
+            logger.warning(f"GenericProxyConfig unavailable ({e}); trying Webshare config")
+
+    # Path 2: username/password with auto-rotate (library default)
     proxy_user = os.environ.get("WEBSHARE_PROXY_USERNAME")
     proxy_pass = os.environ.get("WEBSHARE_PROXY_PASSWORD")
     if proxy_user and proxy_pass:
@@ -102,10 +122,10 @@ def _build_ytt_api():
                 proxy_username=proxy_user,
                 proxy_password=proxy_pass,
             ))
-            return api, True
+            return api, True, "webshare_rotate"
         except (ImportError, AttributeError) as e:
             logger.warning(f"WebshareProxyConfig unavailable ({e}); falling back to direct")
-    return YouTubeTranscriptApi(), False
+    return YouTubeTranscriptApi(), False, "direct"
 
 
 def _fetch_transcript(video_url: str, max_chars: int = 12000) -> tuple[str, str]:
@@ -138,7 +158,7 @@ def _fetch_transcript(video_url: str, max_chars: int = 12000) -> tuple[str, str]
         return "", "no_library"
 
     # Build API once per call (cheap — just stores proxy config)
-    ytt_api, _ = _build_ytt_api()
+    ytt_api, _, _ = _build_ytt_api()
 
     # Library API changed in v1.0 — support both v1.x (instance.fetch) and v0.6.x
     # (class.get_transcript) for resilience to version drift. Proxy only works in v1.x.
@@ -415,9 +435,14 @@ def enrich_videos(videos: list[dict]) -> list[dict]:
     logger.info(f"YouTube enrichment: {cache_hits} cache hits, {len(to_enrich)} new videos to enrich")
 
     if to_enrich:
-        # Diagnostic: log whether Webshare proxy is configured for this run
-        proxy_active = bool(os.environ.get("WEBSHARE_PROXY_USERNAME") and os.environ.get("WEBSHARE_PROXY_PASSWORD"))
-        logger.info(f"YouTube transcript proxy: {'WEBSHARE active' if proxy_active else 'direct (likely IP-blocked in CI)'}")
+        # Diagnostic: log proxy mode for this run
+        _, _, proxy_mode = _build_ytt_api()
+        mode_msg = {
+            "generic_url":     "WEBSHARE active (via WEBSHARE_PROXY_URL override)",
+            "webshare_rotate": "WEBSHARE active (via auto-rotate suffix — only works if account has -rotate user)",
+            "direct":          "direct (likely IP-blocked in CI)",
+        }.get(proxy_mode, proxy_mode)
+        logger.info(f"YouTube transcript proxy: {mode_msg}")
 
         # Step 1: fetch transcripts in parallel (cheap, no API key needed).
         # Step 2: call Gemini Pro with transcript when available, fallback to desc.

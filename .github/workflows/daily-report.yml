@@ -47,6 +47,7 @@ jobs:
           NCBI_API_KEY: ${{ secrets.NCBI_API_KEY }}
           WEBSHARE_PROXY_USERNAME: ${{ secrets.WEBSHARE_PROXY_USERNAME }}
           WEBSHARE_PROXY_PASSWORD: ${{ secrets.WEBSHARE_PROXY_PASSWORD }}
+          WEBSHARE_PROXY_URL: ${{ secrets.WEBSHARE_PROXY_URL }}
           GROK_MODEL: ${{ vars.GROK_MODEL || 'grok-4' }}
         run: python agent/scripts/generate_report.py
 
