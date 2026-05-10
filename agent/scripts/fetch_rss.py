@@ -57,19 +57,10 @@ RSS_FEEDS = [
         "categoria": "preprint",
         "emoji": "🔬",
     },
-    # Substacks / newsletters (weekly cadence)
-    {
-        "url": "https://erictopol.substack.com/feed",
-        "source": "Ground Truths (Eric Topol)",
-        "categoria": "substack",
-        "emoji": "📝",
-    },
-    {
-        "url": "https://johnmandrola.substack.com/feed",
-        "source": "John Mandrola (EBM Commentary)",
-        "categoria": "substack",
-        "emoji": "📝",
-    },
+    # NOTE: Substacks (Topol, Mandrola, Skeptical, etc) are no longer fetched
+    # via direct RSS — they 403'd from GitHub Actions runner IPs (Cloudflare bot
+    # blocking). Phase 7 replaced this with fetch_gemini_substacks.py which uses
+    # Gemini Google Search grounding. See agent/scripts/fetch_gemini_substacks.py.
 ]
 
 HEADERS = {

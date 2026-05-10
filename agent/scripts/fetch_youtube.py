@@ -31,6 +31,8 @@ YOUTUBE_CHANNELS = [
     {"channel_id": "UCyw9Y26bNNhQPkydxY93jyQ", "name": "Medscape", "tier": 1, "filter_cardio": True},
     {"channel_id": "UCHc-EqvlQpCfFYCONhpLk-A", "name": "InCor HC-FMUSP", "tier": 1, "filter_cardio": True},
     {"channel_id": "UCs-5YGSbudHWJ8tocivTSLQ", "name": "Instituto Dante Pazzanese", "tier": 1, "filter_cardio": True},
+    {"channel_id": "UCOBWnSpfirz6OpK8xaIiwsw", "name": "Ensino InCor", "tier": 1, "filter_cardio": True},
+    {"channel_id": "UCKf5uPfsrIOuH55id6JIG3Q", "name": "Doze por Oito Cardiologia", "tier": 1, "filter_cardio": False},
     {"channel_id": "UCuu0ig2CLntBf4qNyIGM3-g", "name": "JACC Journals", "tier": 1, "filter_cardio": False},
     # Tier 2 — subspecialty societies (cardio-only, no filter)
     {"channel_id": "UCr8ae-VQRbjd110tbN6VW1A", "name": "Heart Rhythm Society", "tier": 2, "filter_cardio": False},

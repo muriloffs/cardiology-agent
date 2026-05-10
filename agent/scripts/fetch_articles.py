@@ -1,5 +1,6 @@
 """Fetch real cardiology articles from PubMed — filtered by the curated journal list."""
 
+import os
 import time
 import logging
 import requests
@@ -9,6 +10,22 @@ from typing import Any
 logger = logging.getLogger(__name__)
 
 PUBMED_BASE = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils"
+
+
+def _ncbi_params(params: dict) -> dict:
+    """Add NCBI api_key/tool/email when available — bumps rate limit 3→10 req/s.
+
+    Set NCBI_API_KEY in env (free at ncbi.nlm.nih.gov/account → API Key Management).
+    Without the key, our 2nd parallel query hits 429 frequently.
+    """
+    api_key = os.environ.get("NCBI_API_KEY")
+    if api_key:
+        params["api_key"] = api_key
+    params.setdefault("tool", os.environ.get("NCBI_TOOL", "cardiology-agent"))
+    email = os.environ.get("NCBI_EMAIL")
+    if email:
+        params.setdefault("email", email)
+    return params
 
 # Exact journals from the curated list, mapped to their PubMed standard names.
 # Journals not indexed in PubMed (Medscape, CardioSource, ACC News) are omitted.
@@ -166,7 +183,7 @@ def search_pubmed(days_back: int = 1, max_results: int = 50) -> list[str]:
     }
 
     try:
-        response = requests.get(f"{PUBMED_BASE}/esearch.fcgi", params=params, timeout=20)
+        response = requests.get(f"{PUBMED_BASE}/esearch.fcgi", params=_ncbi_params(params), timeout=20)
         response.raise_for_status()
         data = response.json()
         pmids = data.get("esearchresult", {}).get("idlist", [])
@@ -205,7 +222,7 @@ def search_general_journals_for_cardio(days_back: int = 1, max_results: int = 50
     }
 
     try:
-        response = requests.get(f"{PUBMED_BASE}/esearch.fcgi", params=params, timeout=20)
+        response = requests.get(f"{PUBMED_BASE}/esearch.fcgi", params=_ncbi_params(params), timeout=20)
         response.raise_for_status()
         data = response.json()
         pmids = data.get("esearchresult", {}).get("idlist", [])
@@ -229,7 +246,7 @@ def fetch_summaries(pmids: list[str]) -> list[dict[str, Any]]:
     }
 
     try:
-        response = requests.get(f"{PUBMED_BASE}/esummary.fcgi", params=params, timeout=20)
+        response = requests.get(f"{PUBMED_BASE}/esummary.fcgi", params=_ncbi_params(params), timeout=20)
         response.raise_for_status()
         results = response.json().get("result", {})
     except Exception as e:
@@ -282,7 +299,7 @@ def _fetch_abstracts(pmids: list[str]) -> dict[str, str]:
     }
 
     try:
-        response = requests.get(f"{PUBMED_BASE}/efetch.fcgi", params=params, timeout=25)
+        response = requests.get(f"{PUBMED_BASE}/efetch.fcgi", params=_ncbi_params(params), timeout=25)
         response.raise_for_status()
         raw = response.text
     except Exception as e:

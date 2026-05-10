@@ -56,6 +56,20 @@
           </span>
         </button>
         <button
+          @click="currentView = 'videos'"
+          :class="['px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2',
+                   currentView === 'videos'
+                     ? 'bg-red-600 text-white shadow-sm'
+                     : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200']"
+        >
+          📺 Vídeos
+          <span v-if="report?.videos_youtube?.length"
+                :class="['px-1.5 py-0.5 rounded-full text-xs font-bold',
+                         currentView === 'videos' ? 'bg-white text-red-600' : 'bg-red-100 text-red-700']">
+            {{ report.videos_youtube.length }}
+          </span>
+        </button>
+        <button
           @click="currentView = 'ideas'"
           :class="['px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2',
                    currentView === 'ideas'
@@ -298,7 +312,68 @@
 
 
     <!-- ============================================================ -->
-    <!-- VIEW 4: IDEIAS DO DIA -->
+    <!-- VIEW 4: VÍDEOS -->
+    <!-- ============================================================ -->
+    <template v-else-if="currentView === 'videos'">
+      <section class="px-4 py-8 max-w-6xl mx-auto">
+        <div class="mb-6">
+          <h2 class="text-2xl md:text-3xl font-bold mb-2">📺 Vídeos de Cardiologia</h2>
+          <p class="text-sm text-gray-600 mb-1">
+            <strong>Vídeos enriquecidos com tema, bullets e resumo em português.</strong> Últimas 72h de canais de sociedades, journals e hospitais — Gemini gera o resumo clínico, mas o vídeo continua original no canal.
+          </p>
+          <p v-if="report?.videos_youtube?.length" class="text-xs text-gray-500">
+            {{ report.videos_youtube.length }} vídeo{{ report.videos_youtube.length > 1 ? 's' : '' }} ·
+            {{ enrichedVideoCount }} enriquecido{{ enrichedVideoCount !== 1 ? 's' : '' }} pelo Gemini
+          </p>
+        </div>
+
+        <!-- Tier filter -->
+        <div v-if="report?.videos_youtube?.length" class="flex gap-2 flex-wrap mb-6">
+          <button
+            v-for="t in [-1, 0, 1, 2]"
+            :key="t"
+            @click="selectedVideoTier = t"
+            :class="[
+              'px-3 py-1.5 rounded-full text-xs font-medium transition-all',
+              selectedVideoTier === t
+                ? t === 0 ? 'bg-yellow-500 text-white'
+                : t === 1 ? 'bg-purple-600 text-white'
+                : t === 2 ? 'bg-blue-600 text-white'
+                : 'bg-gray-800 text-white'
+                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+            ]"
+          >
+            {{ { '-1': 'Todos', '0': '★ BR Pinned', '1': 'Sociedades/Journals', '2': 'Hospitais/Subesp.' }[t] }}
+            <span class="ml-1 opacity-70">({{ videoTierCounts[t] || 0 }})</span>
+          </button>
+        </div>
+
+        <!-- Cards grid -->
+        <div v-if="filteredVideos.length" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <VideoCardEnriched
+            v-for="video in filteredVideos"
+            :key="video.video_url"
+            :video="video"
+          />
+        </div>
+
+        <!-- Empty / loading -->
+        <div v-else-if="!report" class="text-center py-12 text-gray-500">
+          Carregando relatório...
+        </div>
+        <div v-else-if="!report.videos_youtube?.length" class="text-center py-12 text-gray-500">
+          <p class="text-lg mb-2">📭 Sem vídeos neste relatório</p>
+          <p class="text-sm">Próxima coleta: meia-noite Brasília.</p>
+        </div>
+        <div v-else class="text-center py-12 text-gray-500">
+          Nenhum vídeo encontrado para este filtro.
+        </div>
+      </section>
+    </template>
+
+
+    <!-- ============================================================ -->
+    <!-- VIEW 5: IDEIAS DO DIA -->
     <!-- ============================================================ -->
     <template v-else-if="currentView === 'ideas'">
       <section class="px-4 py-8 max-w-6xl mx-auto">
@@ -379,6 +454,7 @@ import VideoCard from './components/VideoCard.vue'
 import PostIdeaCard from './components/PostIdeaCard.vue'
 import PulsoCard from './components/PulsoCard.vue'
 import SubstackCard from './components/SubstackCard.vue'
+import VideoCardEnriched from './components/VideoCardEnriched.vue'
 import { fetchLatestReport, fetchIndex, fetchReportByDate } from './utils/api'
 
 const report = ref(null)
@@ -389,7 +465,7 @@ const searchQuery = ref('')
 const loading = ref(false)
 const selectedXCategoria = ref('all')
 const selectedVideoTier = ref(-1)  // -1 = all
-const currentView = ref('report')  // 'report' | 'pulso' | 'substacks' | 'ideas'
+const currentView = ref('report')  // 'report' | 'pulso' | 'substacks' | 'videos' | 'ideas'
 const selectedIdeaType = ref('all')
 const selectedSubstackPub = ref('all')
 const availableDates = ref([])
@@ -423,6 +499,11 @@ const videoTierCounts = computed(() => {
     counts[String(v.tier)] = (counts[String(v.tier)] || 0) + 1
   }
   return counts
+})
+
+const enrichedVideoCount = computed(() => {
+  const list = report.value?.videos_youtube || []
+  return list.filter(v => v._enriched).length
 })
 
 const TIPO_META = [

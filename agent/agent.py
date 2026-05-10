@@ -18,6 +18,7 @@ from agent.scripts.fetch_podcasts import fetch_all_podcasts
 from agent.scripts.fetch_youtube import fetch_all_youtube, transform_to_videos_youtube
 from agent.scripts.fetch_gemini_external import fetch_all_external
 from agent.scripts.fetch_gemini_substacks import fetch_all_substacks
+from agent.scripts.youtube_enrichment import enrich_videos
 from agent.scripts.generate_post_ideas import generate_post_ideas
 from agent.scripts.generate_pulso import generate_pulso
 
@@ -137,7 +138,10 @@ class CardologyAgent:
         # YouTube videos also BYPASS Claude — channel descriptions are already
         # curated by source organizations (ESC, ACC, Radcliffe, etc.), so we keep
         # the per-channel ranking intact and inject directly into the final report.
+        # Phase 6 enriches with Gemini-generated PT-BR resumo/bullets/tema before injection.
         direct_videos_youtube = transform_to_videos_youtube(youtube_videos)
+        if os.environ.get("DISABLE_YT_ENRICHMENT", "").lower() not in ("1", "true", "yes"):
+            direct_videos_youtube = enrich_videos(direct_videos_youtube)
         logger.info(f"YouTube videos (direct from RSS, no Claude curation): {len(direct_videos_youtube)} items")
 
         # Claude only sees PubMed + RSS + Podcasts now
