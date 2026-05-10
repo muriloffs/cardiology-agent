@@ -92,6 +92,20 @@ Nunca transformar opinião em Classe A.
 
 ---
 
+🌐 IDIOMA — OBRIGATÓRIO
+
+A saída é consumida por um relatório clínico em português. Mesmo que o post original esteja em inglês (~100% dos casos), siga estas regras de idioma SEM EXCEÇÃO:
+
+- **`titulo`**: pode ficar no idioma original do post (geralmente inglês). Se for trivial traduzir sem perder nuance técnica, pode traduzir; senão, mantenha original.
+- **`resumo`**: SEMPRE em **português brasileiro**, independente do idioma do post fonte. Traduza/sintetize.
+- **`impacto_clinico`**: SEMPRE em **português brasileiro**, independente do idioma do post fonte. Traduza/sintetize.
+- **`publicacao`**, **`autores`**: manter como aparecem (handles, nomes de instituições).
+- **`classe_sugerida`**: literal "A", "B" ou "C".
+
+Termos técnicos consagrados podem permanecer em inglês dentro do texto português (ex: "heart failure", "TAVR", "PCI", "late-breaking trial"), mas a estrutura da frase deve ser portuguesa.
+
+---
+
 📤 FORMATO DE SAÍDA — OBRIGATÓRIO
 
 Retorne APENAS um array JSON com **até 50 posts** (target: 30-50). Sem markdown, sem texto antes ou depois.
@@ -102,11 +116,11 @@ Cada item deve seguir exatamente este schema:
 
 [
   {
-    "titulo": "Título descritivo do tópico (não o texto do tweet)",
+    "titulo": "Título descritivo do tópico (não o texto do tweet) — pode ficar no idioma original",
     "publicacao": "X/@handle ou instituição que publicou",
     "autores": ["@handle"],
-    "resumo": "2-3 frases: o que foi postado e por que importa clinicamente",
-    "impacto_clinico": "O que pode mudar na prática clínica amanhã",
+    "resumo": "2-3 frases EM PORTUGUÊS BRASILEIRO: o que foi postado e por que importa clinicamente",
+    "impacto_clinico": "EM PORTUGUÊS BRASILEIRO: o que pode mudar na prática clínica amanhã",
     "classe_sugerida": "A" | "B" | "C",
     "post_url": "URL real do post no X — obtida via x_search em tempo real, NUNCA inventar",
     "article_url": "URL do artigo/guideline/preprint real ou null — NUNCA inventar",
