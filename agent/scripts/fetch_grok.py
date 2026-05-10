@@ -12,7 +12,13 @@ logger = logging.getLogger(__name__)
 
 GROK_API_URL = "https://api.x.ai/v1/responses"
 GROK_MODEL_PRIMARY = os.environ.get("GROK_MODEL", "grok-4")
-GROK_MODEL_FALLBACK = os.environ.get("GROK_MODEL_FALLBACK", "grok-3")
+# NOTE: grok-3 is NOT supported with server-side tools (x_search). Discovered
+# via production logs: 400 "the model grok-3 is not supported when using
+# server-side tools, only the grok-4 family of models are supported".
+# Removed model-swap fallback. Resilience now relies on:
+#   - Level 1: 3 retries with exponential backoff (60/120/240s)
+#   - Level 3: cache fallback to yesterday's discussoes_x
+# (Level 2 model swap removed until xAI exposes a tool-compatible alternative.)
 # Separate retry budgets:
 #   ERROR_RETRIES: ConnectionError, Timeout, 5xx — boosted from 1→3 with exponential backoff
 #   LOWCOUNT_RETRIES: valid response but < TRIGGER posts (Grok was lazy)
@@ -120,15 +126,14 @@ def fetch_x_cardiology_posts(days_back: int = 1) -> list[dict[str, Any]]:
     # SEPARATE retry budgets:
     #   ERROR_RETRIES (3):   ConnectionError/Timeout/5xx with exponential backoff
     #   LOWCOUNT_RETRIES (1): valid response but < TRIGGER posts
-    # When grok-4 returns 503 "model at capacity" → switch to grok-3 fallback model.
+    # If all retries fail, _load_cached_discussoes_x() provides yesterday's data.
     best_articles: list[dict[str, Any]] = []
     previous_count: int | None = None
     last_error = None
     error_retries_remaining = GROK_MAX_ERROR_RETRIES
     lowcount_retries_remaining = GROK_MAX_LOWCOUNT_RETRIES
     error_retry_count = 0  # for exponential backoff tracking
-    current_model = GROK_MODEL_PRIMARY  # may swap to fallback after capacity errors
-    fallback_model_used = False
+    current_model = GROK_MODEL_PRIMARY
     attempt = 0
 
     while attempt < GROK_MAX_TOTAL_ATTEMPTS:
@@ -196,21 +201,6 @@ def fetch_x_cardiology_posts(days_back: int = 1) -> list[dict[str, Any]]:
             # 4xx → don't retry (persistent, our fault)
             if status_code < 500:
                 break
-
-            # CAPACITY DETECTION: Switch to fallback model on first capacity-related 503
-            is_capacity_error = "capacity" in response_body.lower() or "model is at capacity" in response_body.lower()
-            if (status_code == 503 and is_capacity_error
-                    and not fallback_model_used
-                    and current_model == GROK_MODEL_PRIMARY):
-                logger.warning(
-                    f"Grok {GROK_MODEL_PRIMARY} at capacity. Switching to fallback "
-                    f"{GROK_MODEL_FALLBACK} on next attempt (no retry budget consumed)."
-                )
-                current_model = GROK_MODEL_FALLBACK
-                fallback_model_used = True
-                # Brief pause to let switching settle, but don't consume error budget
-                time.sleep(15)
-                continue
 
             # 5xx → retry if error budget remains
             if error_retries_remaining > 0:
