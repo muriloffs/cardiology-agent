@@ -143,7 +143,7 @@
                 v-for="article in articlesByClass[classe]"
                 :key="article.id"
                 :article="article"
-                @click="selectedArticle = article"
+                @click="openArticle(article)"
               />
             </div>
           </div>
@@ -176,7 +176,7 @@
             v-for="article in filteredNoticias"
             :key="article.id"
             :article="article"
-            @click="selectedArticle = article"
+            @click="openArticle(article)"
           />
         </div>
         <p v-else-if="!report" class="text-center text-gray-500 py-12">
@@ -453,14 +453,7 @@
     </template>
 
 
-    <!-- Article Detail Modal -->
-    <ArticleDetail
-      v-if="selectedArticle"
-      :article="selectedArticle"
-      @close="selectedArticle = null"
-    />
-
-    <!-- X Discussion Detail Modal -->
+    <!-- X Discussion Detail Modal (only modal left — cards have all article info) -->
     <XDiscussionDetail
       v-if="selectedDiscussion"
       :discussion="selectedDiscussion"
@@ -475,7 +468,6 @@ import { ref, computed, onMounted } from 'vue'
 import HeaderStats from './components/HeaderStats.vue'
 import FilterBar from './components/FilterBar.vue'
 import ArticleCard from './components/ArticleCard.vue'
-import ArticleDetail from './components/ArticleDetail.vue'
 import XDiscussionCard from './components/XDiscussionCard.vue'
 import XDiscussionDetail from './components/XDiscussionDetail.vue'
 import PostIdeaCard from './components/PostIdeaCard.vue'
@@ -486,7 +478,6 @@ import CongressBanner from './components/CongressBanner.vue'
 import { fetchLatestReport, fetchIndex, fetchReportByDate } from './utils/api'
 
 const report = ref(null)
-const selectedArticle = ref(null)
 const selectedDiscussion = ref(null)
 const selectedClass = ref('all')
 const loading = ref(false)
@@ -497,6 +488,16 @@ const selectedIdeaType = ref('all')
 const selectedSubstackPub = ref('all')
 const availableDates = ref([])
 const currentDateIndex = ref(0)
+
+// Click on an article card opens the source URL directly in a new tab.
+// Modal was removed — card already shows resumo + conclusao + pontos_chave +
+// impacto_clinico (everything that was in the modal and more).
+function openArticle(article) {
+  const url = article?.links?.url
+    || (article?.links?.doi ? `https://doi.org/${article.links.doi}` : null)
+    || (article?.links?.pubmed ? `https://pubmed.ncbi.nlm.nih.gov/${article.links.pubmed}/` : null)
+  if (url) window.open(url, '_blank', 'noopener,noreferrer')
+}
 
 async function navigateDate(direction) {
   const newIndex = currentDateIndex.value + direction
