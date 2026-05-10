@@ -16,6 +16,7 @@ from agent.scripts.fetch_rss import fetch_all_rss
 from agent.scripts.fetch_grok import fetch_x_cardiology_posts, transform_to_discussoes_x
 from agent.scripts.fetch_podcasts import fetch_all_podcasts
 from agent.scripts.fetch_youtube import fetch_all_youtube, transform_to_videos_youtube
+from agent.scripts.fetch_gemini_external import fetch_all_external
 from agent.scripts.generate_post_ideas import generate_post_ideas
 
 
@@ -65,16 +66,18 @@ class CardologyAgent:
             APIError: If Claude API call fails.
             FileNotFoundError: If prompt.txt is not found.
         """
-        # Fetch all 5 sources in parallel — independent I/O, capped by slowest (Grok ~30-60s).
-        # Each fetcher is internally fault-tolerant and returns [] on failure.
-        logger.info("Fetching from all sources in parallel (PubMed, RSS, Grok, Podcasts, YouTube)...")
-        with ThreadPoolExecutor(max_workers=5) as executor:
+        # Fetch all 6 sources in parallel — independent I/O, capped by slowest.
+        # Each fetcher is internally fault-tolerant and returns [] / {} on failure.
+        # Gemini external fetcher graceful-degrades if GOOGLE_API_KEY not set.
+        logger.info("Fetching from all sources in parallel (PubMed, RSS, Grok, Podcasts, YouTube, Gemini)...")
+        with ThreadPoolExecutor(max_workers=6) as executor:
             futures = {
                 "PubMed": executor.submit(fetch_recent_cardiology_articles, days_back=1),
                 "RSS": executor.submit(fetch_all_rss, days_back=2),
                 "Grok/X": executor.submit(fetch_x_cardiology_posts, days_back=1),
                 "Podcasts": executor.submit(fetch_all_podcasts, days_back=7),
                 "YouTube": executor.submit(fetch_all_youtube, days_back=2),
+                "GeminiExternal": executor.submit(fetch_all_external, days_back=2),
             }
             results = {}
             for name, future in futures.items():
@@ -82,7 +85,8 @@ class CardologyAgent:
                     results[name] = future.result()
                 except Exception as e:
                     logger.error(f"{name} fetcher raised unexpectedly: {e}")
-                    results[name] = []
+                    # Use sensible empty defaults per type
+                    results[name] = {} if name == "GeminiExternal" else []
 
         pubmed_articles = results["PubMed"]
         rss_articles = results["RSS"]
@@ -90,9 +94,23 @@ class CardologyAgent:
         podcast_episodes = results["Podcasts"]
         youtube_videos = results["YouTube"]
 
+        # Gemini external returns dict {noticias_external, discussoes_bluesky}
+        gemini_external = results["GeminiExternal"] or {}
+        gemini_noticias = gemini_external.get("noticias_external", [])
+        gemini_bluesky = gemini_external.get("discussoes_bluesky", [])
+
+        # Merge Gemini-discovered articles into RSS articles (deduped by URL)
+        existing_urls = {a.get("pubmed_url", "") for a in rss_articles if a.get("pubmed_url")}
+        for item in gemini_noticias:
+            if item.get("pubmed_url") not in existing_urls:
+                rss_articles.append(item)
+                existing_urls.add(item.get("pubmed_url", ""))
+
         logger.info(f"PubMed: {len(pubmed_articles)} articles")
-        logger.info(f"RSS: {len(rss_articles)} items")
+        logger.info(f"RSS (incl. Gemini external): {len(rss_articles)} items "
+                    f"({len(gemini_noticias)} from Gemini fetcher)")
         logger.info(f"Grok/X: {len(grok_articles)} posts")
+        logger.info(f"Bluesky (Gemini): {len(gemini_bluesky)} posts")
         logger.info(f"Podcasts: {len(podcast_episodes)} episodes")
         logger.info(f"YouTube: {len(youtube_videos)} videos")
 
@@ -182,6 +200,11 @@ class CardologyAgent:
             if direct_videos_youtube:
                 report["videos_youtube"] = direct_videos_youtube
                 logger.info(f"Injected {len(direct_videos_youtube)} YouTube videos directly (bypass)")
+
+            # Inject Bluesky discussions (bypass — Gemini already extracted)
+            if gemini_bluesky:
+                report["discussoes_bluesky"] = gemini_bluesky
+                logger.info(f"Injected {len(gemini_bluesky)} Bluesky discussions (bypass)")
 
             # Inject original RSS show notes (EN) into each podcast item for the
             # detail modal. Claude rewrites titulo so we match by `publicacao`
