@@ -108,9 +108,6 @@ def _validate(report: Dict[str, Any]) -> None:
             pass
     report['artigos'] = valid_artigos
 
-    if not report['artigos']:
-        raise ParsingError("artigos array is empty after validation")
-
     # Validate noticias (optional field) — drop incomplete items silently
     if 'noticias' in report:
         if not isinstance(report['noticias'], list):
@@ -149,6 +146,16 @@ def _validate(report: Dict[str, Any]) -> None:
             except ParsingError:
                 pass
         report['podcasts'] = valid_podcasts
+
+    # Soft-guard: pipeline survives if at least one Claude-curated source has content.
+    # PubMed can rate-limit (429) or have empty cardio days — RSS + podcasts still
+    # carry the day. discussoes_x/videos_youtube are injected post-parse, so they
+    # don't count here, but Claude's three buckets are what we check.
+    if (not report['artigos']
+            and not report.get('noticias')
+            and not report.get('podcasts')
+            and not report.get('discussoes_x')):
+        raise ParsingError("Report has no valid items in any Claude-curated source")
 
     # Validate destaque_do_dia (optional field) — drop silently if malformed.
     # Required keys: item_id, tipo_origem, titulo, razao, o_que_muda, o_que_nao_muda_ainda
