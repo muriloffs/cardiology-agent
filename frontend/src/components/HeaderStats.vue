@@ -1,18 +1,25 @@
 <!-- frontend/src/components/HeaderStats.vue -->
+<!--
+  Streamlined header: title + date navigator + reading time.
+  Per-category counters (Artigos/Notícias/Vídeos/Discussões) were removed
+  because they duplicate the tab buttons below (which show counts AND
+  navigate). Sub-section counts inside Relatório still live in FilterBar.
+-->
 <template>
   <header class="bg-white border-b border-gray-200">
-    <div class="max-w-6xl mx-auto px-4 py-3 md:py-6">
-      <h1 class="text-xl md:text-4xl font-bold mb-1 md:mb-2">📚 Relatório de Cardiologia</h1>
+    <div class="max-w-6xl mx-auto px-4 py-3 md:py-5">
+      <h1 class="text-xl md:text-3xl font-bold mb-1 md:mb-2">📚 Relatório de Cardiologia</h1>
 
-      <div class="flex items-center gap-3 mb-2 md:mb-4">
+      <div class="flex items-center gap-3">
         <button
           @click="$emit('prev')"
           :disabled="!hasPrev"
           class="flex-shrink-0 p-1.5 rounded-lg transition-all disabled:opacity-30 disabled:cursor-not-allowed hover:bg-gray-100"
         >◀</button>
-        <p class="text-gray-600 font-medium min-w-0">
+        <p class="text-gray-600 font-medium min-w-0 flex-1">
           <span class="hidden md:inline text-base">{{ formattedDate }}</span>
           <span class="md:hidden text-sm">{{ shortDate }}</span>
+          <span v-if="readingTime" class="text-xs text-gray-400 ml-2">· ⏱️ ~{{ readingTime }} min</span>
         </p>
         <button
           @click="$emit('next')"
@@ -20,26 +27,6 @@
           class="flex-shrink-0 p-1.5 rounded-lg transition-all disabled:opacity-30 disabled:cursor-not-allowed hover:bg-gray-100"
         >▶</button>
       </div>
-
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3">
-        <div class="bg-purple-50 rounded-lg p-2 md:p-4">
-          <p class="text-xs md:text-sm text-gray-600">📚 Artigos</p>
-          <p class="text-xl md:text-2xl font-bold text-purple-600">{{ totalArticles }}</p>
-        </div>
-        <div class="bg-orange-50 rounded-lg p-2 md:p-4">
-          <p class="text-xs md:text-sm text-gray-600">📰 Notícias</p>
-          <p class="text-xl md:text-2xl font-bold text-orange-600">{{ totalNoticias }}</p>
-        </div>
-        <div class="bg-red-50 rounded-lg p-2 md:p-4">
-          <p class="text-xs md:text-sm text-gray-600">📺 Vídeos</p>
-          <p class="text-xl md:text-2xl font-bold text-red-600">{{ totalVideos }}</p>
-        </div>
-        <div class="bg-gray-100 rounded-lg p-2 md:p-4">
-          <p class="text-xs md:text-sm text-gray-600">𝕏 Discussões</p>
-          <p class="text-xl md:text-2xl font-bold text-gray-800">{{ totalDiscussoes }}</p>
-        </div>
-      </div>
-      <p class="text-xs text-gray-500 mt-2 md:mt-3">⏱️ Tempo de leitura: ~{{ readingTime }} min</p>
     </div>
   </header>
 </template>
@@ -49,10 +36,6 @@ import { computed } from 'vue'
 
 const props = defineProps({
   reportDate: String,
-  totalArticles: Number,
-  totalNoticias: { type: Number, default: 0 },
-  totalDiscussoes: { type: Number, default: 0 },
-  totalVideos: { type: Number, default: 0 },
   readingTime: Number,
   hasPrev: Boolean,
   hasNext: Boolean

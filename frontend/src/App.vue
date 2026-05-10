@@ -4,10 +4,6 @@
     <!-- Header -->
     <HeaderStats
       :report-date="report?.relatorio_data"
-      :total-articles="report?.artigos?.length || 0"
-      :total-noticias="report?.noticias?.length || 0"
-      :total-discussoes="report?.discussoes_x?.length || 0"
-      :total-videos="report?.videos_youtube?.length || 0"
       :reading-time="report?.resumo?.tempo_leitura_minutos || 0"
       :has-prev="currentDateIndex < availableDates.length - 1"
       :has-next="currentDateIndex > 0"
@@ -15,70 +11,103 @@
       @next="navigateDate(-1)"
     />
 
-    <!-- View Toggle: Relatório · Pulso · Ideias do Dia -->
+    <!-- View Toggle (also serves as primary counter — replaces HeaderStats grid) -->
     <div class="bg-gray-50 border-b border-gray-200">
-      <div class="max-w-6xl mx-auto px-4 py-2 flex gap-2 flex-wrap">
+      <div class="max-w-6xl mx-auto px-4 py-3 flex gap-2 md:gap-3 flex-wrap">
         <button
-          @click="currentView = 'report'"
-          :class="['px-4 py-2 rounded-lg text-sm font-medium transition-all',
-                   currentView === 'report'
-                     ? 'bg-purple-600 text-white shadow-sm'
+          @click="currentView = 'artigos'"
+          :class="['px-4 md:px-5 py-2.5 md:py-3 rounded-lg text-base md:text-lg font-semibold transition-all flex items-center gap-2.5',
+                   currentView === 'artigos'
+                     ? 'bg-purple-600 text-white shadow-md'
                      : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200']"
         >
-          📰 Relatório
+          📚 Artigos
+          <span v-if="report?.artigos?.length"
+                :class="['px-2 py-0.5 rounded-full text-sm font-bold',
+                         currentView === 'artigos' ? 'bg-white text-purple-700' : 'bg-purple-100 text-purple-700']">
+            {{ report.artigos.length }}
+          </span>
+        </button>
+        <button
+          @click="currentView = 'noticias'"
+          :class="['px-4 md:px-5 py-2.5 md:py-3 rounded-lg text-base md:text-lg font-semibold transition-all flex items-center gap-2.5',
+                   currentView === 'noticias'
+                     ? 'bg-orange-600 text-white shadow-md'
+                     : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200']"
+        >
+          📰 Notícias
+          <span v-if="report?.noticias?.length"
+                :class="['px-2 py-0.5 rounded-full text-sm font-bold',
+                         currentView === 'noticias' ? 'bg-white text-orange-700' : 'bg-orange-100 text-orange-700']">
+            {{ report.noticias.length }}
+          </span>
+        </button>
+        <button
+          @click="currentView = 'discussoes'"
+          :class="['px-4 md:px-5 py-2.5 md:py-3 rounded-lg text-base md:text-lg font-semibold transition-all flex items-center gap-2.5',
+                   currentView === 'discussoes'
+                     ? 'bg-gray-800 text-white shadow-md'
+                     : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200']"
+        >
+          𝕏 Discussões
+          <span v-if="report?.discussoes_x?.length"
+                :class="['px-2 py-0.5 rounded-full text-sm font-bold',
+                         currentView === 'discussoes' ? 'bg-white text-gray-800' : 'bg-gray-200 text-gray-800']">
+            {{ report.discussoes_x.length }}
+          </span>
         </button>
         <button
           @click="currentView = 'pulso'"
-          :class="['px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2',
+          :class="['px-4 md:px-5 py-2.5 md:py-3 rounded-lg text-base md:text-lg font-semibold transition-all flex items-center gap-2.5',
                    currentView === 'pulso'
-                     ? 'bg-amber-600 text-white shadow-sm'
+                     ? 'bg-amber-600 text-white shadow-md'
                      : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200']"
         >
-          🌍 Pulso do Dia
+          🌍 Pulso
           <span v-if="report?.pulso?.length"
-                :class="['px-1.5 py-0.5 rounded-full text-xs font-bold',
+                :class="['px-2 py-0.5 rounded-full text-sm font-bold',
                          currentView === 'pulso' ? 'bg-white text-amber-700' : 'bg-amber-100 text-amber-700']">
             {{ report.pulso.length }}
           </span>
         </button>
         <button
           @click="currentView = 'substacks'"
-          :class="['px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2',
+          :class="['px-4 md:px-5 py-2.5 md:py-3 rounded-lg text-base md:text-lg font-semibold transition-all flex items-center gap-2.5',
                    currentView === 'substacks'
-                     ? 'bg-purple-700 text-white shadow-sm'
+                     ? 'bg-fuchsia-700 text-white shadow-md'
                      : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200']"
         >
           📝 Substacks
           <span v-if="report?.substacks?.length"
-                :class="['px-1.5 py-0.5 rounded-full text-xs font-bold',
-                         currentView === 'substacks' ? 'bg-white text-purple-700' : 'bg-purple-100 text-purple-700']">
+                :class="['px-2 py-0.5 rounded-full text-sm font-bold',
+                         currentView === 'substacks' ? 'bg-white text-fuchsia-700' : 'bg-fuchsia-100 text-fuchsia-700']">
             {{ report.substacks.length }}
           </span>
         </button>
         <button
           @click="currentView = 'videos'"
-          :class="['px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2',
+          :class="['px-4 md:px-5 py-2.5 md:py-3 rounded-lg text-base md:text-lg font-semibold transition-all flex items-center gap-2.5',
                    currentView === 'videos'
-                     ? 'bg-red-600 text-white shadow-sm'
+                     ? 'bg-red-600 text-white shadow-md'
                      : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200']"
         >
           📺 Vídeos
           <span v-if="report?.videos_youtube?.length"
-                :class="['px-1.5 py-0.5 rounded-full text-xs font-bold',
+                :class="['px-2 py-0.5 rounded-full text-sm font-bold',
                          currentView === 'videos' ? 'bg-white text-red-600' : 'bg-red-100 text-red-700']">
             {{ report.videos_youtube.length }}
           </span>
         </button>
         <button
           @click="currentView = 'ideas'"
-          :class="['px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2',
+          :class="['px-4 md:px-5 py-2.5 md:py-3 rounded-lg text-base md:text-lg font-semibold transition-all flex items-center gap-2.5',
                    currentView === 'ideas'
-                     ? 'bg-pink-600 text-white shadow-sm'
+                     ? 'bg-pink-600 text-white shadow-md'
                      : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200']"
         >
-          💡 Ideias do Dia
+          💡 Ideias
           <span v-if="report?.post_ideas?.length"
-                :class="['px-1.5 py-0.5 rounded-full text-xs font-bold',
+                :class="['px-2 py-0.5 rounded-full text-sm font-bold',
                          currentView === 'ideas' ? 'bg-white text-pink-600' : 'bg-pink-100 text-pink-700']">
             {{ report.post_ideas.length }}
           </span>
@@ -87,103 +116,132 @@
     </div>
 
     <!-- ============================================================ -->
-    <!-- VIEW 1: RELATÓRIO (default) -->
+    <!-- VIEW 1: ARTIGOS -->
     <!-- ============================================================ -->
-    <template v-if="currentView === 'report'">
+    <template v-if="currentView === 'artigos'">
+      <FilterBar
+        :selected-class="selectedClass"
+        @update:selected-class="selectedClass = $event"
+        @refresh="loadReport"
+      />
+      <section class="px-4 py-8 max-w-6xl mx-auto">
+        <h2 class="text-2xl md:text-3xl font-bold mb-2">📚 Artigos Científicos</h2>
+        <p class="text-sm text-gray-500 mb-6">
+          {{ filteredArticles.length }} de {{ report?.artigos?.length || 0 }} artigos{{ selectedClass !== 'all' ? ' (Classe ' + selectedClass + ')' : '' }}
+        </p>
 
-    <!-- Filters & Section Navigation -->
-    <FilterBar
-      :selected-class="selectedClass"
-      :search-query="searchQuery"
-      :total-artigos="report?.artigos?.length || 0"
-      :total-noticias="report?.noticias?.length || 0"
-      :total-discussoes="report?.discussoes_x?.length || 0"
-      @update:selected-class="selectedClass = $event"
-      @update:search-query="searchQuery = $event"
-      @refresh="loadReport"
-    />
-
-    <!-- News Section -->
-    <section id="section-noticias" v-if="report?.noticias?.length" class="px-4 py-8 max-w-6xl mx-auto border-t border-gray-100 scroll-mt-4">
-      <h2 class="text-2xl font-bold mb-1">📰 Notícias Clínicas</h2>
-      <p class="text-sm text-gray-500 mb-4">{{ report.noticias.length }} notícias selecionadas das últimas 24h</p>
-      <div class="space-y-3">
-        <ArticleCard
-          v-for="article in report.noticias"
-          :key="article.id"
-          :article="article"
-          @click="selectedArticle = article"
-        />
-      </div>
-    </section>
-
-    <!-- X/Twitter Discussions -->
-    <section id="section-discussoes" v-if="report?.discussoes_x?.length" class="px-4 py-8 max-w-6xl mx-auto border-t border-gray-100 scroll-mt-4">
-      <h2 class="text-2xl font-bold mb-1">𝕏 Discussões no X</h2>
-      <p class="text-sm text-gray-500 mb-3">{{ report.discussoes_x.length }} discussões selecionadas das últimas 24h</p>
-      <div class="flex gap-2 flex-wrap mb-4">
-        <button
-          v-for="cat in ['all', 'especialista', 'revista', 'sociedade']"
-          :key="cat"
-          @click="selectedXCategoria = cat"
-          :class="[
-            'px-3 py-1.5 rounded-full text-xs font-medium transition-all',
-            selectedXCategoria === cat
-              ? cat === 'especialista' ? 'bg-blue-600 text-white'
-              : cat === 'revista' ? 'bg-purple-600 text-white'
-              : cat === 'sociedade' ? 'bg-green-600 text-white'
-              : 'bg-gray-800 text-white'
-              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-          ]"
-        >
-          {{ { all: 'Todas', especialista: '👤 Especialistas', revista: '📄 Revistas', sociedade: '🏛️ Sociedades' }[cat] }}
-        </button>
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-        <XDiscussionCard
-          v-for="discussion in filteredDiscussoes"
-          :key="discussion.id"
-          :discussion="discussion"
-          @click="selectedDiscussion = discussion"
-        />
-      </div>
-    </section>
-
-    <!-- Main Article List -->
-    <section id="section-artigos" class="px-4 py-8 max-w-6xl mx-auto border-t border-gray-100 scroll-mt-4">
-      <h2 class="text-2xl font-bold mb-4">
-        📚 Todos os Artigos
-        <span class="text-base font-normal text-gray-500 ml-2">
-          {{ filteredArticles.length }} de {{ report?.artigos?.length || 0 }}
-        </span>
-      </h2>
-
-      <!-- Group by class -->
-      <template v-for="classe in ['A', 'B', 'C']" :key="classe">
-        <div v-if="articlesByClass[classe]?.length">
-          <h3 class="text-sm font-semibold uppercase tracking-wide text-gray-400 mt-6 mb-2">
-            Classe {{ classe }} — {{ articlesByClass[classe].length }} artigos
-          </h3>
-          <div class="space-y-3">
-            <ArticleCard
-              v-for="article in articlesByClass[classe]"
-              :key="article.id"
-              :article="article"
-              @click="selectedArticle = article"
-            />
+        <template v-for="classe in ['A', 'B', 'C']" :key="classe">
+          <div v-if="articlesByClass[classe]?.length" class="mb-6">
+            <h3 class="text-sm font-semibold uppercase tracking-wide text-gray-400 mb-2">
+              Classe {{ classe }} — {{ articlesByClass[classe].length }} artigos
+            </h3>
+            <div class="space-y-3">
+              <ArticleCard
+                v-for="article in articlesByClass[classe]"
+                :key="article.id"
+                :article="article"
+                @click="selectedArticle = article"
+              />
+            </div>
           </div>
-        </div>
-      </template>
+        </template>
 
-      <p v-if="filteredArticles.length === 0" class="text-center text-gray-500 py-8">
-        Nenhum artigo encontrado para os filtros selecionados.
-      </p>
-    </section>
-
+        <p v-if="filteredArticles.length === 0" class="text-center text-gray-500 py-8">
+          Nenhum artigo encontrado para os filtros selecionados.
+        </p>
+      </section>
     </template>
+
+
     <!-- ============================================================ -->
-    <!-- END VIEW 1: RELATÓRIO -->
+    <!-- VIEW 2: NOTÍCIAS -->
     <!-- ============================================================ -->
+    <template v-else-if="currentView === 'noticias'">
+      <FilterBar
+        :selected-class="selectedClass"
+        @update:selected-class="selectedClass = $event"
+        @refresh="loadReport"
+      />
+      <section class="px-4 py-8 max-w-6xl mx-auto">
+        <h2 class="text-2xl md:text-3xl font-bold mb-2">📰 Notícias Clínicas</h2>
+        <p class="text-sm text-gray-500 mb-6">
+          {{ filteredNoticias.length }} de {{ report?.noticias?.length || 0 }} notícias das últimas 24h{{ selectedClass !== 'all' ? ' (Classe ' + selectedClass + ')' : '' }}
+        </p>
+
+        <div v-if="filteredNoticias.length" class="space-y-3">
+          <ArticleCard
+            v-for="article in filteredNoticias"
+            :key="article.id"
+            :article="article"
+            @click="selectedArticle = article"
+          />
+        </div>
+        <p v-else-if="!report" class="text-center text-gray-500 py-12">
+          Carregando relatório...
+        </p>
+        <p v-else-if="!report.noticias?.length" class="text-center text-gray-500 py-12">
+          📭 Sem notícias neste relatório.
+        </p>
+        <p v-else class="text-center text-gray-500 py-8">
+          Nenhuma notícia Classe {{ selectedClass }} hoje.
+        </p>
+      </section>
+    </template>
+
+
+    <!-- ============================================================ -->
+    <!-- VIEW 3: DISCUSSÕES X -->
+    <!-- ============================================================ -->
+    <template v-else-if="currentView === 'discussoes'">
+      <FilterBar
+        :selected-class="selectedClass"
+        @update:selected-class="selectedClass = $event"
+        @refresh="loadReport"
+      />
+      <section class="px-4 py-8 max-w-6xl mx-auto">
+        <h2 class="text-2xl md:text-3xl font-bold mb-2">𝕏 Discussões no X</h2>
+        <p class="text-sm text-gray-500 mb-4">
+          {{ filteredDiscussoes.length }} de {{ report?.discussoes_x?.length || 0 }} discussões das últimas 24h{{ selectedClass !== 'all' ? ' (Classe ' + selectedClass + ')' : '' }}
+        </p>
+
+        <div v-if="report?.discussoes_x?.length" class="flex gap-2 flex-wrap mb-6">
+          <button
+            v-for="cat in ['all', 'especialista', 'revista', 'sociedade']"
+            :key="cat"
+            @click="selectedXCategoria = cat"
+            :class="[
+              'px-3 py-1.5 rounded-full text-xs font-medium transition-all',
+              selectedXCategoria === cat
+                ? cat === 'especialista' ? 'bg-blue-600 text-white'
+                : cat === 'revista' ? 'bg-purple-600 text-white'
+                : cat === 'sociedade' ? 'bg-green-600 text-white'
+                : 'bg-gray-800 text-white'
+                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+            ]"
+          >
+            {{ { all: 'Todas', especialista: '👤 Especialistas', revista: '📄 Revistas', sociedade: '🏛️ Sociedades' }[cat] }}
+          </button>
+        </div>
+
+        <div v-if="filteredDiscussoes.length" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <XDiscussionCard
+            v-for="discussion in filteredDiscussoes"
+            :key="discussion.id"
+            :discussion="discussion"
+            @click="selectedDiscussion = discussion"
+          />
+        </div>
+        <p v-else-if="!report" class="text-center text-gray-500 py-12">
+          Carregando relatório...
+        </p>
+        <p v-else-if="!report.discussoes_x?.length" class="text-center text-gray-500 py-12">
+          📭 Sem discussões neste relatório.
+        </p>
+        <p v-else class="text-center text-gray-500 py-8">
+          Nenhuma discussão com este filtro.
+        </p>
+      </section>
+    </template>
 
 
     <!-- ============================================================ -->
@@ -427,11 +485,10 @@ const report = ref(null)
 const selectedArticle = ref(null)
 const selectedDiscussion = ref(null)
 const selectedClass = ref('all')
-const searchQuery = ref('')
 const loading = ref(false)
 const selectedXCategoria = ref('all')
 const selectedVideoTier = ref(-1)  // -1 = all
-const currentView = ref('report')  // 'report' | 'pulso' | 'substacks' | 'videos' | 'ideas'
+const currentView = ref('artigos')  // 'artigos'|'noticias'|'discussoes'|'pulso'|'substacks'|'videos'|'ideas'
 const selectedIdeaType = ref('all')
 const selectedSubstackPub = ref('all')
 const availableDates = ref([])
@@ -446,10 +503,25 @@ async function navigateDate(direction) {
   window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
+// Filtered news — applies the class filter (A/B/C) when user picks one.
+// Without this, clicking 'Classe A' filtered artigos but Notícias kept showing
+// all items, making the filter feel broken.
+const filteredNoticias = computed(() => {
+  const list = report.value?.noticias || []
+  if (selectedClass.value === 'all') return list
+  return list.filter(n => n.classe === selectedClass.value)
+})
+
+// Discussions get both filters: class (A/B/C) AND categoria (especialista/revista/etc).
 const filteredDiscussoes = computed(() => {
-  const list = report.value?.discussoes_x || []
-  if (selectedXCategoria.value === 'all') return list
-  return list.filter(d => d.categoria === selectedXCategoria.value)
+  let list = report.value?.discussoes_x || []
+  if (selectedClass.value !== 'all') {
+    list = list.filter(d => d.classe === selectedClass.value)
+  }
+  if (selectedXCategoria.value !== 'all') {
+    list = list.filter(d => d.categoria === selectedXCategoria.value)
+  }
+  return list
 })
 
 const filteredVideos = computed(() => {
@@ -471,6 +543,7 @@ const enrichedVideoCount = computed(() => {
   const list = report.value?.videos_youtube || []
   return list.filter(v => v._enriched).length
 })
+
 
 const TIPO_META = [
   { key: 'all',         emoji: '📚', label: 'Todas' },
@@ -547,15 +620,8 @@ const uniqueSubstackPubs = computed(() => {
 
 const filteredArticles = computed(() => {
   if (!report.value?.artigos) return []
-
-  return report.value.artigos.filter(article => {
-    const matchClass = selectedClass.value === 'all' || article.classe === selectedClass.value
-    const matchSearch = !searchQuery.value ||
-      article.titulo.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-      article.publicacao.toLowerCase().includes(searchQuery.value.toLowerCase())
-
-    return matchClass && matchSearch
-  })
+  if (selectedClass.value === 'all') return report.value.artigos
+  return report.value.artigos.filter(a => a.classe === selectedClass.value)
 })
 
 const articlesByClass = computed(() => {
