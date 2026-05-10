@@ -330,30 +330,45 @@ const videoTierCounts = computed(() => {
 })
 
 const TIPO_META = [
-  { key: 'all',        emoji: '📋', label: 'Todas' },
-  { key: 'novidade',   emoji: '🆕', label: 'Novidade' },
-  { key: 'atencao',    emoji: '⚠️', label: 'Atenção' },
-  { key: 'lifestyle',  emoji: '🥗', label: 'Lifestyle' },
-  { key: 'medicacao',  emoji: '💊', label: 'Medicação' },
-  { key: 'paradigma',  emoji: '🔄', label: 'Paradigma' },
-  { key: 'mito',       emoji: '🧠', label: 'Mito' },
-  { key: 'prevencao',  emoji: '🛡️', label: 'Prevenção' },
+  { key: 'all',         emoji: '📚', label: 'Todas' },
+  { key: 'novidade',    emoji: '🆕', label: 'Novidade' },
+  { key: 'atencao',     emoji: '⚠️', label: 'Atenção' },
+  { key: 'lifestyle',   emoji: '🥗', label: 'Lifestyle' },
+  { key: 'medicacao',   emoji: '💊', label: 'Medicação' },
+  { key: 'evolucao',    emoji: '🔄', label: 'Evolução' },
+  { key: 'mito',        emoji: '🚫', label: 'Mito' },
+  { key: 'prevencao',   emoji: '🛡️', label: 'Prevenção' },
+  { key: 'dado',        emoji: '📊', label: 'Dado' },
+  { key: 'faq',         emoji: '❓', label: 'FAQ' },
+  { key: 'checklist',   emoji: '📋', label: 'Checklist' },
+  { key: 'comparativo', emoji: '🆚', label: 'Comparativo' },
 ]
 
 const availableTypes = computed(() => {
   const ideas = report.value?.post_ideas || []
+  // Treat 'paradigma' (legacy) as 'evolucao' for counting
+  const norm = (t) => t === 'paradigma' ? 'evolucao' : t
   return TIPO_META
     .map(t => ({
       ...t,
-      count: t.key === 'all' ? ideas.length : ideas.filter(i => i.tipo === t.key).length
+      count: t.key === 'all'
+        ? ideas.length
+        : ideas.filter(i => norm(i.tipo) === t.key).length
     }))
     .filter(t => t.key === 'all' || t.count > 0)
 })
 
+// Update filteredIdeas to also normalize legacy 'paradigma' → 'evolucao'
+
+
 const filteredIdeas = computed(() => {
   const ideas = report.value?.post_ideas || []
   if (selectedIdeaType.value === 'all') return ideas
-  return ideas.filter(i => i.tipo === selectedIdeaType.value)
+  const target = selectedIdeaType.value
+  return ideas.filter(i => {
+    const t = i.tipo === 'paradigma' ? 'evolucao' : i.tipo
+    return t === target
+  })
 })
 
 const filteredArticles = computed(() => {

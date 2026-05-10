@@ -17,7 +17,8 @@ from anthropic import Anthropic, APIError
 logger = logging.getLogger(__name__)
 
 POST_IDEAS_MODEL = os.environ.get("POST_IDEAS_MODEL", "claude-sonnet-4-6")
-POST_IDEAS_MAX_TOKENS = 4000
+# 20 ideas with bullets + formato_visual + fonte ≈ 8K output tokens (margin: 9K)
+POST_IDEAS_MAX_TOKENS = 9000
 
 
 def _extract_compact_report(report: dict) -> str:
@@ -182,18 +183,33 @@ def generate_post_ideas(report: dict, anthropic_client: Anthropic = None) -> lis
         logger.warning(f"Post ideas response is not a list (got {type(ideas).__name__})")
         return []
 
-    # Validate + assign sequential ids; drop malformed items silently
+    # Validate + assign sequential ids; drop malformed items silently.
+    # `formato_visual` is required per upgraded prompt — drop items without it.
     valid = []
-    required = {"tipo", "emoji", "ideia", "bullets", "fonte"}
+    required = {"tipo", "emoji", "ideia", "bullets", "fonte", "formato_visual"}
+    valid_tipos = {"novidade", "atencao", "lifestyle", "medicacao", "evolucao",
+                   "mito", "prevencao", "dado", "faq", "checklist", "comparativo"}
     for i, idea in enumerate(ideas, 1):
         if not isinstance(idea, dict):
             continue
         if not required.issubset(idea.keys()):
             continue
+        if idea.get("tipo") not in valid_tipos:
+            # Coerce unknown types to closest match or skip — keep prompt-disciplined
+            continue
         if not isinstance(idea.get("bullets"), list) or not idea["bullets"]:
             continue
         if not isinstance(idea.get("fonte"), dict):
             continue
+        if not isinstance(idea.get("formato_visual"), dict):
+            continue
+        # formato_visual: tipo_post + estilo essenciais; dado_central pode ser vazio
+        fv = idea["formato_visual"]
+        if not fv.get("tipo_post") or not fv.get("estilo"):
+            continue
+        # Normalize dado_central to string (default empty)
+        if not isinstance(fv.get("dado_central"), str):
+            fv["dado_central"] = ""
         idea["id"] = f"pi_{i:03d}"
         valid.append(idea)
 
