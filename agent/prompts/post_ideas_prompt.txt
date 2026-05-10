@@ -220,6 +220,35 @@ Cada ideia DEVE incluir um objeto `formato_visual`. **A escolha do estilo deve s
 
 **Regra de ouro:** o estilo só faz sentido se o conteúdo realmente sustenta. Não force `grafico_barras` se a fonte não tem dois números pra comparar. Não force `grafico_linha` se não tem trajetória temporal. **Para ideias puramente conceituais (mito, FAQ qualitativa), prefira estilos textuais** (`lista_numerada`, `pergunta_resposta`).
 
+### 🎯 PADRÃO "POST ÚNICO COM GRÁFICO" (Economist style — alvo ideal quando fonte sustenta)
+
+Esse é o **formato mais forte** quando a fonte tem dados que sustentam um gráfico claro. Estrutura:
+
+- **Tipo:** `post_unico`
+- **Estilo:** `grafico_linha`, `grafico_barras`, `grafico_pizza` ou `numero_destacado`
+- **dado_central** = **PERGUNTA PROVOCATIVA** (não número) que o gráfico responde
+  - Exemplo: "Quanto exercício é o ideal pro coração?" (curva U dose-resposta)
+  - Exemplo: "A partir de que idade o colesterol começa a pesar?" (curva por faixa etária)
+  - Exemplo: "Café: protege ou prejudica o coração?" (curva dose-resposta)
+  - Exemplo: "Quantas horas de sono protegem do infarto?" (curva U)
+- **Estrutura mental do post:** título (pergunta) → gráfico (resposta) → fonte
+- **NÃO precisa de bullets explicativos no post final** — o gráfico fala por si
+
+**Quando reconhecer que a fonte sustenta esse padrão:**
+- ✅ Fonte tem dados de **dose-resposta** (X aumenta, Y aumenta/diminui de forma clara)
+- ✅ Fonte tem **múltiplos grupos comparados** (3+ categorias com tendência)
+- ✅ Fonte tem **curva temporal** (Kaplan-Meier, evolução em meses/anos)
+- ✅ Fonte tem **gradiente por faixa** (idade, IMC, pressão, LDL → desfecho)
+
+**Quando esse padrão NÃO se aplica:**
+- ❌ Fonte qualitativa sem números múltiplos
+- ❌ Conteúdo conceitual (mito, FAQ, explicação)
+- ❌ Lista de fatores discretos (vira `lista_numerada` ou checklist)
+
+**Quando aplicável, esse é o estilo PREFERIDO** — gere ideia tipo `dado` ou `evolucao` com formato_visual indicando esse padrão. **Nos bullets desta ideia**, descreva o que o gráfico mostra (você descreve o gráfico em palavras pra que o cardiologista monte a arte depois).
+
+---
+
 ### REGRA DO GRÁFICO (CRÍTICA — não invente número)
 
 Para sugerir os estilos `grafico_barras`, `grafico_pizza`, `grafico_linha` ou `numero_destacado`, **a fonte do relatório DEVE conter o dado real plottável**. O campo `dado_central` deve ser:
