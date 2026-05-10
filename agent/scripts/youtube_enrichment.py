@@ -84,41 +84,75 @@ def _grounded_call(client, prompt: str, label: str, _is_retry: bool = False) -> 
         return ""
 
 
-def _fetch_transcript(video_url: str, max_chars: int = 12000) -> str:
-    """Fetch auto-generated transcript from YouTube. Returns empty if unavailable.
+def _fetch_transcript(video_url: str, max_chars: int = 12000) -> tuple[str, str]:
+    """Fetch auto-generated transcript from YouTube.
 
-    Tries PT first, then EN, then any available language. Truncates to max_chars
-    to keep prompt size manageable (Gemini Pro happily takes 12k tokens of input).
+    Returns (transcript_text, failure_reason). transcript_text is empty when
+    unavailable; failure_reason gives a one-word diagnostic for logging:
+      ok               → transcript fetched successfully
+      no_video_id      → URL didn't parse to a valid video_id
+      no_library       → youtube-transcript-api not installed
+      no_transcript    → video has no captions in requested or any language
+      disabled         → channel disabled subtitles for this video
+      unavailable      → video private/deleted/region-locked
+      ip_blocked       → IP-blocked by YouTube (most likely on datacenter IPs)
+      other            → unexpected error (raw type logged separately)
+
+    Tries PT first, then EN, then any language. Truncates to max_chars to keep
+    prompt size manageable.
     """
     video_id = _video_id_from_url(video_url)
     if not video_id:
-        return ""
+        return "", "no_video_id"
     try:
         from youtube_transcript_api import YouTubeTranscriptApi
         from youtube_transcript_api._errors import (
             TranscriptsDisabled, NoTranscriptFound, VideoUnavailable
         )
     except ImportError:
-        logger.warning("youtube-transcript-api not installed — skipping transcript fetch")
-        return ""
+        return "", "no_library"
 
+    # Try new API (v1.x: instance.fetch) AND old API (v0.6: class.get_transcript)
+    # Library API changed in v1.0 — support both for resilience to version drift.
+    def _call_api(vid: str, lang_list: list[str] | None):
+        if hasattr(YouTubeTranscriptApi, "get_transcript"):
+            # v0.6.x — classmethod style
+            if lang_list:
+                return YouTubeTranscriptApi.get_transcript(vid, languages=lang_list)
+            return YouTubeTranscriptApi.get_transcript(vid)
+        # v1.x — instance + fetch()
+        ytt = YouTubeTranscriptApi()
+        if lang_list:
+            return ytt.fetch(vid, languages=lang_list).to_raw_data()
+        return ytt.fetch(vid).to_raw_data()
+
+    last_failure = "other"
     for langs in (["pt", "pt-BR"], ["en", "en-US"], None):
         try:
-            if langs:
-                entries = YouTubeTranscriptApi.get_transcript(video_id, languages=langs)
-            else:
-                entries = YouTubeTranscriptApi.get_transcript(video_id)
+            entries = _call_api(video_id, langs)
             text = " ".join(e.get("text", "") for e in entries).strip()
             if text:
-                return text[:max_chars]
-        except (NoTranscriptFound, TranscriptsDisabled, VideoUnavailable):
-            if langs is None:
-                return ""
+                return text[:max_chars], "ok"
+        except NoTranscriptFound:
+            last_failure = "no_transcript"
             continue
+        except TranscriptsDisabled:
+            last_failure = "disabled"
+            break  # disabled is per-video, no point trying other langs
+        except VideoUnavailable:
+            last_failure = "unavailable"
+            break
         except Exception as e:
-            logger.debug(f"Transcript fetch error for {video_id}: {type(e).__name__}: {e}")
-            return ""
-    return ""
+            # Distinguish IP block (most likely failure mode in CI) from other
+            err_str = str(e).lower()
+            if "ip" in err_str or "block" in err_str or "request" in err_str:
+                last_failure = "ip_blocked"
+            else:
+                last_failure = "other"
+            logger.debug(f"[transcript {video_id}] {type(e).__name__}: {str(e)[:200]}")
+            break
+
+    return "", last_failure
 
 
 def _video_id_from_url(url: str) -> str:
@@ -328,18 +362,25 @@ def enrich_videos(videos: list[dict]) -> list[dict]:
     if to_enrich:
         # Step 1: fetch transcripts in parallel (cheap, no API key needed).
         # Step 2: call Gemini Pro with transcript when available, fallback to desc.
-        # We do step 1 sequentially with shorter timeout — YouTube rate limits are
-        # generous for transcript reads. Step 2 in pool because Gemini Pro is slow.
+        # We do step 1 sequentially — YouTube rate limits transcript reads on
+        # datacenter IPs aggressively. Step 2 in pool because Gemini Pro is slow.
         transcripts: dict[str, str] = {}
+        failure_counts: dict[str, int] = {}
         for idx, v in to_enrich:
             url = v.get("video_url", "")
             if not url:
                 continue
-            t = _fetch_transcript(url)
+            t, reason = _fetch_transcript(url)
             if t:
                 transcripts[url] = t
-        with_transcript = len([1 for u in transcripts if transcripts[u]])
-        logger.info(f"YouTube transcripts: {with_transcript}/{len(to_enrich)} videos have transcript")
+            else:
+                failure_counts[reason] = failure_counts.get(reason, 0) + 1
+        with_transcript = len(transcripts)
+        if failure_counts:
+            breakdown = ", ".join(f"{k}={v}" for k, v in sorted(failure_counts.items()))
+            logger.info(f"YouTube transcripts: {with_transcript}/{len(to_enrich)} fetched — failures: {breakdown}")
+        else:
+            logger.info(f"YouTube transcripts: {with_transcript}/{len(to_enrich)} fetched")
 
         # 3 workers for parallel Gemini calls
         with ThreadPoolExecutor(max_workers=3) as pool:
