@@ -304,6 +304,12 @@ def _make_fetcher(name: str, slug: str, url: str, categoria: str, default_autor:
             p["categoria"] = categoria
             if not p.get("autor") and default_autor:
                 p["autor"] = default_autor
+        # Diagnostic: if Gemini returned text but parser got 0 blocks, log a
+        # preview so we can iterate the prompt/parser. Frequent silent 0 results
+        # (e.g. 'skeptical' on Pro) usually mean response shape changed.
+        if text and not posts:
+            preview = text[:300].replace("\n", " ⏎ ")
+            logger.warning(f"[{slug}] Gemini returned text but parser got 0 blocks. Preview: {preview!r}")
         logger.info(f"Gemini Substack [{slug}]: {len(posts)} posts")
         return posts
     fetch.__name__ = f"fetch_{slug}"

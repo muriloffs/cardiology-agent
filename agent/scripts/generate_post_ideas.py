@@ -18,9 +18,10 @@ from anthropic import Anthropic, APIError
 logger = logging.getLogger(__name__)
 
 POST_IDEAS_MODEL = os.environ.get("POST_IDEAS_MODEL", "claude-sonnet-4-6")
-# 30 ideas with bullets + formato_visual + fonte ≈ 12K output tokens (margin: 14K)
-# Each idea avg ~400 tokens (ideia + 4 bullets + formato_visual + fonte structure)
-POST_IDEAS_MAX_TOKENS = 14000
+# 30 ideas × ~470 tokens each (ideia + 5+ bullets + formato_visual + fonte) ≈ 14k.
+# Observed: 30-idea run hit exactly 14000 tokens and got truncated mid-JSON.
+# 20000 gives ~40% safety margin for 30 ideas; Sonnet 4.6 supports up to 32k.
+POST_IDEAS_MAX_TOKENS = 20000
 
 
 def _extract_compact_report(report: dict) -> str:
@@ -245,9 +246,21 @@ def generate_post_ideas(report: dict, anthropic_client: Anthropic = None) -> lis
     try:
         ideas = json.loads(cleaned)
     except json.JSONDecodeError as e:
-        logger.error(f"Failed to parse post_ideas JSON: {e}")
-        logger.debug(f"Raw response (first 500): {raw[:500]}")
-        return []
+        # Try json_repair before giving up — handles truncated arrays, missing
+        # commas, unbalanced quotes. Saves partial output when Sonnet hits
+        # max_tokens mid-array (last full idea still recoverable).
+        logger.warning(f"Direct JSON parse failed: {e} — trying json_repair fallback")
+        try:
+            from json_repair import repair_json
+            repaired = repair_json(cleaned)
+            ideas = json.loads(repaired) if isinstance(repaired, str) else repaired
+            if not isinstance(ideas, list):
+                raise ValueError(f"repaired result is not a list (got {type(ideas).__name__})")
+            logger.info(f"json_repair recovered {len(ideas)} ideias from malformed output")
+        except Exception as e2:
+            logger.error(f"Failed to parse post_ideas JSON (even with repair): {e2}")
+            logger.debug(f"Raw response (first 500): {raw[:500]}")
+            return []
 
     if not isinstance(ideas, list):
         logger.warning(f"Post ideas response is not a list (got {type(ideas).__name__})")
