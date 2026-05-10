@@ -174,140 +174,152 @@ def _matches_cardio(title: str, extra_text: str = "") -> bool:
 # FETCHERS — one per source group
 # ──────────────────────────────────────────────────────────────────────
 
-def _build_journal_prompt(sites_label: str, sites_list: list[str], days_back: int) -> str:
-    """Build a simple grounded prompt for journal article discovery."""
-    brasilia_tz = timezone(timedelta(hours=-3))
-    today = datetime.now(brasilia_tz).strftime("%Y-%m-%d")
-    cutoff = (datetime.now(brasilia_tz) - timedelta(days=days_back)).strftime("%Y-%m-%d")
+def _build_journal_prompt(target_label: str, target_url: str, max_items: int = 5) -> str:
+    """Simple grounded prompt — proven pattern from TEST 2B.
 
-    sites_text = "\n".join(f"- {s}" for s in sites_list)
+    Key principles (validated empirically):
+    - Single target (or very similar sites) — Flash struggles with multi-site
+    - "Most recent" instead of strict date window — Flash rejects strict dates
+    - Plain text format — Flash can't do JSON + grounding combined
+    - Short, no rule lists — long prompts trigger empty responses
+    """
+    return f"""Use Google Search to find the {max_items} most recent cardiology articles published this week on {target_label} ({target_url}).
 
-    return f"""Use Google Search to find cardiology articles published between {cutoff} and {today} on these {sites_label} sites:
+For each article, respond with ONE line:
+TITLE: <article title> | URL: <full URL> | DATE: <publication date> | DOI: <DOI or null>
 
-{sites_text}
-
-For EACH cardiology article found in this date window, return ONE line in this exact format:
-TITLE: <exact article title> | URL: <full article URL> | DATE: <YYYY-MM-DD> | DOI: <DOI if shown, else null>
-
-Rules:
-- Maximum 10 items
-- Only cardiology articles (heart, cardiovascular, hypertension, lipids, valve, arrhythmia, etc.)
-- Only articles with publication date IN the window {cutoff} to {today}
-- Use the article's "Originally Published" or "Published Online" date, NOT the indexing date
-- DO NOT invent — if date unclear, skip the article
-- If you find nothing, respond with just: NONE
-
-Output: plain text only. No JSON. No markdown. No explanations. Just the lines."""
+Plain text only. No JSON. No markdown. If you cannot find any: NONE"""
 
 
-def fetch_aha_journals(client, days_back: int = 2) -> list[dict]:
-    """Circulation, JAHA, Stroke, Hypertension, AHA family."""
+# ──────────────────────────────────────────────────────────────────────
+# JOURNAL FETCHERS — one focused fetcher per major journal/group
+# Pattern: 1 target site, "most recent", simple format. Validated.
+# ──────────────────────────────────────────────────────────────────────
+
+def fetch_circulation(client) -> list[dict]:
+    """Circulation (AHA Journals)."""
     prompt = _build_journal_prompt(
-        "AHA Journal family",
-        [
-            "ahajournals.org/journal/circ (Circulation)",
-            "ahajournals.org/journal/circaha (Circulation HF/Interventions/Imaging/Arrhythmia)",
-            "ahajournals.org/journal/jaha (JAHA)",
-            "ahajournals.org/journal/hyp (Hypertension)",
-            "ahajournals.org/journal/str (Stroke)",
-        ],
-        days_back,
+        "Circulation journal", "ahajournals.org/journal/circ", max_items=5
     )
-    text = _grounded_call(client, prompt, "AHA")
+    text = _grounded_call(client, prompt, "Circulation")
     items = _parse_pipe_format(text)
     for item in items:
-        item["publicacao"] = "AHA Journals (Circulation/JAHA/Hypertension)"
-        item["fonte_origem"] = "aha"
-    logger.info(f"Gemini AHA Journals: {len(items)} items")
+        item["publicacao"] = "Circulation"
+        item["fonte_origem"] = "circulation"
+    logger.info(f"Gemini Circulation: {len(items)} items")
     return items
 
 
-def fetch_jacc_family(client, days_back: int = 2) -> list[dict]:
-    """JACC main + subjournals."""
+def fetch_aha_secondary(client) -> list[dict]:
+    """JAHA + Hypertension + Stroke (AHA secondary journals, similar style)."""
     prompt = _build_journal_prompt(
-        "JACC family",
-        [
-            "jacc.org (JACC main)",
-            "jacc.org/journal/heart-failure",
-            "jacc.org/journal/intv (Interventions)",
-            "jacc.org/journal/img (Imaging)",
-            "jacc.org/journal/jacc-clinical-electrophysiology",
-        ],
-        days_back,
+        "JAHA, Hypertension, Stroke (AHA Journals secondary)",
+        "ahajournals.org",
+        max_items=5,
     )
-    text = _grounded_call(client, prompt, "JACC")
+    text = _grounded_call(client, prompt, "AHA-2nd")
     items = _parse_pipe_format(text)
     for item in items:
-        item["publicacao"] = "JACC Family"
-        item["fonte_origem"] = "jacc"
-    logger.info(f"Gemini JACC Family: {len(items)} items")
+        item["publicacao"] = "JAHA / Hypertension / Stroke"
+        item["fonte_origem"] = "aha_secondary"
+    logger.info(f"Gemini AHA Secondary: {len(items)} items")
     return items
 
 
-def fetch_esc_european(client, days_back: int = 2) -> list[dict]:
-    """ESC family — EHJ, Eur J Heart Fail, EuroIntervention, etc."""
+def fetch_jacc_main(client) -> list[dict]:
+    """JACC main journal."""
     prompt = _build_journal_prompt(
-        "ESC European journals",
-        [
-            "academic.oup.com/eurheartj (European Heart Journal)",
-            "onlinelibrary.wiley.com/journal/eurjhf (European Journal of Heart Failure)",
-            "academic.oup.com/europace",
-        ],
-        days_back,
+        "JACC main journal", "jacc.org", max_items=5
     )
-    text = _grounded_call(client, prompt, "ESC-EUR")
+    text = _grounded_call(client, prompt, "JACC-main")
     items = _parse_pipe_format(text)
     for item in items:
-        item["publicacao"] = "ESC European Journals"
-        item["fonte_origem"] = "esc_eur"
-    logger.info(f"Gemini ESC European: {len(items)} items")
+        item["publicacao"] = "JACC"
+        item["fonte_origem"] = "jacc_main"
+    logger.info(f"Gemini JACC main: {len(items)} items")
     return items
 
 
-def fetch_general_medical(client, days_back: int = 2) -> list[dict]:
-    """General medical journals with cardiology sections."""
+def fetch_jacc_subs(client) -> list[dict]:
+    """JACC sub-journals (Heart Failure, Interventions, Imaging)."""
     prompt = _build_journal_prompt(
-        "General medical journals (cardio sections)",
-        [
-            "nejm.org (cardiology section)",
-            "thelancet.com (cardiology articles)",
-            "jamanetwork.com/journals/jamacardiology (JAMA Cardiology)",
-            "bmj.com/specialties/cardiology",
-            "heart.bmj.com (BMJ Heart)",
-        ],
-        days_back,
+        "JACC sub-journals (Heart Failure, Interventions, Imaging, Clinical Electrophysiology)",
+        "jacc.org",
+        max_items=5,
     )
-    text = _grounded_call(client, prompt, "GEN-MED")
+    text = _grounded_call(client, prompt, "JACC-subs")
     items = _parse_pipe_format(text)
     for item in items:
-        item["publicacao"] = "General Medical (NEJM/Lancet/JAMA/BMJ)"
-        item["fonte_origem"] = "gen_med"
-    logger.info(f"Gemini General Medical: {len(items)} items")
+        item["publicacao"] = "JACC Subjournals"
+        item["fonte_origem"] = "jacc_subs"
+    logger.info(f"Gemini JACC subs: {len(items)} items")
     return items
 
 
-def fetch_medscape_cardio(client, days_back: int = 2) -> list[dict]:
-    """Medscape cardiology news — paywalled, no RSS, only Gemini accesses."""
-    brasilia_tz = timezone(timedelta(hours=-3))
-    today = datetime.now(brasilia_tz).strftime("%Y-%m-%d")
-    cutoff = (datetime.now(brasilia_tz) - timedelta(days=days_back)).strftime("%Y-%m-%d")
+def fetch_ehj(client) -> list[dict]:
+    """European Heart Journal."""
+    prompt = _build_journal_prompt(
+        "European Heart Journal", "academic.oup.com/eurheartj", max_items=5
+    )
+    text = _grounded_call(client, prompt, "EHJ")
+    items = _parse_pipe_format(text)
+    for item in items:
+        item["publicacao"] = "European Heart Journal"
+        item["fonte_origem"] = "ehj"
+    logger.info(f"Gemini EHJ: {len(items)} items")
+    return items
 
-    prompt = f"""Use Google Search to find cardiology news articles published between {cutoff} and {today} on:
-- medscape.com/cardiology
-- medscape.com/heart-disease
 
-For EACH cardiology article found in this date window, return ONE line:
-TITLE: <exact title> | URL: <full URL> | DATE: <YYYY-MM-DD> | DOI: null
+def fetch_ejhf(client) -> list[dict]:
+    """European Journal of Heart Failure."""
+    prompt = _build_journal_prompt(
+        "European Journal of Heart Failure", "onlinelibrary.wiley.com/journal/eurjhf", max_items=5
+    )
+    text = _grounded_call(client, prompt, "EJHF")
+    items = _parse_pipe_format(text)
+    for item in items:
+        item["publicacao"] = "European Journal of Heart Failure"
+        item["fonte_origem"] = "ejhf"
+    logger.info(f"Gemini EJHF: {len(items)} items")
+    return items
 
-Rules:
-- Maximum 10 items
-- Only cardiology news/commentary articles (not patient-facing health tips)
-- Only articles in the window {cutoff} to {today}
-- DO NOT invent
-- If nothing found: NONE
 
-Plain text only."""
+def fetch_jama_cardio(client) -> list[dict]:
+    """JAMA Cardiology."""
+    prompt = _build_journal_prompt(
+        "JAMA Cardiology", "jamanetwork.com/journals/jamacardiology", max_items=5
+    )
+    text = _grounded_call(client, prompt, "JAMA-Cardio")
+    items = _parse_pipe_format(text)
+    for item in items:
+        item["publicacao"] = "JAMA Cardiology"
+        item["fonte_origem"] = "jama_cardio"
+    logger.info(f"Gemini JAMA Cardio: {len(items)} items")
+    return items
 
+
+def fetch_lancet_bmj(client) -> list[dict]:
+    """Lancet cardio + BMJ Heart (similar UK journals)."""
+    prompt = _build_journal_prompt(
+        "Lancet cardiology + BMJ Heart", "thelancet.com OR heart.bmj.com", max_items=5
+    )
+    text = _grounded_call(client, prompt, "Lancet-BMJ")
+    items = _parse_pipe_format(text)
+    for item in items:
+        item["publicacao"] = "Lancet / BMJ Heart"
+        item["fonte_origem"] = "lancet_bmj"
+    logger.info(f"Gemini Lancet/BMJ: {len(items)} items")
+    return items
+
+
+def fetch_medscape_cardio(client) -> list[dict]:
+    """Medscape cardiology — paywalled, only Gemini accesses."""
+    prompt = """Use Google Search to find the 5 most recent cardiology news articles published this week on Medscape (medscape.com/cardiology or medscape.com/heart-disease).
+
+For each article, respond with ONE line:
+TITLE: <article title> | URL: <full URL> | DATE: <publication date> | DOI: null
+
+Plain text only. No JSON. No markdown. If you cannot find any: NONE"""
     text = _grounded_call(client, prompt, "Medscape")
     items = _parse_pipe_format(text)
     for item in items:
@@ -317,64 +329,48 @@ Plain text only."""
     return items
 
 
-def fetch_society_news(client, days_back: int = 2) -> list[dict]:
-    """ESC/ACC/AHA society press releases and news."""
-    brasilia_tz = timezone(timedelta(hours=-3))
-    today = datetime.now(brasilia_tz).strftime("%Y-%m-%d")
-    cutoff = (datetime.now(brasilia_tz) - timedelta(days=days_back)).strftime("%Y-%m-%d")
+def fetch_society_intl(client) -> list[dict]:
+    """ESC + ACC + AHA international society news."""
+    prompt = """Use Google Search to find the 5 most recent cardiology press releases or news from cardiology societies this week (escardio.org/news, acc.org/latest-in-cardiology, newsroom.heart.org).
 
-    prompt = f"""Use Google Search to find cardiology press releases or news published between {cutoff} and {today} on:
-- escardio.org/news
-- escardio.org/The-ESC/Press-Office
-- acc.org/latest-in-cardiology
-- newsroom.heart.org (AHA press)
-- portal.cardiol.br (SBC Brasil)
+For each, respond with ONE line:
+TITLE: <title> | URL: <full URL> | DATE: <publication date> | DOI: null
 
-For EACH news/press release found, return ONE line:
-TITLE: <exact title> | URL: <full URL> | DATE: <YYYY-MM-DD> | DOI: null
-
-Rules:
-- Maximum 10 items
-- Cardiology focus
-- In the date window {cutoff} to {today}
-- DO NOT invent
-- If nothing found: NONE
-
-Plain text only."""
-
-    text = _grounded_call(client, prompt, "Sociedades")
+Plain text only. No JSON. No markdown. If none found: NONE"""
+    text = _grounded_call(client, prompt, "Sociedades-Intl")
     items = _parse_pipe_format(text)
     for item in items:
-        item["publicacao"] = "Sociedades (ESC/ACC/AHA/SBC)"
-        item["fonte_origem"] = "sociedades"
-    logger.info(f"Gemini Sociedades: {len(items)} items")
+        item["publicacao"] = "Sociedades Internacionais (ESC/ACC/AHA)"
+        item["fonte_origem"] = "sociedades_intl"
+    logger.info(f"Gemini Sociedades Intl: {len(items)} items")
     return items
 
 
-def fetch_bluesky_cardio(client, days_back: int = 2) -> list[dict]:
+def fetch_sbc_brasil(client) -> list[dict]:
+    """Sociedade Brasileira de Cardiologia."""
+    prompt = """Use Google Search to find the 5 most recent cardiology news or articles published this week on Sociedade Brasileira de Cardiologia (portal.cardiol.br) or Brazilian cardiology journals (Arquivos Brasileiros de Cardiologia on scielo.br).
+
+For each, respond with ONE line:
+TITLE: <título do artigo> | URL: <URL completo> | DATE: <data> | DOI: <DOI ou null>
+
+Plain text only. No JSON. No markdown. If none found: NONE"""
+    text = _grounded_call(client, prompt, "SBC-Brasil")
+    items = _parse_pipe_format(text)
+    for item in items:
+        item["publicacao"] = "SBC Brasil / SciELO"
+        item["fonte_origem"] = "sbc_brasil"
+    logger.info(f"Gemini SBC Brasil: {len(items)} items")
+    return items
+
+
+def fetch_bluesky_cardio(client) -> list[dict]:
     """Bluesky cardio handles posts. Returns discussoes_bluesky-shaped items."""
-    brasilia_tz = timezone(timedelta(hours=-3))
-    today = datetime.now(brasilia_tz).strftime("%Y-%m-%d")
-    cutoff = (datetime.now(brasilia_tz) - timedelta(days=days_back)).strftime("%Y-%m-%d")
+    prompt = """Use Google Search to find the 5 most recent cardiology-related posts on Bluesky (bsky.app) this week from cardiology specialists like John Mandrola, Eric Topol, CardioNerds, or any cardiology topic discussion.
 
-    prompt = f"""Use Google Search to find cardiology-related posts published on Bluesky (bsky.app) between {cutoff} and {today} from these handles or about cardiology topics:
+For each post, respond with ONE line:
+TITLE: <topic in 1 line> | URL: <bsky.app post URL> | DATE: <publication date> | DOI: null
 
-- @drjohnm.bsky.social (John Mandrola)
-- @erictopol.bsky.social (Eric Topol)
-- @cardionerds.bsky.social
-- Other cardiology specialists with #cardiotwitter or cardio topics
-
-For EACH relevant post found in this window, return ONE line:
-TITLE: <topic of the post in 1 line> | URL: <bsky.app post URL> | DATE: <YYYY-MM-DD> | DOI: null
-
-Rules:
-- Maximum 10 items
-- Only posts that discuss research, trials, guidelines, or clinical practice
-- Only posts in the window {cutoff} to {today}
-- DO NOT invent posts that don't exist
-- If nothing found: NONE
-
-Plain text only."""
+Plain text only. No JSON. No markdown. If none found: NONE"""
 
     text = _grounded_call(client, prompt, "Bluesky")
     items = _parse_pipe_format(text)
@@ -425,19 +421,26 @@ def fetch_all_external(days_back: int = 2) -> dict:
         logger.warning("GOOGLE_API_KEY not set — Gemini external fetcher skipped")
         return {"noticias_external": [], "discussoes_bluesky": []}
 
-    # Journal/news fetchers — run in parallel (4 workers respecting Flash 10 RPM)
+    # Journal/news fetchers — 11 focused single/dual-site queries
+    # Pattern: each query targets 1-2 closely related sites (validated in TEST 2B)
+    # Parallel: 3 workers (respects Flash 10 RPM with safety margin)
     journal_fetchers = [
-        ("aha", fetch_aha_journals),
-        ("jacc", fetch_jacc_family),
-        ("esc_eur", fetch_esc_european),
-        ("gen_med", fetch_general_medical),
-        ("medscape", fetch_medscape_cardio),
-        ("sociedades", fetch_society_news),
+        ("circulation",     fetch_circulation),
+        ("aha_secondary",   fetch_aha_secondary),
+        ("jacc_main",       fetch_jacc_main),
+        ("jacc_subs",       fetch_jacc_subs),
+        ("ehj",             fetch_ehj),
+        ("ejhf",            fetch_ejhf),
+        ("jama_cardio",     fetch_jama_cardio),
+        ("lancet_bmj",      fetch_lancet_bmj),
+        ("medscape",        fetch_medscape_cardio),
+        ("sociedades_intl", fetch_society_intl),
+        ("sbc_brasil",      fetch_sbc_brasil),
     ]
 
     noticias_external = []
-    with ThreadPoolExecutor(max_workers=4) as pool:
-        futures = {pool.submit(fn, client, days_back): name for name, fn in journal_fetchers}
+    with ThreadPoolExecutor(max_workers=3) as pool:
+        futures = {pool.submit(fn, client): name for name, fn in journal_fetchers}
         for future in as_completed(futures):
             name = futures[future]
             try:
@@ -466,7 +469,7 @@ def fetch_all_external(days_back: int = 2) -> dict:
     # Bluesky separately (single call, separate schema)
     bluesky = []
     try:
-        bluesky = fetch_bluesky_cardio(client, days_back)
+        bluesky = fetch_bluesky_cardio(client)
     except Exception as e:
         logger.error(f"Bluesky fetcher failed: {e}")
 
