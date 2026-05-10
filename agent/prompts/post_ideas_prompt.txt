@@ -27,7 +27,7 @@ O relatório recebido tipicamente tem 50-100+ itens entre artigos, notícias, po
 
 Ranqueie internamente cada item por estes 4 critérios pesados, depois selecione os 20 com maior score combinado:
 
-### 🎯 RELEVÂNCIA CLÍNICA — peso 30%
+### 🎯 RELEVÂNCIA CLÍNICA — peso 25%
 
 - Practice-changing > update incremental > hipótese ou conceito
 - Artigos com `classe: "A"` > `"B"` > `"C"`
@@ -42,12 +42,37 @@ Ranqueie internamente cada item por estes 4 critérios pesados, depois selecione
 - **Contraintuitivo?** Surpreende o senso comum
 - **Acionável?** Leitor pode fazer algo concreto após ler
 
-### 👥 ACESSIBILIDADE LEIGO — peso 25%
+### 👥 ACESSIBILIDADE LEIGO — peso 30% (CRITÉRIO MAIS IMPORTANTE para este perfil)
 
-- **Relata com vida cotidiana?** (sono, café, dor no peito, palpitação, pressão de manhã)
-- **Explicável em ≤2 termos técnicos?** (fora os 2, tudo no português coloquial)
-- **Paciente vê "isso é comigo" em 5 segundos?** (especificidade demográfica concreta)
-- **Não exige fisiopatologia?** (post sobre receptor SGLT2 fica difícil; post sobre "novo remédio para coração e diabetes" funciona)
+Este perfil é cardiologia ambulatorial de consultório particular, focado em **prevenção + estilo de vida + risco cardiovascular cotidiano**. O paciente médio é high-literacy mas low-clinical — entende "pressão alta" e "colesterol", mas NÃO entende "HFpEF subgrupo IV" ou "ablação por crioablação focal".
+
+**FAVOREÇA FORTEMENTE** (estes temas dominam o feed do perfil):
+- 🥗 Estilo de vida: dieta (mediterrânea, jejum, plant-based), sono, stress
+- ⚖️ Análise de riscos modificáveis: pressão, colesterol, peso, sedentarismo, tabagismo
+- ☕ Hábitos cotidianos: café, álcool, sal, comida ultraprocessada
+- 🏃 Atividade física: qual tipo, quanto, intensidade, quando começar, com que idade
+- 🛡️ Prevenção primária acessível: screening, exames anuais, idade pra começar
+- 💓 Sintomas reconhecíveis: palpitação, dor no peito, falta de ar, tontura
+- 🚫 Mitos brasileiros (lista própria abaixo)
+- 💊 Medicação que paciente toma no dia a dia: anti-hipertensivo, estatina, AAS, anticoagulante (cuidados práticos, não comparações de subgrupo)
+
+**DESPRIORIZE FORTEMENTE** (estes temas têm baixa ressonância pro paciente — mesmo se clinicamente importantes):
+- 🚫 Detalhes técnicos de procedimentos: técnica de TAVR, escolha de stent farmacológico, técnica de ablação, cateter X vs Y
+- 🚫 Comparações entre fármacos da mesma classe em subgrupos: DOAC A vs B em CrCl <50, sacubitril vs ARNI dose
+- 🚫 Endpoints de pesquisa especializada: KCCQ, NT-proBNP, GLS, biomarcadores experimentais
+- 🚫 Trials fase II/III com endpoints surrogate (LDL, IMT, espessura de parede)
+- 🚫 Análise estatística refinada (HR ajustado, IC 95%, p-value, NNT como argumento principal)
+- 🚫 Fisiopatologia molecular (receptor X, via Y, sinalização Z)
+- 🚫 Cardiopatias raras / pediátricas avançadas / transplante (a menos que mito popular envolvido)
+
+**REGRA DE EXTRAÇÃO LAY-ANGLE:** Se um estudo técnico cair na seleção (ex: novo trial de TAVR), **extraia APENAS o ângulo do paciente**, nunca o detalhe técnico do trial.
+
+Exemplo:
+- ❌ "Novo balão expansível em TAVR reduz leak periválvular em 23%" (técnico)
+- ✅ "Hoje você pode trocar a válvula sem cirurgia aberta — quem é candidato?" (lay-angle)
+
+- ❌ "DOAC A vs B em pacientes com CrCl 30-49 — análise de subgrupo" (técnico)
+- ✅ "Quem toma anticoagulante: o que muda se sua função renal cair?" (lay-angle)
 
 ### ⚡ FACILIDADE DE PRODUÇÃO — peso 15%
 
