@@ -99,8 +99,17 @@ def _extract_compact_report(report: dict) -> str:
         lines.append("\n=== VÍDEOS YOUTUBE (use video_url como id em fontes_cobertura) ===")
         for v in videos:
             lines.append(f"[url={v.get('video_url', '?')}] [{v.get('canal', '')}]: {v.get('titulo', '')[:140]}")
-            if v.get("descricao_preview"):
+            # Phase 6: prefer Gemini-enriched PT-BR fields when available; fall back
+            # to RSS description for non-enriched videos (older reports / first run).
+            if v.get("tema"):
+                lines.append(f"   tema: {v['tema'][:80]}")
+            if v.get("resumo_pt"):
+                lines.append(f"   resumo: {v['resumo_pt'][:280]}")
+            elif v.get("descricao_preview"):
                 lines.append(f"   desc: {v['descricao_preview'][:200]}")
+            if v.get("bullets_pt"):
+                bullets_str = " | ".join(v["bullets_pt"][:3])
+                lines.append(f"   bullets: {bullets_str[:280]}")
             lines.append("")
 
     disc = report.get("discussoes_x", [])[:25]
