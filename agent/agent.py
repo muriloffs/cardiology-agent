@@ -286,8 +286,15 @@ class CardologyAgent:
                 lines.append(f"Host: {a['host']}")
             lines.append(f"Published: {a['data_publicacao']}")
             if a.get("abstract"):
-                # Podcasts get more abstract chars (richer show notes); others get 600
-                abstract_limit = 1500 if source_type == "podcast" else 600
+                # PubMed: 1500 chars so Opus can extract pontos_chave (n, HR, IC, p)
+                # from full abstract body. Podcasts: 1500 for rich show notes.
+                # Other RSS: 800 (news items rarely have granular data beyond headline).
+                if source_type == "pubmed":
+                    abstract_limit = 1500
+                elif source_type == "podcast":
+                    abstract_limit = 1500
+                else:
+                    abstract_limit = 800
                 lines.append(f"Show Notes/Abstract: {a['abstract'][:abstract_limit]}")
             url = a.get("pubmed_url") or a.get("episode_url") or ""
             if url:

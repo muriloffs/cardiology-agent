@@ -315,6 +315,29 @@ def _validate_article(article: Dict[str, Any], context: str = "article") -> None
     # Validate links
     _validate_links(article['links'], context)
 
+    # New optional fields (Article enrichment): conclusao + pontos_chave.
+    # Both optional for backwards compat with reports generated before this commit
+    # and for noticias/podcasts (where they may be sparser). Drop malformed silently.
+    if 'conclusao' in article:
+        if not isinstance(article['conclusao'], str):
+            article.pop('conclusao', None)
+        else:
+            article['conclusao'] = article['conclusao'].strip()
+            if not article['conclusao']:
+                article.pop('conclusao', None)
+
+    if 'pontos_chave' in article:
+        if not isinstance(article['pontos_chave'], list):
+            article.pop('pontos_chave', None)
+        else:
+            cleaned = [str(p).strip() for p in article['pontos_chave'] if p and str(p).strip()]
+            # Drop unrealistically long bullets (likely Claude wrote a paragraph)
+            cleaned = [p for p in cleaned if len(p) <= 200][:8]
+            if cleaned:
+                article['pontos_chave'] = cleaned
+            else:
+                article.pop('pontos_chave', None)
+
 
 def _validate_x_discussion(item: Dict[str, Any], context: str) -> None:
     """Validate a single discussoes_x item."""

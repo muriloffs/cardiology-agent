@@ -294,8 +294,17 @@ Return EXACTLY this JSON structure (no markdown, no text before/after):
       "score": 8.5,
       "categoria_fonte": "revista",
       "emoji": "📰",
-      "resumo": "2 sentences: what was studied/discussed and the key clinical finding.",
-      "impacto_clinico": "Specific statement. How does this change practice or patient outcomes?",
+      "resumo": "2 sentences in Portuguese: what was studied/discussed and the key clinical finding.",
+      "conclusao": "1-2 sentences PARAPHRASING (not interpreting) the abstract's conclusion in Portuguese. Stay close to the original — if the abstract says 'X reduces Y by 30%', say that. Do NOT add 'this means' or 'in practice' — that's the impacto_clinico field. Use the closest PT-BR equivalent of the abstract's CONCLUSION section. If the abstract has no explicit conclusion, paraphrase the final primary-finding statement.",
+      "pontos_chave": [
+        "5 concrete datapoints from the abstract, in PT-BR. Each ≤80 chars. Examples:",
+        "N = 4.822 (FEVE ≥45%)",
+        "Primary endpoint: hosp IC + morte CV (32 meses)",
+        "HR 0.87 (IC 95% 0.75-1.01, p=0.06)",
+        "Hosp IC isolada: HR 0.85 (p=0.04)",
+        "NNT = 67 em 4 anos"
+      ],
+      "impacto_clinico": "Specific statement INTERPRETING the finding for daily practice in Portuguese. How does this change conduct or outcomes? This is YOUR clinical interpretation (not a paraphrase of the paper).",
       "links": {
         "url": "https://pubmed.ncbi.nlm.nih.gov/PMID/",
         "doi": "10.xxxx/...",
@@ -362,5 +371,32 @@ Return EXACTLY this JSON structure (no markdown, no text before/after):
 10. If no twitter sources provided, omit `discussoes_x` field entirely
 11. If no podcast sources provided, omit `podcasts` field entirely
 12. NEVER produce `videos_youtube` — it is injected from a separate YouTube RSS pipeline
+
+## NEW FIELDS — `conclusao` and `pontos_chave` (for `artigos` only)
+
+These are critical for the dashboard's "deep read without opening the paper" mode. Be disciplined about what goes where:
+
+**`conclusao` — what the paper concluded (PARAPHRASE, not interpret)**
+- Stay close to the abstract's conclusion sentence. If the abstract says "Drug X reduces hospitalization by 25% (HR 0.75)", say "Droga X reduziu hospitalizações em 25% (HR 0.75)" — not "isso significa que devemos prescrever droga X".
+- 1-2 sentences in PT-BR.
+- If the abstract has no explicit conclusion (rare), paraphrase the final primary-finding statement instead.
+- For NEGATIVE trials, the conclusion is "no significant difference" or "did not meet primary endpoint" — say that explicitly.
+- Differs from `impacto_clinico`: conclusao = WHAT the paper found (factual paraphrase); impacto_clinico = WHAT IT MEANS for practice (your interpretation).
+
+**`pontos_chave` — concrete data extracted verbatim**
+- Array of 4-6 short strings (≤80 chars each), in PT-BR.
+- Each bullet is ONE concrete fact from the abstract — number, methodology detail, secondary finding.
+- MUST include when present in abstract: N (sample size), primary endpoint, HR/OR/RR with CI, p-value, follow-up time.
+- Examples:
+  - "N = 4.822 pacientes randomizados"
+  - "Primary endpoint: MACE em 32 meses"
+  - "HR 0.75 (IC 95% 0.65-0.86, p<0.001)"
+  - "Redução absoluta de risco: 3.2% (NNT = 31)"
+  - "Sem ↑ eventos adversos sérios"
+- If the abstract lacks a specific datapoint (e.g., no NNT mentioned), DO NOT invent it — skip that bullet.
+- For non-trial papers (reviews, guidelines, registries): adapt — use key recommendations, registry stats, etc.
+- For preprints/case reports: 3-4 bullets are fine — less granular data available.
+
+**Both fields are MANDATORY for `artigos` (PubMed papers). For `noticias` and `podcasts`, omit unless the abstract is rich enough.**
 
 Start your response with `{` — no preamble, no markdown fences.

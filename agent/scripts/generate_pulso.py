@@ -69,6 +69,11 @@ def _extract_compact_report(report: dict) -> str:
             lines.append(f"[id={a.get('id', '?')}] [{a.get('classe', '?')}/score={a.get('score', '?')}] {a.get('publicacao', '')}: {a.get('titulo', '')[:140]}")
             if a.get("resumo"):
                 lines.append(f"   resumo: {a['resumo'][:280]}")
+            if a.get("conclusao"):
+                lines.append(f"   conclusao: {a['conclusao'][:240]}")
+            if a.get("pontos_chave"):
+                chave_str = " | ".join(a["pontos_chave"][:5])
+                lines.append(f"   dados: {chave_str[:320]}")
             if a.get("impacto_clinico"):
                 lines.append(f"   impacto: {a['impacto_clinico'][:200]}")
             lines.append("")

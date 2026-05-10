@@ -27,6 +27,27 @@
 
     <p class="text-gray-700 text-sm mb-3 line-clamp-2">{{ article.resumo }}</p>
 
+    <!-- Conclusão (paráfrase do abstract — NOVO) -->
+    <div v-if="article.conclusao" class="mb-3 p-2.5 bg-emerald-50 border-l-2 border-emerald-400 rounded-r">
+      <p class="text-[10px] font-bold uppercase tracking-wider text-emerald-700 mb-0.5">🎯 Conclusão do paper</p>
+      <p class="text-sm text-gray-800 leading-relaxed">{{ article.conclusao }}</p>
+    </div>
+
+    <!-- Pontos-chave (dados granulares — NOVO) -->
+    <div v-if="article.pontos_chave?.length" class="mb-3 p-2.5 bg-blue-50 border-l-2 border-blue-400 rounded-r">
+      <p class="text-[10px] font-bold uppercase tracking-wider text-blue-700 mb-1">📊 Pontos-chave</p>
+      <ul class="space-y-0.5">
+        <li
+          v-for="(ponto, i) in article.pontos_chave"
+          :key="i"
+          class="text-sm text-gray-800 leading-snug flex gap-1.5"
+        >
+          <span class="text-blue-500 font-bold flex-shrink-0">▸</span>
+          <span>{{ ponto }}</span>
+        </li>
+      </ul>
+    </div>
+
     <p class="text-sm text-gray-600 mb-4 italic">💡 {{ article.impacto_clinico }}</p>
 
     <div class="flex items-center justify-between">
