@@ -16,6 +16,40 @@
       @next="navigateDate(-1)"
     />
 
+    <!-- View Toggle: Relatório vs Ideias do Dia -->
+    <div class="bg-gray-50 border-b border-gray-200">
+      <div class="max-w-6xl mx-auto px-4 py-2 flex gap-2">
+        <button
+          @click="currentView = 'report'"
+          :class="['px-4 py-2 rounded-lg text-sm font-medium transition-all',
+                   currentView === 'report'
+                     ? 'bg-purple-600 text-white shadow-sm'
+                     : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200']"
+        >
+          📰 Relatório
+        </button>
+        <button
+          @click="currentView = 'ideas'"
+          :class="['px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2',
+                   currentView === 'ideas'
+                     ? 'bg-pink-600 text-white shadow-sm'
+                     : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200']"
+        >
+          💡 Ideias do Dia
+          <span v-if="report?.post_ideas?.length"
+                :class="['px-1.5 py-0.5 rounded-full text-xs font-bold',
+                         currentView === 'ideas' ? 'bg-white text-pink-600' : 'bg-pink-100 text-pink-700']">
+            {{ report.post_ideas.length }}
+          </span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- VIEW 1: RELATÓRIO (default) -->
+    <!-- ============================================================ -->
+    <template v-if="currentView === 'report'">
+
     <!-- Filters & Section Navigation -->
     <FilterBar
       :selected-class="selectedClass"
@@ -154,6 +188,65 @@
       </p>
     </section>
 
+    </template>
+    <!-- ============================================================ -->
+    <!-- END VIEW 1: RELATÓRIO -->
+    <!-- ============================================================ -->
+
+
+    <!-- ============================================================ -->
+    <!-- VIEW 2: IDEIAS DO DIA -->
+    <!-- ============================================================ -->
+    <template v-else-if="currentView === 'ideas'">
+      <section class="px-4 py-8 max-w-6xl mx-auto">
+        <div class="mb-6">
+          <h2 class="text-2xl md:text-3xl font-bold mb-2">💡 Ideias de Posts para Hoje</h2>
+          <p class="text-sm text-gray-600">
+            Geradas a partir do relatório do dia para o público leigo. Use como inspiração + skeleton — desenvolva o post final em outro app.
+          </p>
+        </div>
+
+        <!-- Type filter -->
+        <div v-if="report?.post_ideas?.length" class="flex gap-2 flex-wrap mb-6">
+          <button
+            v-for="t in availableTypes"
+            :key="t.key"
+            @click="selectedIdeaType = t.key"
+            :class="['px-3 py-1.5 rounded-full text-xs font-medium transition-all flex items-center gap-1.5',
+                     selectedIdeaType === t.key
+                       ? 'bg-pink-600 text-white shadow-sm'
+                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200']"
+          >
+            <span>{{ t.emoji }}</span>
+            <span>{{ t.label }}</span>
+            <span class="opacity-70">({{ t.count }})</span>
+          </button>
+        </div>
+
+        <!-- Ideas grid -->
+        <div v-if="filteredIdeas.length" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <PostIdeaCard
+            v-for="idea in filteredIdeas"
+            :key="idea.id || idea.ideia"
+            :idea="idea"
+          />
+        </div>
+
+        <!-- Empty / loading state -->
+        <div v-else-if="!report" class="text-center py-12 text-gray-500">
+          Carregando relatório...
+        </div>
+        <div v-else-if="!report.post_ideas?.length" class="text-center py-12 text-gray-500">
+          <p class="text-lg mb-2">📭 Sem ideias geradas hoje</p>
+          <p class="text-sm">As ideias começarão a aparecer no próximo run automático (3 UTC = meia-noite Brasília).</p>
+        </div>
+        <div v-else class="text-center py-12 text-gray-500">
+          Nenhuma ideia do tipo selecionado.
+        </div>
+      </section>
+    </template>
+
+
     <!-- Article Detail Modal -->
     <ArticleDetail
       v-if="selectedArticle"
@@ -189,6 +282,7 @@ import XDiscussionDetail from './components/XDiscussionDetail.vue'
 import PodcastCard from './components/PodcastCard.vue'
 import PodcastDetail from './components/PodcastDetail.vue'
 import VideoCard from './components/VideoCard.vue'
+import PostIdeaCard from './components/PostIdeaCard.vue'
 import { fetchLatestReport, fetchIndex, fetchReportByDate } from './utils/api'
 
 const report = ref(null)
@@ -200,6 +294,8 @@ const searchQuery = ref('')
 const loading = ref(false)
 const selectedXCategoria = ref('all')
 const selectedVideoTier = ref(-1)  // -1 = all
+const currentView = ref('report')  // 'report' | 'ideas'
+const selectedIdeaType = ref('all')
 const availableDates = ref([])
 const currentDateIndex = ref(0)
 
@@ -231,6 +327,33 @@ const videoTierCounts = computed(() => {
     counts[String(v.tier)] = (counts[String(v.tier)] || 0) + 1
   }
   return counts
+})
+
+const TIPO_META = [
+  { key: 'all',        emoji: '📋', label: 'Todas' },
+  { key: 'novidade',   emoji: '🆕', label: 'Novidade' },
+  { key: 'atencao',    emoji: '⚠️', label: 'Atenção' },
+  { key: 'lifestyle',  emoji: '🥗', label: 'Lifestyle' },
+  { key: 'medicacao',  emoji: '💊', label: 'Medicação' },
+  { key: 'paradigma',  emoji: '🔄', label: 'Paradigma' },
+  { key: 'mito',       emoji: '🧠', label: 'Mito' },
+  { key: 'prevencao',  emoji: '🛡️', label: 'Prevenção' },
+]
+
+const availableTypes = computed(() => {
+  const ideas = report.value?.post_ideas || []
+  return TIPO_META
+    .map(t => ({
+      ...t,
+      count: t.key === 'all' ? ideas.length : ideas.filter(i => i.tipo === t.key).length
+    }))
+    .filter(t => t.key === 'all' || t.count > 0)
+})
+
+const filteredIdeas = computed(() => {
+  const ideas = report.value?.post_ideas || []
+  if (selectedIdeaType.value === 'all') return ideas
+  return ideas.filter(i => i.tipo === selectedIdeaType.value)
 })
 
 const filteredArticles = computed(() => {

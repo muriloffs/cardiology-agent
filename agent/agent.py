@@ -16,6 +16,7 @@ from agent.scripts.fetch_rss import fetch_all_rss
 from agent.scripts.fetch_grok import fetch_x_cardiology_posts, transform_to_discussoes_x
 from agent.scripts.fetch_podcasts import fetch_all_podcasts
 from agent.scripts.fetch_youtube import fetch_all_youtube, transform_to_videos_youtube
+from agent.scripts.generate_post_ideas import generate_post_ideas
 
 
 # Configure logging for GitHub Actions diagnostics
@@ -194,6 +195,19 @@ class CardologyAgent:
                         p["show_notes_original"] = show_notes_by_show[show_name]
                         injected += 1
                 logger.info(f"Injected original RSS show notes into {injected}/{len(report['podcasts'])} podcasts")
+
+            # Generate Instagram post ideas for lay-audience patients (Sonnet).
+            # Non-critical: failures degrade gracefully, returning [] without breaking the report.
+            if os.environ.get("DISABLE_POST_IDEAS", "").lower() not in ("1", "true", "yes"):
+                logger.info("Generating post ideas (Sonnet 4.6, lay-audience)...")
+                post_ideas = generate_post_ideas(report, anthropic_client=self.client)
+                if post_ideas:
+                    report["post_ideas"] = post_ideas
+                    logger.info(f"Injected {len(post_ideas)} post ideas")
+                else:
+                    logger.warning("Post ideas generation returned empty — skipping field injection")
+            else:
+                logger.info("Post ideas generation disabled via DISABLE_POST_IDEAS env var")
 
             return report
         except ParsingError as e:
