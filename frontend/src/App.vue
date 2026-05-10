@@ -54,6 +54,7 @@
           v-for="podcast in report.podcasts"
           :key="podcast.id"
           :podcast="podcast"
+          @click="selectedPodcast = podcast"
         />
       </div>
     </section>
@@ -167,6 +168,13 @@
       @close="selectedDiscussion = null"
     />
 
+    <!-- Podcast Detail Modal -->
+    <PodcastDetail
+      v-if="selectedPodcast"
+      :podcast="selectedPodcast"
+      @close="selectedPodcast = null"
+    />
+
   </div>
 </template>
 
@@ -179,12 +187,14 @@ import ArticleDetail from './components/ArticleDetail.vue'
 import XDiscussionCard from './components/XDiscussionCard.vue'
 import XDiscussionDetail from './components/XDiscussionDetail.vue'
 import PodcastCard from './components/PodcastCard.vue'
+import PodcastDetail from './components/PodcastDetail.vue'
 import VideoCard from './components/VideoCard.vue'
 import { fetchLatestReport, fetchIndex, fetchReportByDate } from './utils/api'
 
 const report = ref(null)
 const selectedArticle = ref(null)
 const selectedDiscussion = ref(null)
+const selectedPodcast = ref(null)
 const selectedClass = ref('all')
 const searchQuery = ref('')
 const loading = ref(false)

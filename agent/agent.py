@@ -182,6 +182,19 @@ class CardologyAgent:
                 report["videos_youtube"] = direct_videos_youtube
                 logger.info(f"Injected {len(direct_videos_youtube)} YouTube videos directly (bypass)")
 
+            # Inject original RSS show notes (EN) into each podcast item for the
+            # detail modal. Claude rewrites titulo so we match by `publicacao`
+            # (show name) — each show has at most 1 episode per run.
+            if podcast_episodes and report.get("podcasts"):
+                show_notes_by_show = {ep["publicacao"]: ep.get("abstract", "") for ep in podcast_episodes}
+                injected = 0
+                for p in report["podcasts"]:
+                    show_name = p.get("publicacao", "")
+                    if show_name in show_notes_by_show and show_notes_by_show[show_name]:
+                        p["show_notes_original"] = show_notes_by_show[show_name]
+                        injected += 1
+                logger.info(f"Injected original RSS show notes into {injected}/{len(report['podcasts'])} podcasts")
+
             return report
         except ParsingError as e:
             logger.error(f"Failed to parse report: {e}")

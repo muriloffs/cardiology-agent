@@ -1,6 +1,6 @@
 <!-- frontend/src/components/PodcastCard.vue -->
 <template>
-  <div class="card group">
+  <div class="card group cursor-pointer" @click="$emit('click')">
     <div class="flex items-start gap-3 mb-3">
       <span class="text-2xl flex-shrink-0">🎙️</span>
       <div class="flex-1 min-w-0">
@@ -74,4 +74,6 @@
 defineProps({
   podcast: Object
 })
+
+defineEmits(['click'])
 </script>
