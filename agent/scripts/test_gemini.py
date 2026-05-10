@@ -63,7 +63,7 @@ def main():
     # Use case: list recent cardio articles from journal websites
     # ============================================================
     print("─" * 70)
-    print("TEST 2: Gemini-as-Fetcher with grounding (gemini-2.5-pro)")
+    print("TEST 2: Gemini-as-Fetcher with grounding (gemini-2.5-flash — free tier)")
     print("─" * 70)
 
     # Window: yesterday (Brasilia)
@@ -106,7 +106,7 @@ Retorne APENAS o JSON array, sem markdown, sem explicação."""
             temperature=0.1,
         )
         response = client.models.generate_content(
-            model="gemini-2.5-pro",
+            model="gemini-2.5-flash",
             contents=fetcher_prompt,
             config=config,
         )
