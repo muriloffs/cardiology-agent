@@ -150,6 +150,19 @@ def _validate(report: Dict[str, Any]) -> None:
                 pass
         report['podcasts'] = valid_podcasts
 
+    # Validate destaque_do_dia (optional field) — drop silently if malformed.
+    # Required keys: item_id, tipo_origem, titulo, razao, o_que_muda, o_que_nao_muda_ainda
+    if 'destaque_do_dia' in report:
+        d = report['destaque_do_dia']
+        if not isinstance(d, dict):
+            report.pop('destaque_do_dia', None)
+        else:
+            required_d = {'item_id', 'tipo_origem', 'titulo', 'razao', 'o_que_muda', 'o_que_nao_muda_ainda'}
+            if not required_d.issubset(d.keys()) or not all(isinstance(d.get(k), str) and d[k].strip() for k in required_d):
+                report.pop('destaque_do_dia', None)
+            elif d.get('tipo_origem') not in {'artigo', 'noticia', 'podcast'}:
+                report.pop('destaque_do_dia', None)
+
 
 def _validate_resumo(resumo: Dict[str, Any]) -> None:
     """Validate resumo (summary) object."""

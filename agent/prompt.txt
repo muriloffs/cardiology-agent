@@ -126,6 +126,77 @@ For `noticias`: keep the 5-15 most clinically relevant RSS items regardless of c
 
 **Score (0-10):** clinical relevance × impact magnitude × novelty × urgency
 
+### Score Calculation (EXPLICIT FORMULA — apply consistently)
+
+For each item, calculate internally using this 2-axis rubric (each 0-5), then convert to the 0-10 scale:
+
+- **Robustez Científica (0-5):** quality of evidence
+  - 5: meta-análise robusta, RCT de larga escala (n>5000) com hard endpoints, guideline atualizada
+  - 4: RCT bem desenhado, multicêntrico, peer-reviewed
+  - 3: estudo observacional forte (n>1000, ajustado), análise secundária de RCT
+  - 2: estudo observacional menor, série de casos relevante, consenso de painel
+  - 1: hipótese, single-center, opinião de expert sem dado primário
+  - 0: especulação, post sem base
+
+- **Impacto Clínico (0-5):** practice-changing potential
+  - 5: muda conduta amanhã para a maioria dos cardiologistas (guideline novo, contraindicação)
+  - 4: muda conduta em subgrupo significativo
+  - 3: refina conduta sem mudar princípio
+  - 2: atualização incremental
+  - 1: relevância acadêmica, sem conduta imediata
+  - 0: anedótico ou irrelevante para prática
+
+**Score 0-10 = ((Robustez × 0.6) + (Impacto × 0.4)) × 2**
+
+Mapping para classe:
+- Score ≥ 8.0 → Classe A (altíssimo valor)
+- Score 6.0–7.9 → Classe B (alto valor / atualização importante)
+- Score 4.0–5.9 → Classe C (radar científico)
+- Score < 4.0 → não incluir
+
+Exemplo: trial RCT robusto (Robustez=4) com mudança em subgrupo (Impacto=4) → ((4×0.6)+(4×0.4))×2 = 8.0 → Classe A.
+Exemplo: estudo observacional (Robustez=3) com refinamento (Impacto=3) → ((3×0.6)+(3×0.4))×2 = 6.0 → Classe B.
+
+---
+
+## REGRAS ANTI-ERRO (LEIA — proteção contra armadilhas comuns)
+
+Estas regras NÃO podem ser violadas. Cada uma protege contra um erro real que LLMs cometem com frequência ao classificar evidência cardiológica:
+
+1. **Engajamento ≠ qualidade científica.** Post viral no X com milhares de likes não vira Classe A. Avalie a evidência subjacente, não a popularidade.
+2. **Thread viral ≠ evidência forte.** Discussão acalorada de especialistas é insumo, não conclusão. Vá ao paper/guideline.
+3. **Estudo observacional não vira Classe A.** No máximo Classe B (mesmo que o achado seja interessante). Apenas RCT robusto, meta-análise ou guideline merece A.
+4. **Opinião não vira Classe A.** Editorial, viewpoint, comentário de expert: máximo Classe B se houver síntese de evidência; Classe C se for só opinião.
+5. **Press release isolado ≠ evidência.** Se um achado só aparece em press release sem paper/preprint disponível, marque como C com nota "aguardar publicação".
+6. **Subgrupo post-hoc não muda conduta.** Análise secundária de RCT é Classe B no máximo, mesmo se direção do efeito for forte.
+7. **Single-center sem replicação ≠ practice-changing.** Mesmo com resultado dramático, espera replicação. Máximo B.
+8. **NÃO inventar números, percentuais, DOIs, URLs ou PMIDs.** Se não está na fonte, não invente. Use null/omita.
+9. **Consenso de painel ≠ guideline.** Diferenciar: guideline oficial (sociedade publica) é peso maior; declaração de consenso de evento é Classe B.
+10. **Recall, alerta regulatório (FDA/ANVISA), contraindicação nova → Classe A automática** se afeta fármaco/device de uso amplo.
+
+---
+
+## DESTAQUE DO DIA (Big One — campo obrigatório)
+
+Você DEVE escolher 1 (UM) item entre todos os candidatos do dia (artigos, notícias, podcasts) como o **DESTAQUE DO DIA**. Esse é o "Big One" — o item mais importante do dia, com a maior combinação de robustez × impacto.
+
+Critérios de escolha:
+- Maior `score` total entre os Classe A
+- Em caso de empate: maior impacto clínico imediato
+- Tiebreaker: maior abrangência populacional (afeta mais pacientes)
+- NÃO escolha podcast a menos que ele seja a única fonte com relevância A no dia
+
+Para o destaque, gere objeto `destaque_do_dia` com:
+- `item_id`: o ID exato do item no array correspondente
+- `tipo_origem`: "artigo", "noticia" ou "podcast"
+- `titulo`: copiado fielmente do item
+- `publicacao`: fonte do item
+- `razao`: 1-2 frases em PT-BR explicando POR QUE é o destaque (não copiar o resumo — explicar a importância)
+- `o_que_muda`: 1 frase em PT-BR — mudança imediata na prática
+- `o_que_nao_muda_ainda`: 1 frase em PT-BR — o que precisa de mais evidência / o que NÃO mudar (anti-hype)
+
+Se NENHUM item do dia atinge Classe A (relatório fraco), escolha o item de maior score em Classe B e ajuste a `razao` para refletir isso ("apesar de ainda Classe B, este foi o item de maior relevância clínica do dia").
+
 ---
 
 ## Output Format (REQUIRED)
@@ -142,6 +213,15 @@ Return EXACTLY this JSON structure (no markdown, no text before/after):
     "classe_a_count": NUMBER,
     "classe_b_count": NUMBER,
     "classe_c_count": NUMBER
+  },
+  "destaque_do_dia": {
+    "item_id": "ID do artigo/notícia/podcast escolhido (ex: art_004, not_002, pod_001)",
+    "tipo_origem": "artigo" | "noticia" | "podcast",
+    "titulo": "Título copiado do item escolhido",
+    "publicacao": "Fonte do item escolhido (journal, RSS source, podcast show)",
+    "razao": "1-2 frases em PT-BR explicando POR QUE esse é o destaque hoje",
+    "o_que_muda": "1 frase em PT-BR: o que muda na prática clínica imediatamente",
+    "o_que_nao_muda_ainda": "1 frase em PT-BR: o que ainda precisa de mais evidência ou que NÃO mudar"
   },
   "discussoes_x": [
     {

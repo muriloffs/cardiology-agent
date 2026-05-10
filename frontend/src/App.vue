@@ -64,6 +64,12 @@
       @refresh="loadReport"
     />
 
+    <!-- 🌟 Destaque do Dia (Big One) — único campo destacado no topo -->
+    <DestaqueDoDia
+      v-if="report?.destaque_do_dia"
+      :destaque="report.destaque_do_dia"
+      :on-jump-to-item="jumpToDestaqueItem"
+    />
 
     <!-- News Section -->
     <section id="section-noticias" v-if="report?.noticias?.length" class="px-4 py-8 max-w-6xl mx-auto border-t border-gray-100 scroll-mt-4">
@@ -283,6 +289,7 @@ import PodcastCard from './components/PodcastCard.vue'
 import PodcastDetail from './components/PodcastDetail.vue'
 import VideoCard from './components/VideoCard.vue'
 import PostIdeaCard from './components/PostIdeaCard.vue'
+import DestaqueDoDia from './components/DestaqueDoDia.vue'
 import { fetchLatestReport, fetchIndex, fetchReportByDate } from './utils/api'
 
 const report = ref(null)
@@ -298,6 +305,22 @@ const currentView = ref('report')  // 'report' | 'ideas'
 const selectedIdeaType = ref('all')
 const availableDates = ref([])
 const currentDateIndex = ref(0)
+
+function jumpToDestaqueItem(destaque) {
+  if (!destaque || !report.value) return
+  const itemId = destaque.item_id
+  const tipo = destaque.tipo_origem
+  if (tipo === 'artigo') {
+    const found = (report.value.artigos || []).find(a => a.id === itemId)
+    if (found) selectedArticle.value = found
+  } else if (tipo === 'noticia') {
+    const found = (report.value.noticias || []).find(n => n.id === itemId)
+    if (found) selectedArticle.value = found
+  } else if (tipo === 'podcast') {
+    const found = (report.value.podcasts || []).find(p => p.id === itemId)
+    if (found) selectedPodcast.value = found
+  }
+}
 
 async function navigateDate(direction) {
   const newIndex = currentDateIndex.value + direction
