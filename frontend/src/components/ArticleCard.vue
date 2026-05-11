@@ -8,7 +8,7 @@
       <span class="text-2xl flex-shrink-0">{{ article.emoji }}</span>
       <div class="flex-1 min-w-0">
         <div class="flex items-start justify-between gap-2">
-          <h3 class="font-bold text-base md:text-lg group-hover:text-purple-600 transition-colors">
+          <h3 class="font-bold text-base md:text-lg group-hover:text-purple-600 transition-colors break-words min-w-0">
             {{ article.titulo }}
           </h3>
           <div class="flex flex-col items-end gap-1 flex-shrink-0">
@@ -21,16 +21,16 @@
             <span class="text-xs font-bold text-gray-700">{{ article.score }}/10</span>
           </div>
         </div>
-        <p class="text-sm text-gray-600">{{ article.publicacao }}</p>
+        <p class="text-sm text-gray-600 break-words">{{ article.publicacao }}</p>
       </div>
     </div>
 
-    <p class="text-gray-700 text-sm mb-3 line-clamp-2">{{ article.resumo }}</p>
+    <p class="text-gray-700 text-sm mb-3 line-clamp-2 break-words">{{ article.resumo }}</p>
 
     <!-- Conclusão (paráfrase do abstract — NOVO) -->
     <div v-if="article.conclusao" class="mb-3 p-2.5 bg-emerald-50 border-l-2 border-emerald-400 rounded-r">
       <p class="text-[10px] font-bold uppercase tracking-wider text-emerald-700 mb-0.5">🎯 Conclusão do paper</p>
-      <p class="text-sm text-gray-800 leading-relaxed">{{ article.conclusao }}</p>
+      <p class="text-sm text-gray-800 leading-relaxed break-words">{{ article.conclusao }}</p>
     </div>
 
     <!-- Pontos-chave (dados granulares — NOVO) -->
@@ -43,12 +43,12 @@
           class="text-sm text-gray-800 leading-snug flex gap-1.5"
         >
           <span class="text-blue-500 font-bold flex-shrink-0">▸</span>
-          <span>{{ ponto }}</span>
+          <span class="break-words min-w-0">{{ ponto }}</span>
         </li>
       </ul>
     </div>
 
-    <p class="text-sm text-gray-600 mb-4 italic">💡 {{ article.impacto_clinico }}</p>
+    <p class="text-sm text-gray-600 mb-4 italic break-words">💡 {{ article.impacto_clinico }}</p>
 
     <div class="flex items-center justify-between">
       <span class="text-xs text-gray-500">

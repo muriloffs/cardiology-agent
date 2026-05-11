@@ -1,9 +1,10 @@
 <!-- frontend/src/components/VideoCardEnriched.vue -->
 <!--
-  Rich YouTube card with Gemini-enriched PT-BR fields (Phase 6).
-  Shows thumbnail (16:9) on top, then channel/tier badge, title, theme,
-  bullets, summary, tags, and "Assistir" button. Falls back gracefully
-  to legacy fields when video is not enriched.
+  YouTube video card — minimal version.
+  Shows ONLY real content: thumbnail, channel name, title, RSS description
+  (literal text the uploader wrote). No LLM-inferred fields (no bullets,
+  resumo_pt, tema, tags, source-of-truth chip) because without a transcript
+  any synthesis risks distorting the actual content of the video.
 -->
 <template>
   <article
@@ -45,95 +46,30 @@
     <div class="px-4 py-3 flex-1 flex flex-col gap-2.5">
       <!-- Channel + date -->
       <div class="flex items-center justify-between text-xs text-gray-500">
-        <span class="font-medium truncate flex-1">{{ video.canal }}</span>
+        <span class="font-medium truncate flex-1 break-words">{{ video.canal }}</span>
         <span v-if="formattedDate" class="flex-shrink-0 ml-2">{{ formattedDate }}</span>
       </div>
 
-      <!-- Title -->
-      <h3 class="font-bold text-base leading-snug text-gray-900 line-clamp-3">
+      <!-- Title (real, from RSS) -->
+      <h3 class="font-bold text-base leading-snug text-gray-900 break-words">
         {{ video.titulo }}
       </h3>
 
-      <!-- Tema badge -->
-      <div v-if="video.tema" class="flex items-center gap-2 flex-wrap">
-        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide bg-purple-100 text-purple-800">
-          {{ video.tema }}
-        </span>
-      </div>
-
-      <!-- Bullets (enriched only) -->
-      <ul v-if="video.bullets_pt?.length" class="space-y-1 mt-1">
-        <li
-          v-for="(bullet, i) in video.bullets_pt"
-          :key="i"
-          class="text-sm text-gray-700 leading-relaxed flex gap-2"
-        >
-          <span class="flex-shrink-0 text-red-500 font-bold mt-0.5">▸</span>
-          <span>{{ bullet }}</span>
-        </li>
-      </ul>
-
-      <!-- Summary -->
-      <p v-if="video.resumo_pt" class="text-sm text-gray-600 italic leading-relaxed pt-1 border-t border-gray-100">
-        {{ video.resumo_pt }}
-      </p>
-
-      <!-- Fallback to RSS description for non-enriched -->
-      <p v-else-if="video.descricao_preview" class="text-sm text-gray-600 leading-relaxed pt-1 border-t border-gray-100 line-clamp-3">
+      <!-- Description (REAL text the uploader wrote — no LLM inference) -->
+      <p v-if="video.descricao_preview"
+         class="text-sm text-gray-700 leading-relaxed pt-1 border-t border-gray-100 whitespace-pre-line break-words">
         {{ video.descricao_preview }}
       </p>
 
-      <!-- Contextual fields (Combo Total) — only render when present -->
-      <div v-if="video.quem_se_aplica || video.evidencia_chave || video.contraponto" class="space-y-2 pt-1 border-t border-gray-100">
-        <div v-if="video.quem_se_aplica" class="text-xs">
-          <span class="font-bold text-blue-700 uppercase tracking-wide">👥 Para quem </span>
-          <span class="text-gray-700">{{ video.quem_se_aplica }}</span>
-        </div>
-        <div v-if="video.evidencia_chave" class="text-xs">
-          <span class="font-bold text-emerald-700 uppercase tracking-wide">📊 Evidência </span>
-          <span class="text-gray-700">{{ video.evidencia_chave }}</span>
-        </div>
-        <div v-if="video.contraponto" class="text-xs">
-          <span class="font-bold text-amber-700 uppercase tracking-wide">⚠️ Contraponto </span>
-          <span class="text-gray-700">{{ video.contraponto }}</span>
-        </div>
-      </div>
-
-      <!-- Source-of-truth signal — 3 tiers of fidelity so reader knows
-           where the clinical content came from. -->
-      <div v-if="video._enriched" class="text-[10px] mt-1">
-        <span v-if="video._source === 'transcript' || video._transcript_used"
-              class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-purple-100 text-purple-800 font-medium">
-          📝 Análise feita sobre o transcript do vídeo
-        </span>
-        <span v-else-if="video._source === 'description'"
-              class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-blue-100 text-blue-800 font-medium">
-          📋 Síntese da descrição do canal (texto que o uploader escreveu)
-        </span>
-        <span v-else
-              class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-yellow-100 text-yellow-800 font-medium">
-          🔍 Pesquisa Google (sem transcript ou descrição rica) — pode divergir do conteúdo real
-        </span>
-      </div>
-
-      <!-- Tags + Watch -->
-      <div class="flex items-center justify-between gap-3 pt-2 mt-auto flex-wrap">
-        <div v-if="video.tags?.length" class="flex flex-wrap gap-1">
-          <span
-            v-for="(tag, i) in video.tags"
-            :key="i"
-            class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-gray-100 text-gray-600"
-          >
-            #{{ tag }}
-          </span>
-        </div>
+      <!-- Watch button -->
+      <div class="flex items-center justify-end pt-2 mt-auto">
         <a
           :href="video.video_url"
           target="_blank"
           rel="noopener noreferrer"
-          class="inline-flex items-center gap-1 text-xs font-semibold text-red-600 hover:text-red-800 hover:underline whitespace-nowrap ml-auto"
+          class="inline-flex items-center gap-1 text-xs font-semibold text-red-600 hover:text-red-800 hover:underline whitespace-nowrap"
         >
-          ▶ Assistir →
+          ▶ Assistir no YouTube →
         </a>
       </div>
     </div>
