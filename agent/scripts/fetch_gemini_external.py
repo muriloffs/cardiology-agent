@@ -357,6 +357,53 @@ Plain text only. No JSON. No markdown. If none found: NONE"""
     return items
 
 
+def fetch_news_sites(client) -> list[dict]:
+    """Gemini fallback for major cardiology NEWS sites (não-paywalled).
+
+    Cobertura redundante a fetch_rss para garantir que dias com RSS=0 ainda
+    tragam conteúdo. Os feeds RSS de TCTMD/Healio/HCPLive/PracticalCardiology
+    às vezes vêm vazios (timing) ou 403'd (Cloudflare blocks GitHub IPs).
+    Esta query Gemini contorna ambos os problemas via Google Search grounding.
+    """
+    prompt = """Use Google Search to find the 10 most recent cardiology news articles published in the last 3 days on these clinical news sites:
+- tctmd.com (intervention/cath lab focus)
+- healio.com/cardiology
+- cardiovascularnews.com
+- cardiacrhythmnews.com
+- hcplive.com/clinical/cardiology
+- practicalcardiology.com
+- dicardiology.com
+
+For each article, respond with ONE line:
+TITLE: <article title> | URL: <full URL> | DATE: <publication date> | DOI: null
+
+Plain text only. No JSON. No markdown. If none found: NONE"""
+    text = _grounded_call(client, prompt, "News-Sites")
+    items = _parse_pipe_format(text)
+    for item in items:
+        # Tag publicacao baseado no domain
+        url_lower = item.get("url", "").lower()
+        if "tctmd" in url_lower:
+            item["publicacao"] = "TCTMD"
+        elif "healio" in url_lower:
+            item["publicacao"] = "Healio Cardiology"
+        elif "cardiovascularnews" in url_lower:
+            item["publicacao"] = "Cardiovascular News"
+        elif "cardiacrhythmnews" in url_lower:
+            item["publicacao"] = "Cardiac Rhythm News"
+        elif "hcplive" in url_lower:
+            item["publicacao"] = "HCP Live Cardiology"
+        elif "practicalcardiology" in url_lower:
+            item["publicacao"] = "Practical Cardiology"
+        elif "dicardiology" in url_lower:
+            item["publicacao"] = "DAIC (Imaging+Intervention)"
+        else:
+            item["publicacao"] = "Cardiology News"
+        item["fonte_origem"] = "news_sites_gemini"
+    logger.info(f"Gemini News Sites: {len(items)} items")
+    return items
+
+
 def fetch_sbc_brasil(client) -> list[dict]:
     """Sociedade Brasileira de Cardiologia."""
     prompt = """Use Google Search to find the 5 most recent cardiology news or articles published this week on Sociedade Brasileira de Cardiologia (portal.cardiol.br) or Brazilian cardiology journals (Arquivos Brasileiros de Cardiologia on scielo.br).
@@ -605,6 +652,7 @@ def fetch_all_external(days_back: int = 2) -> dict:
         ("medscape",        fetch_medscape_cardio),
         ("sociedades_intl", fetch_society_intl),
         ("sbc_brasil",      fetch_sbc_brasil),
+        ("news_sites",      fetch_news_sites),  # TCTMD/Healio/CardiovascularNews fallback
     ]
 
     noticias_external = []

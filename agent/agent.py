@@ -76,11 +76,13 @@ class CardologyAgent:
         with ThreadPoolExecutor(max_workers=7) as executor:
             futures = {
                 "PubMed": executor.submit(fetch_recent_cardiology_articles, days_back=1),
-                "RSS": executor.submit(fetch_all_rss, days_back=2),
+                # RSS/Gemini news feeds podem publicar em ritmo lento — janela de 3 dias
+                # cobre items publicados late-night antes do cutoff. Dedup por URL evita repetição.
+                "RSS": executor.submit(fetch_all_rss, days_back=3),
                 "Grok/X": executor.submit(fetch_x_cardiology_posts, days_back=1),
                 "Podcasts": executor.submit(fetch_all_podcasts, days_back=7),
                 "YouTube": executor.submit(fetch_all_youtube, days_back=3),
-                "GeminiExternal": executor.submit(fetch_all_external, days_back=2),
+                "GeminiExternal": executor.submit(fetch_all_external, days_back=3),
                 "GeminiSubstacks": executor.submit(fetch_all_substacks),
             }
             results = {}

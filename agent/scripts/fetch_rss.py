@@ -57,6 +57,9 @@ RSS_FEEDS = [
         "categoria": "preprint",
         "emoji": "🔬",
     },
+    # HCP Live cardiology + Practical Cardiology são cobertos via Gemini news
+    # fetcher (fetch_news_sites em fetch_gemini_external.py) — RSS direct dá 403
+    # nos GitHub Actions runners (Cloudflare bot blocking).
     # NOTE: Substacks (Topol, Mandrola, Skeptical, etc) are no longer fetched
     # via direct RSS — they 403'd from GitHub Actions runner IPs (Cloudflare bot
     # blocking). Phase 7 replaced this with fetch_gemini_substacks.py which uses
