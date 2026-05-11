@@ -275,16 +275,34 @@ def _validate_resumo(resumo: Dict[str, Any]) -> None:
 
 
 def _validate_article(article: Dict[str, Any], context: str = "article") -> None:
-    """Validate article structure (featured or artigos item)."""
+    """Validate article structure (featured or artigos item).
 
-    required_fields = {'id', 'titulo', 'publicacao', 'classe', 'score', 'categoria_fonte', 'emoji', 'resumo', 'impacto_clinico', 'links'}
+    Schema dual: legacy fields (resumo, impacto_clinico) remain required for
+    backwards-compat with downstream consumers (Pulso, post_ideas). New 8-section
+    framework fields (contexto_clinico, pergunta_principal, desenho_estudo,
+    principais_resultados, interpretacao_pratica, limitacoes, conclusao_uma_frase,
+    pontos_chave) are validated softly — Opus generates them per prompt but parser
+    accepts articles missing them (e.g., when this validator runs on noticias[]
+    which uses _validate_article but doesn't need the full framework).
+    """
+
+    # Core structural fields (always required)
+    required_fields = {'id', 'titulo', 'publicacao', 'classe', 'score', 'categoria_fonte', 'emoji', 'resumo', 'links'}
     missing = required_fields - set(article.keys())
     if missing:
         raise ParsingError(f"Field '{context}' missing required fields: {', '.join(sorted(missing))}")
 
     # Validate string fields
-    for field in ['id', 'titulo', 'publicacao', 'classe', 'categoria_fonte', 'emoji', 'resumo', 'impacto_clinico']:
+    for field in ['id', 'titulo', 'publicacao', 'classe', 'categoria_fonte', 'emoji', 'resumo']:
         _require_non_empty_string(article[field], f"{context}.{field}")
+
+    # impacto_clinico — legacy field, required for downstream (Pulso/post_ideas)
+    # if not provided, derive from interpretacao_pratica when available
+    if 'impacto_clinico' not in article or not isinstance(article.get('impacto_clinico'), str) or not article['impacto_clinico'].strip():
+        if isinstance(article.get('interpretacao_pratica'), str) and article['interpretacao_pratica'].strip():
+            article['impacto_clinico'] = article['interpretacao_pratica'].strip()
+        else:
+            article['impacto_clinico'] = article['resumo']  # last-resort fallback
 
     # Validate authors if present — filter out empty strings silently
     if 'autores' in article:
@@ -315,9 +333,8 @@ def _validate_article(article: Dict[str, Any], context: str = "article") -> None
     # Validate links
     _validate_links(article['links'], context)
 
-    # New optional fields (Article enrichment): conclusao + pontos_chave.
-    # Both optional for backwards compat with reports generated before this commit
-    # and for noticias/podcasts (where they may be sparser). Drop malformed silently.
+    # Legacy field `conclusao` (paráfrase do abstract) — opcional, mantido para
+    # retrocompat com relatórios antigos. Novos relatórios usam `conclusao_uma_frase`.
     if 'conclusao' in article:
         if not isinstance(article['conclusao'], str):
             article.pop('conclusao', None)
@@ -337,6 +354,74 @@ def _validate_article(article: Dict[str, Any], context: str = "article") -> None
                 article['pontos_chave'] = cleaned
             else:
                 article.pop('pontos_chave', None)
+
+    # ── NEW FRAMEWORK FIELDS (8 seções) — todos opcionais no parser,
+    # gerados por Opus para `artigos` (PubMed). Para `noticias`/podcasts não vêm.
+    # Drop malformed silently para manter parcial.
+
+    # 1. contexto_clinico (string)
+    if 'contexto_clinico' in article:
+        if not isinstance(article['contexto_clinico'], str) or not article['contexto_clinico'].strip():
+            article.pop('contexto_clinico', None)
+        else:
+            article['contexto_clinico'] = article['contexto_clinico'].strip()
+
+    # 2. pergunta_principal (string)
+    if 'pergunta_principal' in article:
+        if not isinstance(article['pergunta_principal'], str) or not article['pergunta_principal'].strip():
+            article.pop('pergunta_principal', None)
+        else:
+            article['pergunta_principal'] = article['pergunta_principal'].strip()
+
+    # 3. desenho_estudo (object com 6 chaves, todas opcionalmente null)
+    if 'desenho_estudo' in article:
+        d = article['desenho_estudo']
+        if not isinstance(d, dict):
+            article.pop('desenho_estudo', None)
+        else:
+            allowed = {'tipo', 'populacao', 'n', 'intervencao', 'comparador', 'seguimento'}
+            cleaned_d = {}
+            for k in allowed:
+                v = d.get(k)
+                if isinstance(v, str) and v.strip():
+                    cleaned_d[k] = v.strip()
+            if cleaned_d:
+                article['desenho_estudo'] = cleaned_d
+            else:
+                article.pop('desenho_estudo', None)
+
+    # 4. principais_resultados (string longo, sem cap)
+    if 'principais_resultados' in article:
+        if not isinstance(article['principais_resultados'], str) or not article['principais_resultados'].strip():
+            article.pop('principais_resultados', None)
+        else:
+            article['principais_resultados'] = article['principais_resultados'].strip()
+
+    # 5. interpretacao_pratica (string 2-3 frases)
+    if 'interpretacao_pratica' in article:
+        if not isinstance(article['interpretacao_pratica'], str) or not article['interpretacao_pratica'].strip():
+            article.pop('interpretacao_pratica', None)
+        else:
+            article['interpretacao_pratica'] = article['interpretacao_pratica'].strip()
+
+    # 6. limitacoes (array de strings)
+    if 'limitacoes' in article:
+        if not isinstance(article['limitacoes'], list):
+            article.pop('limitacoes', None)
+        else:
+            cleaned = [str(p).strip() for p in article['limitacoes'] if p and str(p).strip()]
+            cleaned = [p for p in cleaned if len(p) <= 240][:6]
+            if cleaned:
+                article['limitacoes'] = cleaned
+            else:
+                article.pop('limitacoes', None)
+
+    # 7. conclusao_uma_frase (string única)
+    if 'conclusao_uma_frase' in article:
+        if not isinstance(article['conclusao_uma_frase'], str) or not article['conclusao_uma_frase'].strip():
+            article.pop('conclusao_uma_frase', None)
+        else:
+            article['conclusao_uma_frase'] = article['conclusao_uma_frase'].strip()
 
 
 def _validate_x_discussion(item: Dict[str, Any], context: str) -> None:

@@ -172,10 +172,10 @@
         </p>
 
         <div v-if="filteredNoticias.length" class="space-y-3">
-          <ArticleCard
+          <NoticiaCard
             v-for="article in filteredNoticias"
             :key="article.id"
-            :article="article"
+            :noticia="article"
             @click="openArticle(article)"
           />
         </div>
@@ -468,6 +468,7 @@ import { ref, computed, onMounted } from 'vue'
 import HeaderStats from './components/HeaderStats.vue'
 import FilterBar from './components/FilterBar.vue'
 import ArticleCard from './components/ArticleCard.vue'
+import NoticiaCard from './components/NoticiaCard.vue'
 import XDiscussionCard from './components/XDiscussionCard.vue'
 import XDiscussionDetail from './components/XDiscussionDetail.vue'
 import PostIdeaCard from './components/PostIdeaCard.vue'

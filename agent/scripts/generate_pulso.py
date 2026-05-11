@@ -69,12 +69,21 @@ def _extract_compact_report(report: dict) -> str:
             lines.append(f"[id={a.get('id', '?')}] [{a.get('classe', '?')}/score={a.get('score', '?')}] {a.get('publicacao', '')}: {a.get('titulo', '')[:140]}")
             if a.get("resumo"):
                 lines.append(f"   resumo: {a['resumo'][:280]}")
-            if a.get("conclusao"):
+            # Framework fields (preferidos quando presentes; mais ricos que `resumo`)
+            if a.get("contexto_clinico"):
+                lines.append(f"   contexto: {a['contexto_clinico'][:240]}")
+            if a.get("principais_resultados"):
+                lines.append(f"   resultados: {a['principais_resultados'][:400]}")
+            if a.get("conclusao_uma_frase"):
+                lines.append(f"   veredito: {a['conclusao_uma_frase'][:200]}")
+            elif a.get("conclusao"):  # legacy fallback
                 lines.append(f"   conclusao: {a['conclusao'][:240]}")
             if a.get("pontos_chave"):
                 chave_str = " | ".join(a["pontos_chave"][:5])
                 lines.append(f"   dados: {chave_str[:320]}")
-            if a.get("impacto_clinico"):
+            if a.get("interpretacao_pratica"):
+                lines.append(f"   interpretacao: {a['interpretacao_pratica'][:240]}")
+            elif a.get("impacto_clinico"):  # legacy fallback
                 lines.append(f"   impacto: {a['impacto_clinico'][:200]}")
             lines.append("")
 

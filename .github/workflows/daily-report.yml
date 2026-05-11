@@ -49,6 +49,10 @@ jobs:
           WEBSHARE_PROXY_PASSWORD: ${{ secrets.WEBSHARE_PROXY_PASSWORD }}
           WEBSHARE_PROXY_URL: ${{ secrets.WEBSHARE_PROXY_URL }}
           GROK_MODEL: ${{ vars.GROK_MODEL || 'grok-4' }}
+          # Disable Gemini enrichment for YouTube videos.
+          # Sem transcript real, sintese da descricao arrisca distorcer o conteudo.
+          # Card mostra apenas: thumbnail, canal, titulo, descricao_preview (RSS literal).
+          DISABLE_YT_ENRICHMENT: '1'
         run: python agent/scripts/generate_report.py
 
       - name: Verify report file created

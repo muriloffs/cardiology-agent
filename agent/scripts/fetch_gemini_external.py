@@ -412,6 +412,164 @@ Plain text only. No JSON. No markdown. If none found: NONE"""
 
 
 # ──────────────────────────────────────────────────────────────────────
+# 2-PASS ENRICHMENT — generate rich Substack-style summary per news item
+# ──────────────────────────────────────────────────────────────────────
+
+def _build_news_enrichment_prompt(titulo: str, fonte: str, url: str) -> str:
+    """Build a grounded prompt that fetches the full article and produces
+    structured rich-summary fields. Same prinipîpio dos Substack fetchers:
+    plain pipe-format response (Flash/Pro struggles with JSON+grounding combined).
+    """
+    return f"""Use Google Search to read this cardiology news article and produce a rich Portuguese-language summary so that a cardiologist can understand 80% of the content without opening it.
+
+Article:
+- Title: {titulo}
+- Source: {fonte}
+- URL: {url}
+
+Produce a structured response with these labeled sections (in PT-BR). Use the EXACT format with section headers:
+
+CONTEXTO:
+<1-2 frases em PT-BR: por que essa notícia surgiu agora; qual evento/contexto a motivou>
+
+PONTOS_PRINCIPAIS:
+- <ponto factual #1>
+- <ponto factual #2>
+- <ponto factual #3>
+- <ponto factual #4 - opcional>
+- <ponto factual #5 - opcional>
+
+FALAS:
+- <citação direta de especialista #1 - opcional, formato: "frase" — Nome>
+- <citação direta de especialista #2 - opcional>
+
+INSIGHTS:
+<2-3 frases em PT-BR: o que isso significa para o cardiologista; ângulo interpretativo>
+
+POR_QUE_IMPORTA:
+<1 frase em PT-BR: relevância clínica imediata>
+
+REGRAS:
+- NUNCA inventar números, citações ou conclusões que não estejam no artigo.
+- Se não houver falas, omita a seção FALAS (deixe vazia: "FALAS:" com nada depois).
+- Se a notícia for muito curta/headline-only e você não conseguir extrair pontos suficientes, deixe seções vazias.
+- Plain text only. No JSON. No markdown fences. Headers em CAIXA ALTA seguidos de dois-pontos."""
+
+
+def _parse_news_enrichment(text: str) -> dict:
+    """Parse the structured pipe-format response from _build_news_enrichment_prompt.
+
+    Returns dict with keys: contexto, pontos_principais, falas, insights, por_que_importa.
+    Missing sections become empty strings/lists.
+    """
+    if not text or text.strip().upper() == "NONE":
+        return {}
+
+    sections = {
+        "contexto": "",
+        "pontos_principais": [],
+        "falas": [],
+        "insights": "",
+        "por_que_importa": "",
+    }
+
+    # Match headers and split content blocks
+    # Use a forgiving regex that handles minor variations
+    pattern = re.compile(
+        r"(?im)^(CONTEXTO|PONTOS_PRINCIPAIS|FALAS|INSIGHTS|POR_QUE_IMPORTA)\s*:\s*$"
+    )
+    lines = text.split("\n")
+
+    current_section = None
+    buffer: list[str] = []
+
+    def flush():
+        nonlocal buffer, current_section
+        if current_section is None or not buffer:
+            buffer = []
+            return
+        content = "\n".join(buffer).strip()
+        if current_section in ("pontos_principais", "falas"):
+            items = []
+            for raw_line in content.split("\n"):
+                line = raw_line.strip()
+                if not line:
+                    continue
+                line = re.sub(r"^[\-\*\d\.\)]+\s*", "", line)
+                if line and len(line) >= 4:
+                    items.append(line)
+            sections[current_section] = items[:6]
+        else:
+            sections[current_section] = content
+        buffer = []
+
+    for raw_line in lines:
+        line = raw_line.rstrip()
+        header_match = pattern.match(line.strip())
+        if header_match:
+            flush()
+            current_section = header_match.group(1).lower()
+        else:
+            buffer.append(line)
+    flush()
+
+    # Drop empty strings to allow v-if rendering in frontend
+    cleaned = {}
+    for k, v in sections.items():
+        if isinstance(v, list):
+            if v:
+                cleaned[k] = v
+        elif isinstance(v, str) and v.strip():
+            cleaned[k] = v.strip()
+    return cleaned
+
+
+def _enrich_news_item(client, item: dict) -> dict:
+    """Enrich a single noticia with rich Substack-style fields.
+
+    Adds keys: contexto, pontos_principais, falas, insights, por_que_importa.
+    On failure (timeout, empty Gemini response, parse error), returns item
+    unchanged — pipeline degrades gracefully.
+    """
+    titulo = item.get("titulo", "")
+    fonte = item.get("publicacao", "")
+    url = item.get("pubmed_url") or item.get("links", {}).get("url") or ""
+
+    if not titulo or not url:
+        return item
+
+    label = f"enrich:{titulo[:40]}"
+    prompt = _build_news_enrichment_prompt(titulo, fonte, url)
+    text = _grounded_call(client, prompt, label)
+
+    if not text:
+        return item
+
+    rich = _parse_news_enrichment(text)
+    if rich:
+        item.update(rich)
+    return item
+
+
+def _enrich_news_batch(client, noticias: list[dict]) -> list[dict]:
+    """Enrich all noticias in parallel (3 workers, respects Gemini Pro rate limits)."""
+    if not noticias:
+        return noticias
+    enriched: list[dict] = list(noticias)  # preserve order
+    with ThreadPoolExecutor(max_workers=3) as pool:
+        futures = {pool.submit(_enrich_news_item, client, n): i for i, n in enumerate(noticias)}
+        for future in as_completed(futures):
+            i = futures[future]
+            try:
+                enriched[i] = future.result(timeout=GEMINI_CALL_TIMEOUT)
+            except Exception as e:
+                logger.warning(f"News enrichment item {i} failed: {type(e).__name__}: {e}")
+    enriched_count = sum(1 for n in enriched if n.get("pontos_principais") or n.get("insights"))
+    logger.info(f"News enrichment: {enriched_count}/{len(noticias)} items enriched (2-pass)")
+    return enriched
+
+
+# ──────────────────────────────────────────────────────────────────────
 # ORCHESTRATOR
 # ──────────────────────────────────────────────────────────────────────
 
@@ -483,6 +641,15 @@ def fetch_all_external(days_back: int = 2) -> dict:
         bluesky = fetch_bluesky_cardio(client)
     except Exception as e:
         logger.error(f"Bluesky fetcher failed: {e}")
+
+    # Pass 2: enrich each noticia com resumo rico estilo Substack
+    # (contexto + pontos_principais + falas + insights + por_que_importa).
+    # Roda só se o env var não desativar — fallback gracioso se falhar.
+    if noticias_external and os.environ.get("DISABLE_NEWS_ENRICHMENT", "").lower() not in ("1", "true", "yes"):
+        try:
+            noticias_external = _enrich_news_batch(client, noticias_external)
+        except Exception as e:
+            logger.warning(f"News enrichment batch failed: {e} — keeping basic items")
 
     logger.info(f"Gemini external TOTAL: {len(noticias_external)} noticias + {len(bluesky)} Bluesky")
     return {

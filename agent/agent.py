@@ -180,7 +180,7 @@ class CardologyAgent:
             )
             with self.client.messages.stream(
                 model="claude-opus-4-7",
-                max_tokens=48000,  # 50 X + 40 artigos + 15 noticias + 10 podcasts headroom
+                max_tokens=56000,  # 40 artigos com framework 8 seções (~700-900 tok/artigo) + 15 noticias + 10 podcasts
                 system=system_prompt,
                 messages=[{"role": "user", "content": user_message}],
             ) as stream:
@@ -222,6 +222,30 @@ class CardologyAgent:
             if gemini_substacks:
                 report["substacks"] = gemini_substacks
                 logger.info(f"Injected {len(gemini_substacks)} Substack posts (bypass)")
+
+            # Inject 2-pass rich news enrichment into Claude-curated noticias[].
+            # The fetch_gemini_external 2-pass step adds contexto/pontos_principais/
+            # falas/insights/por_que_importa per news item; Claude doesn't propagate
+            # these unknown fields through its own output, so we re-attach by URL match.
+            if gemini_noticias and report.get("noticias"):
+                enriched_by_url = {}
+                rich_keys = ("contexto", "pontos_principais", "falas", "insights", "por_que_importa")
+                for src in gemini_noticias:
+                    src_url = src.get("pubmed_url") or ""
+                    if not src_url:
+                        continue
+                    rich = {k: src[k] for k in rich_keys if src.get(k)}
+                    if rich:
+                        enriched_by_url[src_url] = rich
+                injected_news = 0
+                for n in report["noticias"]:
+                    links = n.get("links") or {}
+                    url = links.get("url") or ""
+                    if url and url in enriched_by_url:
+                        n.update(enriched_by_url[url])
+                        injected_news += 1
+                if enriched_by_url:
+                    logger.info(f"Injected rich enrichment into {injected_news}/{len(report['noticias'])} noticias")
 
             # Inject original RSS show notes (EN) into each podcast item for the
             # detail modal. Claude rewrites titulo so we match by `publicacao`

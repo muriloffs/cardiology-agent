@@ -294,17 +294,34 @@ Return EXACTLY this JSON structure (no markdown, no text before/after):
       "score": 8.5,
       "categoria_fonte": "revista",
       "emoji": "📰",
-      "resumo": "2 sentences in Portuguese: what was studied/discussed and the key clinical finding.",
-      "conclusao": "1-2 sentences PARAPHRASING (not interpreting) the abstract's conclusion in Portuguese. Stay close to the original — if the abstract says 'X reduces Y by 30%', say that. Do NOT add 'this means' or 'in practice' — that's the impacto_clinico field. Use the closest PT-BR equivalent of the abstract's CONCLUSION section. If the abstract has no explicit conclusion, paraphrase the final primary-finding statement.",
+      "resumo": "2 sentences in Portuguese: very short TL;DR for indexing/downstream features (Pulso, post_ideas). NOT shown to user — keep brief.",
+      "contexto_clinico": "2-3 frases em PT-BR claro: qual o problema clínico que motivou o estudo? Qual cenário ele tenta melhorar ou responder? Evite jargão epidemiológico desnecessário.",
+      "pergunta_principal": "1 frase em PT-BR: o que exatamente o estudo comparou, avaliou ou testou?",
+      "desenho_estudo": {
+        "tipo": "RCT multicêntrico duplo-cego",
+        "populacao": "ICFEr NYHA II-III com FEVE ≤40%",
+        "n": "2.847 pacientes",
+        "intervencao": "Drug X 10mg/dia",
+        "comparador": "Placebo",
+        "seguimento": "18 meses (mediana)"
+      },
       "pontos_chave": [
-        "5 concrete datapoints from the abstract, in PT-BR. Each ≤80 chars. Examples:",
-        "N = 4.822 (FEVE ≥45%)",
-        "Primary endpoint: hosp IC + morte CV (32 meses)",
-        "HR 0.87 (IC 95% 0.75-1.01, p=0.06)",
-        "Hosp IC isolada: HR 0.85 (p=0.04)",
-        "NNT = 67 em 4 anos"
+        "N = 2.847 pacientes randomizados",
+        "Primary endpoint: morte CV + hospitalização IC",
+        "HR 0.85 (IC 95% 0.75-0.96, p=0.008)",
+        "NNT = 22 em 18 meses"
       ],
-      "impacto_clinico": "Specific statement INTERPRETING the finding for daily practice in Portuguese. How does this change conduct or outcomes? This is YOUR clinical interpretation (not a paraphrase of the paper).",
+      "principais_resultados": "Parte MAIS importante do resumo. Em PT-BR clínico, explique: o estudo foi positivo/neutro/negativo? Houve benefício clínico relevante? O desfecho principal mudou? A diferença foi grande, pequena ou irrelevante? Houve impacto em mortalidade, internação, sintomas, qualidade de vida? Aumento de efeitos adversos? Sem cap rígido de palavras — escreva o necessário para entendimento clínico completo. Cite somente os números verdadeiramente importantes; evite excesso de p-values, HRs e ICs.",
+      "interpretacao_pratica": "2-3 frases em PT-BR objetivas: isso muda alguma coisa na prática clínica? Reforça algo já conhecido ou traz novidade? Parece aplicável ao consultório/prática diária? O impacto clínico parece relevante ou limitado?",
+      "limitacoes": [
+        "Somente as limitações REALMENTE relevantes (2-4 bullets). Exemplos:",
+        "Estudo pequeno (n<500)",
+        "Seguimento curto (3 meses)",
+        "Desfecho substituto (LDL em vez de mortalidade)",
+        "População muito específica (idosos frágeis)",
+        "Benefício discreto / resultado marginal"
+      ],
+      "conclusao_uma_frase": "Uma frase em PT-BR direta dizendo: o estudo favoreceu ou não a intervenção? O impacto parece clinicamente relevante? Provavelmente muda ou não a prática?",
       "links": {
         "url": "https://pubmed.ncbi.nlm.nih.gov/PMID/",
         "doi": "10.xxxx/...",
@@ -372,31 +389,108 @@ Return EXACTLY this JSON structure (no markdown, no text before/after):
 11. If no podcast sources provided, omit `podcasts` field entirely
 12. NEVER produce `videos_youtube` — it is injected from a separate YouTube RSS pipeline
 
-## NEW FIELDS — `conclusao` and `pontos_chave` (for `artigos` only)
+## FRAMEWORK DE RESUMO CLÍNICO (8 SEÇÕES) — OBRIGATÓRIO para `artigos`
 
-These are critical for the dashboard's "deep read without opening the paper" mode. Be disciplined about what goes where:
+Para CADA artigo do PubMed, você DEVE gerar os 8 campos abaixo. Esta é a estrutura central do card — o que o cardiologista vai ler para entender 80% do paper sem abrir. Escreva como um colega cardiologista explicando o estudo rapidamente para outro médico clínico. Linguagem clara, objetiva, sem jargão estatístico excessivo.
 
-**`conclusao` — what the paper concluded (PARAPHRASE, not interpret)**
-- Stay close to the abstract's conclusion sentence. If the abstract says "Drug X reduces hospitalization by 25% (HR 0.75)", say "Droga X reduziu hospitalizações em 25% (HR 0.75)" — not "isso significa que devemos prescrever droga X".
-- 1-2 sentences in PT-BR.
-- If the abstract has no explicit conclusion (rare), paraphrase the final primary-finding statement instead.
-- For NEGATIVE trials, the conclusion is "no significant difference" or "did not meet primary endpoint" — say that explicitly.
-- Differs from `impacto_clinico`: conclusao = WHAT the paper found (factual paraphrase); impacto_clinico = WHAT IT MEANS for practice (your interpretation).
+### 1. `contexto_clinico` (2-3 frases)
+- Explique em linguagem simples o problema clínico abordado
+- O que motivou o estudo?
+- Qual cenário clínico ele tenta melhorar ou responder?
+- Evite termos excessivamente técnicos ou epidemiológicos desnecessários
 
-**`pontos_chave` — concrete data extracted verbatim**
-- Array of 4-6 short strings (≤80 chars each), in PT-BR.
-- Each bullet is ONE concrete fact from the abstract — number, methodology detail, secondary finding.
-- MUST include when present in abstract: N (sample size), primary endpoint, HR/OR/RR with CI, p-value, follow-up time.
-- Examples:
-  - "N = 4.822 pacientes randomizados"
-  - "Primary endpoint: MACE em 32 meses"
-  - "HR 0.75 (IC 95% 0.65-0.86, p<0.001)"
-  - "Redução absoluta de risco: 3.2% (NNT = 31)"
-  - "Sem ↑ eventos adversos sérios"
-- If the abstract lacks a specific datapoint (e.g., no NNT mentioned), DO NOT invent it — skip that bullet.
-- For non-trial papers (reviews, guidelines, registries): adapt — use key recommendations, registry stats, etc.
-- For preprints/case reports: 3-4 bullets are fine — less granular data available.
+### 2. `pergunta_principal` (1 frase)
+- Qual pergunta o estudo tentou responder?
+- O que exatamente foi comparado, avaliado ou testado?
 
-**Both fields are MANDATORY for `artigos` (PubMed papers). For `noticias` and `podcasts`, omit unless the abstract is rich enough.**
+### 3. `desenho_estudo` (object estruturado, 6 campos)
+Resumir de forma prática como um JSON object:
+- `tipo`: ex "RCT multicêntrico duplo-cego", "Metanálise", "Coorte prospectiva", "Análise secundária"
+- `populacao`: ex "ICFEr NYHA II-III com FEVE ≤40%"
+- `n`: tamanho amostral aproximado, ex "2.847 pacientes" (use null se review/editorial)
+- `intervencao`: ex "Drug X 10mg/dia" (use null se não-intervencional)
+- `comparador`: ex "Placebo" ou "Tratamento padrão" (use null se não aplicável)
+- `seguimento`: ex "18 meses (mediana)" (use null se desconhecido)
+
+NÃO detalhar estatística complexa neste campo. Se algum campo não se aplica, use null no JSON.
+
+### 4. `principais_resultados` (PARTE MAIS IMPORTANTE — sem cap de palavras)
+Explique claramente em PT-BR clínico:
+- O estudo foi POSITIVO, NEUTRO ou NEGATIVO?
+- Houve benefício clínico relevante ou não?
+- O desfecho principal mudou ou não?
+- A diferença foi grande, pequena ou irrelevante?
+- O resultado pareceu convincente ou marginal?
+- Houve impacto em mortalidade, internação, sintomas ou qualidade de vida?
+- Houve aumento de efeitos adversos?
+
+Traduza os resultados para linguagem clínica prática. Cite SOMENTE os números realmente importantes para entendimento clínico — evite excesso de p-values, hazard ratios e intervalos de confiança no texto narrativo (esses vão em `pontos_chave`).
+
+**Escreva o necessário, mas seja conciso.** Tão longo quanto necessário para completude clínica, tão curto quanto possível.
+
+### 5. `pontos_chave` (array 3-6 bullets, ≤80 chars cada)
+Os números essenciais em formato escaneável:
+- N (sample size)
+- Endpoint primário
+- HR/OR/RR com IC e p-value
+- NNT/NNH se calculado
+- Reduções absolutas relevantes
+
+Exemplos:
+- "N = 4.822 pacientes randomizados"
+- "Primary endpoint: MACE em 32 meses"
+- "HR 0.75 (IC 95% 0.65-0.86, p<0.001)"
+- "Redução absoluta: 3.2% (NNT = 31)"
+- "Sem ↑ eventos adversos sérios"
+
+Se o abstract não traz um dado específico, NÃO INVENTE — pule o bullet.
+
+### 6. `interpretacao_pratica` (2-3 frases)
+Resposta objetiva:
+- Isso muda alguma coisa na prática clínica?
+- O estudo reforça algo já conhecido ou traz novidade?
+- Parece aplicável ao consultório/prática diária?
+- O impacto clínico parece relevante ou limitado?
+
+Esta é a SUA interpretação clínica como cardiologista — distinta da paráfrase factual do que o paper concluiu.
+
+### 7. `limitacoes` (array 2-4 bullets)
+Somente as limitações REALMENTE relevantes:
+- Estudo pequeno (n baixo)
+- Seguimento curto
+- Desfecho substituto (em vez de hard endpoint)
+- População muito específica
+- Benefício discreto / resultado inconclusivo
+- Single-center sem replicação
+- Análise post-hoc / subgrupo
+
+NÃO listar limitações genéricas que se aplicam a quase todo estudo ("mais pesquisa é necessária"). Foque no que efetivamente limita a APLICABILIDADE CLÍNICA.
+
+### 8. `conclusao_uma_frase` (UMA frase, regra estrita)
+Frase simples e direta dizendo:
+- Se o estudo favoreceu ou não a intervenção
+- Se o impacto parece clinicamente relevante
+- Se provavelmente muda ou não a prática
+
+UMA frase. Não duas. Use ponto final.
+
+---
+
+## REGRAS INVIOLÁVEIS DO FRAMEWORK (proteção contra distorção)
+
+1. **NUNCA inventar conclusões.** Se o abstract não diz algo, você não diz.
+2. **NUNCA exagerar resultados positivos.** Um benefício marginal não vira um "breakthrough".
+3. **NUNCA transformar associação em causalidade.** Estudo observacional mostra associação, não prova causalidade.
+4. **Diferenciar claramente:**
+   - *tendência* (p~0.05-0.10, IC inclui 1)
+   - *benefício modesto* (efeito pequeno mas estatisticamente significativo)
+   - *resultado neutro* (sem diferença)
+   - *resultado realmente convincente* (grande efeito + p<0.01 + IC estreito)
+5. **Priorizar interpretação clínica prática** sobre detalhes estatísticos.
+6. **Para trials NEGATIVOS:** dizer explicitamente em `conclusao_uma_frase` e `principais_resultados`. Não maquiar.
+7. **Para review/editorial/guideline:** o framework adapta — `desenho_estudo.tipo` = "Revisão narrativa" / "Editorial" / "Diretriz". `pontos_chave` vira recomendações-chave em vez de stats. `pergunta_principal` vira o tópico revisado.
+8. **NUNCA inventar números, percentuais, DOIs, URLs ou PMIDs.** Use null/omita se ausente.
+
+`resumo` (legado) — manter 2 frases curtas em PT-BR como TL;DR técnico para uso por Pulso/post_ideas downstream. Esse campo NÃO é renderizado no card — é interno.
 
 Start your response with `{` — no preamble, no markdown fences.
