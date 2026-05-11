@@ -128,7 +128,7 @@ def _build_ytt_api():
     return YouTubeTranscriptApi(), False, "direct"
 
 
-def _fetch_transcript(video_url: str, max_chars: int = 12000) -> tuple[str, str]:
+def _fetch_transcript(video_url: str, max_chars: int = 12000, per_call_timeout: int = 15) -> tuple[str, str]:
     """Fetch auto-generated transcript from YouTube.
 
     Returns (transcript_text, failure_reason). transcript_text is empty when
@@ -173,10 +173,23 @@ def _fetch_transcript(video_url: str, max_chars: int = 12000) -> tuple[str, str]
             return YouTubeTranscriptApi.get_transcript(vid, languages=lang_list)
         return YouTubeTranscriptApi.get_transcript(vid)
 
+    # Timeout-wrapped call: prevents hangs from proxy/network silent stalls.
+    # Without this, a misconfigured proxy can hang for 5+ min per video (lib's
+    # 10 internal retries × 30s timeout each), exceeding workflow time budget.
+    # With 15s cap per language attempt, max is ~45s per video (3 langs × 15s).
+    def _call_api_timeout_safe(vid: str, lang_list, timeout_s: int):
+        import concurrent.futures as _cf
+        with _cf.ThreadPoolExecutor(max_workers=1) as _ex:
+            future = _ex.submit(_call_api, vid, lang_list)
+            try:
+                return future.result(timeout=timeout_s)
+            except _cf.TimeoutError:
+                raise TimeoutError(f"transcript fetch >{timeout_s}s")
+
     last_failure = "other"
     for langs in (["pt", "pt-BR"], ["en", "en-US"], None):
         try:
-            entries = _call_api(video_id, langs)
+            entries = _call_api_timeout_safe(video_id, langs, per_call_timeout)
             text = " ".join(e.get("text", "") for e in entries).strip()
             if text:
                 return text[:max_chars], "ok"
@@ -189,6 +202,10 @@ def _fetch_transcript(video_url: str, max_chars: int = 12000) -> tuple[str, str]
         except VideoUnavailable:
             last_failure = "unavailable"
             break
+        except TimeoutError:
+            last_failure = "timeout"
+            logger.debug(f"[transcript {video_id}] timed out after {per_call_timeout}s on lang={langs}")
+            break  # if one lang times out, others will too (proxy issue, not lang issue)
         except Exception as e:
             # Distinguish IP block (most likely failure mode in CI) from other
             err_str = str(e).lower()
