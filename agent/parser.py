@@ -247,6 +247,33 @@ def _validate(report: Dict[str, Any]) -> None:
                 # Ensure id present
                 if not item.get('id'):
                     item['id'] = f"pulso_{i+1:03d}"
+                # historical_references: optional list of {date, type, titulo, comment}
+                # Validate and drop malformed entries; omit field entirely if all dropped.
+                hist = item.get('historical_references')
+                if hist is not None:
+                    if not isinstance(hist, list):
+                        item.pop('historical_references', None)
+                    else:
+                        clean_hist = []
+                        for h in hist:
+                            if not isinstance(h, dict):
+                                continue
+                            date_ok = isinstance(h.get('date'), str) and h['date'].strip()
+                            titulo_ok = isinstance(h.get('titulo'), str) and h['titulo'].strip()
+                            if not (date_ok and titulo_ok):
+                                continue
+                            clean_h = {
+                                'date': h['date'].strip(),
+                                'type': str(h.get('type', '')).strip() or 'artigo',
+                                'titulo': h['titulo'].strip()[:200],
+                            }
+                            if isinstance(h.get('comment'), str) and h['comment'].strip():
+                                clean_h['comment'] = h['comment'].strip()[:240]
+                            clean_hist.append(clean_h)
+                        if clean_hist:
+                            item['historical_references'] = clean_hist[:5]
+                        else:
+                            item.pop('historical_references', None)
                 valid_pulso.append(item)
             report['pulso'] = valid_pulso
 

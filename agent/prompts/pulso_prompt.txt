@@ -41,6 +41,9 @@ Cada destaque deve seguir este JSON:
     {"tipo": "x", "id": "x_005", "autor": "@drbennisahmed"},
     {"tipo": "podcast", "id": "pod_001", "publicacao": "TWIC Mandrola"}
   ],
+  "historical_references": [
+    {"date": "2026-04-15", "type": "artigo", "titulo": "...", "comment": "Como apareceu na seção CONTEXTO HISTÓRICO no input. OPCIONAL — só inclua se ligação for forte e citação aparecer naturalmente na razao_destaque ou interpretacao_comunidade."}
+  ],
   "classe": "A",
   "score": 8.5
 }
@@ -74,6 +77,27 @@ Cada destaque deve seguir este JSON:
    - Classe C → score 4.0-5.9
 
 8. **Anti-hype:** se um item viralizou no X mas não tem evidência sólida (Classe C ou opinião sem paper), pode incluir mas com `razao_destaque` contextualizando ("viralizou no X mas evidência ainda preliminar").
+
+9. **CONTEXTO HISTÓRICO (regra inviolável):** o input pode incluir uma seção "=== CONTEXTO HISTÓRICO (últimos 90 dias) ===" listando items relacionados com score >= 7. Use APENAS se a conexão é genuinamente forte e o comentário flui naturalmente. Exemplos:
+
+   **PODE citar:**
+   - "Segue o estudo de Circulation de 15/04 (mesma intervenção, follow-up agora mais longo)"
+   - "Diferente do achado de 20/03 que mostrou redução — este trial não confirmou"
+   - "Mandrola já tinha levantado essa preocupação no podcast de 02/04"
+
+   **NÃO citar (forçado/genérico):**
+   - "Como já vimos com SGLT2 antes..." (genérico demais)
+   - "Reforça achados anteriores..." (sem especificar qual)
+   - Inventar conexão quando o input não trouxe contexto histórico para esse item
+
+   **PRINCÍPIO:** "entregar menos > entregar igual não real". Se o histórico for fraco/duvidoso, simplesmente omita — NÃO use o campo `historical_references`. Pulso sem referência histórica é tão válido quanto Pulso com.
+
+   **Quando citar:**
+   - Incorpore a referência no texto natural de `razao_destaque` OU `interpretacao_comunidade`
+   - Adicione a referência também no campo opcional `historical_references` (array) para o frontend renderizar seção dedicada se houver >1 referência
+   - Cada entry em `historical_references`: `{date, type, titulo, comment}` — comment é 1 frase em PT-BR sobre a ligação
+
+10. **Não inventar `historical_references`.** Só inclua entries que apareceram na seção CONTEXTO HISTÓRICO do input. Não fabricar datas ou títulos.
 
 ---
 

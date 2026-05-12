@@ -89,6 +89,28 @@
         </div>
       </div>
 
+      <!-- Histórico relacionado (só aparece se 2+ refs OU se ref tem comment rico) -->
+      <div v-if="showHistoricalSection" class="pt-2 border-t border-gray-100">
+        <p class="text-[11px] font-bold uppercase tracking-wider text-amber-700 mb-2">
+          📅 Histórico relacionado (90 dias)
+        </p>
+        <ul class="space-y-1.5">
+          <li
+            v-for="(ref, i) in item.historical_references"
+            :key="i"
+            class="text-sm text-gray-700 flex gap-2 items-start"
+          >
+            <span class="text-amber-500 font-bold flex-shrink-0 mt-0.5">▸</span>
+            <span class="break-words min-w-0">
+              <span class="font-medium text-gray-900">{{ formatHistoricalDate(ref.date) }}</span>
+              <span class="text-gray-500"> ({{ ref.type }}):</span>
+              <span class="italic"> {{ ref.titulo }}</span>
+              <span v-if="ref.comment" class="block text-xs text-gray-600 mt-0.5">{{ ref.comment }}</span>
+            </span>
+          </li>
+        </ul>
+      </div>
+
       <!-- Fontes de cobertura -->
       <div v-if="item.fontes_cobertura?.length" class="pt-2 border-t border-gray-100">
         <p class="text-[11px] font-bold uppercase tracking-wider text-gray-500 mb-2">
@@ -122,6 +144,23 @@ const props = defineProps({
   item: { type: Object, required: true },
   report: { type: Object, default: null }
 })
+
+// Show dedicated historical section when there are 2+ references OR when single
+// reference has a rich comment. Single reference without comment usually means
+// Sonnet already cited it naturally in razao_destaque/interpretacao_comunidade —
+// no need to duplicate visually.
+const showHistoricalSection = computed(() => {
+  const refs = props.item?.historical_references
+  if (!Array.isArray(refs) || refs.length === 0) return false
+  if (refs.length >= 2) return true
+  return Boolean(refs[0]?.comment && refs[0].comment.length > 20)
+})
+
+function formatHistoricalDate(dateStr) {
+  if (!dateStr || typeof dateStr !== 'string') return dateStr
+  const m = dateStr.match(/^(\d{4})-(\d{2})-(\d{2})/)
+  return m ? `${m[3]}/${m[2]}/${m[1]}` : dateStr
+}
 
 const classeBorderColor = computed(() => {
   if (props.item.classe === 'A') return 'border-red-500'

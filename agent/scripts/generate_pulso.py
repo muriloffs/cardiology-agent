@@ -204,10 +204,53 @@ def generate_pulso(report: dict, anthropic_client: Anthropic = None) -> list[dic
         logger.warning("Compact report is too small for meaningful Pulso — skipping")
         return []
 
+    # Historical context — semantic lookup of related items from past 90 days.
+    # Pulso candidates get a "_historical_context" block in the prompt with
+    # references that scored >= 7 (anti-force). Items with no strong matches
+    # simply don't get historical references — better honest silence than
+    # forced connections.
+    historical_block = ""
+    if os.environ.get("DISABLE_HISTORY_LOOKUP", "").lower() not in ("1", "true", "yes"):
+        try:
+            from agent.scripts.history_lookup import find_related_for_items
+            top_candidates = []
+            for a in (report.get("artigos") or [])[:8]:
+                top_candidates.append(a)
+            for n in (report.get("noticias") or [])[:8]:
+                top_candidates.append(n)
+            for p in (report.get("podcasts") or [])[:5]:
+                top_candidates.append(p)
+            today_date = report.get("relatorio_data")
+            logger.info(f"History lookup: searching related context for {len(top_candidates)} candidates...")
+            related_map = find_related_for_items(
+                top_candidates,
+                exclude_date=today_date,
+                lookback_days=90,
+            )
+            if related_map:
+                lines = ["", "=== CONTEXTO HISTÓRICO (últimos 90 dias) ===",
+                         "Items abaixo têm ligação clínica forte com items de hoje (score >= 7/10).",
+                         "Use SE a conexão for naturalmente relevante. NÃO force referência se duvidoso.",
+                         ""]
+                for item_id, related in related_map.items():
+                    lines.append(f"[id={item_id}] tem {len(related)} relacionado(s):")
+                    for r in related:
+                        lines.append(
+                            f"  - {r['date']} ({r['type']}, score {r['score']}/10): "
+                            f"{r['titulo'][:100]}"
+                        )
+                        if r.get('reason'):
+                            lines.append(f"      ligação: {r['reason']}")
+                historical_block = "\n".join(lines)
+                logger.info(f"History: {len(related_map)} items have related context")
+        except Exception as e:
+            logger.warning(f"History lookup failed (degrading): {type(e).__name__}: {e}")
+
     user_message = (
         f"Gere 5-10 destaques do Pulso a partir do relatório abaixo. "
         f"Use os IDs reais (id=art_xxx, not_xxx, pod_xxx, x_xxx) em fontes_cobertura.\n\n"
         f"{compact}"
+        f"{historical_block}"
     )
 
     try:
