@@ -102,9 +102,28 @@
           >
             <span class="text-amber-500 font-bold flex-shrink-0 mt-0.5">▸</span>
             <span class="break-words min-w-0">
+              <!-- Date + type prefix -->
               <span class="font-medium text-gray-900">{{ formatHistoricalDate(ref.date) }}</span>
               <span class="text-gray-500"> ({{ ref.type }}):</span>
-              <span class="italic"> {{ ref.titulo }}</span>
+
+              <!-- Title as clickable link when accessible -->
+              <component
+                :is="historicalLinkTag(ref)"
+                :href="ref.url || null"
+                :target="ref.url ? '_blank' : null"
+                :rel="ref.url ? 'noopener noreferrer' : null"
+                @click="ref.url ? null : onHistoricalClick(ref)"
+                :class="[
+                  'italic',
+                  isClickable(ref)
+                    ? 'text-amber-700 hover:text-amber-900 underline decoration-amber-400 hover:decoration-amber-700 cursor-pointer transition-colors'
+                    : 'text-gray-700'
+                ]"
+              >
+                {{ ' ' + ref.titulo }}
+                <span v-if="isClickable(ref)" class="text-[10px] ml-0.5">↗</span>
+              </component>
+
               <span v-if="ref.comment" class="block text-xs text-gray-600 mt-0.5">{{ ref.comment }}</span>
             </span>
           </li>
@@ -144,6 +163,33 @@ const props = defineProps({
   item: { type: Object, required: true },
   report: { type: Object, default: null }
 })
+
+// Emit allows parent (App.vue) to handle clicks on historical pulso refs
+// that don't have an external URL — navigates to the historical report.
+const emit = defineEmits(['navigate-to-date'])
+
+function isClickable(ref) {
+  if (!ref) return false
+  // External URL (artigo/noticia/substack) — clickable
+  if (ref.url && typeof ref.url === 'string' && ref.url.startsWith('http')) return true
+  // Internal pulso reference — clickable if date is valid (navigates to that day's report)
+  if (ref.type === 'pulso' && ref.date) return true
+  return false
+}
+
+function historicalLinkTag(ref) {
+  if (!ref) return 'span'
+  if (ref.url) return 'a'
+  if (ref.type === 'pulso') return 'button'
+  return 'span'
+}
+
+function onHistoricalClick(ref) {
+  if (!ref) return
+  if (ref.type === 'pulso' && ref.date) {
+    emit('navigate-to-date', ref.date)
+  }
+}
 
 // Show dedicated historical section when there are 2+ references OR when single
 // reference has a rich comment. Single reference without comment usually means

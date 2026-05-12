@@ -269,6 +269,10 @@ def _validate(report: Dict[str, Any]) -> None:
                             }
                             if isinstance(h.get('comment'), str) and h['comment'].strip():
                                 clean_h['comment'] = h['comment'].strip()[:240]
+                            # Optional clickable URL — artigo/noticia/substack só.
+                            # pulso historico nao tem URL externo (navega via data internamente).
+                            if isinstance(h.get('url'), str) and h['url'].startswith('http'):
+                                clean_h['url'] = h['url'].strip()
                             clean_hist.append(clean_h)
                         if clean_hist:
                             item['historical_references'] = clean_hist[:5]

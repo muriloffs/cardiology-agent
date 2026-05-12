@@ -111,6 +111,30 @@ def _collect_historical_items(reports: list[dict],
     return items
 
 
+def _resolve_item_url(item: dict) -> str | None:
+    """Best-effort URL extraction for a historical item.
+
+    artigos/noticias use links.url || doi.org/{doi} || pubmed.gov/{pmid}
+    substacks use top-level `url`
+    pulso has no external URL — return None (frontend handles internal navigation)
+    """
+    type_label = item.get("_type")
+    if type_label == "substack":
+        return item.get("url") or None
+    if type_label == "pulso":
+        return None  # frontend navigates to relatorio-<date>.json
+    # artigo / noticia: nested in links{}
+    links = item.get("links") or {}
+    if isinstance(links, dict):
+        if links.get("url"):
+            return links["url"]
+        if links.get("doi"):
+            return f"https://doi.org/{links['doi']}"
+        if links.get("pubmed"):
+            return f"https://pubmed.ncbi.nlm.nih.gov/{links['pubmed']}/"
+    return None
+
+
 def _keyword_prefilter(today_item: dict, historical_items: list[dict],
                        top_n: int = 15) -> list[tuple[dict, int]]:
     """Return historical items sorted by keyword overlap with today's item.
@@ -200,13 +224,17 @@ Plain text. No JSON. No markdown. Se nenhum candidato atingir score ≥ 6: NONE"
                 reason = re.sub(r"^[A-Z_]+\s*:?\s*", "", parts[2]).strip()
             if score >= threshold and 1 <= idx <= len(candidates):
                 cand = candidates[idx - 1][0]
-                related.append({
+                entry = {
                     "date": cand.get("_date"),
                     "type": cand.get("_type"),
                     "titulo": (cand.get("titulo") or "")[:140],
                     "score": round(score, 1),
                     "reason": reason[:200],
-                })
+                }
+                url = _resolve_item_url(cand)
+                if url:
+                    entry["url"] = url
+                related.append(entry)
         except (ValueError, AttributeError, IndexError):
             continue
 
@@ -264,11 +292,18 @@ def find_related_for_items(today_items: list[dict],
         if not client:
             # Without semantic re-rank, return top 3 keyword candidates flagged as such.
             # Lower confidence — frontend can still show them but distinctly.
-            return item_id, [{
-                "date": c.get("_date"), "type": c.get("_type"),
-                "titulo": (c.get("titulo") or "")[:140],
-                "score": 6.0, "reason": "keyword overlap (no semantic re-rank)",
-            } for c, _ in candidates[:3]]
+            fallback = []
+            for c, _ in candidates[:3]:
+                entry = {
+                    "date": c.get("_date"), "type": c.get("_type"),
+                    "titulo": (c.get("titulo") or "")[:140],
+                    "score": 6.0, "reason": "keyword overlap (no semantic re-rank)",
+                }
+                url = _resolve_item_url(c)
+                if url:
+                    entry["url"] = url
+                fallback.append(entry)
+            return item_id, fallback
         return item_id, _semantic_rerank(client, item, candidates)
 
     with ThreadPoolExecutor(max_workers=3) as pool:

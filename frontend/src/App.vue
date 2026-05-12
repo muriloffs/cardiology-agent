@@ -283,6 +283,7 @@
             :key="item.id"
             :item="item"
             :report="report"
+            @navigate-to-date="navigateToHistoricalReport"
           />
         </div>
 
@@ -563,6 +564,27 @@ async function navigateDate(direction) {
   currentDateIndex.value = newIndex
   const date = availableDates.value[newIndex]
   report.value = await fetchReportByDate(date)
+  window.scrollTo({ top: 0, behavior: 'smooth' })
+}
+
+// Jump directly to a specific historical date — triggered when user clicks
+// on a "📅 Histórico relacionado" pulso reference. For non-pulso refs (artigo/
+// noticia/substack), PulsoCard renders as <a href> directly — no JS needed.
+async function navigateToHistoricalReport(targetDate) {
+  if (!targetDate || typeof targetDate !== 'string') return
+  const idx = availableDates.value.indexOf(targetDate)
+  if (idx < 0) {
+    console.warn(`Pulso historical reference points to ${targetDate} but report not in index`)
+    return
+  }
+  currentDateIndex.value = idx
+  loading.value = true
+  try {
+    report.value = await fetchReportByDate(targetDate)
+    currentView.value = 'pulso'  // surface the historical pulso aba directly
+  } finally {
+    loading.value = false
+  }
   window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 

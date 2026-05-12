@@ -210,6 +210,7 @@ def generate_pulso(report: dict, anthropic_client: Anthropic = None) -> list[dic
     # simply don't get historical references — better honest silence than
     # forced connections.
     historical_block = ""
+    related_map: dict = {}
     if os.environ.get("DISABLE_HISTORY_LOOKUP", "").lower() not in ("1", "true", "yes"):
         try:
             from agent.scripts.history_lookup import find_related_for_items
@@ -328,6 +329,34 @@ def generate_pulso(report: dict, anthropic_client: Anthropic = None) -> list[dic
     if valid and not has_destaque:
         valid[0]["is_destaque_do_dia"] = True
         logger.info("Pulso: no item flagged is_destaque_do_dia — forced first item")
+
+    # Inject authoritative URLs into historical_references.
+    # Sonnet may include the field but cannot reliably produce URLs (we never
+    # gave it URLs in the input). We have the real URLs from related_map —
+    # match each Sonnet-generated ref to its authoritative source by
+    # (date + titulo prefix) and overwrite/set the url field.
+    if related_map:
+        url_lookup: dict = {}
+        for refs_list in related_map.values():
+            for r in refs_list:
+                if r.get("url"):
+                    key = (r.get("date", ""), (r.get("titulo") or "")[:60].strip().lower())
+                    url_lookup[key] = r["url"]
+        if url_lookup:
+            injected = 0
+            for v in valid:
+                hist = v.get("historical_references") or []
+                if not isinstance(hist, list):
+                    continue
+                for h in hist:
+                    if not isinstance(h, dict):
+                        continue
+                    key = (h.get("date", ""), (h.get("titulo") or "")[:60].strip().lower())
+                    if key in url_lookup:
+                        h["url"] = url_lookup[key]
+                        injected += 1
+            if injected:
+                logger.info(f"Pulso: injected {injected} authoritative URLs into historical_references")
 
     logger.info(f"Pulso generated: {len(valid)}/{len(items)} valid")
     return valid
