@@ -16,6 +16,7 @@ from agent.scripts.fetch_rss import fetch_all_rss
 from agent.scripts.fetch_grok import fetch_x_cardiology_posts, transform_to_discussoes_x
 from agent.scripts.fetch_podcasts import fetch_all_podcasts
 from agent.scripts.fetch_youtube import fetch_all_youtube, transform_to_videos_youtube
+from agent.scripts.fetch_youtube_gemini import fetch_all_youtube_gemini
 from agent.scripts.fetch_gemini_external import fetch_all_external
 from agent.scripts.fetch_gemini_substacks import fetch_all_substacks
 from agent.scripts.youtube_enrichment import enrich_videos
@@ -81,7 +82,14 @@ class CardologyAgent:
                 "RSS": executor.submit(fetch_all_rss, days_back=3),
                 "Grok/X": executor.submit(fetch_x_cardiology_posts, days_back=1),
                 "Podcasts": executor.submit(fetch_all_podcasts, days_back=7),
-                "YouTube": executor.submit(fetch_all_youtube, days_back=3),
+                # YouTube RSS scraping is blocked by datacenter IPs (GitHub Actions returns
+                # 404 on all 30 channels). Default to Gemini Search grounding fetcher;
+                # USE_YT_GEMINI=0 falls back to RSS for local testing.
+                "YouTube": executor.submit(
+                    fetch_all_youtube_gemini if os.environ.get("USE_YT_GEMINI", "1").lower() in ("1", "true", "yes")
+                    else fetch_all_youtube,
+                    days_back=3,
+                ),
                 "GeminiExternal": executor.submit(fetch_all_external, days_back=3),
                 "GeminiSubstacks": executor.submit(fetch_all_substacks),
             }

@@ -59,38 +59,63 @@ def _extract_text(response) -> str:
 
 
 def _grounded_call(client, prompt: str, label: str, _is_retry: bool = False) -> str:
-    """Make 1 grounded Gemini Flash call. Retries once on empty text.
+    """Make 1 grounded Gemini Pro call with two retry layers.
 
-    Empty-text is a known Flash+grounding pathology: the model occasionally
-    returns no text even when grounding succeeded. A single retry with a small
-    prompt nudge + higher temperature usually unsticks it. Roughly doubles
-    recall on empty-prone prompts (validated empirically — ~67% empties on
-    first run dropped to ~30% with retry).
+    Layer 1 — server errors (503/UNAVAILABLE, 429/RESOURCE_EXHAUSTED): exponential
+    backoff 2s, 4s, 8s. Transient overload errors (seen 2026-05-11 when all 12
+    Substacks failed simultaneously due to Pro overload).
+
+    Layer 2 — empty text (known grounding pathology): single retry with bumped
+    temperature + prompt nudge.
     """
-    try:
+    import time as _time
+    SERVER_ERROR_SIGNALS = ("503", "UNAVAILABLE", "429", "RESOURCE_EXHAUSTED", "INTERNAL")
+    MAX_SERVER_RETRIES = 3
+    BACKOFFS = (2, 4, 8)
+
+    def _call_once(prompt_text: str, temp: float):
         from google.genai import types
         config = types.GenerateContentConfig(
             tools=[types.Tool(google_search=types.GoogleSearch())],
-            temperature=0.5 if _is_retry else 0.2,
+            temperature=temp,
         )
-        response = client.models.generate_content(
+        return client.models.generate_content(
             model=GEMINI_MODEL,
-            contents=prompt,
+            contents=prompt_text,
             config=config,
         )
-        text = _extract_text(response)
-        if not text and not _is_retry:
-            logger.info(f"[{label}] Empty response — retrying once with temp=0.5")
-            retry_prompt = prompt + "\n\nProceed and respond with the requested format now."
-            return _grounded_call(client, retry_prompt, label, _is_retry=True)
-        if not text:
-            logger.warning(f"[{label}] Gemini returned empty text (after retry)")
-        elif _is_retry:
-            logger.info(f"[{label}] Retry succeeded")
-        return text
-    except Exception as e:
-        logger.warning(f"[{label}] Gemini call failed: {type(e).__name__}: {e}")
+
+    response = None
+    last_err: Exception | None = None
+    for attempt in range(MAX_SERVER_RETRIES + 1):
+        try:
+            response = _call_once(prompt, 0.5 if _is_retry else 0.2)
+            last_err = None
+            break
+        except Exception as e:
+            last_err = e
+            msg = str(e)
+            is_transient = any(sig in msg for sig in SERVER_ERROR_SIGNALS)
+            if not is_transient or attempt >= MAX_SERVER_RETRIES:
+                break
+            wait = BACKOFFS[min(attempt, len(BACKOFFS) - 1)]
+            logger.info(f"[{label}] Gemini transient error — backing off {wait}s (attempt {attempt+1}/{MAX_SERVER_RETRIES})")
+            _time.sleep(wait)
+
+    if last_err is not None:
+        logger.warning(f"[{label}] Gemini call failed (after backoff): {type(last_err).__name__}: {last_err}")
         return ""
+
+    text = _extract_text(response)
+    if not text and not _is_retry:
+        logger.info(f"[{label}] Empty response — retrying once with temp=0.5")
+        retry_prompt = prompt + "\n\nProceed and respond with the requested format now."
+        return _grounded_call(client, retry_prompt, label, _is_retry=True)
+    if not text:
+        logger.warning(f"[{label}] Gemini returned empty text (after retry)")
+    elif _is_retry:
+        logger.info(f"[{label}] Retry succeeded")
+    return text
 
 
 # ──────────────────────────────────────────────────────────────────────
