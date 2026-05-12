@@ -1,11 +1,19 @@
-<!-- frontend/src/components/PodcastCard.vue -->
+<!--
+  PodcastCard.vue — exibe episódio com chip de fidelidade do show notes.
+
+  show_notes_quality determina visualização e nível de confiança:
+   - "rich": show notes >500 chars; chip verde; bullets extensos OK
+   - "medium": 200-500 chars; chip amarelo; bullets reduzidos
+   - "poor": <200 chars; chip laranja; só 1 bullet baseado no título;
+     impacto_clinico geralmente vazio (anti-alucinação)
+-->
 <template>
   <div class="card group cursor-pointer" @click="$emit('click')">
     <div class="flex items-start gap-3 mb-3">
       <span class="text-2xl flex-shrink-0">🎙️</span>
       <div class="flex-1 min-w-0">
         <div class="flex items-start justify-between gap-2">
-          <h3 class="font-bold text-base md:text-lg group-hover:text-purple-600 transition-colors">
+          <h3 class="font-bold text-base md:text-lg group-hover:text-purple-600 transition-colors break-words min-w-0">
             {{ podcast.titulo }}
           </h3>
           <div class="flex flex-col items-end gap-1 flex-shrink-0">
@@ -18,14 +26,21 @@
             <span class="text-xs font-bold text-gray-700">{{ podcast.score }}/10</span>
           </div>
         </div>
-        <p class="text-sm text-gray-600">
+        <p class="text-sm text-gray-600 break-words">
           <span class="font-medium">{{ podcast.publicacao }}</span>
           <span v-if="podcast.host" class="text-gray-500"> · {{ podcast.host }}</span>
         </p>
       </div>
     </div>
 
-    <p class="text-gray-700 text-sm mb-3 line-clamp-2">{{ podcast.resumo }}</p>
+    <!-- Chip de fidelidade do show notes -->
+    <div v-if="qualityChip" class="mb-2">
+      <span :class="['inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium', qualityChip.class]">
+        {{ qualityChip.icon }} {{ qualityChip.label }}
+      </span>
+    </div>
+
+    <p v-if="podcast.resumo" class="text-gray-700 text-sm mb-3 break-words">{{ podcast.resumo }}</p>
 
     <ul v-if="podcast.bullet_points?.length" class="space-y-1 mb-4 ml-1">
       <li
@@ -34,11 +49,11 @@
         class="text-sm text-gray-700 flex items-start gap-2"
       >
         <span class="text-purple-500 flex-shrink-0 mt-0.5">▸</span>
-        <span>{{ bullet }}</span>
+        <span class="break-words min-w-0">{{ bullet }}</span>
       </li>
     </ul>
 
-    <p v-if="podcast.impacto_clinico" class="text-sm text-gray-600 mb-4 italic">
+    <p v-if="podcast.impacto_clinico" class="text-sm text-gray-600 mb-4 italic break-words">
       💡 {{ podcast.impacto_clinico }}
     </p>
 
@@ -71,9 +86,37 @@
 </template>
 
 <script setup>
-defineProps({
-  podcast: Object
+import { computed } from 'vue'
+
+const props = defineProps({
+  podcast: { type: Object, required: true }
 })
 
 defineEmits(['click'])
+
+const qualityChip = computed(() => {
+  const q = props.podcast?.show_notes_quality
+  if (q === 'rich') {
+    return {
+      icon: '📋',
+      label: 'Show notes completos — resumo confiável',
+      class: 'bg-emerald-100 text-emerald-800',
+    }
+  }
+  if (q === 'medium') {
+    return {
+      icon: '📋',
+      label: 'Show notes parciais — resumo limitado',
+      class: 'bg-amber-100 text-amber-800',
+    }
+  }
+  if (q === 'poor') {
+    return {
+      icon: '⚠️',
+      label: 'Show notes mínimos — abra o episódio para detalhes',
+      class: 'bg-orange-100 text-orange-800',
+    }
+  }
+  return null
+})
 </script>

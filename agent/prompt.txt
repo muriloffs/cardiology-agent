@@ -270,15 +270,15 @@ Return EXACTLY this JSON structure (no markdown, no text before/after):
       "score": 7.0,
       "categoria_fonte": "podcast",
       "emoji": "🎙️",
-      "resumo": "2-3 sentences in Portuguese describing what this episode covers and why a cardiologist should listen.",
+      "show_notes_quality": "rich | medium | poor (detect based on Show Notes length — see rules below)",
+      "resumo": "Sentences in PT-BR — number of sentences scales with show_notes_quality (1 for poor, 1-2 medium, 2-3 rich)",
       "bullet_points": [
-        "Tópico 1 — síntese de 1 frase do que foi discutido",
-        "Tópico 2 — síntese de 1 frase",
-        "Tópico 3 — síntese de 1 frase",
-        "Tópico 4 — síntese de 1 frase (opcional)",
-        "Tópico 5 — síntese de 1 frase (opcional)"
+        "Bullets extraídos APENAS do show notes fornecido — número de bullets varia:",
+        "poor (<200 chars show notes): MÁXIMO 1 bullet baseado no título",
+        "medium (200-500 chars): 2-3 bullets literais",
+        "rich (>500 chars): 4-5 bullets extraídos"
       ],
-      "impacto_clinico": "What practical takeaway or area of update this episode delivers. Em português.",
+      "impacto_clinico": "Para show_notes poor: deixe vazio. Para medium/rich: 1-2 frases sobre impacto.",
       "links": {
         "episode_url": "https://podcast-episode-url.com",
         "audio_url": "https://...mp3 or null"
@@ -346,17 +346,47 @@ Return EXACTLY this JSON structure (no markdown, no text before/after):
 - In `resumo`, prepend "[PREPRINT] " to flag pre-peer-review status
 - Always include the medRxiv DOI URL in `links.url`
 
-**`podcasts` rules:**
-- Only include if `source: podcast` items were provided
-- If no podcast sources were provided, omit the `podcasts` field entirely
-- One entry per episode — do not split a single episode into multiple entries
-- `bullet_points`: 3-5 items extracted FROM THE SHOW NOTES. Each is one Portuguese sentence summarizing a topic the episode covers. If show notes are sparse, fall back to the episode title (1-2 bullets is acceptable).
-- `episode_url` must be the real URL provided. `audio_url` may be null if not provided.
-- Classification for podcasts:
-  - **A**: Episode covers a practice-changing trial, new guideline, or hot topic relevant TODAY
-  - **B**: Standard educational content, journal review, expert interview
-  - **C**: General/foundational content, less time-sensitive
-- Score uses same scale as artigos (A: 8-10, B: 6-7.9, C: 4-5.9)
+**`podcasts` rules — REGRAS DE FIDELIDADE INVIOLÁVEIS:**
+
+Show notes podem variar drasticamente em qualidade. **NUNCA invente bullets para preencher cota** — melhor 1 bullet honesto que 5 inventados a partir do título.
+
+**Detecte o `show_notes_quality` baseado no comprimento e densidade do "Show Notes/Abstract":**
+
+1. **Show notes < 200 caracteres** (ex: só "Episode 124 with Dr. X discussing TAVI outcomes"):
+   - `show_notes_quality`: "poor"
+   - `bullet_points`: MÁXIMO 1 bullet, baseado APENAS no que o título indica explicitamente
+   - `resumo`: 1 frase em PT-BR reformulando o título — sem inferir o que NÃO está escrito
+   - `impacto_clinico`: deixe string vazia "" ou "Tema apresentado: <X>. Detalhes só ouvindo o episódio."
+
+2. **Show notes 200-500 caracteres** (mid-density):
+   - `show_notes_quality`: "medium"
+   - `bullet_points`: 2-3 bullets, extraindo APENAS o que está literalmente no texto fornecido
+   - `resumo`: 1-2 frases descrevendo o que o texto afirma
+   - `impacto_clinico`: 1 frase curta SE o texto sugerir tema clínico claro; caso contrário ""
+
+3. **Show notes > 500 caracteres** (rich):
+   - `show_notes_quality`: "rich"
+   - `bullet_points`: 4-5 bullets extraídos do conteúdo real (sem inferir além)
+   - `resumo`: 2-3 frases sintetizando os pontos do texto
+   - `impacto_clinico`: 1-2 frases sobre o impacto baseado no que foi discutido
+
+**Regras gerais:**
+- Cada bullet é UMA frase em português, ESPELHANDO um tópico/afirmação do show notes
+- NUNCA invente datas, números (HR/IC/p-value), nomes de drogas ou guidelines que não estão no texto fornecido
+- Se quiser citar contexto clínico geral (não-específico), tudo bem — mas NÃO invente achados específicos
+- Só include o campo `podcasts` se `source: podcast` items foram fornecidos
+- Uma entrada por episódio — não dividir um episódio em múltiplos itens
+- `episode_url` deve ser a URL real fornecida; `audio_url` pode ser null
+
+**Classification para podcasts:**
+- **A**: Episode cobre trial practice-changing, nova guideline, ou tópico hot relevante HOJE
+- **B**: Conteúdo educacional standard, journal review, expert interview
+- **C**: Conteúdo geral/foundational, menos time-sensitive
+- Score usa mesma escala dos artigos (A: 8-10, B: 6-7.9, C: 4-5.9)
+
+**Campo NOVO obrigatório: `show_notes_quality`**
+- Valores possíveis: "rich" / "medium" / "poor"
+- Permite ao frontend mostrar chip visual de confiabilidade — usuário sabe se o resumo é confiável ou se precisa ouvir o episódio
 
 ---
 

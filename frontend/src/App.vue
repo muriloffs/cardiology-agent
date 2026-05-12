@@ -102,6 +102,20 @@
           </span>
         </button>
         <button
+          @click="currentView = 'podcasts'"
+          :class="['px-2.5 md:px-5 py-1.5 md:py-3 rounded-lg text-sm md:text-lg font-semibold transition-all flex items-center gap-1.5 md:gap-2.5',
+                   currentView === 'podcasts'
+                     ? 'bg-purple-700 text-white shadow-md'
+                     : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200']"
+        >
+          🎙️ Podcasts
+          <span v-if="report?.podcasts?.length"
+                :class="['px-1.5 md:px-2 py-0.5 rounded-full text-xs md:text-sm font-bold',
+                         currentView === 'podcasts' ? 'bg-white text-purple-700' : 'bg-purple-100 text-purple-700']">
+            {{ report.podcasts.length }}
+          </span>
+        </button>
+        <button
           @click="currentView = 'ideas'"
           :class="['px-2.5 md:px-5 py-1.5 md:py-3 rounded-lg text-sm md:text-lg font-semibold transition-all flex items-center gap-1.5 md:gap-2.5',
                    currentView === 'ideas'
@@ -401,6 +415,48 @@
 
 
     <!-- ============================================================ -->
+    <!-- VIEW: PODCASTS -->
+    <!-- ============================================================ -->
+    <template v-else-if="currentView === 'podcasts'">
+      <FilterBar
+        :selected-class="selectedClass"
+        @update:selected-class="selectedClass = $event"
+        @refresh="loadReport"
+      />
+      <section class="px-4 py-8 max-w-6xl mx-auto">
+        <div class="mb-6">
+          <h2 class="text-2xl md:text-3xl font-bold mb-2">🎙️ Podcasts de Cardiologia</h2>
+          <p class="text-sm text-gray-600 mb-1">
+            Episódios recentes com resumo baseado nos <strong>show notes oficiais</strong> de cada podcast. Chip de fidelidade indica quão completos eram os show notes — em alguns casos só o título está disponível.
+          </p>
+          <p v-if="report?.podcasts?.length" class="text-xs text-gray-500">
+            {{ filteredPodcasts.length }} de {{ report.podcasts.length }} episódio{{ report.podcasts.length > 1 ? 's' : '' }}{{ selectedClass !== 'all' ? ' (Classe ' + selectedClass + ')' : '' }} ·
+            {{ richPodcastsCount }} com show notes completos
+          </p>
+        </div>
+
+        <div v-if="filteredPodcasts.length" class="space-y-3">
+          <PodcastCard
+            v-for="podcast in filteredPodcasts"
+            :key="podcast.id"
+            :podcast="podcast"
+            @click="openPodcast(podcast)"
+          />
+        </div>
+        <p v-else-if="!report" class="text-center text-gray-500 py-12">
+          Carregando relatório...
+        </p>
+        <p v-else-if="!report.podcasts?.length" class="text-center text-gray-500 py-12">
+          📭 Sem podcasts neste relatório.
+        </p>
+        <p v-else class="text-center text-gray-500 py-8">
+          Nenhum podcast Classe {{ selectedClass }} hoje.
+        </p>
+      </section>
+    </template>
+
+
+    <!-- ============================================================ -->
     <!-- VIEW 5: IDEIAS DO DIA -->
     <!-- ============================================================ -->
     <template v-else-if="currentView === 'ideas'">
@@ -469,6 +525,7 @@ import HeaderStats from './components/HeaderStats.vue'
 import FilterBar from './components/FilterBar.vue'
 import ArticleCard from './components/ArticleCard.vue'
 import NoticiaCard from './components/NoticiaCard.vue'
+import PodcastCard from './components/PodcastCard.vue'
 import XDiscussionCard from './components/XDiscussionCard.vue'
 import XDiscussionDetail from './components/XDiscussionDetail.vue'
 import PostIdeaCard from './components/PostIdeaCard.vue'
@@ -484,7 +541,7 @@ const selectedClass = ref('all')
 const loading = ref(false)
 const selectedXCategoria = ref('all')
 const selectedVideoTier = ref(-1)  // -1 = all
-const currentView = ref('artigos')  // 'artigos'|'noticias'|'discussoes'|'pulso'|'substacks'|'videos'|'ideas'
+const currentView = ref('artigos')  // 'artigos'|'noticias'|'discussoes'|'pulso'|'substacks'|'videos'|'podcasts'|'ideas'
 const selectedIdeaType = ref('all')
 const selectedSubstackPub = ref('all')
 const availableDates = ref([])
@@ -517,6 +574,24 @@ const filteredNoticias = computed(() => {
   if (selectedClass.value === 'all') return list
   return list.filter(n => n.classe === selectedClass.value)
 })
+
+// Filtered podcasts — same class filter pattern
+const filteredPodcasts = computed(() => {
+  const list = report.value?.podcasts || []
+  if (selectedClass.value === 'all') return list
+  return list.filter(p => p.classe === selectedClass.value)
+})
+
+// How many podcasts have rich show notes (used in the header subtitle)
+const richPodcastsCount = computed(() => {
+  return (report.value?.podcasts || []).filter(p => p.show_notes_quality === 'rich').length
+})
+
+// Open podcast — prefer episode_url over audio_url (page tem mais contexto)
+function openPodcast(podcast) {
+  const url = podcast?.links?.episode_url || podcast?.links?.audio_url
+  if (url) window.open(url, '_blank', 'noopener,noreferrer')
+}
 
 // Discussions get both filters: class (A/B/C) AND categoria (especialista/revista/etc).
 const filteredDiscussoes = computed(() => {

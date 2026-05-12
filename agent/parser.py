@@ -457,13 +457,21 @@ def _validate_podcast(item: Dict[str, Any], context: str) -> None:
     if not isinstance(item, dict):
         raise ParsingError(f"Field '{context}' must be a dictionary")
 
-    required_fields = {'id', 'titulo', 'publicacao', 'classe', 'score', 'resumo', 'impacto_clinico', 'links'}
+    # impacto_clinico pode vir vazio quando show_notes_quality='poor' (anti-alucinação).
+    # Por isso só é obrigatório o resumo + estrutura básica.
+    required_fields = {'id', 'titulo', 'publicacao', 'classe', 'score', 'resumo', 'links'}
     missing = required_fields - set(item.keys())
     if missing:
         raise ParsingError(f"Field '{context}' missing required fields: {', '.join(sorted(missing))}")
 
-    for field in ['id', 'titulo', 'publicacao', 'resumo', 'impacto_clinico']:
+    for field in ['id', 'titulo', 'publicacao', 'resumo']:
         _require_non_empty_string(item[field], f"{context}.{field}")
+
+    # impacto_clinico: optional string (may be empty for show_notes_quality='poor')
+    if 'impacto_clinico' not in item or not isinstance(item.get('impacto_clinico'), str):
+        item['impacto_clinico'] = ''
+    else:
+        item['impacto_clinico'] = item['impacto_clinico'].strip()
 
     if isinstance(item['score'], bool):
         raise ParsingError(f"Field '{context}.score' must be a number, not boolean")
@@ -487,6 +495,21 @@ def _validate_podcast(item: Dict[str, Any], context: str) -> None:
 
     if not item.get('categoria_fonte'):
         item['categoria_fonte'] = 'podcast'
+
+    # show_notes_quality: optional tag indicating fidelity tier (rich/medium/poor)
+    # Auto-derive if missing — based on length of show_notes_original when present
+    valid_quality = {'rich', 'medium', 'poor'}
+    q = item.get('show_notes_quality')
+    if not isinstance(q, str) or q.lower() not in valid_quality:
+        notes_len = len(item.get('show_notes_original') or '')
+        if notes_len > 500:
+            item['show_notes_quality'] = 'rich'
+        elif notes_len >= 200:
+            item['show_notes_quality'] = 'medium'
+        else:
+            item['show_notes_quality'] = 'poor'
+    else:
+        item['show_notes_quality'] = q.lower()
 
     # Validate links — must have episode_url
     links = item['links']
