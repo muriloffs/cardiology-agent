@@ -17,7 +17,7 @@ from agent.scripts.fetch_grok import fetch_x_cardiology_posts, transform_to_disc
 from agent.scripts.fetch_podcasts import fetch_all_podcasts
 from agent.scripts.fetch_youtube import fetch_all_youtube, transform_to_videos_youtube
 from agent.scripts.fetch_youtube_gemini import fetch_all_youtube_gemini
-from agent.scripts.fetch_gemini_external import fetch_all_external
+from agent.scripts.fetch_gemini_external import fetch_all_external, enrich_news_batch
 from agent.scripts.fetch_gemini_substacks import fetch_all_substacks
 from agent.scripts.youtube_enrichment import enrich_videos
 from agent.scripts.generate_post_ideas import generate_post_ideas
@@ -233,29 +233,22 @@ class CardologyAgent:
                 report["substacks"] = gemini_substacks
                 logger.info(f"Injected {len(gemini_substacks)} Substack posts (bypass)")
 
-            # Inject 2-pass rich news enrichment into Claude-curated noticias[].
-            # The fetch_gemini_external 2-pass step adds contexto/pontos_principais/
-            # falas/insights/por_que_importa per news item; Claude doesn't propagate
-            # these unknown fields through its own output, so we re-attach by URL match.
-            if gemini_noticias and report.get("noticias"):
-                enriched_by_url = {}
-                rich_keys = ("contexto", "pontos_principais", "falas", "insights", "por_que_importa")
-                for src in gemini_noticias:
-                    src_url = src.get("pubmed_url") or ""
-                    if not src_url:
-                        continue
-                    rich = {k: src[k] for k in rich_keys if src.get(k)}
-                    if rich:
-                        enriched_by_url[src_url] = rich
-                injected_news = 0
-                for n in report["noticias"]:
-                    links = n.get("links") or {}
-                    url = links.get("url") or ""
-                    if url and url in enriched_by_url:
-                        n.update(enriched_by_url[url])
-                        injected_news += 1
-                if enriched_by_url:
-                    logger.info(f"Injected rich enrichment into {injected_news}/{len(report['noticias'])} noticias")
+            # 2-pass rich news enrichment — Gemini Pro reads each noticia's URL via
+            # Google Search grounding and produces 5 Substack-style fields:
+            # contexto, pontos_principais, falas, insights, por_que_importa.
+            #
+            # Runs on report["noticias"] AFTER Claude classified — covers ALL sources
+            # (RSS direct: TCTMD/Healio/CardiovascularNews/DAIC/medRxiv AND
+            # Gemini external: Medscape/Circulation/EHJ etc.). Previously only ran
+            # on Gemini-discovered items, leaving RSS-direct noticias unenriched.
+            #
+            # Non-critical: graceful degrade on Gemini errors.
+            if report.get("noticias") and os.environ.get("DISABLE_NEWS_ENRICHMENT", "").lower() not in ("1", "true", "yes"):
+                try:
+                    logger.info(f"Enriching {len(report['noticias'])} noticias via Gemini 2-pass (estilo Substack)...")
+                    report["noticias"] = enrich_news_batch(report["noticias"])
+                except Exception as e:
+                    logger.warning(f"News enrichment pass failed: {type(e).__name__}: {e}")
 
             # Inject original RSS show notes (EN) into each podcast item for the
             # detail modal. Claude rewrites titulo so we match by `publicacao`

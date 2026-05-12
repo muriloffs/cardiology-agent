@@ -627,10 +627,32 @@ def _enrich_news_item(client, item: dict) -> dict:
     return item
 
 
-def _enrich_news_batch(client, noticias: list[dict]) -> list[dict]:
-    """Enrich all noticias in parallel (3 workers, respects Gemini Pro rate limits)."""
+def enrich_news_batch(noticias: list[dict]) -> list[dict]:
+    """Enrich all noticias in parallel with rich Substack-style fields.
+
+    Public entrypoint — manages its own Gemini client. Returns unchanged
+    list if GOOGLE_API_KEY is not set or Gemini is unreachable.
+
+    Called from agent.py AFTER Claude classifies the final report.noticias
+    list, so this works on ALL noticias regardless of discovery source
+    (RSS direct: TCTMD/Healio/etc OR Gemini external: Medscape/journals).
+
+    The function reads each noticia's URL (looking at `pubmed_url` or
+    `links.url`), then asks Gemini Pro w/ Google Search grounding to
+    read the article page and produce 5 structured fields:
+    contexto, pontos_principais, falas, insights, por_que_importa.
+
+    Failures degrade gracefully — individual items that fail keep their
+    original shape, pipeline continues.
+    """
     if not noticias:
         return noticias
+
+    client = _get_client()
+    if not client:
+        logger.warning("GOOGLE_API_KEY not set — skipping news enrichment")
+        return noticias
+
     enriched: list[dict] = list(noticias)  # preserve order
     with ThreadPoolExecutor(max_workers=3) as pool:
         futures = {pool.submit(_enrich_news_item, client, n): i for i, n in enumerate(noticias)}
@@ -641,7 +663,7 @@ def _enrich_news_batch(client, noticias: list[dict]) -> list[dict]:
             except Exception as e:
                 logger.warning(f"News enrichment item {i} failed: {type(e).__name__}: {e}")
     enriched_count = sum(1 for n in enriched if n.get("pontos_principais") or n.get("insights"))
-    logger.info(f"News enrichment: {enriched_count}/{len(noticias)} items enriched (2-pass)")
+    logger.info(f"News enrichment: {enriched_count}/{len(noticias)} items got rich fields (2-pass)")
     return enriched
 
 
@@ -719,14 +741,11 @@ def fetch_all_external(days_back: int = 2) -> dict:
     except Exception as e:
         logger.error(f"Bluesky fetcher failed: {e}")
 
-    # Pass 2: enrich each noticia com resumo rico estilo Substack
-    # (contexto + pontos_principais + falas + insights + por_que_importa).
-    # Roda só se o env var não desativar — fallback gracioso se falhar.
-    if noticias_external and os.environ.get("DISABLE_NEWS_ENRICHMENT", "").lower() not in ("1", "true", "yes"):
-        try:
-            noticias_external = _enrich_news_batch(client, noticias_external)
-        except Exception as e:
-            logger.warning(f"News enrichment batch failed: {e} — keeping basic items")
+    # NOTE: 2-pass enrichment (contexto/pontos_principais/falas/insights/por_que_importa)
+    # used to run HERE but was moved to agent.py post-Claude. Reason: enriching pre-Claude
+    # wasted Gemini calls on items Claude would discard, AND missed RSS-direct noticias
+    # (TCTMD/Healio/CardiovascularNews) which never passed through this fetcher.
+    # Now enrichment runs on the final report["noticias"] list — covers ALL sources.
 
     logger.info(f"Gemini external TOTAL: {len(noticias_external)} noticias + {len(bluesky)} Bluesky")
     return {
