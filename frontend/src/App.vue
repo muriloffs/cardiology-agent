@@ -221,6 +221,17 @@
           {{ filteredDiscussoes.length }} de {{ report?.discussoes_x?.length || 0 }} discussões das últimas 24h{{ selectedClass !== 'all' ? ' (Classe ' + selectedClass + ')' : '' }}
         </p>
 
+        <!-- Banner: Grok indisponível, exibindo cache do dia anterior -->
+        <div v-if="discussoesCacheBanner" class="mb-4 p-3 rounded-lg bg-amber-50 border border-amber-300 flex items-start gap-3">
+          <span class="text-2xl flex-shrink-0">📦</span>
+          <div class="text-sm text-amber-900 flex-1">
+            <p class="font-semibold mb-0.5">Grok (X) indisponível hoje</p>
+            <p class="text-xs leading-relaxed">
+              Estas discussões são do relatório de <strong>{{ formatBannerDate(discussoesCacheBanner) }}</strong> — usadas como fallback para você não ficar sem essa fonte. xAI estava com sobrecarga (HTTP 429) no horário de coleta. Próxima coleta amanhã às 3:00 UTC.
+            </p>
+          </div>
+        </div>
+
         <div v-if="report?.discussoes_x?.length" class="flex gap-2 flex-wrap mb-6">
           <button
             v-for="cat in ['all', 'especialista', 'revista', 'sociedade']"
@@ -626,6 +637,27 @@ const filteredDiscussoes = computed(() => {
   }
   return list
 })
+
+// Cache fallback detection — when Grok hits rate limit / outage, backend
+// reuses yesterday's discussoes_x and tags each item with `_cache_fallback: true`
+// plus `_cache_source_date` ('YYYY-MM-DD'). Banner only shows when ALL items
+// are cached (partial cache shouldn't happen but defensive: if mixed, dont
+// confuse users with banner). Returns the source date string or null.
+const discussoesCacheBanner = computed(() => {
+  const list = report.value?.discussoes_x || []
+  if (!list.length) return null
+  const allCached = list.every(d => d._cache_fallback === true)
+  if (!allCached) return null
+  const dates = list.map(d => d._cache_source_date).filter(Boolean)
+  if (!dates.length) return null
+  return dates[0]
+})
+
+function formatBannerDate(dateStr) {
+  if (!dateStr || typeof dateStr !== 'string') return dateStr
+  const m = dateStr.match(/^(\d{4})-(\d{2})-(\d{2})/)
+  return m ? `${m[3]}/${m[2]}/${m[1]}` : dateStr
+}
 
 const filteredVideos = computed(() => {
   const list = report.value?.videos_youtube || []
