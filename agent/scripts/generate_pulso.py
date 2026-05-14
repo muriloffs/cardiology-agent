@@ -39,7 +39,10 @@ from anthropic import Anthropic, APIError
 logger = logging.getLogger(__name__)
 
 PULSO_MODEL = os.environ.get("PULSO_MODEL", "claude-sonnet-4-6")
-PULSO_MAX_TOKENS = 8000  # ~10 items × ~500 tokens ≈ 5K + headroom
+# 10 items × ~800 tokens (com historical_references) ≈ 8K. 16K dá headroom de 2x
+# para quando Sonnet escrever razao_destaque/interpretacao_comunidade mais longos.
+# Run 2026-05-14 bateu exatamente em 8000 e truncou o JSON — daí o bump.
+PULSO_MAX_TOKENS = 16000
 
 
 def _strip_json_fences(text: str) -> str:
@@ -281,9 +284,21 @@ def generate_pulso(report: dict, anthropic_client: Anthropic = None) -> list[dic
     try:
         items = json.loads(cleaned)
     except json.JSONDecodeError as e:
-        logger.error(f"Failed to parse Pulso JSON: {e}")
-        logger.debug(f"Raw response (first 500): {raw[:500]}")
-        return []
+        # Try json_repair before giving up — handles truncated arrays, missing
+        # commas, unbalanced quotes. Saves partial output when Sonnet hits
+        # max_tokens mid-array (last full pulso item still recoverable).
+        logger.warning(f"Direct JSON parse failed: {e} — trying json_repair fallback")
+        try:
+            from json_repair import repair_json
+            repaired = repair_json(cleaned)
+            items = json.loads(repaired) if isinstance(repaired, str) else repaired
+            if not isinstance(items, list):
+                raise ValueError(f"repaired result is not a list (got {type(items).__name__})")
+            logger.info(f"json_repair recovered {len(items)} pulso items from malformed output")
+        except Exception as e2:
+            logger.error(f"Failed to parse Pulso JSON (even with repair): {e2}")
+            logger.debug(f"Raw response (first 500): {raw[:500]}")
+            return []
 
     if not isinstance(items, list):
         logger.warning(f"Pulso response is not a list (got {type(items).__name__})")

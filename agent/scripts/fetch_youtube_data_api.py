@@ -1,21 +1,22 @@
 """Fetch recent cardiology YouTube videos via YouTube Data API v3 (official).
 
-Replaces fetch_youtube_gemini.py (Gemini Search grounding doesn't reliably list
-channel uploads — validated empirically 2026-05-12: 1/30 channels returned a
-video despite the videos existing).
+History of this module (lessons learned):
+  - First attempt used playlistItems.list (1 unit/call, 30 units/day total).
+  - 2026-05-14: YouTube started returning HTTP 403 "Requests to this API method
+    are blocked" on playlistItems.list for ALL 30 channels from GitHub Actions
+    runner IPs. The API was enabled correctly — YouTube just has a stricter
+    anti-bot policy for that specific endpoint when called from datacenter IPs.
+  - Migrated to search.list (100 units/call). Higher cost but works from
+    datacenter IPs. 30 channels × 100 = 3000 units/day = 30% of 10k free quota
+    (still comfortable).
 
-Key efficiency win: uses `playlistItems.list` against each channel's "uploads"
-playlist instead of `search.list`. Quota cost difference:
-  - search.list: 100 units per call → 30 channels = 3000 units/day
-  - playlistItems.list: 1 unit per call → 30 channels = 30 units/day (0.3% of 10k free quota)
+search.list response shape differs slightly from playlistItems.list:
+  - videoId is at `item.id.videoId` (vs `item.snippet.resourceId.videoId`)
+  - description in snippet is truncated (~200 chars) — full description needs
+    extra videos.list call (1 unit each). For now we accept the truncation —
+    200 chars is enough for the card preview, and we're not enriching via LLM.
 
-The "uploads playlist" trick: every YouTube channel has an auto-generated
-playlist with all videos. Its ID derives from the channel ID by replacing the
-'UC' prefix with 'UU'. So `UClNIx-dih_PN9C_noVw4zWA` → `UUlNIx-dih_PN9C_noVw4zWA`.
-No extra API call needed to discover it.
-
-Output shape is identical to fetch_youtube_gemini.py so downstream code
-(agent.py, frontend) works unchanged.
+Output shape stays identical to upstream consumers (titulo, canal, tier, etc.).
 """
 
 import logging
@@ -37,15 +38,15 @@ from agent.scripts.fetch_youtube import (
 
 logger = logging.getLogger(__name__)
 
-API_BASE = "https://www.googleapis.com/youtube/v3/playlistItems"
+API_BASE = "https://www.googleapis.com/youtube/v3/search"
 API_TIMEOUT_S = 15
 
 
 def _channel_id_to_uploads_playlist(channel_id: str) -> str:
-    """Convert UC... channel ID to UU... uploads-playlist ID.
+    """Legacy helper from when we used playlistItems.list. Kept for backwards
+    compat but not used in current search.list flow.
 
-    YouTube guarantees this naming convention since 2013 — every UC channel
-    has a corresponding UU uploads playlist with all public uploads.
+    Converts UC... channel ID to UU... uploads-playlist ID.
     """
     if not channel_id or not channel_id.startswith("UC"):
         return channel_id  # don't transform if it doesn't look like a channel ID
@@ -64,18 +65,37 @@ def _parse_iso_datetime(iso_str: str) -> datetime | None:
 
 
 def fetch_channel_via_api(api_key: str, channel: dict, days_back: int = 3) -> list[dict[str, Any]]:
-    """Fetch recent videos from ONE channel via YouTube Data API v3."""
-    uploads_playlist_id = _channel_id_to_uploads_playlist(channel["channel_id"])
+    """Fetch recent videos from ONE channel via YouTube Data API v3 (search.list).
+
+    Uses search.list (100 units/call) instead of playlistItems.list (1 unit/call)
+    because the latter is blocked from datacenter IPs as of 2026-05-14. Quota
+    cost: 30 channels × 100 = 3000 units/day (30% of 10k free tier).
+
+    search.list response shape:
+      item.id.videoId  ← video ID (vs item.snippet.resourceId.videoId in playlistItems)
+      item.snippet.title / description / publishedAt / thumbnails
+
+    NOTE: description from search.list is TRUNCATED to ~200 chars. For the
+    full description we'd need an extra videos.list call per video (1 unit each).
+    Acceptable for now — card preview only needs the first sentences anyway.
+    """
+    # ISO 8601 cutoff for the publishedAfter filter — API does the filtering
+    # server-side, so we don't waste quota on old videos.
+    cutoff = datetime.now(timezone.utc) - timedelta(days=days_back)
+    cutoff_iso = cutoff.strftime("%Y-%m-%dT%H:%M:%SZ")
+
     params = {
         "key": api_key,
-        "playlistId": uploads_playlist_id,
+        "channelId": channel["channel_id"],
         "part": "snippet",
-        "maxResults": 15,  # fetch enough to cover days_back window
+        "type": "video",            # search.list also matches channels/playlists by default
+        "order": "date",            # newest first
+        "publishedAfter": cutoff_iso,
+        "maxResults": 15,
     }
 
     try:
         response = requests.get(API_BASE, params=params, timeout=API_TIMEOUT_S)
-        # Don't raise on non-200 — extract reason for logs
         if response.status_code != 200:
             try:
                 err_body = response.json().get("error", {}).get("message", response.text[:200])
@@ -89,17 +109,17 @@ def fetch_channel_via_api(api_key: str, channel: dict, days_back: int = 3) -> li
     except requests.RequestException as e:
         logger.warning(f"YouTube/API [{channel['name']}] request failed: {type(e).__name__}: {e}")
         return []
-    except ValueError as e:  # JSON decode error
+    except ValueError as e:
         logger.warning(f"YouTube/API [{channel['name']}] invalid JSON: {e}")
         return []
 
-    cutoff = datetime.now(timezone.utc) - timedelta(days=days_back)
     cap = TIER0_CHANNEL_CAP if channel["tier"] == 0 else PER_CHANNEL_CAP
 
     videos: list[dict[str, Any]] = []
     for item in data.get("items", []) or []:
         snippet = item.get("snippet") or {}
         pub_date = _parse_iso_datetime(snippet.get("publishedAt", ""))
+        # Already filtered server-side via publishedAfter, but double-check for safety
         if pub_date and pub_date < cutoff:
             continue
 
@@ -109,14 +129,16 @@ def fetch_channel_via_api(api_key: str, channel: dict, days_back: int = 3) -> li
 
         description = snippet.get("description") or ""
 
-        # Apply cardio filter for general-content channels (Tier 0 is always pinned/unfiltered)
+        # Apply cardio filter for general-content channels (Tier 0 always unfiltered)
         if channel["tier"] != 0 and channel.get("filter_cardio"):
             text_low = (title + " " + description).lower()
             if not any(kw in text_low for kw in CARDIO_KEYWORDS):
                 continue
 
-        resource = snippet.get("resourceId") or {}
-        video_id = resource.get("videoId")
+        # search.list nests videoId differently than playlistItems.list:
+        # item.id = {"kind": "youtube#video", "videoId": "..."}
+        item_id_obj = item.get("id") or {}
+        video_id = item_id_obj.get("videoId") if isinstance(item_id_obj, dict) else None
         if not video_id:
             continue
 
@@ -156,8 +178,10 @@ def fetch_all_youtube_data_api(days_back: int = 3) -> list[dict[str, Any]]:
     Drop-in replacement for fetch_all_youtube() / fetch_all_youtube_gemini().
     Returns empty list if YOUTUBE_API_KEY/GOOGLE_API_KEY not configured.
 
-    Quota usage per run: ~30 units (one playlistItems.list call per channel).
-    Free tier daily limit: 10000 units. We use ~0.3% — practically unlimited.
+    Quota usage per run: ~3000 units (one search.list call per channel × 100 units).
+    Free tier daily limit: 10000 units. We use ~30% — comfortable headroom.
+    (Originally used playlistItems.list at 1 unit/call but it gets blocked from
+    datacenter IPs as of 2026-05-14. search.list works but costs 100× more.)
     """
     # Prefer YOUTUBE_API_KEY if set; fall back to GOOGLE_API_KEY (same key after
     # enabling YouTube Data API v3 on the Gemini project — common setup).

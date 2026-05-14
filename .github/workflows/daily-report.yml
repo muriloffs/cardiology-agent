@@ -2,10 +2,12 @@ name: Daily Cardiology Research Report
 
 on:
   schedule:
-    # Scheduled at 3:00 UTC (midnight Brasília) so delivery lands at ~5 UTC = 2 AM Brasília.
-    # 5 UTC is BEFORE Europe wakes up (Europe morning starts ~6 UTC) — quieter xAI window.
-    # Must run AFTER 3 UTC to ensure Brasília "yesterday" calc includes full prior day.
-    - cron: '0 3 * * *'
+    # Scheduled at 7:00 UTC (4 AM Brasília). Originally was 3 UTC but Grok/xAI
+    # consistently returned HTTP 429 ("model at capacity") at that hour for 3+
+    # consecutive days (2026-05-12/13/14). 7 UTC is the gap between Asian peak
+    # (~22 UTC) and European/American peak (~14 UTC) — quieter for shared LLM APIs.
+    # Brasília yesterday is correctly computed since runs is after 3 UTC.
+    - cron: '0 7 * * *'
   workflow_dispatch:
 
 concurrency:
