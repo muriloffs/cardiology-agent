@@ -50,7 +50,12 @@ jobs:
           WEBSHARE_PROXY_USERNAME: ${{ secrets.WEBSHARE_PROXY_USERNAME }}
           WEBSHARE_PROXY_PASSWORD: ${{ secrets.WEBSHARE_PROXY_PASSWORD }}
           WEBSHARE_PROXY_URL: ${{ secrets.WEBSHARE_PROXY_URL }}
-          GROK_MODEL: ${{ vars.GROK_MODEL || 'grok-4' }}
+          # grok-4 foi descontinuado em ~2026-05 — chamadas a esse modelo retornam
+          # 429 cronicamente (capacidade zero, sem aviso). grok-4.3 é o drop-in
+          # replacement oficial (mesmo preço $1.25/$2.50 por 1M tokens, mesmas rate
+          # limits 10M TPM / 1.800 RPM). Para forçar outro modelo, basta criar uma
+          # GitHub Variable chamada GROK_MODEL — sobrescreve este default.
+          GROK_MODEL: ${{ vars.GROK_MODEL || 'grok-4.3' }}
           # Disable Gemini enrichment for YouTube videos.
           # Sem transcript real, sintese da descricao arrisca distorcer o conteudo.
           # Card mostra apenas: thumbnail, canal, titulo, descricao_preview (RSS literal).
