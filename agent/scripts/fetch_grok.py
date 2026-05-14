@@ -109,17 +109,33 @@ def fetch_x_cardiology_posts(days_back: int = 1) -> list[dict[str, Any]]:
     }
 
     def _build_payload(model: str, retry_feedback: str = "") -> dict:
-        """Build Grok request payload, optionally with retry feedback appended."""
+        """Build Grok request payload, optionally with retry feedback appended.
+
+        x_search tool config tunings (2026-05-14, baseado em docs.x.ai/developers/tools/x-search):
+        - from_date: limita a janela de busca para 3 dias atrás (target_date - 2 days).
+          Sem isso, Grok pode trazer posts antigos misturados — especialmente em handles
+          de KOLs onde "trending" pode ser de semanas atrás.
+        - enable_image_understanding: permite Grok ler gráficos/figuras de papers que
+          cardiologistas postam em screenshots no X. Custo marginal por imagem lida.
+        max_tool_calls 2→8: gargalo identificado nos primeiros runs com grok-4.3 (rendia
+        ~10 posts em vez dos 30-46 históricos). Com 8 calls internas o Grok faz mais
+        passes de busca cobrindo handles diferentes. Trade-off: +$0.10/run, +30s.
+        """
         content = prompt + retry_feedback if retry_feedback else prompt
+        # from_date = target_date - 2 dias, em formato ISO (YYYY-MM-DD)
+        from_date_dt = datetime.strptime(target_date, "%Y-%m-%d") - timedelta(days=2)
+        from_date = from_date_dt.strftime("%Y-%m-%d")
         return {
             "model": model,
             "input": [{"role": "user", "content": content}],
-            "tools": [{"type": "x_search"}],
+            "tools": [{
+                "type": "x_search",
+                "from_date": from_date,
+                "enable_image_understanding": True,
+            }],
             "temperature": 0.1,
-            # Reduced complexity (was 14000/4) — keeps Grok under xAI's 5-min server timeout.
-            # Trade-off: fewer posts but vastly more reliable completion.
             "max_output_tokens": 8000,
-            "max_tool_calls": 2,
+            "max_tool_calls": 8,
             "parallel_tool_calls": True,
         }
 
