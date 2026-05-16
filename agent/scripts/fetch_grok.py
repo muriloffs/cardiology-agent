@@ -112,9 +112,10 @@ def fetch_x_cardiology_posts(days_back: int = 1) -> list[dict[str, Any]]:
         """Build Grok request payload, optionally with retry feedback appended.
 
         x_search tool config tunings (2026-05-14, baseado em docs.x.ai/developers/tools/x-search):
-        - from_date: limita a janela de busca para 3 dias atrás (target_date - 2 days).
-          Sem isso, Grok pode trazer posts antigos misturados — especialmente em handles
-          de KOLs onde "trending" pode ser de semanas atrás.
+        - from_date: limita a janela de busca para 4 dias atrás (target_date - 3 days).
+          Ajustado de 2d→3d em 2026-05-16 após observar quedas consistentes para 8-10 posts
+          (vs 30-46 históricos). A janela de 3 dias era apertada demais para fins de semana
+          quietos no X cardio. 4 dias dá mais espaço sem comprometer relevância.
         - enable_image_understanding: permite Grok ler gráficos/figuras de papers que
           cardiologistas postam em screenshots no X. Custo marginal por imagem lida.
         max_tool_calls 2→8: gargalo identificado nos primeiros runs com grok-4.3 (rendia
@@ -122,8 +123,9 @@ def fetch_x_cardiology_posts(days_back: int = 1) -> list[dict[str, Any]]:
         passes de busca cobrindo handles diferentes. Trade-off: +$0.10/run, +30s.
         """
         content = prompt + retry_feedback if retry_feedback else prompt
-        # from_date = target_date - 2 dias, em formato ISO (YYYY-MM-DD)
-        from_date_dt = datetime.strptime(target_date, "%Y-%m-%d") - timedelta(days=2)
+        # from_date = target_date - 3 dias, em formato ISO (YYYY-MM-DD)
+        # Janela de 4 dias: cobre fim de semana sem perder foco temporal.
+        from_date_dt = datetime.strptime(target_date, "%Y-%m-%d") - timedelta(days=3)
         from_date = from_date_dt.strftime("%Y-%m-%d")
         return {
             "model": model,

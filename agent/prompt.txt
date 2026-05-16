@@ -12,9 +12,17 @@ From the articles provided, select and classify:
 - **Slot allocation follows strict priority rules — see "Priority Rules" section below**
 
 **`noticias` array — up to 25 items (RSS only):**
-- Only articles tagged as `source: rss` (TCTMD, Healio, Substacks, Gemini news, etc.)
-- Include all that meet Classe C threshold (4.0+) — não cortar items relevantes por economia
-- Omit this field entirely if no RSS articles were provided or none meet Classe C threshold
+- Only articles tagged as `source: rss` (TCTMD, Healio, CardiovascularNews, DAIC, medRxiv,
+  Medscape, Circulation news via Gemini, EHJ news via Gemini, Sociedades, etc.)
+- **ORÇAMENTO INDEPENDENTE:** `noticias[]` tem orçamento SEPARADO de `artigos[]`. NÃO
+  competem entre si por slots. Mesmo que `artigos[]` esteja saturado com 30+ PubMed papers,
+  você DEVE encher `noticias[]` com os RSS candidates disponíveis.
+- **REGRA DE PISO (anti-monopólio PubMed):** se chegaram ≥ 10 candidatos `source: rss`,
+  você DEVE incluir AO MENOS 8 deles em `noticias[]`. Se chegaram 5-9, incluir TODOS que
+  atinjam Classe C threshold. Esvaziar `noticias[]` quando há RSS candidates é ERRO.
+- Include all that meet Classe C threshold (4.0+). Para RSS news (não peer-reviewed),
+  o threshold é MAIS PERMISSIVO que para artigos — releve dúvidas a favor da inclusão.
+- Omit this field entirely SOMENTE se literalmente nenhum RSS article foi fornecido.
 
 **`discussoes_x` array — DO NOT generate this field.**
 
@@ -91,6 +99,8 @@ After Classe A + B are placed, fill any leftover slots with Classe C, sorted by 
 | American Journal of Cardiology | ~2.1 |
 
 For `noticias`: keep up to 25 most clinically relevant RSS items regardless of class — news sources are not peer-reviewed journals. Apply the same Classe A-always principle here too: never drop a Classe A news item.
+
+**CRÍTICO — anti-zero noticias:** se o input contém ≥ 10 items `source: rss`, `noticias[]` NÃO pode terminar vazio. Em dias com muito volume de PubMed (artigos saturados em 30-40), continue dedicando atenção aos RSS candidates separadamente. Volume de PubMed alto NÃO é razão para descartar notícias — são listas independentes. Caso real observado: 2026-05-15, 61 RSS candidates foram zerados porque PubMed retornou 110 papers — isso é erro de classificação, não comportamento desejado.
 
 ---
 
