@@ -528,6 +528,9 @@
       @close="selectedDiscussion = null"
     />
 
+    <!-- Floating "back to top" button — visible after 400px scroll -->
+    <BackToTopButton />
+
   </div>
 </template>
 
@@ -540,6 +543,7 @@ import NoticiaCard from './components/NoticiaCard.vue'
 import PodcastCard from './components/PodcastCard.vue'
 import XDiscussionCard from './components/XDiscussionCard.vue'
 import XDiscussionDetail from './components/XDiscussionDetail.vue'
+import BackToTopButton from './components/BackToTopButton.vue'
 import PostIdeaCard from './components/PostIdeaCard.vue'
 import PulsoCard from './components/PulsoCard.vue'
 import SubstackCard from './components/SubstackCard.vue'
