@@ -61,8 +61,9 @@
         {{ video.descricao_preview }}
       </p>
 
-      <!-- Watch button -->
-      <div class="flex items-center justify-end pt-2 mt-auto">
+      <!-- Actions: Things + Watch -->
+      <div class="flex items-center justify-end gap-2 pt-2 mt-auto flex-wrap">
+        <SendToThingsButton :item="video" type="video" />
         <a
           :href="video.video_url"
           target="_blank"
@@ -78,6 +79,7 @@
 
 <script setup>
 import { computed } from 'vue'
+import SendToThingsButton from './SendToThingsButton.vue'
 
 const props = defineProps({
   video: { type: Object, required: true }

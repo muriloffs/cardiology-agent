@@ -95,22 +95,26 @@
     <!-- Footer -->
     <div class="flex items-center justify-between gap-2 flex-wrap">
       <span class="text-xs text-gray-500">📡 {{ noticia.publicacao }}</span>
-      <a
-        v-if="noticia.links?.url"
-        :href="noticia.links.url"
-        target="_blank"
-        rel="noopener"
-        class="inline-flex items-center gap-2 px-3 py-2 bg-orange-100 text-orange-700 rounded-lg text-sm font-medium hover:bg-orange-200 transition-all"
-        @click.stop
-      >
-        🔗 Ler completo
-      </a>
+      <div class="flex items-center gap-2 flex-wrap">
+        <SendToThingsButton :item="noticia" type="noticia" />
+        <a
+          v-if="noticia.links?.url"
+          :href="noticia.links.url"
+          target="_blank"
+          rel="noopener"
+          class="inline-flex items-center gap-2 px-3 py-2 bg-orange-100 text-orange-700 rounded-lg text-sm font-medium hover:bg-orange-200 transition-all"
+          @click.stop
+        >
+          🔗 Ler completo
+        </a>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
 import { computed } from 'vue'
+import SendToThingsButton from './SendToThingsButton.vue'
 
 const props = defineProps({
   noticia: { type: Object, required: true }

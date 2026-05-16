@@ -90,14 +90,17 @@
             #{{ tag }}
           </span>
         </div>
-        <a
-          :href="post.url"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="inline-flex items-center gap-1 text-xs font-semibold text-purple-700 hover:text-purple-900 hover:underline whitespace-nowrap ml-auto"
-        >
-          Ler completo →
-        </a>
+        <div class="flex items-center gap-2 ml-auto flex-wrap">
+          <SendToThingsButton :item="post" type="substack" />
+          <a
+            :href="post.url"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-1 text-xs font-semibold text-purple-700 hover:text-purple-900 hover:underline whitespace-nowrap"
+          >
+            Ler completo →
+          </a>
+        </div>
       </div>
     </div>
   </article>
@@ -105,6 +108,7 @@
 
 <script setup>
 import { computed } from 'vue'
+import SendToThingsButton from './SendToThingsButton.vue'
 
 const props = defineProps({
   post: { type: Object, required: true }

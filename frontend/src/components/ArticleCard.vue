@@ -116,27 +116,31 @@
       <p class="text-sm font-semibold text-gray-900 leading-relaxed break-words">{{ article.conclusao_uma_frase }}</p>
     </div>
 
-    <!-- Footer: source + link -->
+    <!-- Footer: source + actions -->
     <div class="flex items-center justify-between gap-2 flex-wrap">
       <span class="text-xs text-gray-500">
         {{ { revista: '📰 Revista', noticias: '📡 Notícias', substack: '📝 Substack', podcast: '🎙️ Podcast' }[article.categoria_fonte] || '📰 Revista' }}
       </span>
-      <a
-        v-if="article.links?.url"
-        :href="article.links.url"
-        target="_blank"
-        rel="noopener"
-        class="inline-flex items-center gap-2 px-3 py-2 bg-blue-100 text-blue-700 rounded-lg text-sm font-medium hover:bg-blue-200 transition-all"
-        @click.stop
-      >
-        🔗 Ler
-      </a>
+      <div class="flex items-center gap-2 flex-wrap">
+        <SendToThingsButton :item="article" type="artigo" />
+        <a
+          v-if="article.links?.url"
+          :href="article.links.url"
+          target="_blank"
+          rel="noopener"
+          class="inline-flex items-center gap-2 px-3 py-2 bg-blue-100 text-blue-700 rounded-lg text-sm font-medium hover:bg-blue-200 transition-all"
+          @click.stop
+        >
+          🔗 Ler
+        </a>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
 import { computed } from 'vue'
+import SendToThingsButton from './SendToThingsButton.vue'
 
 const props = defineProps({
   article: Object

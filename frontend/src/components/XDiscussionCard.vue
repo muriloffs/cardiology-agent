@@ -40,6 +40,7 @@
             🔗 Artigo
           </a>
           <span v-if="!profileUrl && !articleUrl" class="text-xs text-gray-400">Sem link disponível</span>
+          <SendToThingsButton :item="discussion" type="discussao" class="ml-auto" />
         </div>
       </div>
     </div>
@@ -48,6 +49,7 @@
 
 <script setup>
 import { computed } from 'vue'
+import SendToThingsButton from './SendToThingsButton.vue'
 
 const props = defineProps({
   discussion: Object

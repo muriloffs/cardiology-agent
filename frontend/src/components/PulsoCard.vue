@@ -152,12 +152,18 @@
           </component>
         </div>
       </div>
+
+      <!-- Send to Things button (always last) -->
+      <div class="flex justify-end pt-2">
+        <SendToThingsButton :item="item" type="pulso" />
+      </div>
     </div>
   </article>
 </template>
 
 <script setup>
 import { computed } from 'vue'
+import SendToThingsButton from './SendToThingsButton.vue'
 
 const props = defineProps({
   item: { type: Object, required: true },
