@@ -96,6 +96,7 @@
     <div class="flex items-center justify-between gap-2 flex-wrap">
       <span class="text-xs text-gray-500">📡 {{ noticia.publicacao }}</span>
       <div class="flex items-center gap-2 flex-wrap">
+        <ShareButton :item="noticia" type="noticia" />
         <SendToThingsButton :item="noticia" type="noticia" />
         <a
           v-if="noticia.links?.url"
@@ -115,6 +116,7 @@
 <script setup>
 import { computed } from 'vue'
 import SendToThingsButton from './SendToThingsButton.vue'
+import ShareButton from './ShareButton.vue'
 
 const props = defineProps({
   noticia: { type: Object, required: true }

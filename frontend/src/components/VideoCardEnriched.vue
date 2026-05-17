@@ -61,8 +61,9 @@
         {{ video.descricao_preview }}
       </p>
 
-      <!-- Actions: Things + Watch -->
+      <!-- Actions: Share + Things + Watch -->
       <div class="flex items-center justify-end gap-2 pt-2 mt-auto flex-wrap">
+        <ShareButton :item="video" type="video" />
         <SendToThingsButton :item="video" type="video" />
         <a
           :href="video.video_url"
@@ -80,6 +81,7 @@
 <script setup>
 import { computed } from 'vue'
 import SendToThingsButton from './SendToThingsButton.vue'
+import ShareButton from './ShareButton.vue'
 
 const props = defineProps({
   video: { type: Object, required: true }

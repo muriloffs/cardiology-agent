@@ -153,8 +153,9 @@
         </div>
       </div>
 
-      <!-- Send to Things button (always last) -->
-      <div class="flex justify-end pt-2">
+      <!-- Actions: Share + Things -->
+      <div class="flex justify-end gap-2 pt-2 flex-wrap">
+        <ShareButton :item="item" type="pulso" />
         <SendToThingsButton :item="item" type="pulso" />
       </div>
     </div>
@@ -164,6 +165,7 @@
 <script setup>
 import { computed } from 'vue'
 import SendToThingsButton from './SendToThingsButton.vue'
+import ShareButton from './ShareButton.vue'
 
 const props = defineProps({
   item: { type: Object, required: true },

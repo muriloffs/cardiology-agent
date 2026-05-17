@@ -91,6 +91,7 @@
           </span>
         </div>
         <div class="flex items-center gap-2 ml-auto flex-wrap">
+          <ShareButton :item="post" type="substack" />
           <SendToThingsButton :item="post" type="substack" />
           <a
             :href="post.url"
@@ -109,6 +110,7 @@
 <script setup>
 import { computed } from 'vue'
 import SendToThingsButton from './SendToThingsButton.vue'
+import ShareButton from './ShareButton.vue'
 
 const props = defineProps({
   post: { type: Object, required: true }

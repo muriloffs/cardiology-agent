@@ -122,6 +122,7 @@
         {{ { revista: '📰 Revista', noticias: '📡 Notícias', substack: '📝 Substack', podcast: '🎙️ Podcast' }[article.categoria_fonte] || '📰 Revista' }}
       </span>
       <div class="flex items-center gap-2 flex-wrap">
+        <ShareButton :item="article" type="artigo" />
         <SendToThingsButton :item="article" type="artigo" />
         <a
           v-if="article.links?.url"
@@ -141,6 +142,7 @@
 <script setup>
 import { computed } from 'vue'
 import SendToThingsButton from './SendToThingsButton.vue'
+import ShareButton from './ShareButton.vue'
 
 const props = defineProps({
   article: Object

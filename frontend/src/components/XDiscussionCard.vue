@@ -40,7 +40,10 @@
             🔗 Artigo
           </a>
           <span v-if="!profileUrl && !articleUrl" class="text-xs text-gray-400">Sem link disponível</span>
-          <SendToThingsButton :item="discussion" type="discussao" class="ml-auto" />
+          <div class="ml-auto flex items-center gap-2 flex-wrap">
+            <ShareButton :item="discussion" type="discussao" />
+            <SendToThingsButton :item="discussion" type="discussao" />
+          </div>
         </div>
       </div>
     </div>
@@ -50,6 +53,7 @@
 <script setup>
 import { computed } from 'vue'
 import SendToThingsButton from './SendToThingsButton.vue'
+import ShareButton from './ShareButton.vue'
 
 const props = defineProps({
   discussion: Object
