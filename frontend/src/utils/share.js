@@ -11,68 +11,30 @@
  * `navigator.share` doesn't exist → fall back to copying a formatted text
  * block to the clipboard (with a toast notification).
  *
+ * Content building is delegated to itemContent.js so that Share and Things
+ * send the SAME dense per-type content. The Share button concatenates
+ * `notes` + `checklist` into a single text blob (Web Share API only has
+ * one text field).
+ *
  * Spec: https://developer.mozilla.org/en-US/docs/Web/API/Web_Share_API
  */
 
-// =============================================================================
-// Per-type share text builder
-// =============================================================================
+import { buildItemContent } from './itemContent.js'
 
 /**
- * Resolve the canonical URL for an item — what NotebookLM/Pocket/etc. will
- * capture as the "source link". Prefers the original publication URL over
- * any internal/derivative link.
+ * Combine notes + checklist into a single text for share sheet apps.
+ * (Web Share API doesn't have separate fields for body and checklist.)
  */
-function resolveUrl(item, type) {
-  if (!item) return ''
-  if (type === 'video') return item.video_url || ''
-  if (type === 'substack') return item.url || ''
-  const links = item.links || {}
-  return (
-    links.url ||
-    links.episode_url ||
-    links.post_url ||
-    (links.doi ? `https://doi.org/${links.doi}` : '') ||
-    (links.pubmed ? `https://pubmed.ncbi.nlm.nih.gov/${links.pubmed}/` : '') ||
-    ''
-  )
-}
-
-/**
- * Build a short share message — title + 1 sentence of context + URL.
- * Kept intentionally compact: WhatsApp/Mail recipients shouldn't get walls
- * of text. For dense content (full framework), Things button is the path.
- */
-function buildShareText(item, type) {
-  if (!item) return ''
-  const lines = []
-  const title = (item.titulo || '').trim()
-  const source = item?.publicacao || item?.canal || item?.autor || ''
-
-  if (title) lines.push(title)
-  if (source) lines.push(`— ${source}`)
-  lines.push('')
-
-  // 1 short contextual sentence per type
-  const oneliner = (
-    item?.conclusao_uma_frase ||
-    item?.por_que_importa ||
-    item?.razao_destaque ||
-    item?.impacto_clinico ||
-    item?.resumo ||
-    ''
-  ).trim()
-  if (oneliner) {
-    // Keep to ~280 chars (Twitter-friendly)
-    lines.push(oneliner.length > 280 ? oneliner.slice(0, 277) + '…' : oneliner)
+function composeShareText({ notes, checklist }) {
+  const parts = []
+  if (notes) parts.push(notes)
+  if (checklist && checklist.length > 0) {
+    parts.push('') // blank line separator
+    parts.push('=== PONTOS-CHAVE / CHECKLIST ===')
+    for (const item of checklist) parts.push(`• ${item}`)
   }
-
-  return lines.join('\n').trim()
+  return parts.join('\n').trim()
 }
-
-// =============================================================================
-// Public API
-// =============================================================================
 
 /**
  * Share an item via the native Web Share API, or fall back to clipboard.
@@ -88,14 +50,13 @@ function buildShareText(item, type) {
 export async function shareItem(item, type) {
   if (!item) return 'failed'
   const title = (item.titulo || '').trim()
-  const text = buildShareText(item, type)
-  const url = resolveUrl(item, type)
+  const content = buildItemContent(item, type)
+  const text = composeShareText(content)
+  const url = content.url
 
   // Path 1: Web Share API (iOS/Android/Mac Safari/modern Chrome)
   if (typeof navigator !== 'undefined' && typeof navigator.share === 'function') {
     try {
-      // Only include `url` if it's a real http(s) link — Web Share API
-      // refuses non-http schemes.
       const sharePayload = { title }
       if (text) sharePayload.text = text
       if (url && url.startsWith('http')) sharePayload.url = url
@@ -103,9 +64,7 @@ export async function shareItem(item, type) {
       await navigator.share(sharePayload)
       return 'shared'
     } catch (err) {
-      // User pressed Cancel — not an error
       if (err && err.name === 'AbortError') return 'cancelled'
-      // Other errors: try fallback (don't surface to user yet)
       console.warn('navigator.share failed, falling back to clipboard:', err)
     }
   }
