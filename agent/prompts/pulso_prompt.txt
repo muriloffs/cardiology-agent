@@ -33,7 +33,7 @@ Cada destaque deve seguir este JSON:
   "titulo": "Frase concisa do tema central (40-100 chars)",
   "razao_destaque": "1-2 frases em PT-BR explicando POR QUE este foi destaque hoje (não copie o resumo — explique a importância contextual)",
   "o_que_paper_diz": "2-3 frases factuais sobre o achado primário, sem inventar números ou autores. Use só o que está no relatório.",
-  "interpretacao_comunidade": "2-3 frases sobre como a comunidade está interpretando este achado, CITANDO concretamente as fontes do relatório que comentaram. PRIORIZAR posts X/Twitter quando disponíveis sobre o tema (ex: 'Eric Topol no X celebrou os resultados', '@ACCinTouch destacou no #HFA2026 que...', '@drjohnm questionou o endpoint surrogado'). Tambem incluir podcasts e Substacks quando relevantes (ex: 'Mandrola, no TWIC, questionou X'). Se literalmente NÃO há nenhuma fonte secundária no input (raro), diga 'Discussão na comunidade ainda incipiente.'",
+  "interpretacao_comunidade": "2-3 frases sobre como a comunidade está interpretando este achado, CITANDO concretamente as fontes do relatório que comentaram. Use podcasts, Substacks e posts X sobre o tema — quando houver posts X de ESPECIALISTAS/revistas/sociedades (categoria especialista, revista ou sociedade), incorpore-os com nome (ex: 'Eric Topol no X celebrou os resultados', '@ACCinTouch destacou no #HFA2026 que...', '@drjohnm questionou o endpoint surrogado', 'Mandrola, no TWIC, questionou X'). IGNORE posts X categoria 'leigo'. Se não houver nenhuma fonte secundária credenciada sobre este tema, diga 'Discussão na comunidade ainda incipiente.'",
   "o_que_muda": "1-2 frases em PT-BR sobre mudança imediata na prática clínica",
   "o_que_nao_muda_ainda": "1-2 frases sobre caveats, limitações, ou o que esperar antes de mudar conduta amplamente",
   "fontes_cobertura": [
@@ -67,16 +67,21 @@ Cada destaque deve seguir este JSON:
 
 4. **`interpretacao_comunidade` DEVE citar concretamente** — se você diz "Mandrola comentou", o Mandrola PRECISA estar no relatório de hoje (em podcasts ou X). Se não está, diga "Discussão na comunidade ainda incipiente."
 
-4b. **REGRA DE OURO X/TWITTER — NÃO DESPERDIÇAR:** se a seção `=== DISCUSSÕES X/TWITTER ===` do input traz POSTS sobre o tema do seu destaque (mesma droga, mesma doença, mesmo trial, mesmo congresso), você DEVE incorporá-los na `interpretacao_comunidade` E listá-los em `fontes_cobertura`. Posts X sobre congressos em curso (HFA, EuroPCR, ACC, AHA com hashtags como #HFA2026, #EuroPCR2026) são especialmente valiosos — representam a voz da comunidade em tempo real.
+4b. **X/TWITTER É COMPLEMENTAR, NÃO GATING:** posts X **não** são critério obrigatório para SELEÇÃO de destaques. Um destaque pode ser escolhido apenas por mérito de PubMed + notícias + podcasts + substacks, mesmo sem nenhum post X sobre o tema. NÃO inflar a importância de um item só porque tem X, nem rebaixar um item bom só porque falta X.
 
-NÃO descarte posts X relevantes mesmo que pareçam menos formais que papers. A finalidade do Pulso é cruzar EVIDÊNCIA + INTERPRETAÇÃO DA COMUNIDADE. Sem citar X, perde-se 50% do valor.
+**Quando X agrega valor:** um destaque já foi escolhido por mérito (paper forte, notícia robusta, podcast relevante), E o input contém posts X sobre o mesmo tema vindos de **vozes credenciadas**. Nesse caso, incorpore o post X na `interpretacao_comunidade` E adicione em `fontes_cobertura` — é a "unanimidade": evidência sólida + comentário de especialista reforçando.
+
+**FILTRAR POR CATEGORIA DO POST X:** cada post X no input traz um campo `categoria`. Priorize **`especialista`**, **`revista`** e **`sociedade`** (ex: cardiologistas, @CircAHA, @ACCinTouch, @escardio). **Ignore** posts categoria **`leigo`** ou influencer sem credencial cardiológica, mesmo que tenham viralizado e mesmo que tratem do tema do destaque — eles não representam a voz da comunidade médica.
+
+**Hashtags de congresso (#HFA2026, #EuroPCR2026, #ACC2026, #AHA2026, #HRS2026)** são especialmente valiosas QUANDO o autor é especialista/revista/sociedade — aí representa late-breaking ao vivo.
 
 Exemplos de uso correto:
-- Paper sobre HFrEF + post X @ACCinTouch sobre o mesmo trial → CITE o X em fontes_cobertura
-- Post X sobre #HFA2026 late-breaking trial → faça destaque PRÓPRIO se relevante, mesmo sem paper companion
-- Post X sobre "heart disease in women" → cite no destaque sobre saúde feminina/CV
+- Paper sobre HFrEF + post X @ACCinTouch (revista) sobre o mesmo trial → CITE o X em fontes_cobertura
+- Paper bom sobre AHA prevention + apenas posts X de leigos viralizando → faça o destaque sem citar X, `interpretacao_comunidade` foca em podcasts/substacks/news se houver, senão "Discussão na comunidade ainda incipiente."
+- Post X de #HFA2026 com autor cardiologista (especialista) sobre late-breaking sem paper companion → pode virar destaque próprio se evidência reportada for sólida
+- Post X de influencer leigo categoria=leigo sobre café+CV → IGNORAR, mesmo se for o post mais comentado do dia
 
-REGRA NUMÉRICA: se há N posts X disponíveis no input, ao menos `min(N, total_destaques/2)` posts X devem aparecer em fontes_cobertura ao longo dos destaques. Para 5 X disponíveis + 10 destaques, ≥3 destaques devem citar X.
+Se literalmente não há posts X de especialista/revista/sociedade sobre o tema, é OK omitir X — escreva interpretação com base em podcasts/substacks ou diga "Discussão na comunidade ainda incipiente." Não force.
 
 5. **Não inventar números, autores, percentuais, ou DOIs.** Use APENAS o que está no relatório. Se o paper diz "redução de 30%", você pode citar 30%. Se não há número, não invente.
 
