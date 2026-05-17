@@ -116,6 +116,31 @@
       <p class="text-sm font-semibold text-gray-900 leading-relaxed break-words">{{ article.conclusao_uma_frase }}</p>
     </div>
 
+    <!-- Figuras open-access do PMC (preview, ações no modal) -->
+    <div v-if="article.figures?.length" class="mb-3">
+      <p class="text-[10px] font-bold uppercase tracking-wider text-gray-600 mb-1.5">
+        🖼️ {{ article.figures.length }} {{ article.figures.length === 1 ? 'figura' : 'figuras' }} open-access
+      </p>
+      <div class="flex gap-2 overflow-x-auto pb-1">
+        <img
+          v-for="(fig, i) in article.figures.slice(0, 3)"
+          :key="i"
+          :src="fig.url"
+          :alt="fig.caption || `Figura ${i + 1}`"
+          loading="lazy"
+          referrerpolicy="no-referrer"
+          @error="onFigureError($event, i)"
+          class="h-20 w-auto rounded border border-gray-200 flex-shrink-0 bg-gray-50 object-cover"
+        />
+        <div
+          v-if="article.figures.length > 3"
+          class="h-20 px-3 flex items-center justify-center bg-gray-100 rounded border border-gray-200 text-xs text-gray-600 flex-shrink-0"
+        >
+          +{{ article.figures.length - 3 }}
+        </div>
+      </div>
+    </div>
+
     <!-- Footer: source + actions -->
     <div class="flex items-center justify-between gap-2 flex-wrap">
       <span class="text-xs text-gray-500">
@@ -172,4 +197,10 @@ const desenhoFields = computed(() => {
 })
 
 const hasDesenho = computed(() => Object.keys(desenhoFields.value).length > 0)
+
+// PMC figure URLs default to .jpg but some originals are .gif/.png. On
+// 404 we just hide the thumbnail rather than show a broken-image icon.
+function onFigureError(evt) {
+  if (evt?.target) evt.target.style.display = 'none'
+}
 </script>

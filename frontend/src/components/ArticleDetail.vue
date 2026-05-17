@@ -59,6 +59,36 @@
             <p class="font-semibold">{{ article.publicacao }}</p>
           </div>
         </div>
+
+        <!-- PMC open-access figures (download via proxy) -->
+        <div v-if="article.figures?.length">
+          <h3 class="text-lg font-bold mb-3">🖼️ Figuras open-access (PMC)</h3>
+          <div class="space-y-4">
+            <figure
+              v-for="(fig, i) in article.figures"
+              :key="i"
+              class="border border-gray-200 rounded-lg overflow-hidden"
+            >
+              <img
+                :src="fig.url"
+                :alt="fig.caption || `Figura ${i + 1}`"
+                loading="lazy"
+                referrerpolicy="no-referrer"
+                @error="onFigureError"
+                class="w-full max-h-96 object-contain bg-gray-50"
+              />
+              <figcaption class="p-3 bg-white">
+                <p v-if="fig.caption" class="text-sm text-gray-700 mb-2">{{ fig.caption }}</p>
+                <a
+                  :href="downloadUrl(fig, i)"
+                  class="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-100 text-blue-700 rounded-lg text-sm font-medium hover:bg-blue-200 transition-all"
+                >
+                  ⬇️ Baixar imagem
+                </a>
+              </figcaption>
+            </figure>
+          </div>
+        </div>
       </div>
 
       <!-- Footer -->
@@ -91,4 +121,21 @@ const articleUrl = computed(() => {
   if (l?.doi) return `https://doi.org/${l.doi}`
   return null
 })
+
+// Build a /api/proxy-image URL so the browser saves the file (rather than
+// opening it inline). Filename includes the PMID + figure index so multiple
+// downloads from the same article don't overwrite each other.
+function downloadUrl(figure, index) {
+  const pmid = props.article?.pmid || 'figure'
+  const ext = (figure.url.match(/\.([a-z0-9]{3,4})(?:\?|$)/i)?.[1] || 'jpg').toLowerCase()
+  const filename = `${pmid}_fig${index + 1}.${ext}`
+  const params = new URLSearchParams({ url: figure.url, filename })
+  return `/api/proxy-image?${params.toString()}`
+}
+
+function onFigureError(evt) {
+  // Hide the entire figure (img + caption + download btn) if upstream 404s.
+  const figure = evt?.target?.closest('figure')
+  if (figure) figure.style.display = 'none'
+}
 </script>
