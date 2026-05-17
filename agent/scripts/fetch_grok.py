@@ -23,7 +23,7 @@ GROK_MODEL_PRIMARY = os.environ.get("GROK_MODEL", "grok-4")
 #   ERROR_RETRIES: ConnectionError, Timeout, 5xx — boosted from 1→3 with exponential backoff
 #   LOWCOUNT_RETRIES: valid response but < TRIGGER posts (Grok was lazy)
 GROK_MAX_ERROR_RETRIES = 3       # 3 retries on infrastructure errors (was 1)
-GROK_MAX_LOWCOUNT_RETRIES = 1    # 1 retry on low-count with aggressive feedback
+GROK_MAX_LOWCOUNT_RETRIES = 2    # 2 retries on low-count with aggressive feedback (was 1 — bumped 17/05 for X recovery)
 GROK_MAX_TOTAL_ATTEMPTS = 5      # hard cap (1 initial + up to 4 retries of either type) (was 3)
 # Exponential backoff schedule (in seconds): 60, 120, 240
 # After error attempt N (1-indexed), wait GROK_BACKOFF_SCHEDULE[N-1] before next retry
@@ -112,20 +112,21 @@ def fetch_x_cardiology_posts(days_back: int = 1) -> list[dict[str, Any]]:
         """Build Grok request payload, optionally with retry feedback appended.
 
         x_search tool config tunings (2026-05-14, baseado em docs.x.ai/developers/tools/x-search):
-        - from_date: limita a janela de busca para 4 dias atrás (target_date - 3 days).
-          Ajustado de 2d→3d em 2026-05-16 após observar quedas consistentes para 8-10 posts
-          (vs 30-46 históricos). A janela de 3 dias era apertada demais para fins de semana
-          quietos no X cardio. 4 dias dá mais espaço sem comprometer relevância.
+        - from_date: limita a janela de busca para 6 dias atrás (target_date - 5 days).
+          Evolucao do parametro:
+            2026-05-14: target-2d (janela 3 dias) → 8-10 posts/dia (apertado)
+            2026-05-16: target-3d (janela 4 dias) → 5-8 posts/dia (ainda apertado)
+            2026-05-17: target-5d (janela 6 dias) → recupera volume sem perder relevancia
+              clinica. 6 dias cobre congressos multi-dia (HFA, EuroPCR, ACC) e mantem
+              janela razoavel para "discussao recente".
         - enable_image_understanding: permite Grok ler gráficos/figuras de papers que
-          cardiologistas postam em screenshots no X. Custo marginal por imagem lida.
-        max_tool_calls 2→8: gargalo identificado nos primeiros runs com grok-4.3 (rendia
-        ~10 posts em vez dos 30-46 históricos). Com 8 calls internas o Grok faz mais
-        passes de busca cobrindo handles diferentes. Trade-off: +$0.10/run, +30s.
+          cardiologistas postam em screenshots no X.
+        max_tool_calls=8: gargalo identificado nos primeiros runs com grok-4.3.
         """
         content = prompt + retry_feedback if retry_feedback else prompt
-        # from_date = target_date - 3 dias, em formato ISO (YYYY-MM-DD)
-        # Janela de 4 dias: cobre fim de semana sem perder foco temporal.
-        from_date_dt = datetime.strptime(target_date, "%Y-%m-%d") - timedelta(days=3)
+        # from_date = target_date - 5 dias, em formato ISO (YYYY-MM-DD)
+        # Janela de 6 dias cobre congressos multi-dia + fim de semana quieto.
+        from_date_dt = datetime.strptime(target_date, "%Y-%m-%d") - timedelta(days=5)
         from_date = from_date_dt.strftime("%Y-%m-%d")
         return {
             "model": model,

@@ -33,7 +33,7 @@ Cada destaque deve seguir este JSON:
   "titulo": "Frase concisa do tema central (40-100 chars)",
   "razao_destaque": "1-2 frases em PT-BR explicando POR QUE este foi destaque hoje (não copie o resumo — explique a importância contextual)",
   "o_que_paper_diz": "2-3 frases factuais sobre o achado primário, sem inventar números ou autores. Use só o que está no relatório.",
-  "interpretacao_comunidade": "2-3 frases sobre como a comunidade está interpretando este achado, CITANDO concretamente as fontes do relatório que comentaram (ex: 'Mandrola, no podcast TWIC, questionou o endpoint surrogado', 'Eric Topol no X celebrou os resultados', 'Medscape destacou o impacto na prática'). Se não há fontes secundárias citando, diga 'Discussão na comunidade ainda incipiente.'",
+  "interpretacao_comunidade": "2-3 frases sobre como a comunidade está interpretando este achado, CITANDO concretamente as fontes do relatório que comentaram. PRIORIZAR posts X/Twitter quando disponíveis sobre o tema (ex: 'Eric Topol no X celebrou os resultados', '@ACCinTouch destacou no #HFA2026 que...', '@drjohnm questionou o endpoint surrogado'). Tambem incluir podcasts e Substacks quando relevantes (ex: 'Mandrola, no TWIC, questionou X'). Se literalmente NÃO há nenhuma fonte secundária no input (raro), diga 'Discussão na comunidade ainda incipiente.'",
   "o_que_muda": "1-2 frases em PT-BR sobre mudança imediata na prática clínica",
   "o_que_nao_muda_ainda": "1-2 frases sobre caveats, limitações, ou o que esperar antes de mudar conduta amplamente",
   "fontes_cobertura": [
@@ -66,6 +66,17 @@ Cada destaque deve seguir este JSON:
    - Para vídeos, use `video_url` como id e tipo: "video"
 
 4. **`interpretacao_comunidade` DEVE citar concretamente** — se você diz "Mandrola comentou", o Mandrola PRECISA estar no relatório de hoje (em podcasts ou X). Se não está, diga "Discussão na comunidade ainda incipiente."
+
+4b. **REGRA DE OURO X/TWITTER — NÃO DESPERDIÇAR:** se a seção `=== DISCUSSÕES X/TWITTER ===` do input traz POSTS sobre o tema do seu destaque (mesma droga, mesma doença, mesmo trial, mesmo congresso), você DEVE incorporá-los na `interpretacao_comunidade` E listá-los em `fontes_cobertura`. Posts X sobre congressos em curso (HFA, EuroPCR, ACC, AHA com hashtags como #HFA2026, #EuroPCR2026) são especialmente valiosos — representam a voz da comunidade em tempo real.
+
+NÃO descarte posts X relevantes mesmo que pareçam menos formais que papers. A finalidade do Pulso é cruzar EVIDÊNCIA + INTERPRETAÇÃO DA COMUNIDADE. Sem citar X, perde-se 50% do valor.
+
+Exemplos de uso correto:
+- Paper sobre HFrEF + post X @ACCinTouch sobre o mesmo trial → CITE o X em fontes_cobertura
+- Post X sobre #HFA2026 late-breaking trial → faça destaque PRÓPRIO se relevante, mesmo sem paper companion
+- Post X sobre "heart disease in women" → cite no destaque sobre saúde feminina/CV
+
+REGRA NUMÉRICA: se há N posts X disponíveis no input, ao menos `min(N, total_destaques/2)` posts X devem aparecer em fontes_cobertura ao longo dos destaques. Para 5 X disponíveis + 10 destaques, ≥3 destaques devem citar X.
 
 5. **Não inventar números, autores, percentuais, ou DOIs.** Use APENAS o que está no relatório. Se o paper diz "redução de 30%", você pode citar 30%. Se não há número, não invente.
 
