@@ -1,6 +1,7 @@
 """Fetch real cardiology articles from PubMed — filtered by the curated journal list."""
 
 import os
+import re
 import time
 import logging
 import requests
@@ -10,6 +11,7 @@ from typing import Any
 logger = logging.getLogger(__name__)
 
 PUBMED_BASE = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils"
+PMC_BIN_BASE = "https://www.ncbi.nlm.nih.gov/pmc/articles"
 
 
 def _ncbi_params(params: dict) -> dict:
@@ -430,6 +432,165 @@ def _merge_pmid_lists(*lists: list[str]) -> list[str]:
     return out
 
 
+# =============================================================================
+# PMC open-access figure enrichment
+# =============================================================================
+#
+# Workflow:
+#   1. Batch elink (PubMed → PMC) — discovers which PMIDs have a free-text
+#      PMC version. Most paywall articles do NOT have a PMC ID.
+#   2. For each PMID with a PMCID, fetch the article's JATS XML and parse
+#      <fig> elements to extract figure caption + image URL.
+#
+# Defensive design:
+#   - Single article failure does not block the rest (try/except per article).
+#   - Rate-limited via small sleeps (NCBI: 3 req/s without key, 10 w/ key).
+#   - Articles end up with `figures: []` when nothing available — frontend
+#     can branch on length.
+
+
+def _pmid_to_pmcid_map(pmids: list[str]) -> dict[str, str]:
+    """Batch-map PMIDs → PMCIDs via elink. Returns only mapped pairs."""
+    if not pmids:
+        return {}
+
+    params = {
+        "dbfrom": "pubmed",
+        "db": "pmc",
+        "id": ",".join(pmids),
+        "retmode": "json",
+    }
+
+    try:
+        response = requests.get(f"{PUBMED_BASE}/elink.fcgi", params=_ncbi_params(params), timeout=30)
+        response.raise_for_status()
+        data = response.json()
+    except Exception as e:
+        logger.warning(f"PMID→PMCID elink failed: {e}")
+        return {}
+
+    mapping: dict[str, str] = {}
+    for linkset in data.get("linksets", []):
+        ids = linkset.get("ids") or []
+        if not ids:
+            continue
+        pmid = str(ids[0])
+        for linksetdb in linkset.get("linksetdbs", []):
+            if linksetdb.get("dbto") == "pmc":
+                pmc_links = linksetdb.get("links", [])
+                if pmc_links:
+                    mapping[pmid] = f"PMC{pmc_links[0]}"
+                break
+
+    logger.info(f"PMC mapping: {len(mapping)}/{len(pmids)} articles have open-access PMC version")
+    return mapping
+
+
+# Regex-based JATS parsing (avoids xml.etree namespace gymnastics for xlink:href)
+_FIG_BLOCK_RE = re.compile(r"<fig\b[^>]*>(.*?)</fig>", re.DOTALL | re.IGNORECASE)
+_GRAPHIC_HREF_RE = re.compile(
+    r'<graphic\b[^>]*\bxlink:href\s*=\s*"([^"]+)"',
+    re.IGNORECASE,
+)
+_CAPTION_RE = re.compile(r"<caption\b[^>]*>(.*?)</caption>", re.DOTALL | re.IGNORECASE)
+_LABEL_RE = re.compile(r"<label\b[^>]*>(.*?)</label>", re.DOTALL | re.IGNORECASE)
+_TAG_STRIP_RE = re.compile(r"<[^>]+>")
+
+
+def _strip_xml_tags(text: str) -> str:
+    """Strip inline XML tags; collapse whitespace."""
+    return re.sub(r"\s+", " ", _TAG_STRIP_RE.sub("", text)).strip()
+
+
+def _parse_pmc_figures(xml: str, pmcid: str) -> list[dict[str, str]]:
+    """Extract figures from PMC JATS XML. Returns list of {caption, url}."""
+    figures: list[dict[str, str]] = []
+    for fig_inner in _FIG_BLOCK_RE.findall(xml):
+        href_match = _GRAPHIC_HREF_RE.search(fig_inner)
+        if not href_match:
+            continue
+        href = href_match.group(1).strip()
+        if not href:
+            continue
+
+        caption_match = _CAPTION_RE.search(fig_inner)
+        label_match = _LABEL_RE.search(fig_inner)
+        caption_parts = []
+        if label_match:
+            caption_parts.append(_strip_xml_tags(label_match.group(1)))
+        if caption_match:
+            caption_parts.append(_strip_xml_tags(caption_match.group(1)))
+        caption = " — ".join(p for p in caption_parts if p)
+
+        # PMC stores graphic files at /pmc/articles/{PMCID}/bin/{href}.jpg.
+        # Most JATS hrefs omit extension; default to .jpg (works for ~95% of figures).
+        filename = href if "." in href else f"{href}.jpg"
+        url = f"{PMC_BIN_BASE}/{pmcid}/bin/{filename}"
+
+        figures.append({"caption": caption, "url": url})
+
+    return figures
+
+
+def _fetch_pmc_figures(pmcid: str) -> list[dict[str, str]]:
+    """Fetch PMC article XML and extract figures. Returns [] on any failure."""
+    numeric_id = pmcid.replace("PMC", "")
+    params = {
+        "db": "pmc",
+        "id": numeric_id,
+        "retmode": "xml",
+    }
+    try:
+        response = requests.get(f"{PUBMED_BASE}/efetch.fcgi", params=_ncbi_params(params), timeout=30)
+        response.raise_for_status()
+        return _parse_pmc_figures(response.text, pmcid)
+    except Exception as e:
+        logger.debug(f"PMC figure fetch failed for {pmcid}: {e}")
+        return []
+
+
+def enrich_with_pmc_figures(articles: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Add `figures: [{caption, url}]` and `pmcid` to each article (empty list if none).
+
+    Articles without a PMC version get `figures: []` and `pmcid: None`.
+    Resilient: any failure leaves the article untouched (still gets empty figures).
+    """
+    if not articles:
+        return articles
+
+    pmids = [a["pmid"] for a in articles if a.get("pmid")]
+    mapping = _pmid_to_pmcid_map(pmids)
+
+    # Initialize defaults so downstream callers don't have to guard
+    for a in articles:
+        a.setdefault("figures", [])
+        a.setdefault("pmcid", None)
+
+    if not mapping:
+        return articles
+
+    total_figs = 0
+    for a in articles:
+        pmid = a.get("pmid")
+        pmcid = mapping.get(pmid)
+        if not pmcid:
+            continue
+        a["pmcid"] = pmcid
+        figs = _fetch_pmc_figures(pmcid)
+        if figs:
+            a["figures"] = figs
+            total_figs += len(figs)
+        # Rate limit: ~0.15s between PMC efetch calls = ~6 req/s, well under
+        # the 10 req/s NCBI ceiling when an API key is set.
+        time.sleep(0.15)
+
+    logger.info(
+        f"PMC figures enrichment: {sum(1 for a in articles if a['figures'])}"
+        f"/{len(articles)} articles with figures, {total_figs} total"
+    )
+    return articles
+
+
 def fetch_recent_cardiology_articles(days_back: int = 1) -> list[dict[str, Any]]:
     """
     Main entry point. Combines TWO PubMed queries:
@@ -477,6 +638,13 @@ def fetch_recent_cardiology_articles(days_back: int = 1) -> list[dict[str, Any]]
     if len(filtered) > 100:
         logger.info(f"Capping at top 100 of {len(filtered)} (PubMed relevance order)")
         filtered = filtered[:100]
+
+    # Enrich the survivors with PMC open-access figures.
+    # Done AFTER the cap to avoid wasted API calls on articles that don't survive.
+    # Gated by env so it can be disabled if NCBI starts rate-limiting hard.
+    if os.environ.get("DISABLE_PMC_FIGURES") != "1":
+        time.sleep(0.4)
+        filtered = enrich_with_pmc_figures(filtered)
 
     return filtered
 
