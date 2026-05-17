@@ -21,6 +21,8 @@ const ALLOWED_HOSTS = new Set([
   'www.ncbi.nlm.nih.gov',
   'ncbi.nlm.nih.gov',
   'pmc.ncbi.nlm.nih.gov',
+  'pbs.twimg.com',
+  'video.twimg.com',
 ]);
 
 function sanitizeFilename(name) {

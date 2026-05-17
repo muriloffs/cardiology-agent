@@ -18,6 +18,33 @@
         </div>
         <h3 class="font-semibold text-gray-900 text-sm leading-snug mb-1">{{ discussion.titulo }}</h3>
         <p class="text-gray-600 text-xs line-clamp-2">{{ discussion.resumo }}</p>
+
+        <!-- X media (thumbnails + download). Grid 2x2 (até 4 imgs). -->
+        <div v-if="mediaUrls.length" class="mt-2 grid grid-cols-2 gap-1.5">
+          <div
+            v-for="(m, i) in mediaUrls.slice(0, 4)"
+            :key="i"
+            class="relative group/img"
+          >
+            <img
+              :src="m"
+              :alt="`X media ${i + 1}`"
+              loading="lazy"
+              referrerpolicy="no-referrer"
+              @error="onMediaError"
+              class="w-full h-24 object-cover rounded border border-gray-200 bg-gray-50"
+            />
+            <a
+              :href="downloadUrl(m, i)"
+              @click.stop
+              class="absolute bottom-1 right-1 px-1.5 py-0.5 bg-black/70 text-white text-[10px] rounded opacity-0 group-hover/img:opacity-100 transition-opacity"
+              title="Baixar imagem"
+            >
+              ⬇
+            </a>
+          </div>
+        </div>
+
         <div class="flex items-center gap-3 mt-2">
           <a
             v-if="postUrl || profileUrl"
@@ -88,4 +115,22 @@ const articleUrl = computed(() => {
   if (l?.doi) return `https://doi.org/${l.doi}`
   return null
 })
+
+const mediaUrls = computed(() => {
+  const m = props.discussion?.media
+  return Array.isArray(m) ? m.filter((u) => typeof u === 'string') : []
+})
+
+function downloadUrl(url, index) {
+  const id = props.discussion?.id || 'x'
+  const ext = (url.match(/\.([a-z0-9]{3,4})(?:\?|$)/i)?.[1] || 'jpg').toLowerCase()
+  const filename = `${id}_media${index + 1}.${ext}`
+  const params = new URLSearchParams({ url, filename })
+  return `/api/proxy-image?${params.toString()}`
+}
+
+function onMediaError(evt) {
+  const container = evt?.target?.closest('.group\\/img') || evt?.target?.parentElement
+  if (container) container.style.display = 'none'
+}
 </script>
