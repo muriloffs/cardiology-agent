@@ -388,6 +388,20 @@ def _parse_grok_response(raw: str, date: str) -> list[dict[str, Any]]:
             autor = post.get("autor", "").strip()
             autores = [autor] if autor else []
 
+        # Media URLs (images attached to the X post). Filter to known X CDN
+        # hosts so we don't leak random URLs the model may hallucinate.
+        raw_media = post.get("media_urls") or []
+        media_urls: list[str] = []
+        if isinstance(raw_media, list):
+            for m in raw_media:
+                if not isinstance(m, str):
+                    continue
+                m = m.strip()
+                if not m.startswith("https://"):
+                    continue
+                if "pbs.twimg.com" in m or "pic.twitter.com" in m or "video.twimg.com" in m:
+                    media_urls.append(m)
+
         # Publicacao defaults to first handle if not provided
         publicacao = post.get("publicacao") or (autores[0] if autores else "X/Twitter")
 
@@ -412,6 +426,7 @@ def _parse_grok_response(raw: str, date: str) -> list[dict[str, Any]]:
             "_grok_classe": norm_classe,
             "_grok_resumo": resumo.strip() if resumo else "",
             "_grok_impacto": impacto.strip() if impacto else "",
+            "_media_urls": media_urls,
         })
 
     logger.info(f"Grok/X: {len(articles)} posts parsed")
@@ -500,6 +515,7 @@ def transform_to_discussoes_x(grok_articles: list[dict[str, Any]]) -> list[dict[
             "score": score,
             "resumo": resumo,
             "impacto_clinico": impacto,
+            "media": post.get("_media_urls") or [],
             "links": {
                 "post_url": post.get("_post_url"),
                 "url": post.get("_article_url"),

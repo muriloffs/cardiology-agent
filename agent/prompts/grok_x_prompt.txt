@@ -141,8 +141,15 @@ Cada item deve seguir exatamente este schema:
     "post_url": "URL real do post no X — obtida via x_search em tempo real, NUNCA inventar",
     "article_url": "URL do artigo/guideline/preprint real ou null — NUNCA inventar",
     "doi": "10.xxxx/... ou null — apenas se explicitamente mencionado no post",
-    "pubmed_id": "PMID numérico ou null — apenas se explicitamente mencionado no post"
+    "pubmed_id": "PMID numérico ou null — apenas se explicitamente mencionado no post",
+    "media_urls": ["https://pbs.twimg.com/media/...jpg"]
   }
 ]
+
+**`media_urls`** — array (pode ser vazio `[]`):
+- Inclua URLs de imagens/gráficos/figuras anexadas ao post no X, quando aparecerem nos resultados do x_search.
+- URLs reais do X (`pbs.twimg.com/media/...` ou `pic.twitter.com/...`) — NUNCA inventar.
+- Especialmente úteis para posts mostrando gráficos de RCT, figuras de papers compartilhadas em hashtags de congresso (#HFA2026, #EuroPCR2026, #ACC2026, #AHA2026), abstracts visuais. Esses agregam contexto visual ao card.
+- Se o post não tem mídia ou x_search não retornou URLs de mídia, use `[]`.
 
 Comece com [
