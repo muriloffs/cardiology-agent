@@ -67,3 +67,28 @@ export function openInBrowser(url) {
     }
   }, 600)
 }
+
+/**
+ * Click handler for `<a target="_blank" rel="noopener">` elements that need
+ * to honor the user's preferred browser on iOS without losing native browser
+ * behavior on other platforms (Ctrl+Click, middle-click, etc).
+ *
+ * Usage in a template:
+ *   <a :href="url" target="_blank" rel="noopener noreferrer"
+ *      @click.stop="handleExternalLinkClick($event, url)">
+ *
+ * On iOS: prevents the default <a> navigation (which would trigger
+ * SFSafariViewController) and routes through openInBrowser to use Chrome.
+ *
+ * On other platforms: no-op — the browser's native target="_blank" handling
+ * runs (which already respects modifier-key clicks and the default browser).
+ *
+ * @param {MouseEvent} event - The click event from the <a> element.
+ * @param {string} url - The destination URL.
+ */
+export function handleExternalLinkClick(event, url) {
+  if (!url) return
+  if (!isIOS()) return // let the browser's native handling run
+  if (event) event.preventDefault()
+  openInBrowser(url)
+}

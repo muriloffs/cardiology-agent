@@ -98,6 +98,7 @@
             target="_blank"
             rel="noopener noreferrer"
             class="inline-flex items-center gap-1 text-xs font-semibold text-purple-700 hover:text-purple-900 hover:underline whitespace-nowrap"
+            @click.stop="handleExternalLinkClick($event, post.url)"
           >
             Ler completo →
           </a>
@@ -111,6 +112,7 @@
 import { computed } from 'vue'
 import SendToThingsButton from './SendToThingsButton.vue'
 import ShareButton from './ShareButton.vue'
+import { handleExternalLinkClick } from '../utils/openLink'
 
 const props = defineProps({
   post: { type: Object, required: true }

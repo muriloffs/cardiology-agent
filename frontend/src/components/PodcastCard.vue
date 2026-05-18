@@ -64,9 +64,9 @@
           v-if="podcast.links?.audio_url"
           :href="podcast.links.audio_url"
           target="_blank"
-          rel="noopener"
+          rel="noopener noreferrer"
           class="inline-flex items-center gap-2 px-3 py-2 bg-purple-100 text-purple-700 rounded-lg text-sm font-medium hover:bg-purple-200 transition-all"
-          @click.stop
+          @click.stop="handleExternalLinkClick($event, podcast.links.audio_url)"
         >
           ▶ Ouvir
         </a>
@@ -74,9 +74,9 @@
           v-if="podcast.links?.episode_url"
           :href="podcast.links.episode_url"
           target="_blank"
-          rel="noopener"
+          rel="noopener noreferrer"
           class="inline-flex items-center gap-2 px-3 py-2 bg-blue-100 text-blue-700 rounded-lg text-sm font-medium hover:bg-blue-200 transition-all"
-          @click.stop
+          @click.stop="handleExternalLinkClick($event, podcast.links.episode_url)"
         >
           📋 Show notes
         </a>
@@ -87,6 +87,7 @@
 
 <script setup>
 import { computed } from 'vue'
+import { handleExternalLinkClick } from '../utils/openLink'
 
 const props = defineProps({
   podcast: { type: Object, required: true }

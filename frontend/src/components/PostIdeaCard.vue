@@ -48,8 +48,9 @@
       v-if="idea.fonte?.url"
       :href="idea.fonte.url"
       target="_blank"
-      rel="noopener"
+      rel="noopener noreferrer"
       class="inline-flex items-start gap-1.5 text-xs text-gray-500 hover:text-gray-800 transition-colors group/fonte"
+      @click.stop="handleExternalLinkClick($event, idea.fonte.url)"
     >
       <span class="flex-shrink-0 mt-0.5">🔗</span>
       <span>
@@ -66,6 +67,7 @@
 
 <script setup>
 import { ref, computed } from 'vue'
+import { handleExternalLinkClick } from '../utils/openLink'
 
 const props = defineProps({
   idea: { type: Object, required: true }

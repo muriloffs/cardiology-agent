@@ -102,9 +102,9 @@
           v-if="noticia.links?.url"
           :href="noticia.links.url"
           target="_blank"
-          rel="noopener"
+          rel="noopener noreferrer"
           class="inline-flex items-center gap-2 px-3 py-2 bg-orange-100 text-orange-700 rounded-lg text-sm font-medium hover:bg-orange-200 transition-all"
-          @click.stop
+          @click.stop="handleExternalLinkClick($event, noticia.links.url)"
         >
           🔗 Ler completo
         </a>
@@ -117,6 +117,7 @@
 import { computed } from 'vue'
 import SendToThingsButton from './SendToThingsButton.vue'
 import ShareButton from './ShareButton.vue'
+import { handleExternalLinkClick } from '../utils/openLink'
 
 const props = defineProps({
   noticia: { type: Object, required: true }

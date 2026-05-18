@@ -51,8 +51,8 @@
             :href="postUrl || profileUrl"
             class="text-xs text-blue-500 hover:text-blue-700 font-medium"
             target="_blank"
-            rel="noopener"
-            @click.stop
+            rel="noopener noreferrer"
+            @click.stop="handleExternalLinkClick($event, postUrl || profileUrl)"
           >
             𝕏 {{ postUrl ? 'Ver post' : 'Ver perfil' }}
           </a>
@@ -61,8 +61,8 @@
             :href="articleUrl"
             class="text-xs text-green-600 hover:text-green-800 font-medium"
             target="_blank"
-            rel="noopener"
-            @click.stop
+            rel="noopener noreferrer"
+            @click.stop="handleExternalLinkClick($event, articleUrl)"
           >
             🔗 Artigo
           </a>
@@ -81,6 +81,7 @@
 import { computed } from 'vue'
 import SendToThingsButton from './SendToThingsButton.vue'
 import ShareButton from './ShareButton.vue'
+import { handleExternalLinkClick } from '../utils/openLink'
 
 const props = defineProps({
   discussion: Object

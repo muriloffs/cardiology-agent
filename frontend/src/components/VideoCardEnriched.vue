@@ -16,6 +16,7 @@
       target="_blank"
       rel="noopener noreferrer"
       class="relative block aspect-video bg-gray-100 overflow-hidden group"
+      @click="handleExternalLinkClick($event, video.video_url)"
     >
       <img
         v-if="video.thumbnail"
@@ -70,6 +71,7 @@
           target="_blank"
           rel="noopener noreferrer"
           class="inline-flex items-center gap-1 text-xs font-semibold text-red-600 hover:text-red-800 hover:underline whitespace-nowrap"
+          @click.stop="handleExternalLinkClick($event, video.video_url)"
         >
           ▶ Assistir no YouTube →
         </a>
@@ -82,6 +84,7 @@
 import { computed } from 'vue'
 import SendToThingsButton from './SendToThingsButton.vue'
 import ShareButton from './ShareButton.vue'
+import { handleExternalLinkClick } from '../utils/openLink'
 
 const props = defineProps({
   video: { type: Object, required: true }

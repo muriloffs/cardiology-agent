@@ -153,9 +153,9 @@
           v-if="article.links?.url"
           :href="article.links.url"
           target="_blank"
-          rel="noopener"
+          rel="noopener noreferrer"
           class="inline-flex items-center gap-2 px-3 py-2 bg-blue-100 text-blue-700 rounded-lg text-sm font-medium hover:bg-blue-200 transition-all"
-          @click.stop
+          @click.stop="handleExternalLinkClick($event, article.links.url)"
         >
           🔗 Ler
         </a>
@@ -168,6 +168,7 @@
 import { computed } from 'vue'
 import SendToThingsButton from './SendToThingsButton.vue'
 import ShareButton from './ShareButton.vue'
+import { handleExternalLinkClick } from '../utils/openLink'
 
 const props = defineProps({
   article: Object

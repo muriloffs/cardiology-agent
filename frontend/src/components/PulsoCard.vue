@@ -112,7 +112,7 @@
                 :href="ref.url || null"
                 :target="ref.url ? '_blank' : null"
                 :rel="ref.url ? 'noopener noreferrer' : null"
-                @click="ref.url ? null : onHistoricalClick(ref)"
+                @click="onHistRefClick($event, ref)"
                 :class="[
                   'italic',
                   isClickable(ref)
@@ -143,6 +143,7 @@
             :target="fonteUrl(fonte) ? '_blank' : null"
             :rel="fonteUrl(fonte) ? 'noopener noreferrer' : null"
             :key="i"
+            @click="onFonteClick($event, fonte)"
             :class="['inline-flex items-center gap-1 px-2 py-1 rounded text-xs',
                      fonteBadgeColor(fonte.tipo),
                      fonteUrl(fonte) ? 'hover:underline hover:opacity-80 transition cursor-pointer' : '']"
@@ -166,6 +167,7 @@
 import { computed } from 'vue'
 import SendToThingsButton from './SendToThingsButton.vue'
 import ShareButton from './ShareButton.vue'
+import { handleExternalLinkClick } from '../utils/openLink'
 
 const props = defineProps({
   item: { type: Object, required: true },
@@ -197,6 +199,22 @@ function onHistoricalClick(ref) {
   if (ref.type === 'pulso' && ref.date) {
     emit('navigate-to-date', ref.date)
   }
+}
+
+// Combined click handler for historical refs: route external URLs through
+// the iOS-aware helper, fall back to internal navigation for pulso refs.
+function onHistRefClick(event, ref) {
+  if (ref?.url) {
+    handleExternalLinkClick(event, ref.url)
+  } else {
+    onHistoricalClick(ref)
+  }
+}
+
+// fontes_cobertura click: only acts if the source has an external URL.
+function onFonteClick(event, fonte) {
+  const url = fonteUrl(fonte)
+  if (url) handleExternalLinkClick(event, url)
 }
 
 // Show dedicated historical section when there are 2+ references OR when single

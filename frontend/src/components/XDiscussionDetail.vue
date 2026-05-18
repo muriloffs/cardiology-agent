@@ -51,8 +51,9 @@
           v-if="postUrl || profileUrl"
           :href="postUrl || profileUrl"
           target="_blank"
-          rel="noopener"
+          rel="noopener noreferrer"
           class="inline-flex items-center gap-2 px-4 py-2 bg-gray-900 text-white rounded-lg font-medium hover:bg-gray-700 transition-all text-sm"
+          @click="handleExternalLinkClick($event, postUrl || profileUrl)"
         >
           𝕏 {{ postUrl ? 'Ver Post' : 'Ver Perfil' }}
         </a>
@@ -60,8 +61,9 @@
           v-if="articleUrl"
           :href="articleUrl"
           target="_blank"
-          rel="noopener"
+          rel="noopener noreferrer"
           class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-all text-sm"
+          @click="handleExternalLinkClick($event, articleUrl)"
         >
           🔗 Ver Artigo
         </a>
@@ -72,6 +74,7 @@
 
 <script setup>
 import { computed } from 'vue'
+import { handleExternalLinkClick } from '../utils/openLink'
 
 const props = defineProps({
   discussion: Object
