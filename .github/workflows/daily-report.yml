@@ -2,12 +2,21 @@ name: Daily Cardiology Research Report
 
 on:
   schedule:
-    # Scheduled at 7:00 UTC (4 AM Brasília). Originally was 3 UTC but Grok/xAI
-    # consistently returned HTTP 429 ("model at capacity") at that hour for 3+
-    # consecutive days (2026-05-12/13/14). 7 UTC is the gap between Asian peak
-    # (~22 UTC) and European/American peak (~14 UTC) — quieter for shared LLM APIs.
-    # Brasília yesterday is correctly computed since runs is after 3 UTC.
-    - cron: '0 7 * * *'
+    # DOIS crons (defesa em profundidade contra o scheduler do GitHub Actions
+    # pular o disparo):
+    #
+    # 1) Primário: 07:17 UTC (4:17 BRT). Minuto 17 (não 0) reduz fila — GitHub
+    #    documenta que minuto 0 sofre carga alta. Hora 7 UTC continua sendo a
+    #    janela quieta entre pico asiático (~22 UTC) e europeu/americano (~14 UTC),
+    #    importante para evitar 429 do Grok/xAI.
+    #
+    # 2) Backup: 09:17 UTC (6:17 BRT). Se o primário pular ou falhar, o backup
+    #    pega o slot. Step "Check if report exists" abaixo impede duplicação:
+    #    em eventos `schedule`, se o arquivo de hoje já existir, todos os steps
+    #    seguintes viram no-op (sem custo de LLM). Em `workflow_dispatch` (botão
+    #    manual), o check é ignorado — assumimos que o usuário quer re-run.
+    - cron: '17 7 * * *'
+    - cron: '17 9 * * *'
   workflow_dispatch:
 
 concurrency:
@@ -30,18 +39,43 @@ jobs:
         with:
           fetch-depth: 1
 
+      # Idempotência: em eventos `schedule`, pula o run se o relatório
+      # "esperado" para hoje já existir no repo (gerado pelo cron primário
+      # mais cedo, ou por um workflow_dispatch manual). Em `workflow_dispatch`
+      # nunca pula — re-run manual é intencional.
+      #
+      # O nome do arquivo segue a convenção do script (agent.py:470):
+      # "yesterday in Brasília timezone", então o expected_date para um run
+      # de hoje (UTC) é "today em Brasília menos 1 dia".
+      - name: Check if today's report already exists
+        id: check_report
+        run: |
+          EXPECTED_DATE=$(TZ=America/Sao_Paulo date -d "1 day ago" +%Y-%m-%d)
+          EXPECTED_FILE="data/relatorio-${EXPECTED_DATE}.json"
+          echo "Expected: $EXPECTED_FILE"
+          if [ -f "$EXPECTED_FILE" ]; then
+            echo "✓ Report for $EXPECTED_DATE already exists. Skipping (event=${{ github.event_name }})."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "→ No report for $EXPECTED_DATE yet. Proceeding."
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Set up Python 3.11
+        if: github.event_name == 'workflow_dispatch' || steps.check_report.outputs.skip != 'true'
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
           cache: 'pip'
 
       - name: Install dependencies
+        if: github.event_name == 'workflow_dispatch' || steps.check_report.outputs.skip != 'true'
         run: |
           python -m pip install --upgrade pip
           pip install --default-timeout=30 -r agent/requirements.txt
 
       - name: Generate daily report
+        if: github.event_name == 'workflow_dispatch' || steps.check_report.outputs.skip != 'true'
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
@@ -69,6 +103,7 @@ jobs:
         run: python agent/scripts/generate_report.py
 
       - name: Verify report file created
+        if: github.event_name == 'workflow_dispatch' || steps.check_report.outputs.skip != 'true'
         run: |
           REPORT_FILE=$(ls -t data/relatorio-*.json 2>/dev/null | head -1)
           if [ -n "$REPORT_FILE" ] && [ -f "$REPORT_FILE" ]; then
@@ -80,11 +115,13 @@ jobs:
           fi
 
       - name: Configure Git
+        if: github.event_name == 'workflow_dispatch' || steps.check_report.outputs.skip != 'true'
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
 
       - name: Update index and commit
+        if: github.event_name == 'workflow_dispatch' || steps.check_report.outputs.skip != 'true'
         run: |
           REPORT_FILE=$(ls -t data/relatorio-*.json 2>/dev/null | head -1)
           ls data/relatorio-*.json 2>/dev/null \
