@@ -550,6 +550,7 @@ import SubstackCard from './components/SubstackCard.vue'
 import VideoCardEnriched from './components/VideoCardEnriched.vue'
 import CongressBanner from './components/CongressBanner.vue'
 import { fetchLatestReport, fetchIndex, fetchReportByDate } from './utils/api'
+import { openInBrowser } from './utils/openLink'
 
 const report = ref(null)
 const selectedDiscussion = ref(null)
@@ -566,11 +567,15 @@ const currentDateIndex = ref(0)
 // Click on an article card opens the source URL directly in a new tab.
 // Modal was removed — card already shows resumo + conclusao + pontos_chave +
 // impacto_clinico (everything that was in the modal and more).
+//
+// openInBrowser escapes the iOS SFSafariViewController in-app sheet by routing
+// HTTPS through Chrome's googlechromes:// scheme on iOS devices. Other platforms
+// keep standard window.open behavior.
 function openArticle(article) {
   const url = article?.links?.url
     || (article?.links?.doi ? `https://doi.org/${article.links.doi}` : null)
     || (article?.links?.pubmed ? `https://pubmed.ncbi.nlm.nih.gov/${article.links.pubmed}/` : null)
-  if (url) window.open(url, '_blank', 'noopener,noreferrer')
+  if (url) openInBrowser(url)
 }
 
 async function navigateDate(direction) {
@@ -627,7 +632,7 @@ const richPodcastsCount = computed(() => {
 // Open podcast — prefer episode_url over audio_url (page tem mais contexto)
 function openPodcast(podcast) {
   const url = podcast?.links?.episode_url || podcast?.links?.audio_url
-  if (url) window.open(url, '_blank', 'noopener,noreferrer')
+  if (url) openInBrowser(url)
 }
 
 // Discussions get both filters: class (A/B/C) AND categoria (especialista/revista/etc).
