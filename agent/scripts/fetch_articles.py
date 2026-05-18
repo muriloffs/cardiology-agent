@@ -449,8 +449,16 @@ def _merge_pmid_lists(*lists: list[str]) -> list[str]:
 #     can branch on length.
 
 
-def _pmid_to_pmcid_map(pmids: list[str]) -> dict[str, str]:
-    """Batch-map PMIDs → PMCIDs via elink. Returns only mapped pairs."""
+def _pmid_to_pmcid_map(pmids: list[str], max_attempts: int = 3) -> dict[str, str]:
+    """Batch-map PMIDs → PMCIDs via elink. Returns only mapped pairs.
+
+    Retries on transient failures (the kind we saw on 2026-05-18 — NCBI
+    closing the connection with "Response ended prematurely"). On the final
+    attempt, switches to POST: NCBI recommends POST for larger id lists and
+    GET can quietly truncate at server-side limits.
+
+    Backoff: 1s, 2s between attempts.
+    """
     if not pmids:
         return {}
 
@@ -461,12 +469,36 @@ def _pmid_to_pmcid_map(pmids: list[str]) -> dict[str, str]:
         "retmode": "json",
     }
 
-    try:
-        response = requests.get(f"{PUBMED_BASE}/elink.fcgi", params=_ncbi_params(params), timeout=30)
-        response.raise_for_status()
-        data = response.json()
-    except Exception as e:
-        logger.warning(f"PMID→PMCID elink failed: {e}")
+    last_err: Exception | None = None
+    data: dict | None = None
+    for attempt in range(1, max_attempts + 1):
+        try:
+            if attempt == max_attempts:
+                # Final attempt: POST (recommended by NCBI for large id lists)
+                response = requests.post(
+                    f"{PUBMED_BASE}/elink.fcgi",
+                    data=_ncbi_params(params),
+                    timeout=30,
+                )
+            else:
+                response = requests.get(
+                    f"{PUBMED_BASE}/elink.fcgi",
+                    params=_ncbi_params(params),
+                    timeout=30,
+                )
+            response.raise_for_status()
+            data = response.json()
+            break
+        except Exception as e:
+            last_err = e
+            logger.info(
+                f"PMID→PMCID elink attempt {attempt}/{max_attempts} failed: {e}"
+            )
+            if attempt < max_attempts:
+                time.sleep(attempt)  # 1s, 2s
+
+    if data is None:
+        logger.warning(f"PMID→PMCID elink failed after {max_attempts} attempts: {last_err}")
         return {}
 
     mapping: dict[str, str] = {}
