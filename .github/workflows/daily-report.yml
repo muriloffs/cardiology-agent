@@ -5,18 +5,20 @@ on:
     # DOIS crons (defesa em profundidade contra o scheduler do GitHub Actions
     # pular o disparo):
     #
-    # 1) Primário: 07:17 UTC (4:17 BRT). Minuto 17 (não 0) reduz fila — GitHub
-    #    documenta que minuto 0 sofre carga alta. Hora 7 UTC continua sendo a
-    #    janela quieta entre pico asiático (~22 UTC) e europeu/americano (~14 UTC),
-    #    importante para evitar 429 do Grok/xAI.
+    # 1) Primário: 04:17 UTC (01:17 BRT). Janela quieta — madrugada Europa,
+    #    fim-de-tarde Ásia. Minuto 17 (não 0) reduz fila — GitHub documenta
+    #    que minuto 0 sofre carga alta. Originalmente era 07:17 UTC mas o GH
+    #    pulou cron em dois dias consecutivos (18 e 19/05/26) nessa janela
+    #    europeia matinal — movido para horário menos disputado.
     #
-    # 2) Backup: 09:17 UTC (6:17 BRT). Se o primário pular ou falhar, o backup
-    #    pega o slot. Step "Check if report exists" abaixo impede duplicação:
-    #    em eventos `schedule`, se o arquivo de hoje já existir, todos os steps
-    #    seguintes viram no-op (sem custo de LLM). Em `workflow_dispatch` (botão
-    #    manual), o check é ignorado — assumimos que o usuário quer re-run.
-    - cron: '17 7 * * *'
-    - cron: '17 9 * * *'
+    # 2) Backup: 06:17 UTC (03:17 BRT). Se o primário pular ou falhar, o
+    #    backup pega o slot. Step "Check if report exists" abaixo impede
+    #    duplicação: em eventos `schedule`, se o arquivo de hoje já existir,
+    #    todos os steps seguintes viram no-op (sem custo de LLM). Em
+    #    `workflow_dispatch` (botão manual), o check é ignorado — assumimos
+    #    que o usuário quer re-run.
+    - cron: '17 4 * * *'
+    - cron: '17 6 * * *'
   workflow_dispatch:
 
 concurrency:
