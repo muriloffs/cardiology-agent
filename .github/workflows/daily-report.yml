@@ -102,6 +102,14 @@ jobs:
           # Sem transcript real, sintese da descricao arrisca distorcer o conteudo.
           # Card mostra apenas: thumbnail, canal, titulo, descricao_preview (RSS literal).
           DISABLE_YT_ENRICHMENT: '1'
+          # Disable PMC figures enrichment (desligada em 2026-05-19).
+          # Investigacao mostrou que papers das ultimas 24-48h (que sao os que o
+          # pipeline diario pega) raramente ja estao indexados no PMC Open
+          # Access — o NCBI tem latencia de semanas/meses entre publicacao
+          # PubMed e disponibilidade em PMC OA. Resultado: enrich_with_pmc_figures
+          # gastava ~30s/run com taxa de sucesso quase zero. Para reativar:
+          # setar DISABLE_PMC_FIGURES='0' (ou remover essa linha).
+          DISABLE_PMC_FIGURES: '1'
         run: python agent/scripts/generate_report.py
 
       - name: Verify report file created
