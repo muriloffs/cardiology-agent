@@ -455,6 +455,42 @@ Resumir de forma prática como um JSON object:
 
 NÃO detalhar estatística complexa neste campo. Se algum campo não se aplica, use null no JSON.
 
+### 3.5 EXTRAÇÃO OBRIGATÓRIA — faça ANTES de redigir os campos abaixo
+
+O input traz o abstract no campo "Show Notes/Abstract", frequentemente com
+seções rotuladas (BACKGROUND, METHODS, RESULTS/FINDINGS, CONCLUSIONS/
+INTERPRETATION). Antes de escrever qualquer campo, extraia mentalmente:
+
+1. Qual era a hipótese / pergunta principal do estudo?
+2. Qual foi o desfecho primário de eficácia?
+3. O resultado foi POSITIVO, NEGATIVO, NEUTRO ou INCONCLUSIVO frente à hipótese?
+4. Houve melhora, piora ou ausência de diferença estatisticamente significativa?
+5. Qual o dado numérico central que sustenta a conclusão? (n, %, HR/RR/OR, IC, p)
+6. Qual foi o principal desfecho de segurança — e o que ele mostrou?
+7. A conclusão dos autores (seção CONCLUSIONS/INTERPRETATION) confirma, limita
+   ou contradiz o resultado?
+
+**REGRA CRÍTICA — não fuja da conclusão.**
+Se o abstract traz RESULTS/FINDINGS com números E uma seção CONCLUSIONS/
+INTERPRETATION, você DEVE declarar o veredito. É PROIBIDO escrever "não é
+possível concluir", "aguardar leitura completa", "resultados não disponíveis
+no resumo" ou equivalente quando o abstract apresenta resultado + interpretação.
+Essa ressalva só vale quando o input REALMENTE não tem abstract (só título) —
+situação que deve ser rara.
+
+Use uma destas formulações como espinha de `conclusao_uma_frase`:
+- **Estudo POSITIVO** — desfecho primário favorece a intervenção com significância estatística
+- **Estudo NEGATIVO** — não houve benefício no desfecho primário
+- **Estudo NEUTRO/INCONCLUSIVO** — os dados não permitem afirmar benefício nem dano
+- **Estudo sugere benefício, mas com ressalvas** — houve melhora, porém com limitação
+  relevante (sinal de segurança, IC amplo, população muito restrita)
+
+Modelo de boa conclusão (TAPIS, para calibração):
+"Estudo POSITIVO: em AVC isquêmico moderado tratado com trombólise IV, DAPT
+precoce com ticagrelor + AAS aumentou a chance de excelente resultado funcional
+em 90 dias (68,7% vs 62,0%; RR 1,11), sem aumento estatisticamente significativo
+de hemorragia intracraniana sintomática, embora o IC amplo não exclua pequeno risco."
+
 ### 4. `principais_resultados` (PARTE MAIS IMPORTANTE — sem cap de palavras)
 Explique claramente em PT-BR clínico:
 - O estudo foi POSITIVO, NEUTRO ou NEGATIVO?
@@ -531,6 +567,7 @@ UMA frase. Não duas. Use ponto final.
 6. **Para trials NEGATIVOS:** dizer explicitamente em `conclusao_uma_frase` e `principais_resultados`. Não maquiar.
 7. **Para review/editorial/guideline:** o framework adapta — `desenho_estudo.tipo` = "Revisão narrativa" / "Editorial" / "Diretriz". `pontos_chave` vira recomendações-chave em vez de stats. `pergunta_principal` vira o tópico revisado.
 8. **NUNCA inventar números, percentuais, DOIs, URLs ou PMIDs.** Use null/omita se ausente.
+9. **SEMPRE responder se a hipótese foi confirmada.** A análise não pode parar em "o estudo é relevante" ou "pode impactar diretrizes" — ela DEVE responder, com base no abstract: o estudo confirmou ou não confirmou a hipótese principal? Se há abstract com resultados e interpretação, há um veredito a ser dado — dê-o. Cautela e ressalvas legítimas (item 4) NÃO equivalem a omitir a conclusão.
 
 `resumo` (legado) — manter 2 frases curtas em PT-BR como TL;DR técnico para uso por Pulso/post_ideas downstream. Esse campo NÃO é renderizado no card — é interno.
 
