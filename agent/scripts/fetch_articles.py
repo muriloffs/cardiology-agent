@@ -333,13 +333,51 @@ def fetch_summaries(pmids: list[str]) -> list[dict[str, Any]]:
     return filtered
 
 
+# Regex parsers for PubMed efetch XML (retmode=xml).
+_PUBMED_ARTICLE_RE = re.compile(r"<PubmedArticle>(.*?)</PubmedArticle>", re.DOTALL)
+_PMID_RE = re.compile(r"<PMID\b[^>]*>(\d+)</PMID>")
+_ABSTRACT_BLOCK_RE = re.compile(r"<Abstract>(.*?)</Abstract>", re.DOTALL)
+_ABSTRACT_TEXT_RE = re.compile(r"<AbstractText\b([^>]*)>(.*?)</AbstractText>", re.DOTALL)
+_LABEL_ATTR_RE = re.compile(r'Label="([^"]*)"')
+_XML_TAG_RE = re.compile(r"<[^>]+>")
+_NUM_ENTITY_HEX_RE = re.compile(r"&#x([0-9a-fA-F]+);")
+_NUM_ENTITY_DEC_RE = re.compile(r"&#(\d+);")
+
+
+def _decode_xml_text(text: str) -> str:
+    """Strip inline XML tags (<i>, <sup>, <math>...) and decode entities."""
+    text = _XML_TAG_RE.sub("", text)
+    text = _NUM_ENTITY_HEX_RE.sub(lambda m: chr(int(m.group(1), 16)), text)
+    text = _NUM_ENTITY_DEC_RE.sub(lambda m: chr(int(m.group(1))), text)
+    # Named entities last (so a literal "&amp;lt;" stays correct)
+    for ent, char in (("&lt;", "<"), ("&gt;", ">"), ("&quot;", '"'),
+                       ("&apos;", "'"), ("&amp;", "&")):
+        text = text.replace(ent, char)
+    return re.sub(r"\s+", " ", text).strip()
+
+
 def _fetch_abstracts(pmids: list[str]) -> dict[str, str]:
-    """Fetch plain-text abstracts for a list of PMIDs."""
+    """Fetch structured abstracts for a list of PMIDs.
+
+    Uses retmode=xml: the abstract arrives as <AbstractText Label="...">
+    blocks, preserving section structure (BACKGROUND / METHODS / RESULTS /
+    FINDINGS / CONCLUSIONS / INTERPRETATION). We rebuild the abstract as
+    "LABEL: text" segments so the LLM sees results and conclusions plainly.
+
+    History: the previous implementation requested rettype=abstract (plain
+    text) but parsed MEDLINE markers (`AB  -`, `PMID-`) which only exist in
+    rettype=medline. The markers never matched, so abstracts silently never
+    reached the LLM — every article analysis ran on title + metadata alone.
+    Fixed 2026-05-20.
+    """
+    if not pmids:
+        return {}
+
     params = {
         "db": "pubmed",
         "id": ",".join(pmids),
         "rettype": "abstract",
-        "retmode": "text",
+        "retmode": "xml",
     }
 
     try:
@@ -351,23 +389,32 @@ def _fetch_abstracts(pmids: list[str]) -> dict[str, str]:
         return {}
 
     abstracts: dict[str, str] = {}
-    current_pmid = None
-    current_lines: list[str] = []
+    for article_xml in _PUBMED_ARTICLE_RE.findall(raw):
+        pmid_match = _PMID_RE.search(article_xml)
+        if not pmid_match:
+            continue
+        pmid = pmid_match.group(1)
 
-    for line in raw.splitlines():
-        if line.startswith("PMID-"):
-            if current_pmid and current_lines:
-                abstracts[current_pmid] = " ".join(current_lines).strip()
-            current_pmid = line.replace("PMID-", "").strip()
-            current_lines = []
-        elif line.startswith("AB  -") and current_pmid:
-            current_lines.append(line[6:].strip())
-        elif line.startswith("      ") and current_lines:
-            current_lines.append(line.strip())
+        # Only the main <Abstract> block — skips <OtherAbstract> (translations).
+        block_match = _ABSTRACT_BLOCK_RE.search(article_xml)
+        if not block_match:
+            continue
 
-    if current_pmid and current_lines:
-        abstracts[current_pmid] = " ".join(current_lines).strip()
+        parts: list[str] = []
+        for attrs, body in _ABSTRACT_TEXT_RE.findall(block_match.group(1)):
+            text = _decode_xml_text(body)
+            if not text:
+                continue
+            label_match = _LABEL_ATTR_RE.search(attrs)
+            if label_match and label_match.group(1).strip():
+                parts.append(f"{label_match.group(1).strip()}: {text}")
+            else:
+                parts.append(text)
 
+        if parts:
+            abstracts[pmid] = " ".join(parts)
+
+    logger.info(f"Abstracts fetched: {len(abstracts)}/{len(pmids)} PMIDs have abstract text")
     return abstracts
 
 

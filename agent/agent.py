@@ -346,11 +346,14 @@ class CardologyAgent:
                 lines.append(f"Host: {a['host']}")
             lines.append(f"Published: {a['data_publicacao']}")
             if a.get("abstract"):
-                # PubMed: 1500 chars so Opus can extract pontos_chave (n, HR, IC, p)
-                # from full abstract body. Podcasts: 1500 for rich show notes.
+                # PubMed: 4000 chars — structured RCT abstracts run 2000-3500
+                # chars, and the FINDINGS (numbers) + CONCLUSIONS/INTERPRETATION
+                # sections come LAST. A tighter limit decapitated exactly the
+                # result and the authors' conclusion. 4000 covers ~99% of
+                # abstracts fully. Podcasts: 1500 for rich show notes.
                 # Other RSS: 800 (news items rarely have granular data beyond headline).
                 if source_type == "pubmed":
-                    abstract_limit = 1500
+                    abstract_limit = 4000
                 elif source_type == "podcast":
                     abstract_limit = 1500
                 else:
