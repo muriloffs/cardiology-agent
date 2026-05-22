@@ -28,7 +28,11 @@ concurrency:
 jobs:
   generate-report:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    # 45 min: o run levava ~25 min, mas o fix dos abstracts (2026-05-20)
+    # adicionou ~30k tokens de input ao Claude por run — streaming mais
+    # longo empurrou a duracao para ~30+ min. Em 22/05 os dois crons foram
+    # cancelados por bater o teto antigo de 30 min. 45 da margem confortavel.
+    timeout-minutes: 45
 
     permissions:
       contents: write
