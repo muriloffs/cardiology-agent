@@ -28,11 +28,15 @@ concurrency:
 jobs:
   generate-report:
     runs-on: ubuntu-latest
-    # 45 min: o run levava ~25 min, mas o fix dos abstracts (2026-05-20)
+    # 60 min: o run levava ~25 min, mas o fix dos abstracts (2026-05-20)
     # adicionou ~30k tokens de input ao Claude por run — streaming mais
     # longo empurrou a duracao para ~30+ min. Em 22/05 os dois crons foram
-    # cancelados por bater o teto antigo de 30 min. 45 da margem confortavel.
-    timeout-minutes: 45
+    # cancelados por bater o teto antigo de 30 min.
+    # 60 = ~2x o historico, margem ampla. Custo de teto alto e ~zero:
+    # so conta se o run travar de verdade, e concurrency:cancel-in-progress
+    # ja protege contra runs empilhados. Errar para baixo perde o dia;
+    # errar para cima nao custa nada. Teto do GH Actions e 360 min.
+    timeout-minutes: 60
 
     permissions:
       contents: write
