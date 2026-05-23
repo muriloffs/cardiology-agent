@@ -33,6 +33,11 @@
               Classe {{ noticia.classe }}
             </span>
             <span class="text-xs font-bold text-gray-700">{{ noticia.score }}/10</span>
+            <button
+              @click.stop="reader.open(noticia, 'noticia')"
+              class="lg:hidden inline-flex items-center text-[11px] px-2 py-1 rounded-full bg-stone-50 border border-stone-300 text-stone-700 hover:bg-stone-100 font-medium transition-colors"
+              aria-label="Abrir modo leitura"
+            >📖 Ler</button>
           </div>
         </div>
         <p class="text-sm text-gray-600 break-words">{{ noticia.publicacao }}</p>
@@ -118,6 +123,9 @@ import { computed } from 'vue'
 import SendToThingsButton from './SendToThingsButton.vue'
 import ShareButton from './ShareButton.vue'
 import { handleExternalLinkClick } from '../utils/openLink'
+import { useReader } from '../composables/useReader'
+
+const reader = useReader()
 
 const props = defineProps({
   noticia: { type: Object, required: true }

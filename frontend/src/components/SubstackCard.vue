@@ -29,14 +29,21 @@
         </p>
       </div>
 
-      <!-- Category badge -->
-      <span
-        v-if="post.tema"
-        :class="['flex-shrink-0 inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide',
-                 categoriaBadgeColor]"
-      >
-        {{ post.tema }}
-      </span>
+      <!-- Category badge + reader trigger -->
+      <div class="flex flex-col items-end gap-1 flex-shrink-0">
+        <span
+          v-if="post.tema"
+          :class="['inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide',
+                   categoriaBadgeColor]"
+        >
+          {{ post.tema }}
+        </span>
+        <button
+          @click.stop="reader.open(post, 'substack')"
+          class="lg:hidden inline-flex items-center text-[11px] px-2 py-1 rounded-full bg-stone-50 border border-stone-300 text-stone-700 hover:bg-stone-100 font-medium transition-colors"
+          aria-label="Abrir modo leitura"
+        >📖 Ler</button>
+      </div>
     </header>
 
     <!-- Body -->
@@ -113,6 +120,9 @@ import { computed } from 'vue'
 import SendToThingsButton from './SendToThingsButton.vue'
 import ShareButton from './ShareButton.vue'
 import { handleExternalLinkClick } from '../utils/openLink'
+import { useReader } from '../composables/useReader'
+
+const reader = useReader()
 
 const props = defineProps({
   post: { type: Object, required: true }

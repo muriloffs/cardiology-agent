@@ -531,6 +531,9 @@
     <!-- Floating "back to top" button — visible after 400px scroll -->
     <BackToTopButton />
 
+    <!-- Reader modal (singleton) — mobile/tablet only; opens via useReader().open() -->
+    <ReaderModal />
+
   </div>
 </template>
 
@@ -544,6 +547,7 @@ import PodcastCard from './components/PodcastCard.vue'
 import XDiscussionCard from './components/XDiscussionCard.vue'
 import XDiscussionDetail from './components/XDiscussionDetail.vue'
 import BackToTopButton from './components/BackToTopButton.vue'
+import ReaderModal from './components/ReaderModal.vue'
 import PostIdeaCard from './components/PostIdeaCard.vue'
 import PulsoCard from './components/PulsoCard.vue'
 import SubstackCard from './components/SubstackCard.vue'

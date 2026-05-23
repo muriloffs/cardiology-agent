@@ -33,9 +33,16 @@
             <span class="text-xs text-gray-500">Score {{ item.score }}/10</span>
           </template>
         </div>
-        <span v-if="!item.is_destaque_do_dia" class="text-xs text-gray-400 flex-shrink-0">
-          {{ item.fontes_cobertura?.length || 0 }} fontes
-        </span>
+        <div class="flex flex-col items-end gap-1 flex-shrink-0">
+          <span v-if="!item.is_destaque_do_dia" class="text-xs text-gray-400">
+            {{ item.fontes_cobertura?.length || 0 }} fontes
+          </span>
+          <button
+            @click.stop="reader.open(item, 'pulso')"
+            class="lg:hidden inline-flex items-center text-[11px] px-2 py-1 rounded-full bg-stone-50 border border-stone-300 text-stone-700 hover:bg-stone-100 font-medium transition-colors"
+            aria-label="Abrir modo leitura"
+          >📖 Ler</button>
+        </div>
       </div>
 
       <!-- Title -->
@@ -168,6 +175,9 @@ import { computed } from 'vue'
 import SendToThingsButton from './SendToThingsButton.vue'
 import ShareButton from './ShareButton.vue'
 import { handleExternalLinkClick } from '../utils/openLink'
+import { useReader } from '../composables/useReader'
+
+const reader = useReader()
 
 const props = defineProps({
   item: { type: Object, required: true },
