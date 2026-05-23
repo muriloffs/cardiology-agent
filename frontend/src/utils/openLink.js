@@ -52,7 +52,20 @@ const APP_PREFERRED_HOSTS = new Set([
   'podcasts.apple.com',
   // X/Twitter — opens X app (better thread UX, account context)
   'twitter.com', 'www.twitter.com', 'x.com', 'www.x.com', 'mobile.twitter.com',
+  // WhatsApp — opens WhatsApp app (messaging, group invites, shortlinks)
+  'wa.me', 'whatsapp.com', 'www.whatsapp.com', 'chat.whatsapp.com', 'api.whatsapp.com',
+  // Things 3 — defensivo: usuario USA o app via deeplink `things:///add?...`
+  // (que ja passa direto pelo fallback non-http, sem tocar no Chrome scheme),
+  // mas adicionamos o dominio web por completude se algum link culturedcode
+  // aparecer num card.
+  'culturedcode.com', 'www.culturedcode.com',
 ])
+
+// NOTA: deeplinks de app (`things://`, `whatsapp://`, `spotify://`, `tg://`,
+// `mailto:`, `tel:`) NAO precisam estar em APP_PREFERRED_HOSTS — eles ja
+// passam direto pelo `if (!chromeUrl)` fallback no openInBrowser, porque
+// `toChromeScheme` so converte http(s) e retorna null pra outros esquemas.
+// O iOS faz o roteamento pro app correspondente automaticamente.
 
 function shouldPreferNativeApp(url) {
   try {
