@@ -33,6 +33,36 @@ function toChromeScheme(url) {
 }
 
 /**
+ * Hostnames whose native app provides a strictly better experience than a browser
+ * tab. When the URL matches one of these, we DO NOT convert to the Chrome scheme —
+ * we let iOS Universal Links route the navigation to the installed app (and fall
+ * back to SFSafariViewController if not installed; acceptable trade-off since
+ * these sites all work fine in a browser too).
+ *
+ * Why hardcoded list and not heuristic: apps that register Universal Links are a
+ * closed, slow-changing set. A hardcoded list is explicit, reviewable, and avoids
+ * surprises (e.g., a random link to a personal blog suddenly opening a random app).
+ */
+const APP_PREFERRED_HOSTS = new Set([
+  // YouTube — opens YouTube app (video playback in native player)
+  'youtube.com', 'www.youtube.com', 'm.youtube.com', 'youtu.be', 'music.youtube.com',
+  // Spotify — opens Spotify app (audio playback, podcast episodes)
+  'open.spotify.com',
+  // Apple Podcasts — opens Podcasts app
+  'podcasts.apple.com',
+  // X/Twitter — opens X app (better thread UX, account context)
+  'twitter.com', 'www.twitter.com', 'x.com', 'www.x.com', 'mobile.twitter.com',
+])
+
+function shouldPreferNativeApp(url) {
+  try {
+    return APP_PREFERRED_HOSTS.has(new URL(url).hostname.toLowerCase())
+  } catch {
+    return false
+  }
+}
+
+/**
  * Open an external URL in the user's preferred browser when possible.
  *
  * @param {string} url - The URL to open.
@@ -42,6 +72,16 @@ export function openInBrowser(url) {
 
   // Non-iOS: standard behavior is fine — default browser already wins.
   if (!isIOS()) {
+    window.open(url, '_blank', 'noopener,noreferrer')
+    return
+  }
+
+  // Exception: domains with strong native apps (YouTube, Spotify, X, Apple
+  // Podcasts) — let iOS Universal Links route to the installed app. If the app
+  // isn't installed, iOS falls back to its in-app browser. We don't force
+  // Chrome here because the native app experience is meaningfully better
+  // (native video player, audio backgrounding, threaded UX, etc).
+  if (shouldPreferNativeApp(url)) {
     window.open(url, '_blank', 'noopener,noreferrer')
     return
   }
