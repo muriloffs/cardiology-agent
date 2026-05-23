@@ -21,7 +21,7 @@ from agent.scripts.fetch_youtube_data_api import fetch_all_youtube_data_api
 from agent.scripts.fetch_gemini_external import fetch_all_external, enrich_news_batch
 from agent.scripts.fetch_gemini_substacks import fetch_all_substacks
 from agent.scripts.youtube_enrichment import enrich_videos
-from agent.scripts.generate_post_ideas import generate_post_ideas
+from agent.scripts.generate_post_ideas import generate_post_ideas, load_cached_post_ideas
 from agent.scripts.generate_pulso import generate_pulso
 
 
@@ -81,7 +81,11 @@ class CardologyAgent:
 
         # max_retries=3 covers 429 rate-limits, 5xx server errors, and 529 overloaded
         # with exponential backoff (Anthropic SDK default behavior).
-        self.client = Anthropic(api_key=api_key, max_retries=3)
+        # max_retries=5: em 23/05/2026 o post_ideas falhou apos 3 retries de
+        # "Connection error" durante uma janela de ~17min de instabilidade entre
+        # o runner GH e a API Anthropic. 5 retries com backoff exponencial dao
+        # ~25min de tolerancia total (cabe no timeout-minutes:60 do workflow).
+        self.client = Anthropic(api_key=api_key, max_retries=5)
         logger.info("CardologyAgent initialized successfully")
 
     def research_daily(self, report_date: str) -> Dict[str, Any]:
@@ -312,7 +316,7 @@ class CardologyAgent:
                 logger.info("Pulso generation disabled via DISABLE_PULSO env var")
 
             # Generate Instagram post ideas for lay-audience patients (Sonnet).
-            # Non-critical: failures degrade gracefully, returning [] without breaking the report.
+            # Non-critical: failures degrade gracefully via cache fallback.
             if os.environ.get("DISABLE_POST_IDEAS", "").lower() not in ("1", "true", "yes"):
                 logger.info("Generating post ideas (Sonnet 4.6, lay-audience)...")
                 post_ideas = generate_post_ideas(report, anthropic_client=self.client)
@@ -320,7 +324,21 @@ class CardologyAgent:
                     report["post_ideas"] = post_ideas
                     logger.info(f"Injected {len(post_ideas)} post ideas")
                 else:
-                    logger.warning("Post ideas generation returned empty — skipping field injection")
+                    # Live failed (Anthropic API instability, prompt issue, etc).
+                    # Try cache fallback: reuse the most recent commited report's
+                    # post_ideas, tagged with _cache_fallback for frontend.
+                    cached = load_cached_post_ideas()
+                    if cached:
+                        report["post_ideas"] = cached
+                        logger.warning(
+                            f"Post ideas live failed — using {len(cached)} cached ideas "
+                            f"(marked _cache_fallback)"
+                        )
+                    else:
+                        logger.warning(
+                            "Post ideas live failed and no cache available — "
+                            "skipping field injection"
+                        )
             else:
                 logger.info("Post ideas generation disabled via DISABLE_POST_IDEAS env var")
 

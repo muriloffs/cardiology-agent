@@ -150,6 +150,50 @@ def _strip_json_fences(text: str) -> str:
     return text
 
 
+def load_cached_post_ideas() -> list[dict[str, Any]]:
+    """Fallback: load post_ideas from the most recent committed report that had them.
+
+    Used when the live Sonnet call fails (e.g., Anthropic API connection error
+    on 2026-05-23, when 3 retries timed out across ~17 min). Same pattern as
+    `_load_cached_discussoes_x` in fetch_grok.py.
+
+    Searches backwards (newest first), skipping reports without the field or
+    with an empty array. Tags each idea with `_cache_fallback: True` and
+    `_cache_source_date` so the frontend can render a staleness warning.
+
+    Returns empty list if no usable cache exists.
+    """
+    try:
+        data_dir = Path(__file__).parent.parent.parent / "data"
+        if not data_dir.exists():
+            return []
+        report_files = sorted(data_dir.glob("relatorio-*.json"), reverse=True)
+        for path in report_files:
+            try:
+                with open(path, "r", encoding="utf-8") as f:
+                    cached = json.load(f)
+            except Exception:
+                continue
+            ideas = cached.get("post_ideas") or []
+            if not ideas:
+                continue
+            source_date = cached.get("relatorio_data", path.stem.replace("relatorio-", ""))
+            for item in ideas:
+                if isinstance(item, dict):
+                    item["_cache_fallback"] = True
+                    item["_cache_source_date"] = source_date
+            logger.warning(
+                f"post_ideas unavailable — fallback to {source_date} "
+                f"({len(ideas)} items marked _cache_fallback)"
+            )
+            return ideas
+        logger.warning("No previous report with post_ideas found — cache fallback unavailable")
+        return []
+    except Exception as e:
+        logger.error(f"Failed to load cached post_ideas: {e}")
+        return []
+
+
 def generate_post_ideas(report: dict, anthropic_client: Anthropic = None) -> list[dict[str, Any]]:
     """
     Generate 8-10 post ideas from a curated report.
@@ -166,7 +210,9 @@ def generate_post_ideas(report: dict, anthropic_client: Anthropic = None) -> lis
         if not api_key:
             logger.warning("ANTHROPIC_API_KEY not set — skipping post ideas generation")
             return []
-        anthropic_client = Anthropic(api_key=api_key, max_retries=2)
+        # 5 retries: ver comentario em agent.py — Anthropic API teve janela
+        # de instabilidade de conexao em 23/05/2026 que esgotou 3 retries.
+        anthropic_client = Anthropic(api_key=api_key, max_retries=5)
 
     # Load prompt
     prompt_path = Path(__file__).parent.parent / "prompts" / "post_ideas_prompt.txt"
