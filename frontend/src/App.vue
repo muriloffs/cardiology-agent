@@ -1,6 +1,13 @@
 <!-- frontend/src/App.vue -->
 <template>
   <div class="min-h-screen bg-white">
+    <!-- Sticky search bar (acima de tudo; carrega histórico lazy no focus) -->
+    <SearchBar />
+
+    <!-- Quando há busca ativa, substitui todo o conteúdo por resultados -->
+    <SearchResults v-if="searchActive" />
+
+    <template v-else>
     <!-- Header -->
     <HeaderStats
       :report-date="report?.relatorio_data"
@@ -527,6 +534,8 @@
       :discussion="selectedDiscussion"
       @close="selectedDiscussion = null"
     />
+    </template>
+    <!-- /v-else (modo normal, não busca) -->
 
     <!-- Floating "back to top" button — visible after 400px scroll -->
     <BackToTopButton />
@@ -548,6 +557,11 @@ import XDiscussionCard from './components/XDiscussionCard.vue'
 import XDiscussionDetail from './components/XDiscussionDetail.vue'
 import BackToTopButton from './components/BackToTopButton.vue'
 import ReaderModal from './components/ReaderModal.vue'
+import SearchBar from './components/SearchBar.vue'
+import SearchResults from './components/SearchResults.vue'
+import { useSearch } from './composables/useSearch'
+
+const { isActive: searchActive } = useSearch()
 import PostIdeaCard from './components/PostIdeaCard.vue'
 import PulsoCard from './components/PulsoCard.vue'
 import SubstackCard from './components/SubstackCard.vue'
