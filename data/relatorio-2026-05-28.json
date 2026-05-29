@@ -1,0 +1,2867 @@
+{
+  "relatorio_data": "2026-05-28",
+  "gerado_em": "2026-05-28T12:00:00Z",
+  "resumo": {
+    "total_artigos": 22,
+    "tempo_leitura_minutos": 35,
+    "classe_a_count": 5,
+    "classe_b_count": 10,
+    "classe_c_count": 7
+  },
+  "destaque_do_dia": {
+    "item_id": "art_001",
+    "tipo_origem": "artigo",
+    "titulo": "Ultrasound-Facilitated, Catheter-Directed Fibrinolysis for Acute Pulmonary Embolism",
+    "publicacao": "The New England journal of medicine",
+    "razao": "HI-PEITHO é o primeiro RCT randomizado de larga escala (n=544) a demonstrar que fibrinólise dirigida por cateter assistida por ultrassom reduz desfecho composto (morte, descompensação, recorrência) em embolia pulmonar de risco intermediário-alto — RR 0.39, p=0.005, sem aumento significativo de sangramento maior nem hemorragia intracraniana. É evidência practice-changing para um cenário onde até hoje só havia anticoagulação isolada.",
+    "o_que_muda": "Em EP de risco intermediário-alto com sinais de sofrimento cardiorrespiratório, fibrinólise dirigida por cateter com ultrassom passa a ser opção fortemente apoiada por RCT, especialmente em centros com expertise.",
+    "o_que_nao_muda_ainda": "Indicação não se estende a EP de risco intermediário-baixo sem sinais clínicos de descompensação — e o sinal numérico de sangramento maior (4,1% vs 2,2%) exige seleção rigorosa do paciente."
+  },
+  "noticias": [
+    {
+      "id": "not_001",
+      "titulo": "‘Excitement and interest’ as Lp(a) therapies inch closer",
+      "publicacao": "Healio Cardiology",
+      "autores": [],
+      "classe": "B",
+      "score": 7.0,
+      "categoria_fonte": "noticias",
+      "emoji": "💊",
+      "resumo": "Terapias-alvo contra Lp(a) elevada estão chegando à fase final de ensaios, com primeiras leituras esperadas para o segundo semestre. Após décadas sem opção específica, há expectativa de mudança de paradigma na prevenção do risco residual aterosclerótico.",
+      "impacto_clinico": "Cardiologistas devem se preparar para incorporar dosagem única de Lp(a) na avaliação de risco e identificar pacientes elegíveis para terapias-alvo assim que aprovadas.",
+      "links": {
+        "url": "https://www.healio.com/news/cardiology/20260528/excitement-and-interest-as-lpa-therapies-inch-closer"
+      }
+    },
+    {
+      "id": "not_002",
+      "titulo": "No added MACE risk associated with biologics, immunomodulators",
+      "publicacao": "Healio Cardiology",
+      "autores": [],
+      "classe": "C",
+      "score": 5.5,
+      "categoria_fonte": "noticias",
+      "emoji": "💊",
+      "resumo": "Análise observacional em idosos com doença inflamatória intestinal não mostrou aumento de MACE com biológicos/imunomoduladores comparado a 5-ASA. Achado tranquilizador para coprescrição com terapias cardiológicas.",
+      "impacto_clinico": "Permite manter ou iniciar biológicos em pacientes idosos com DII sem preocupação cardiovascular adicional significativa.",
+      "links": {
+        "url": "https://www.healio.com/news/gastroenterology/20260527/cardiovascular-risk-consistent-not-elevated-across-inflammatory-bowel-disease-therapies"
+      }
+    },
+    {
+      "id": "not_003",
+      "titulo": "Stroke risk greater in older adults with migraine with aura",
+      "publicacao": "Healio Cardiology",
+      "autores": [],
+      "classe": "C",
+      "score": 5.0,
+      "categoria_fonte": "noticias",
+      "emoji": "🧠",
+      "resumo": "Estudo em adultos de meia-idade reforça associação entre enxaqueca com aura e AVC isquêmico incidente, sem diferenças raciais. Em homens <72 anos, qualquer enxaqueca aumentou risco — achado contraintuitivo.",
+      "impacto_clinico": "Reforça consideração de enxaqueca com aura como fator de risco vascular na avaliação primária, especialmente em pacientes de meia-idade.",
+      "links": {
+        "url": "https://www.healio.com/news/neurology/20260527/migraine-with-aura-linked-to-greater-risk-for-ischemic-stroke-in-older-adults"
+      },
+      "contexto": "Esta notícia surge a partir da publicação de um estudo no periódico *Neurology Open Access*, que investigou a associação entre enxaqueca com aura e o risco de AVC isquêmêmico em adultos de meia-idade e idosos, uma população menos estudada em pesquisas anteriores sobre o tema.",
+      "pontos_principais": [
+        "Adultos de meia-idade e idosos com enxaqueca com aura apresentaram um risco 73% maior de AVC isquêmico.",
+        "A enxaqueca sem aura não foi associada a um risco aumentado de AVC isquêmico nesta população.",
+        "De forma inesperada, homens com menos de 72 anos que sofriam de enxaqueca (com ou sem aura) tiveram um risco 3,5 vezes maior de AVC isquêmico, uma associação que não foi encontrada em mulheres ou homens mais velhos.",
+        "O estudo analisou dados de 11.381 adultos com 45 anos ou mais, com idade média de 72,1 anos, acompanhados por uma média de 6,4 anos.",
+        "Não foi observada interação entre a raça e o risco de AVC associado à enxaqueca."
+      ],
+      "falas": [
+        "\"Pesquisas anteriores mostraram que a enxaqueca com aura está ligada a um risco aumentado de AVC em pessoas mais jovens, mas sabe-se menos sobre pessoas com 45 anos ou mais. Nosso estudo descobriu que, semelhante aos mais jovens, a enxaqueca com aura foi associada a um risco aumentado de AVC isquêmico em adultos de meia-idade e idosos.\" — Adam S. Sprouse Blum, MD, PhD.",
+        "\"Nosso resultado de que os participantes do sexo masculino de meia-idade e mais velhos com menos de 72 anos tinham um risco muito maior de AVC foi inesperado, uma vez que pesquisas anteriores em pessoas jovens mostraram que o AVC afeta desproporcionalmente indivíduos do sexo feminino.\" — Adam S. Sprouse Blum, MD, PhD."
+      ],
+      "insights": "A associação entre enxaqueca com aura e AVC isquêmico, já bem estabelecida em jovens, persiste em pacientes de meia-idade e idosos, reforçando a necessidade de considerar a enxaqueca com aura como um fator de risco vascular não tradicional nesta faixa etária. O achado surpreendente de um risco acentuadamente elevado em homens com menos de 72 anos, independentemente da aura, sugere que a enxaqueca pode ter implicações de risco cerebrovascular diferentes dependendo do sexo e da idade, o que pode exigir abordagens de prevenção distintas.",
+      "por_que_importa": "Cardiologistas devem considerar a enxaqueca com aura como um fator relevante na estratificação de risco para AVC isquêmico em pacientes de meia-idade e idosos, especialmente em homens com menos de 72 anos."
+    },
+    {
+      "id": "not_004",
+      "titulo": "Heart-healthy habits may have prevented cases of severe COVID-19",
+      "publicacao": "Healio Cardiology",
+      "autores": [],
+      "classe": "C",
+      "score": 4.5,
+      "categoria_fonte": "noticias",
+      "emoji": "❤️",
+      "resumo": "Em pessoas sem CVD prévia, cada aumento de 1 DP no Life's Essential 8 da AHA associou-se a ~20% menos risco de COVID-19 grave. Reforça mensagem geral de saúde cardiometabólica.",
+      "impacto_clinico": "Argumento adicional para promover Life's Essential 8 na prevenção primária como proteção contra desfechos infecciosos graves.",
+      "links": {
+        "url": "https://www.healio.com/news/cardiology/20260527/hearthealthy-habits-may-have-prevented-cases-of-severe-covid19"
+      }
+    },
+    {
+      "id": "not_005",
+      "titulo": "Lp(a) and cardiovascular risk: What you should know",
+      "publicacao": "Healio Cardiology",
+      "autores": [],
+      "classe": "B",
+      "score": 6.5,
+      "categoria_fonte": "noticias",
+      "emoji": "💊",
+      "resumo": "Revisão prática reforça que dosagem única de Lp(a) ao longo da vida pode reduzir morbimortalidade cardiovascular se identificar pacientes para controle agressivo dos demais fatores modificáveis. Ainda não há terapia aprovada específica.",
+      "impacto_clinico": "Considerar dosagem universal de Lp(a) ao menos uma vez na vida, mesmo na ausência de terapia-alvo, para refinar estratégia preventiva.",
+      "links": {
+        "url": "https://www.healio.com/news/cardiology/20260526/lpa-and-cardiovascular-risk-what-you-should-know"
+      }
+    },
+    {
+      "id": "not_006",
+      "titulo": "Prednisolone fails to reduce arterial lesions in Kawasaki disease",
+      "publicacao": "Healio Cardiology",
+      "autores": [],
+      "classe": "B",
+      "score": 6.5,
+      "categoria_fonte": "noticias",
+      "emoji": "🩺",
+      "resumo": "RCT publicado no NEJM mostrou que adicionar prednisolona à IVIG+AAS padrão não preveniu lesões coronárias em 1 mês após início da doença de Kawasaki. Resultado negativo desafia prática variável em alguns centros.",
+      "impacto_clinico": "Não há base para adicionar prednisolona rotineiramente ao tratamento primário de Kawasaki visando prevenir aneurismas coronários.",
+      "links": {
+        "url": "https://www.healio.com/news/rheumatology/20260522/prednisolone-fails-to-prevent-coronary-artery-lesions-in-kawasaki-disease-treatment"
+      }
+    },
+    {
+      "id": "not_007",
+      "titulo": "Biotronik announces first European implants of LivIQ leadless pacemaker",
+      "publicacao": "Cardiac Rhythm News",
+      "autores": [],
+      "classe": "C",
+      "score": 4.5,
+      "categoria_fonte": "noticias",
+      "emoji": "🫀",
+      "resumo": "Primeiros implantes europeus do marca-passo leadless LivIQ no estudo BIO-LivIQ (n=325 previsto), que avaliará segurança, sincronia AV em repouso e exercício e qualidade de vida. Inovação na competição pelo mercado de leadless com sincronia AV.",
+      "impacto_clinico": "Acompanhar resultados — novo concorrente leadless com sincronia AV pode ampliar opções para pacientes com BAV em quem leads transvenosos são problemáticos.",
+      "links": {
+        "url": "https://cardiacrhythmnews.com/biotronik-announces-first-european-implants-of-liviq-leadless-pacemaker/"
+      }
+    },
+    {
+      "id": "not_008",
+      "titulo": "[PREPRINT] Transcatheter Bicaval Valve Implantation For Treatment Of Severe Tricuspid Regurgitation: A Single Centre Registry",
+      "publicacao": "medRxiv Cardiovascular",
+      "autores": [],
+      "classe": "C",
+      "score": 5.0,
+      "categoria_fonte": "preprint",
+      "emoji": "🔬",
+      "resumo": "[PREPRINT] Registro single-center com TricValve heterotópico cavo em pacientes com IT grave inoperáveis, com 1 ano de seguimento. Dados clínicos sobre uma técnica intervencionista nova com poucos dados publicados.",
+      "impacto_clinico": "Adiciona evidência observacional para IT grave inoperável; aguardar peer-review e replicação multicêntrica antes de incorporar na prática.",
+      "links": {
+        "url": "https://www.medrxiv.org/content/10.64898/2026.05.26.26354174v1?rss=1"
+      }
+    },
+    {
+      "id": "not_009",
+      "titulo": "[PREPRINT] Sex Differences in Mortality and Treatment Utilization Across Cardiogenic Shock Phenotypes: A National Cohort Study",
+      "publicacao": "medRxiv Cardiovascular",
+      "autores": [],
+      "classe": "C",
+      "score": 5.0,
+      "categoria_fonte": "preprint",
+      "emoji": "📊",
+      "resumo": "[PREPRINT] Análise do National Inpatient Sample examina diferenças sexuais em mortalidade e utilização terapêutica entre fenótipos distintos de choque cardiogênico — abordagem ainda pouco explorada na literatura.",
+      "impacto_clinico": "Pode informar decisões de equidade no manejo do choque cardiogênico segundo fenótipo; aguardar peer-review.",
+      "links": {
+        "url": "https://www.medrxiv.org/content/10.64898/2026.05.26.26354172v1?rss=1"
+      }
+    },
+    {
+      "id": "not_010",
+      "titulo": "[PREPRINT] A Common CD36 Variant and the Genetic Landscape of Dilated Cardiomyopathy in Individuals of African Ancestry",
+      "publicacao": "medRxiv Cardiovascular",
+      "autores": [],
+      "classe": "B",
+      "score": 6.0,
+      "categoria_fonte": "preprint",
+      "emoji": "🧬",
+      "resumo": "[PREPRINT] Estudo investiga variante comum CD36 específica de ancestralidade africana e seu peso na carga de cardiomiopatia dilatada nessa população, comparada a genes monogênicos clássicos identificados em coortes europeias.",
+      "impacto_clinico": "Pode justificar painéis genéticos ancestralidade-específicos em CMD; aguardar peer-review antes de incorporar.",
+      "links": {
+        "url": "https://www.medrxiv.org/content/10.64898/2026.05.26.26353838v1?rss=1"
+      }
+    },
+    {
+      "id": "not_011",
+      "titulo": "[PREPRINT] ERBB4 deficiency promotes atrial myopathy underlying the atrial fibrillation substrate",
+      "publicacao": "medRxiv Cardiovascular",
+      "autores": [],
+      "classe": "C",
+      "score": 4.5,
+      "categoria_fonte": "preprint",
+      "emoji": "🔬",
+      "resumo": "[PREPRINT] Estudo translacional sugere que redução de ERBB4 contribui para miopatia atrial, substrato chave da FA. Combina biobanco da Cleveland Clinic com experimentos mecanísticos.",
+      "impacto_clinico": "Insight mecanístico para futuras terapias upstream em FA; sem aplicação clínica imediata.",
+      "links": {
+        "url": "https://www.medrxiv.org/content/10.64898/2026.05.26.26354173v1?rss=1"
+      }
+    },
+    {
+      "id": "not_012",
+      "titulo": "[PREPRINT] TROMBIX-DZ: A real-world, prospective, observational study of Algerian patients with atrial fibrillation treated with rivaroxaban",
+      "publicacao": "medRxiv Cardiovascular",
+      "autores": [],
+      "classe": "C",
+      "score": 4.0,
+      "categoria_fonte": "preprint",
+      "emoji": "💊",
+      "resumo": "[PREPRINT] Coorte observacional argelina sobre eficácia e segurança de rivaroxabana em FA em vida real. Aporta dados de população sub-representada em ensaios pivotais.",
+      "impacto_clinico": "Reforça aplicabilidade global de rivaroxabana em FA; sem mudança de conduta.",
+      "links": {
+        "url": "https://www.medrxiv.org/content/10.64898/2026.05.26.26353979v1?rss=1"
+      }
+    }
+  ],
+  "podcasts": [
+    {
+      "id": "pod_001",
+      "titulo": "May 22 2026 This Week in Cardiology",
+      "publicacao": "This Week in Cardiology (Mandrola)",
+      "host": "Medscape / John Mandrola",
+      "classe": "B",
+      "score": 7.0,
+      "categoria_fonte": "podcast",
+      "emoji": "🎙️",
+      "show_notes_quality": "rich",
+      "resumo": "Mandrola discute três novos trials de digoxina (DECISION, JAMA meta-análise, DIGIT-HF), o anúncio do retatrutida (triagonista GLP-1/GIP/glucagon) pela Lilly, o trial ANTHEM-HFrEF de estimulação vagal e atualizações sobre guideline lipídico. Episódio denso com discussão crítica de trial design e desfechos.",
+      "bullet_points": [
+        "DECISION e DIGIT-HF retomam discussão sobre digoxina em IC em doses baixas.",
+        "Retatrutida (Lilly) anuncia perda de peso poderosa em fase final.",
+        "ANTHEM-HFrEF avalia estimulação vagal em IC com FE reduzida — discussão sobre interrupção precoce de trials.",
+        "Mandrola aponta quatro preocupações maiores com novas diretrizes lipídicas.",
+        "Revisão crítica de metodologia e leitura de resultados."
+      ],
+      "impacto_clinico": "Atualização rápida e crítica sobre temas quentes da semana — digoxina ressurgindo, novo GLP-1/GIP/glucagon e estimulação vagal em IC.",
+      "links": {
+        "episode_url": "https://twicardiology.libsyn.com/may-22-2026-this-week-in-cardiology",
+        "audio_url": "https://traffic.libsyn.com/secure/twicardiology/59060051-TWIC-052226.mp3?dest-id=668006"
+      },
+      "show_notes_original": "Three more digoxin trials, yet another GLP-1 drug on the horizon, vagal nerve stimulation, trial inside baseball, and more on lipid guidelines are the topics John Mandrola, MD, discusses in this week's podcast. This podcast is intended for healthcare professionals only . To read a partial transcript or to comment, visit: https://www.medscape.com/twic I More About Low-dose Digoxin in HF — The DECISION Trial(s) DECISION Trial https://www.nature.com/articles/s41591-026-04406-6 Digitalis Glycosides in HF — JAMA Meta-Analysis https://jamanetwork.com/journals/jama/fullarticle/2848972 DIGIT-HF Trial https://www.nejm.org/doi/10.1056/NEJMoa2415471 RADIANCE Trial (1993) https://www.nejm.org/doi/full/10.1056/NEJM199307013290101 DECISION Withdrawal Study https://doi.org/10.1093/eurheartj/ehag385 Digoxin Discontinuation vs Continuation in Chronic HF https://doi.org/10.1016/j.amjcard.2007.02.099 II Yet another GLP-1 Drug Announced this Week Lillly News Release on Retatrutide https://investor.lilly.com/news-releases/news-release-details/lillys-triple-agonist-retatrutide-delivered-powerful-weight-loss III A Big Story in HF Science – Vagal Nerve Stimulation in HFrEF ANTHEM HFrEF trial https://doi.org/10.1016/j.jacc.2026.03.040 Editorials An Unfinished ANTHEM https://doi.org/10.1016/j.jacc.2026.04.033 When Trials Stop Prematurely https://doi.org/10.1016/j.jacc.2026.03.039 IV Lipid Guideline News Lipid Guidelines: Four Major Concerns https://www.medscape.com/viewarticle/lipid-guidelines-four-ma"
+    },
+    {
+      "id": "pod_002",
+      "titulo": "Circulation May 26, 2026 Issue",
+      "publicacao": "Circulation on the Run",
+      "host": "AHA / Circulation",
+      "classe": "B",
+      "score": 6.5,
+      "categoria_fonte": "podcast",
+      "emoji": "🎙️",
+      "show_notes_quality": "poor",
+      "resumo": "Episódio discute artigo de Harmony Reynolds e Nicholas Mills sobre imagem multimodalidade para investigação de MINOCA em homens e mulheres.",
+      "bullet_points": [
+        "Discussão sobre imagem multimodalidade para identificar causas subjacentes em MINOCA."
+      ],
+      "impacto_clinico": "Tema apresentado: causas subjacentes de MINOCA por imagem multimodal. Detalhes só ouvindo o episódio.",
+      "links": {
+        "episode_url": "https://circulation.libsyn.com/circulation-may-26-2026-issue",
+        "audio_url": "https://dts.podtrac.com/redirect.mp3/traffic.libsyn.com/secure/circulation/COTR153_21_master.mp3?dest-id=376443"
+      },
+      "show_notes_original": "This week, please join author Harmony R. Reynolds and Associate Editor Nicholas Mills as they discuss the article \" Multimodality Imaging to Determine Underlying Causes of Myocardial Infarction With Nonobstructive Coronary Arteries in Women and Men.\" For the episode transcript, visit: https://www.ahajournals.org/do/10.1161/podcast.20260526.732262"
+    },
+    {
+      "id": "pod_003",
+      "titulo": "Maintaining Weight Loss with Tirzepatide; the new Dyslipidemia Guidelines; Sacubitril/Valsartan & HFpEF & Functional MR; Digitoxin & Heart Failure",
+      "publicacao": "Eagle's Eye View",
+      "host": "American College of Cardiology",
+      "classe": "B",
+      "score": 6.8,
+      "categoria_fonte": "podcast",
+      "emoji": "🎙️",
+      "show_notes_quality": "medium",
+      "resumo": "Dr. Eagle revisa quatro tópicos quentes: manutenção de perda de peso com tirzepatida, novas diretrizes de dislipidemia incluindo fatores reprodutivos/hormonais, sacubitril/valsartan em HFpEF com IM funcional, e digitoxina/digoxina em IC.",
+      "bullet_points": [
+        "Tirzepatida: dados sobre sustentação da perda de peso após descontinuação.",
+        "Novas diretrizes de dislipidemia incluem fatores reprodutivos e hormonais.",
+        "Sacubitril/valsartan em HFpEF com IM funcional para melhor tolerância ao exercício.",
+        "Estudo recente sobre digitoxina/digoxina em IC."
+      ],
+      "impacto_clinico": "Resumo prático de atualizações relevantes para consultório cardiológico.",
+      "links": {
+        "episode_url": "https://eagleseye.acc.org/maintaining-weight-loss-with-tirzepatide-the-new-dyslipidemia-guidelines-sacubitrilvalsartan-hfpef-functional-mr-digitoxin-heart-failure",
+        "audio_url": "https://traffic.libsyn.com/secure/accorg/EEV_May_27.mp3?dest-id=563201"
+      },
+      "show_notes_original": "In this week's View, Dr. Eagle examines recent research into maintaining weight loss with t i rzepatide . He then offers insights into the new dyslipidemia guidelines, including addressing reproductive and hormone risk factors in cardiovascular risk assessment. Next, Dr. Eagle look s at the use of sacubitril / valsartan to improve exercise tolerance in patients with heart failure with reduced ejection fraction (HFpEF) and functional mitral regurgitation (MR) . Finally , Dr. Eagle summarize s a new study on the use of digitoxin and digoxin in patients with heart failure . Su b scribe to Eagle's Eye View"
+    },
+    {
+      "id": "pod_004",
+      "titulo": "151: CCTA, CT-FFR, and AI Plaque Analysis to Personalize CAD Detection, Prevention, and Management with Dr. Michael Gallagher",
+      "publicacao": "CardioNerds",
+      "host": "CardioNerds",
+      "classe": "B",
+      "score": 6.5,
+      "categoria_fonte": "podcast",
+      "emoji": "🎙️",
+      "show_notes_quality": "rich",
+      "resumo": "CardioNerds discute evolução da angio-TC coronária além da anatomia — incorporando fisiologia via CT-FFR e biologia via quantificação de placa por IA. Episódio revisita SCOT-HEART, PROMISE e CAD-RADS 2.0, discutindo também limitações.",
+      "bullet_points": [
+        "CCTA passou de teste anatômico para ferramenta anatômica + fisiológica + biológica.",
+        "CT-FFR adiciona avaliação funcional não-invasiva.",
+        "IA na quantificação de placa permite monitoramento de resposta ao tratamento.",
+        "Revisão de SCOT-HEART e PROMISE como base de evidência.",
+        "Discussão crítica das limitações e premissas dessas técnicas."
+      ],
+      "impacto_clinico": "Útil para cardiologistas que querem incorporar CCTA + CT-FFR + IA na avaliação personalizada de DAC.",
+      "links": {
+        "episode_url": "https://www.cardionerds.com/151-ccta-ct-ffr-and-ai-plaque-analysis-to-personalize-cad-detection-prevention-and-management-with-dr-michael-gallagher/",
+        "audio_url": "https://media.blubrry.com/cardionerds/content.blubrry.com/cardionerds/CN_451.mp3"
+      },
+      "show_notes_original": "CardioNerds Dr. Joseph Kassab , Dr. Mariana Garcia-Arango , and Dr. Christopher Mason explore the technological revolution of Coronary CT Angiography (CCTA) with expert faculty Dr. Michael Gallagher . The discussion details how CCTA has evolved into a frontline diagnostic and preventive tool, moving beyond simple anatomy to incorporate physiology via CT-FFR and biology through AI-driven plaque quantification. The episode reviews landmark evidence like the SCOT-HEART and PROMISE trials, the nuances of CAD-RADS 2.0 reporting, and the emerging role of AI in monitoring treatment response and personalizing cardiovascular care. Critically, they also discuss some of the assumptions and limitations of these techniques. Stay tuned for a matching review article to be submitted to US Cardiology Review, the official Journal of CardioNerds. This episode was supported by an independent medical education grant from HeartFlow. All CardioNerds education is planned, produced, and reviewed solely by CardioNerds.&#160; Enjoy this Circulation Paths to Discovery article to learn more about the CardioNerds mission and journey. US Cardiology Review is now the official journal of CardioNerds! Submit your manuscripts here. CardioNerds Multimodality Cardiovascular Imaging Page CardioNerds Episode Page CardioNerds Academy Cardionerds Healy Honor Roll Pearls Shift in Paradigm : CCTA is no longer just an anatomic test; with some key limitations, it can provide anatomy, physiology (CT-FFR), and plaque biol"
+    },
+    {
+      "id": "pod_005",
+      "titulo": "Ômega-3 protege o coração? O que a evidência realmente diz (DozeCast 226)",
+      "publicacao": "DozeCast - Cardiologia",
+      "host": "DozeCast",
+      "classe": "B",
+      "score": 6.5,
+      "categoria_fonte": "podcast",
+      "emoji": "🎙️",
+      "show_notes_quality": "rich",
+      "resumo": "Mateus Prata e Raphael Rossi revisam evidência sobre ômega-3 e risco CV — diferenças entre EPA/DHA/ALA, megaensaios VITAL/ASCEND/OMEMI, resultados opostos de REDUCE-IT vs STRENGTH, sinal de FA aumentada, e PISCES no NEJM 2025 mostrando redução em hemodiálise.",
+      "bullet_points": [
+        "EPA, DHA e ALA têm impacto clínico diferente — chia e linhaça não substituem cápsula.",
+        "VITAL, ASCEND e OMEMI: 50 mil pacientes mostram pouco benefício em dose baixa.",
+        "REDUCE-IT vs STRENGTH: dois trials semelhantes, conclusões opostas.",
+        "Ômega-3 aumenta risco de fibrilação atrial — sinal consistente.",
+        "PISCES (NEJM 2025): redução de 43% em eventos CV em hemodiálise — com cautela."
+      ],
+      "impacto_clinico": "Permite ao cardiologista responder com base em evidência à pergunta clássica do paciente sobre suplementação de ômega-3.",
+      "links": {
+        "episode_url": "https://podcasters.spotify.com/pod/show/doze-por-oito/episodes/mega-3-protege-o-corao--O-que-a-evidncia-realmente-diz-DozeCast-226-e3jugo7",
+        "audio_url": "https://anchor.fm/s/63d6fd90/podcast/play/120586439/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2026-4-26%2F424948631-44100-2-894fc8553d2af.mp3"
+      },
+      "show_notes_original": "Seu paciente chega no consultório com um vidro de ômega-3 importado e te olha esperando confirmação: \"é bom pro coração, né, doutor?\" Durante décadas, a resposta foi automática. Hoje, ela precisa de mais cuidado, e de evidência. Nesse episódio, Mateus Prata e Raphael Rossi mergulham de cabeça na história do ômega-3 e risco cardiovascular: da expedição dos anos 1970 à Groenlândia até o PISCES, publicado no NEJM em 2025. Um episódio que vai te fazer repensar o que você diz (e prescreve) no consultório. O que você vai aprender: 📌 EPA, DHA e ALA: qual a diferença clínica que importa e por que chia e linhaça não substituem cápsula para desfechos CV 📌 VITAL, ASCEND e OMEMI juntos: o que mais de 50 mil pacientes nos ensinam sobre suplementação em dose baixa 📌 REDUCE-IT vs. STRENGTH: como dois ensaios muito parecidos chegaram a conclusões opostas 📌 O risco mais subestimado: ômega-3 aumenta o risco de fibrilação atrial 📌 PISCES: o ensaio que mostrou redução de 43% em eventos CV em hemodiálise — e por que isso ainda pede cautela Para quem é esse episódio: Cardiologistas, residentes e qualquer médico que já prescreveu (ou deixou de questionar) o ômega-3 no consultório. 🔔 Inscreva-se no canal e ative o sininho para não perder os próximos episódios do DozeCast. 📩 Assine a DozeNews PRIME e receba revisões didáticas de Cardiologia toda semana: dozeporoito.com/prime #omega3 #riscocardiovascular #cardiologia #REDUCEIT #STRENGTH #PISCES #fibrilacaoatrial #prevencaocardiovascular #podcast #doze"
+    },
+    {
+      "id": "pod_006",
+      "titulo": "Top Cardiology News For May 2026",
+      "publicacao": "Heart Sounds",
+      "host": "TCTMD",
+      "classe": "C",
+      "score": 5.0,
+      "categoria_fonte": "podcast",
+      "emoji": "🎙️",
+      "show_notes_quality": "poor",
+      "resumo": "Jornalistas do TCTMD revisam suas notícias favoritas das semanas recentes.",
+      "bullet_points": [
+        "Roundup geral das principais notícias de cardiologia em maio de 2026."
+      ],
+      "impacto_clinico": "",
+      "links": {
+        "episode_url": "https://podcasters.spotify.com/pod/show/hvc5/episodes/Top-Cardiology-News-For-May-2026-e3k0kcn",
+        "audio_url": "https://anchor.fm/s/1118e15f4/podcast/play/120655703/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2026-4-28%2F425067956-44100-2-bd026af1c941c.m4a"
+      },
+      "show_notes_original": "The TCTMD journalists discuss their recent travels abroad and share their favorite research news from recent weeks."
+    },
+    {
+      "id": "pod_007",
+      "titulo": "Diagnóstico da Cardiomiopatia Arritmogênica de Forma Simplificada",
+      "publicacao": "Afya Cardiopapers",
+      "host": "Afya Educação Médica",
+      "classe": "C",
+      "score": 4.5,
+      "categoria_fonte": "podcast",
+      "emoji": "🎙️",
+      "show_notes_quality": "poor",
+      "resumo": "Episódio de revisão didática sobre o diagnóstico simplificado da cardiomiopatia arritmogênica.",
+      "bullet_points": [
+        "Revisão didática do diagnóstico de cardiomiopatia arritmogênica."
+      ],
+      "impacto_clinico": "",
+      "links": {
+        "episode_url": "https://soundcloud.com/cardiopapers/diagnostico-da-cardiomiopatia",
+        "audio_url": "http://www.podtrac.com/pts/redirect.mp3/feeds.soundcloud.com/stream/2327172212-cardiopapers-diagnostico-da-cardiomiopatia.mp3"
+      },
+      "show_notes_original": "Diagnóstico da Cardiomiopatia Arritmogênica de Forma Simplificada by Cardiopapers"
+    },
+    {
+      "id": "pod_008",
+      "titulo": "Journal editorial: Beyond ischemia and anatomy: functional capacity as a stage-specific prognostic driver in advanced coronary atherosclerosis",
+      "publicacao": "ESC Cardio Talk",
+      "host": "European Society of Cardiology",
+      "classe": "C",
+      "score": 5.0,
+      "categoria_fonte": "podcast",
+      "emoji": "🎙️",
+      "show_notes_quality": "poor",
+      "resumo": "Discussão editorial sobre capacidade funcional como driver prognóstico estágio-específico na aterosclerose coronária avançada, com Conte, Andreini e Tsaban.",
+      "bullet_points": [
+        "Capacidade funcional como preditor prognóstico além de isquemia e anatomia em DAC avançada."
+      ],
+      "impacto_clinico": "Tema apresentado: papel da capacidade funcional no prognóstico de DAC avançada. Detalhes só ouvindo.",
+      "links": {
+        "episode_url": "https://escardio.libsyn.com/journal-editorial-beyond-ischemia-and-anatomy-functional-capacity-as-a-stage-specific-prognostic-driver-in-advanced-coronary-atherosclerosis",
+        "audio_url": "https://traffic.libsyn.com/secure/escardio/Cardio_Talk-Conte_FINAL.mp3?dest-id=1060319"
+      },
+      "show_notes_original": "With Edoardo Conte and Daniele Andreini, Galeazzi-Sant'Ambrogio Hospital IRCCS, Milan - Italy and Gal Tsaban, Mayo Clinic, Rochester - USA. Link to paper Link to editorial"
+    },
+    {
+      "id": "pod_009",
+      "titulo": "#526 DIGEST – game changers in pancreatic cancer, lipid guideline updates, and GLP-1/GIP endoscopy holds",
+      "publicacao": "Curbsiders",
+      "host": "Curbsiders Internal Medicine",
+      "classe": "C",
+      "score": 5.0,
+      "categoria_fonte": "podcast",
+      "emoji": "🎙️",
+      "show_notes_quality": "medium",
+      "resumo": "Curbsiders revisam atualizações de diretrizes lipídicas, hold de GLP-1/GIP antes de procedimentos e descontinuação de levotiroxina em idosos. Conteúdo de medicina interna com alguns toques cardiológicos.",
+      "bullet_points": [
+        "Visão geral das novas diretrizes de manejo lipídico.",
+        "Considerações periodonatais para suspensão de GLP-1 antes de procedimentos.",
+        "Deprescrição de levotiroxina em idosos."
+      ],
+      "impacto_clinico": "Útil para cardiologistas que coordenam cuidado com clínica geral em pacientes complexos.",
+      "links": {
+        "episode_url": "https://audioboom.com/posts/8907468",
+        "audio_url": "https://pdst.fm/e/arttrk.com/p/ABMA5/clrtpod.com/m/pscrb.fm/rss/p/dts.podtrac.com/redirect.mp3/audioboom.com/posts/8907468.mp3?modified=1779669597&sid=5034728&source=rss"
+      },
+      "show_notes_original": "Join us as we review recent articles and news featured in The DIGEST, including updated lipid guidelines, GLP1 agonists holds and procedures, the newest drug in pancreatic cancer, and discontinuing thyroid supplementation. Fill your brain hole with a delicious stack of hotcakes! Featuring Drs. Nora Taranto ( @norataranto ), Laura Glick ( @lauraglick ) and Matt Watto (@doctorwatto) . Claim free CME for this episode at curbsiders.vcuhealth.org ! Episodes | Subscribe | Spotify | Swag! | Mailing List | Contact | CME! Credits Written and Hosted by: Nora Taranto MD MSCE, Laura Glick MD, Matthew Watto MD, FACP Cover Art: Nora Taranto MD MSCE Reviewers: Emi Okamoto MD Technical Production: Pod Paste Showrunners: Matthew Watto MD, FACP; Paul Williams MD, FACP Show Segments Intro and pun Lipid Management Guidelines Overview Emerging Treatments in Oncology Press Release on a new KRAS Inhibitor for Pancreatic Cancer Perioperative Considerations for GLP-1 Use Deprescribing Levothyroxine in Older Adults Sponsor: Panacea Financial If you're about to make the leap into residency and feeling the financial pressure of that transition, visit PanaceaFinancial.com/curbsiders today. Sponsor: UpToDate for a limited time, get 10% off UpToDate packages with code CURB10. Visit store.uptodate.com to save on your annual or longer personal UpToDate subscription today."
+    }
+  ],
+  "artigos": [
+    {
+      "id": "art_001",
+      "titulo": "Ultrasound-Facilitated, Catheter-Directed Fibrinolysis for Acute Pulmonary Embolism",
+      "publicacao": "The New England journal of medicine",
+      "autores": [
+        "Rosenfield K",
+        "Klok FA",
+        "Piazza G",
+        "Sharp ASP"
+      ],
+      "classe": "A",
+      "score": 9.2,
+      "categoria_fonte": "revista",
+      "emoji": "🩺",
+      "resumo": "HI-PEITHO (n=544) mostra redução do desfecho composto em embolia pulmonar de risco intermediário com fibrinólise dirigida por cateter assistida por US. Sem aumento estatisticamente significativo de sangramento maior.",
+      "contexto_clinico": "Embolia pulmonar de risco intermediário-alto (com disfunção de VD e troponina elevada) tem mortalidade não trivial, mas o papel da fibrinólise sistêmica é limitado pelo risco hemorrágico. Permanece dúvida se anticoagulação isolada é suficiente nesses pacientes com sinais de sofrimento cardiorrespiratório.",
+      "pergunta_principal": "Em EP de risco intermediário com indicadores de sofrimento cardiorrespiratório, fibrinólise dirigida por cateter assistida por ultrassom + anticoagulação reduz desfecho composto vs anticoagulação isolada?",
+      "desenho_estudo": {
+        "comparador": "Anticoagulação isolada",
+        "populacao": "EP risco intermediário (VD/VE ≥1,0 + troponina elevada) com ≥2 sinais de sofrimento (PAS ≤110, FC ≥100, FR >20)",
+        "seguimento": "7 e 30 dias",
+        "intervencao": "Fibrinólise dirigida por cateter com US + alteplase + anticoagulação",
+        "tipo": "RCT multinacional adaptativo com adjudicação cega",
+        "n": "544 pacientes"
+      },
+      "pontos_chave": [
+        "N = 544 (273 intervenção vs 271 controle)",
+        "Desfecho primário: 4,0% vs 10,3% (RR 0,39; IC 95% 0,20-0,77; p=0,005)",
+        "Efeito dirigido por menos descompensação cardiorrespiratória",
+        "Sangramento maior 7d: 4,1% vs 2,2% (p=0,32, NS)",
+        "Sem hemorragia intracraniana em nenhum grupo"
+      ],
+      "principais_resultados": "Estudo POSITIVO: a fibrinólise dirigida por cateter assistida por ultrassom reduziu o desfecho composto de morte relacionada à EP, descompensação cardiorrespiratória ou recorrência sintomática em 7 dias de 10,3% para 4,0% (RR 0,39, p=0,005) — redução relativa de 61%, dirigida principalmente por menos descompensação clínica. O sinal de segurança foi tranquilizador: sangramento maior em 7 dias ocorreu em 4,1% vs 2,2% (não significativo) e nenhum dos grupos teve hemorragia intracraniana. Em 30 dias, sangramento maior foi 4,1% vs 3,0%. Resultado convincente, com magnitude de efeito relevante e perfil de segurança aceitável.",
+      "interpretacao_pratica": "Este é o primeiro RCT bem dimensionado a mostrar benefício clínico claro de fibrinólise dirigida por cateter em EP de risco intermediário-alto, em uma população em que até hoje só havia anticoagulação isolada como padrão. Em centros com expertise, a indicação para fibrinólise endovascular em EP intermediária com sinais clínicos de sofrimento passa a ter base de evidência sólida. Vai influenciar guidelines de EP nos próximos meses.",
+      "limitacoes": [
+        "Sinal numérico (não significativo) de mais sangramento maior",
+        "Requer centros com expertise endovascular — generalização limitada",
+        "Critério de seleção exige troponina + disfunção VD + sinais clínicos (subgrupo específico)",
+        "Não testa em EP de risco intermediário-baixo"
+      ],
+      "conclusao_uma_frase": "Estudo POSITIVO e practice-changing: em EP de risco intermediário-alto com sinais de sofrimento cardiorrespiratório, fibrinólise dirigida por cateter assistida por US reduz substancialmente desfechos compostos sem aumento significativo de sangramento maior.",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41910345/",
+        "doi": "10.1056/NEJMoa2516567",
+        "pubmed": "41910345"
+      },
+      "impacto_clinico": "Este é o primeiro RCT bem dimensionado a mostrar benefício clínico claro de fibrinólise dirigida por cateter em EP de risco intermediário-alto, em uma população em que até hoje só havia anticoagulação isolada como padrão. Em centros com expertise, a indicação para fibrinólise endovascular em EP intermediária com sinais clínicos de sofrimento passa a ter base de evidência sólida. Vai influenciar guidelines de EP nos próximos meses."
+    },
+    {
+      "id": "art_002",
+      "titulo": "Stem-Cell-Derived Biologic Ventricular Assist Tissue in Heart Failure",
+      "publicacao": "The New England journal of medicine",
+      "autores": [
+        "Zimmermann WH",
+        "Ensminger S",
+        "Kutschka I",
+        "Paitazoglou C"
+      ],
+      "classe": "A",
+      "score": 8.5,
+      "categoria_fonte": "revista",
+      "emoji": "🧬",
+      "resumo": "BioVAT-HF (fase 1-2, n=20): tecido cardíaco engenheirado de células-tronco pluripotentes alogênicas (BioVAT) aumenta espessura miocárdica, FEVE e qualidade de vida em IC avançada a 3 meses. Primeira demonstração in-human de remuscularização cardíaca.",
+      "contexto_clinico": "IC com FE reduzida avançada tem opções limitadas após terapia médica otimizada — restando apenas dispositivos e transplante. Remuscularização cardíaca com células-tronco foi tentada por décadas com resultados decepcionantes; o conceito de implantar tecido cardíaco engenheirado, e não células isoladas, é uma mudança de paradigma.",
+      "pergunta_principal": "BioVAT (tecido cardíaco engenheirado de iPSC alogênicas) é seguro e capaz de produzir remuscularização funcional em pacientes com IC avançada e FEVE ≤35%?",
+      "desenho_estudo": {
+        "populacao": "IC com FEVE ≤35% e ≥1 segmento hipo/discinético VE",
+        "seguimento": "3 meses (análise interim)",
+        "intervencao": "Implante de BioVAT (5, 10 ou 20 unidades engenheiradas) + imunossupressão",
+        "tipo": "Fase 1-2 open-label dose-escalation",
+        "n": "20 pacientes (16 na dose máxima, 12 com seguimento de 3 meses)"
+      },
+      "pontos_chave": [
+        "Aumento espessura parede-alvo: +4,5 mm (IC 90% 3,7-5,4; p<0,001)",
+        "Aumento FEVE: +3,9 pp (IC 90% 0,9-6,8; p=0,04)",
+        "Aumento KCCQ-OSS: +6,7 pontos (IC 90% 1,0-12,5; p=0,06)",
+        "3 mortes (vasoplegia, COVID-19, dissecção aórtica)",
+        "1 transplante; 2 LVAD; 1 imunossupressão suspensa por câncer urotelial"
+      ],
+      "principais_resultados": "Estudo sugere benefício, mas com ressalvas: nos 12 pacientes com dose máxima e seguimento de 3 meses, houve aumento significativo da espessura miocárdica alvo (+4,5 mm) e FEVE (+3,9 pp), com tendência de melhora de qualidade de vida (KCCQ). Há demonstração biológica inédita de remuscularização. No entanto, 3 mortes em 20 pacientes (15%) e necessidade de imunossupressão sistêmica destacam riscos relevantes. Trata-se de prova de conceito em fase 1-2 — não é trial de eficácia. O efeito sobre FEVE é modesto e o seguimento de 3 meses é curto.",
+      "interpretacao_pratica": "Marco científico — primeira demonstração in-human de que tecido cardíaco engenheirado de iPSC pode remuscularizar miocárdio doente. Mas NÃO muda prática hoje: a tecnologia é experimental, requer imunossupressão crônica e a magnitude de benefício clínico ainda é incerta. Editorial concomitante (Srivastava) discute o significado histórico. Acompanhar evolução para fase 3.",
+      "limitacoes": [
+        "Pequeno (n=20, apenas 12 com dado primário)",
+        "Open-label sem comparador",
+        "Seguimento curto (3 meses)",
+        "Imunossupressão sistêmica com efeitos adversos sérios",
+        "3 mortes e múltiplas descontinuações"
+      ],
+      "conclusao_uma_frase": "Marco histórico de remuscularização cardíaca com tecido engenheirado de iPSC alogênicas — prova de conceito promissora, mas sem aplicação clínica imediata e com riscos relevantes que exigirão trials maiores antes de qualquer adoção.",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42202318/",
+        "doi": "10.1056/NEJMoa2513525",
+        "pubmed": "42202318"
+      },
+      "impacto_clinico": "Marco científico — primeira demonstração in-human de que tecido cardíaco engenheirado de iPSC pode remuscularizar miocárdio doente. Mas NÃO muda prática hoje: a tecnologia é experimental, requer imunossupressão crônica e a magnitude de benefício clínico ainda é incerta. Editorial concomitante (Srivastava) discute o significado histórico. Acompanhar evolução para fase 3."
+    },
+    {
+      "id": "art_003",
+      "titulo": "Optimal serum potassium concentrations in heart failure: an individual patient data meta-analysis",
+      "publicacao": "European heart journal",
+      "autores": [
+        "Ono R",
+        "Chimura M",
+        "Docherty KF",
+        "Henderson AD"
+      ],
+      "classe": "A",
+      "score": 8.5,
+      "categoria_fonte": "revista",
+      "emoji": "❤️",
+      "resumo": "Meta-análise IPD de 12 RCTs (n=46.069) define faixa ótima de potássio sérico em IC: 4,2-5,0 mmol/L. Hipocalemia <3,5 aumenta mortalidade total em 49%, enquanto 'hipercalemia leve' (5,0-5,5) NÃO se associa a piores desfechos em HFrEF.",
+      "contexto_clinico": "Em IC, manejo do potássio é cotidiano e crítico — médicos frequentemente reduzem espironolactona/IECA por receio de hipercalemia leve. Mas a faixa segura ideal de K+ nunca foi definida rigorosamente, especialmente em HFrEF vs HFpEF.",
+      "pergunta_principal": "Qual a faixa ótima de potássio sérico associada ao menor risco de eventos em pacientes com HFrEF e HFpEF?",
+      "desenho_estudo": {
+        "comparador": "Referência K+ ≥4,0-4,5 mmol/L",
+        "populacao": "HFrEF (n=32.346) e HFpEF (n=13.723)",
+        "seguimento": "Mediana 24,2 meses (HFrEF) e 36,8 meses (HFpEF)",
+        "tipo": "Meta-análise de dados individuais (IPD) de 12 RCTs",
+        "n": "46.069 pacientes"
+      },
+      "pontos_chave": [
+        "N = 46.069 pacientes (12 RCTs)",
+        "Em HFrEF: relação reversa em J com mortalidade",
+        "K+ <3,5: HR 1,49 (IC 95% 1,27-1,76) para morte total",
+        "Faixa ótima: 4,2-5,0 mmol/L em HFrEF e HFpEF",
+        "K+ 5,0-5,5 não associado a piores desfechos em HFrEF"
+      ],
+      "principais_resultados": "Estudo POSITIVO e clinicamente útil: a meta-análise IPD definiu de forma robusta que a faixa ótima de potássio sérico em IC é 4,2-5,0 mmol/L, tanto em HFrEF quanto HFpEF. O achado mais clinicamente relevante é que hipocalemia <3,5 mmol/L está fortemente associada a maior mortalidade total (HR 1,49), CV, súbita e por falência de bomba — efeito robusto e consistente. O segundo achado importante: hipercalemia leve (5,0-5,5 mmol/L) NÃO está associada a piores desfechos em HFrEF, contrariando o reflexo clínico comum de reduzir terapia neuro-hormonal nessa faixa. Em HFpEF, curva U mais achatada, mesma faixa ótima.",
+      "interpretacao_pratica": "Mensagem prática direta: priorizar manter K+ entre 4,2-5,0 mmol/L em IC; NÃO reduzir/suspender espironolactona, IECA/BRA ou ARNI por hipercalemia leve (5,0-5,5) em HFrEF — a evidência mostra que essa faixa é segura. Hipocalemia é o problema maior e mais negligenciado. Pode influenciar a próxima atualização de guidelines de IC.",
+      "limitacoes": [
+        "K+ medido no baseline, não dinamicamente",
+        "Pacientes de RCTs (não representam totalmente vida real)",
+        "Confundimento por gravidade da IC (K+ baixo pode ser marcador de doença)",
+        "Não testa intervenção específica para correção"
+      ],
+      "conclusao_uma_frase": "Em IC (HFrEF e HFpEF), o alvo ótimo de potássio sérico é 4,2-5,0 mmol/L; hipocalemia <3,5 mata, mas hipercalemia leve (5,0-5,5) é segura e não justifica reduzir terapia neuro-hormonal.",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42206478/",
+        "doi": "10.1093/eurheartj/ehag341",
+        "pubmed": "42206478"
+      },
+      "impacto_clinico": "Mensagem prática direta: priorizar manter K+ entre 4,2-5,0 mmol/L em IC; NÃO reduzir/suspender espironolactona, IECA/BRA ou ARNI por hipercalemia leve (5,0-5,5) em HFrEF — a evidência mostra que essa faixa é segura. Hipocalemia é o problema maior e mais negligenciado. Pode influenciar a próxima atualização de guidelines de IC."
+    },
+    {
+      "id": "art_004",
+      "titulo": "Tetralogy of Fallot: electrophysiology-guided surgical ablation during pulmonary valve replacement",
+      "publicacao": "European heart journal",
+      "autores": [
+        "Dib N",
+        "Poirier N",
+        "Kamp A",
+        "Seslar SP"
+      ],
+      "classe": "A",
+      "score": 8.2,
+      "categoria_fonte": "revista",
+      "emoji": "🫀",
+      "resumo": "Coorte multicêntrica prospectiva (n=204) com seguimento mediano de 10 anos mostra que ablação cirúrgica guiada por EP durante troca de valva pulmonar em T4F reduz inducibilidade pós-op (74% vs 15%) e parece reduzir VT/morte súbita comparada à ablação empírica.",
+      "contexto_clinico": "Adultos com T4F corrigido têm risco de longo prazo de TV e morte súbita. Quando submetidos a troca de valva pulmonar (PVR), não há consenso sobre como abordar o substrato arrítmico — fazer ablação empírica de istmos anatômicos ou guiada por estudo eletrofisiológico?",
+      "pergunta_principal": "Estudo EP pré-operatório com crioablação cirúrgica direcionada de istmos anatômicos identificados reduz inducibilidade pós-operatória e VT/morte súbita comparado à ablação empírica?",
+      "desenho_estudo": {
+        "comparador": "Ablação empírica ou nenhuma",
+        "populacao": "Adultos com T4F reparado submetidos a PVR cirúrgico",
+        "seguimento": "Mediana 10,2 anos",
+        "intervencao": "Ablação cirúrgica guiada por EP",
+        "tipo": "Coorte multicêntrica prospectiva",
+        "n": "204 pacientes (idade média 35,5 anos)"
+      },
+      "pontos_chave": [
+        "N = 204; 45% com TV induzível pré-op",
+        "Não-inducibilidade pós-op: 74% guiada por EP vs 15% empírica (aOR 20,4)",
+        "Persistência de inducibilidade pós-op: HR 5,3 para VT/SCD",
+        "Ablação empírica: HR 5,2 (IC 1,6-16,5) vs sem TV induzível",
+        "Ablação guiada por EP: HR 2,8 (NS) vs sem TV induzível"
+      ],
+      "principais_resultados": "Estudo POSITIVO com forte sinal: 45% dos adultos com T4F submetidos a PVR têm TV induzível. A estratégia guiada por EP foi marcantemente superior à ablação empírica, alcançando não-inducibilidade pós-op em 74% dos casos vs apenas 15% no grupo empírico (aOR 20,4, p<0,0001). No seguimento de 10 anos, persistência de inducibilidade pós-op se associou a HR 5,3 para VT/morte súbita. Importante: ablação empírica NÃO melhorou desfechos clínicos (HR 5,2 igual ao grupo com TV induzível persistente), enquanto a guiada por EP normalizou o risco (HR 2,8, NS). Mensagem: ablação empírica é provavelmente inútil.",
+      "interpretacao_pratica": "Mensagem prática clara para cardiologia congênita do adulto: pacientes com T4F submetidos a PVR devem realizar estudo EP pré-op com mapeamento de istmos anatômicos, seguido de crioablação direcionada. Ablação empírica (sem mapeamento) provavelmente não traz benefício e deve ser abandonada. Vai influenciar guidelines de cardiopatia congênita.",
+      "limitacoes": [
+        "Não-randomizado (escolha do operador)",
+        "Possível confundimento por seleção (centros com EP avançado)",
+        "Volume pequeno de eventos no seguimento"
+      ],
+      "conclusao_uma_frase": "Em adultos com T4F submetidos a PVR cirúrgico, estratégia guiada por EP com crioablação direcionada de istmos anatômicos é claramente superior à ablação empírica e deve ser o padrão.",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42206474/",
+        "doi": "10.1093/eurheartj/ehag329",
+        "pubmed": "42206474"
+      },
+      "impacto_clinico": "Mensagem prática clara para cardiologia congênita do adulto: pacientes com T4F submetidos a PVR devem realizar estudo EP pré-op com mapeamento de istmos anatômicos, seguido de crioablação direcionada. Ablação empírica (sem mapeamento) provavelmente não traz benefício e deve ser abandonada. Vai influenciar guidelines de cardiopatia congênita."
+    },
+    {
+      "id": "art_005",
+      "titulo": "Ethical Considerations for Heart Organ Allocation: Current Landscape and Future Policy Guidance: A Scientific Statement From the American Heart Association",
+      "publicacao": "Circulation",
+      "autores": [
+        "Khazanie P",
+        "Drazner MH",
+        "Breathett K",
+        "Cohen IG"
+      ],
+      "classe": "A",
+      "score": 8.0,
+      "categoria_fonte": "revista",
+      "emoji": "❤️",
+      "resumo": "Scientific Statement da AHA revisa princípios éticos da alocação de corações para transplante, repensando o paradigma 'sickest first' à luz de avanços tecnológicos e necessidade de equidade. Documento referência para programas de transplante.",
+      "contexto_clinico": "Demanda por corações doadores supera oferta e o sistema de alocação está em evolução constante. O princípio histórico de 'sickest first' enfrenta tensões éticas crescentes — pacientes mais graves nem sempre são os que mais se beneficiam, e há disparidades demonstradas no acesso.",
+      "pergunta_principal": "Quais princípios éticos devem orientar o sistema atual e futuro de alocação de corações para transplante?",
+      "desenho_estudo": {
+        "populacao": "Candidatos a transplante cardíaco",
+        "tipo": "Scientific Statement da AHA"
+      },
+      "pontos_chave": [
+        "Revisa princípio 'sickest first' e suas tensões",
+        "Aborda disparidades raciais e socioeconômicas no acesso",
+        "Discute MCS de longa duração como modulador da urgência",
+        "Equilibra advocacy individual vs equidade sistêmica",
+        "Recomendações para política futura"
+      ],
+      "principais_resultados": "Documento de posicionamento institucional importante: revisa o panorama ético atual da alocação cardíaca, identifica como avanços em suporte circulatório mecânico e mudanças no perfil dos candidatos exigem revisão dos critérios. Aponta disparidades persistentes (raça, sexo, status socioeconômico) no acesso ao transplante. Propõe diretrizes para futuras políticas que equilibrem o princípio do 'mais doente' com utilidade, equidade e responsabilidade.",
+      "interpretacao_pratica": "Leitura obrigatória para cardiologistas envolvidos com transplante e IC avançada. Não muda conduta clínica direta, mas redefine o quadro ético sob o qual decisões de listagem e priorização devem ser tomadas. Influenciará revisões futuras do sistema UNOS/OPTN.",
+      "limitacoes": [
+        "Documento de consenso, não evidência primária",
+        "Foco principalmente nos EUA — generalização parcial",
+        "Não fornece algoritmo objetivo de alocação"
+      ],
+      "conclusao_uma_frase": "Scientific Statement da AHA estabelece referencial ético atualizado para alocação de corações, equilibrando 'sickest first' com equidade — leitura essencial para programas de transplante.",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42206385/",
+        "doi": "10.1161/CIR.0000000000001439",
+        "pubmed": "42206385"
+      },
+      "impacto_clinico": "Leitura obrigatória para cardiologistas envolvidos com transplante e IC avançada. Não muda conduta clínica direta, mas redefine o quadro ético sob o qual decisões de listagem e priorização devem ser tomadas. Influenciará revisões futuras do sistema UNOS/OPTN."
+    },
+    {
+      "id": "art_006",
+      "titulo": "Changes in Pulmonary Artery Pressure Following Initiation of Guideline-Directed Medical Therapies in Patients With Heart Failure: Insights From GUIDE-HF",
+      "publicacao": "Circulation. Heart failure",
+      "autores": [
+        "Desai AS",
+        "Zile MR",
+        "Ducharme A",
+        "Mehra MR"
+      ],
+      "classe": "B",
+      "score": 7.5,
+      "categoria_fonte": "revista",
+      "emoji": "❤️",
+      "resumo": "Análise do GUIDE-HF mostra que iniciar ARNI ou MRA em IC reduz PAP diastólica em ~1,2-1,6 mmHg em 30 dias, enquanto SGLT2i e betabloqueador NÃO mostram efeito hemodinâmico mensurável imediato.",
+      "contexto_clinico": "O benefício clínico das quatro pilares de TFG em IC é conhecido, mas as mudanças hemodinâmicas agudas após cada um são pouco caracterizadas. Sensor de PAP implantado (CardioMEMS) permite mensuração precisa.",
+      "pergunta_principal": "Qual o efeito hemodinâmico de PAP após iniciar cada um dos quatro pilares de TFG em IC?",
+      "desenho_estudo": {
+        "comparador": "7 dias pré vs 7 dias pós-30d de tratamento",
+        "populacao": "Pacientes IC com CardioMEMS implantado",
+        "seguimento": "30 dias",
+        "intervencao": "Início de cada classe individualmente",
+        "tipo": "Análise secundária de RCT (GUIDE-HF)",
+        "n": "292 pacientes (50 ARNI, 97 SGLT2i, 112 MRA, 33 BB)"
+      },
+      "pontos_chave": [
+        "ARNI: ΔPAP diastólica -1,56 mmHg (IC -3,54 a -0,40)",
+        "MRA: ΔPAP diastólica -1,15 mmHg (IC -1,82 a -0,47)",
+        "SGLT2i: sem mudança detectável de PAP",
+        "Betabloqueador: tendência a aumentar PAP (NS)",
+        "Análise excluiu mudanças concomitantes de diurético"
+      ],
+      "principais_resultados": "Estudo informativo: ARNI e MRA reduzem PAP diastólica em magnitude modesta mas mensurável (~1-1,6 mmHg) em 30 dias. SGLT2i, apesar de benefício clínico bem estabelecido, NÃO mostrou efeito hemodinâmico de PAP detectável — sugerindo que seu mecanismo de benefício pode não ser via redução aguda de pressões de enchimento. Betabloqueador teve tendência a aumentar PAP (esperado pelo efeito inotrópico negativo agudo).",
+      "interpretacao_pratica": "Útil para titulação guiada por hemodinâmica: ao adicionar ARNI ou MRA, esperar redução discreta de PAP — pode ajudar a desmamar diurético. Ao iniciar SGLT2i, NÃO esperar mudança de PAP imediata como marcador de eficácia. Refina conduta de manejo guiado por CardioMEMS.",
+      "limitacoes": [
+        "Tamanhos amostrais pequenos por subgrupo (33-112)",
+        "Análise post-hoc / observacional dentro de RCT",
+        "Exclusão de pacientes com mudanças concomitantes pode limitar generalização",
+        "Janela de 30 dias pode subestimar efeito de SGLT2i"
+      ],
+      "conclusao_uma_frase": "ARNI e MRA reduzem modestamente PAP em IC; SGLT2i NÃO altera PAP de forma detectável em 30 dias — útil para guiar terapia hemodinâmica.",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42206402/",
+        "doi": "10.1161/CIRCHEARTFAILURE.125.013877",
+        "pubmed": "42206402"
+      },
+      "impacto_clinico": "Útil para titulação guiada por hemodinâmica: ao adicionar ARNI ou MRA, esperar redução discreta de PAP — pode ajudar a desmamar diurético. Ao iniciar SGLT2i, NÃO esperar mudança de PAP imediata como marcador de eficácia. Refina conduta de manejo guiado por CardioMEMS."
+    },
+    {
+      "id": "art_007",
+      "titulo": "Integrative Molecular Analyses of Inflammatory and Autoimmune Signals in Cardiac Sarcoidosis",
+      "publicacao": "Circulation",
+      "autores": [
+        "Neyazi M",
+        "Venturini G",
+        "Brown KJ",
+        "Choi Y"
+      ],
+      "classe": "B",
+      "score": 7.2,
+      "categoria_fonte": "revista",
+      "emoji": "🔬",
+      "resumo": "Análise integrativa de células únicas e transcriptômica espacial em sarcoidose cardíaca identifica eixo autoimune humoral intracardíaco — anticorpos reativos a periplaquina, proteína desmossomal compartilhada com cardiomiopatias arritmogênicas.",
+      "contexto_clinico": "Sarcoidose cardíaca tem histopatologia enigmática (granulomas focais + fibrose sem granuloma), causa arritmias e morte súbita, e mecanismos moleculares progressão são pouco compreendidos.",
+      "pergunta_principal": "Quais sinais celulares e moleculares explicam a heterogeneidade histopatológica e progressão da sarcoidose cardíaca?",
+      "desenho_estudo": {
+        "populacao": "Corações humanos com sarcoidose cardíaca",
+        "tipo": "Estudo translacional com sc-RNAseq e transcriptômica espacial"
+      },
+      "pontos_chave": [
+        "Identificação de eixo autoimune humoral intracardíaco",
+        "Anticorpos reativos a periplaquina (PPL) — proteína desmossomal",
+        "Estruturas linfoides terciárias em áreas fibróticas",
+        "Macrófagos com moduladores de fusão célula-célula em granulomas",
+        "Cardiomiócitos ativam inflamasoma/piroptose"
+      ],
+      "principais_resultados": "Estudo mecanístico de alto impacto: identifica pela primeira vez resposta humoral autoimune dentro do coração na sarcoidose cardíaca, com anticorpos contra periplaquina (proteína desmossomal). Isto pode explicar a sobreposição clínica entre sarcoidose cardíaca e cardiomiopatias desmossomais arritmogênicas. Sugere terapias específicas: inibição da formação de granuloma e da ativação de células B.",
+      "interpretacao_pratica": "Sem aplicação clínica imediata, mas redefine compreensão patobiológica da sarcoidose cardíaca, sugere biomarcadores (anti-PPL) potenciais e alvos terapêuticos (terapia anti-CD20, BAFF). Influenciará pesquisa de fase 2 nos próximos anos.",
+      "limitacoes": [
+        "Estudo translacional sem desfecho clínico direto",
+        "Causalidade autoanticorpo→doença não demonstrada",
+        "N não especificado claramente",
+        "Sem replicação independente ainda"
+      ],
+      "conclusao_uma_frase": "Identificação de eixo autoimune humoral com anti-periplaquina na sarcoidose cardíaca abre nova fronteira mecanística e terapêutica, sem mudança imediata na prática.",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42206386/",
+        "doi": "10.1161/CIRCULATIONAHA.126.079304",
+        "pubmed": "42206386"
+      },
+      "impacto_clinico": "Sem aplicação clínica imediata, mas redefine compreensão patobiológica da sarcoidose cardíaca, sugere biomarcadores (anti-PPL) potenciais e alvos terapêuticos (terapia anti-CD20, BAFF). Influenciará pesquisa de fase 2 nos próximos anos."
+    },
+    {
+      "id": "art_008",
+      "titulo": "Current and Future Perspectives of LDL-C Lowering Therapies 2026",
+      "publicacao": "Journal of atherosclerosis and thrombosis",
+      "autores": [
+        "Tada H",
+        "Sakata K",
+        "Usui S",
+        "Takamura M"
+      ],
+      "classe": "B",
+      "score": 7.0,
+      "categoria_fonte": "revista",
+      "emoji": "💊",
+      "resumo": "Revisão abrangente 2026 das estratégias atuais e futuras de redução de LDL-C: estatinas, ezetimiba, iPCSK9, inclisirana, ácido bempedoico, e perspectivas futuras como iPCSK9 oral, CETP de nova geração e edição genômica.",
+      "contexto_clinico": "Apesar do arsenal expandido para reduzir LDL-C, a complexidade da decisão clínica aumentou — escolha da combinação, manejo de intolerância à estatina, identificação de HF, e posicionamento de cada agente.",
+      "pergunta_principal": "Como navegar pragmaticamente a paisagem atual e emergente de terapias hipolipemiantes em 2026?",
+      "desenho_estudo": {
+        "populacao": "Pacientes com dislipidemia e risco aterosclerótico",
+        "tipo": "Revisão narrativa"
+      },
+      "pontos_chave": [
+        "Algoritmo prático para avaliação inicial de LDL-C elevado",
+        "Diagnóstico de HF e causas secundárias",
+        "Manejo de intolerância à estatina e efeito nocebo",
+        "Posicionamento de iPCSK9, inclisirana, bempedoico",
+        "Terapias futuras: iPCSK9 oral, CETP, Lp(a), edição genômica"
+      ],
+      "principais_resultados": "Revisão prática útil para o cardiologista clínico. Cobre todo o espectro: triagem, identificação de HF, seleção de estatina, manejo de intolerância (incluindo nocebo), uso de não-estatínicos (ezetimiba, iPCSK9, inclisirana, bempedoico), terapias avançadas para hipercolesterolemia grave (aférese, lomitapida, evinacumabe) e perspectivas futuras.",
+      "interpretacao_pratica": "Útil como referência para revisão atualizada do manejo de LDL-C em 2026. Sintetiza evidência sem trazer novidade primária, mas oferece quadro pragmático para decisões clínicas em cenários complexos.",
+      "limitacoes": [
+        "Revisão narrativa, não sistemática",
+        "Sem síntese quantitativa de evidência",
+        "Foco em perspectiva japonesa em alguns pontos"
+      ],
+      "conclusao_uma_frase": "Revisão pragmática e atualizada da paisagem terapêutica para LDL-C em 2026 — referência útil para decisões clínicas em casos complexos.",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42203447/",
+        "doi": "10.5551/jat.RV22052",
+        "pubmed": "42203447"
+      },
+      "impacto_clinico": "Útil como referência para revisão atualizada do manejo de LDL-C em 2026. Sintetiza evidência sem trazer novidade primária, mas oferece quadro pragmático para decisões clínicas em cenários complexos."
+    },
+    {
+      "id": "art_009",
+      "titulo": "Event rates of patients with stable heart failure with reduced ejection fraction and newly diagnosed obstructive or central sleep apnoea",
+      "publicacao": "European journal of heart failure",
+      "autores": [
+        "Horvath CM",
+        "Floras JS",
+        "Yatsu S",
+        "Ishiwata S"
+      ],
+      "classe": "B",
+      "score": 7.0,
+      "categoria_fonte": "revista",
+      "emoji": "❤️",
+      "resumo": "Análise post-hoc do ADVENT-HF (n=731) mostra que pacientes HFrEF com apneia central do sono têm risco substancialmente maior de eventos no primeiro ano (mortalidade CV HR 3,58) comparado a apneia obstrutiva — sinaliza necessidade de avaliação precoce para terapias avançadas.",
+      "contexto_clinico": "Em HFrEF, distúrbios respiratórios do sono são comuns mas heterogêneos. Apneia central (CSA) é considerada marcador de gravidade, mas magnitude do risco temporal é mal definida.",
+      "pergunta_principal": "Pacientes HFrEF com CSA têm eventos diferentes daqueles com OSA ao longo do seguimento?",
+      "desenho_estudo": {
+        "comparador": "CSA vs OSA",
+        "populacao": "HFrEF estável com OSA (n=533) ou CSA (n=198) recém-diagnosticadas",
+        "seguimento": "Variável (mediana do trial)",
+        "tipo": "Análise post-hoc do ADVENT-HF",
+        "n": "731 pacientes"
+      },
+      "pontos_chave": [
+        "N = 731 (533 OSA, 198 CSA)",
+        "Endpoint primário CSA vs OSA: HR 1,38 (1,10-1,73)",
+        "Mortalidade total: HR 1,72 (1,26-2,36)",
+        "Mortalidade CV: HR 2,00 (1,40-2,85)",
+        "Risco concentrado no 1º ano: HR ajustado 3,58 para morte CV (1,58-8,12)"
+      ],
+      "principais_resultados": "Achado clinicamente relevante: o risco em CSA é fortemente concentrado no primeiro ano de seguimento (HR ajustado 3,44 para mortalidade total e 3,58 para CV no 1º ano), mas se atenua depois (HR ~0,9, NS após 1 ano). Sugere que CSA recém-diagnosticada em HFrEF estável identifica subgrupo de altíssimo risco que pode se beneficiar de avaliação precoce para terapias avançadas (LVAD, transplante).",
+      "interpretacao_pratica": "Em HFrEF estável, identificar CSA por polissonografia deve disparar avaliação precoce para terapias avançadas no 1º ano. OSA tem prognóstico melhor. Reforça papel da investigação sistemática de SDB em IC.",
+      "limitacoes": [
+        "Post-hoc (não pré-especificado)",
+        "Diferenças desbalanceadas em características clínicas",
+        "Após ajuste, HR perde significância em alguns desfechos",
+        "Não testa intervenção"
+      ],
+      "conclusao_uma_frase": "Em HFrEF estável, apneia central do sono recém-diagnosticada identifica subgrupo com altíssimo risco de eventos no 1º ano — candidato a avaliação precoce para terapias avançadas.",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42206383/",
+        "doi": "10.1093/ejhf/xuag110",
+        "pubmed": "42206383"
+      },
+      "impacto_clinico": "Em HFrEF estável, identificar CSA por polissonografia deve disparar avaliação precoce para terapias avançadas no 1º ano. OSA tem prognóstico melhor. Reforça papel da investigação sistemática de SDB em IC."
+    },
+    {
+      "id": "art_010",
+      "titulo": "Short-Term Effects of Ambient Temperature on Acute Heart Failure Decompensation: Phenotype-Specific Risk in a Time-Stratified Case-Crossover Study",
+      "publicacao": "Circulation. Heart failure",
+      "autores": [
+        "Jimba T",
+        "Kohsaka S",
+        "Shiraishi Y",
+        "Takei M"
+      ],
+      "classe": "B",
+      "score": 6.5,
+      "categoria_fonte": "revista",
+      "emoji": "📊",
+      "resumo": "Estudo case-crossover em 26.874 internações por ICA em Tóquio mostra que temperaturas extremamente baixas (-4,5°C) aumentam risco de ICA em 80% no mesmo dia; efeito difere por fenótipo hemodinâmico — frio sobrecarrega ICA hipertensiva, calor descompensa ICA hipotensa.",
+      "contexto_clinico": "Sazonalidade de ICA é conhecida, mas efeitos de curto prazo da temperatura, independente da sazonalidade, e fenótipos sensíveis a temperatura são mal definidos.",
+      "pergunta_principal": "Qual o efeito agudo da temperatura ambiental sobre admissões por ICA e perfis clínicos específicos?",
+      "desenho_estudo": {
+        "comparador": "Temperatura de menor risco (29°C, P99)",
+        "populacao": "Pacientes admitidos por ICA em Tóquio (CCU Network)",
+        "seguimento": "Lag 0-5 dias",
+        "tipo": "Case-crossover estratificado no tempo com modelos não-lineares de lag distribuído",
+        "n": "26.874 pacientes"
+      },
+      "pontos_chave": [
+        "N = 26.874 admissões por ICA",
+        "Temp -4,5°C (P1): OR 1,80 (1,40-2,31) vs 29°C",
+        "Efeito imediato (lag 0)",
+        "Maior em ≥70 anos",
+        "ICA hipertensa: risco com frio; ICA hipotensa: risco com calor (OR 6,25 a 29°C)"
+      ],
+      "principais_resultados": "Estudo POSITIVO e fisiologicamente plausível: temperaturas baixas aumentam ICA agudamente (lag 0), especialmente em idosos. Achado novo é a heterogeneidade por fenótipo hemodinâmico — frio empurra perfil hipertensivo (vasoconstrição), enquanto calor descompensa perfil hipotensivo (vasodilatação, desidratação). OR de 6,25 para ICA hipotensa a 29°C é robusto.",
+      "interpretacao_pratica": "Pode informar estratégias preventivas climatologicamente sensíveis — pacientes com IC com perfil hipotensivo de base devem ter especial atenção em ondas de calor, e perfil hipertensivo em ondas de frio. Modelos de risco climático podem ser incorporados a alertas de exacerbação.",
+      "limitacoes": [
+        "Localizado em Tóquio — generalização limitada",
+        "Estudo observacional",
+        "Subgrupo hipotensivo com IC amplo (1,07-36,6)",
+        "Sem teste de intervenção preventiva"
+      ],
+      "conclusao_uma_frase": "Temperatura extrema desencadeia ICA agudamente, com fenótipos hemodinâmicos opostos sensíveis a frio (hipertensiva) vs calor (hipotensiva).",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42206403/",
+        "doi": "10.1161/CIRCHEARTFAILURE.125.013934",
+        "pubmed": "42206403"
+      },
+      "impacto_clinico": "Pode informar estratégias preventivas climatologicamente sensíveis — pacientes com IC com perfil hipotensivo de base devem ter especial atenção em ondas de calor, e perfil hipertensivo em ondas de frio. Modelos de risco climático podem ser incorporados a alertas de exacerbação."
+    },
+    {
+      "id": "art_011",
+      "titulo": "Remuscularizing the Failing Human Heart",
+      "publicacao": "The New England journal of medicine",
+      "autores": [
+        "Srivastava D"
+      ],
+      "classe": "B",
+      "score": 6.5,
+      "categoria_fonte": "revista",
+      "emoji": "🧬",
+      "resumo": "Editorial NEJM acompanhando o trial BioVAT-HF — contextualiza o significado histórico de remuscularização cardíaca com tecido engenheirado de iPSC e desafios remanescentes.",
+      "contexto_clinico": "Décadas de tentativa de remuscularizar coração com células-tronco isoladas falharam. O trial BioVAT marca uma nova era com tecido engenheirado pré-formado.",
+      "pergunta_principal": "Qual o significado do BioVAT-HF na trajetória da medicina regenerativa cardíaca?",
+      "desenho_estudo": {
+        "tipo": "Editorial"
+      },
+      "pontos_chave": [
+        "Marco na medicina regenerativa cardíaca",
+        "Diferença entre células isoladas vs tecido engenheirado",
+        "Desafios: imunossupressão, arritmias, escalabilidade",
+        "Próximos passos: fase 3, alotransplante sem imunossupressão"
+      ],
+      "principais_resultados": "Editorial contextualiza o significado: BioVAT representa marco conceitual após décadas de tentativas frustradas com células-tronco isoladas. A produção industrial de tecido engenheirado escalável é desafio. Imunossupressão crônica e potencial arritmogênico permanecem barreiras.",
+      "interpretacao_pratica": "Leitura recomendada junto ao trial BioVAT para contextualizar significado e limitações. Sem mudança prática direta.",
+      "limitacoes": [
+        "Editorial (opinião informada)",
+        "Sem dados primários"
+      ],
+      "conclusao_uma_frase": "Editorial competente que situa o BioVAT-HF como marco conceitual da remuscularização cardíaca, sem ainda mudança prática.",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42202327/",
+        "doi": "10.1056/NEJMe2601013",
+        "pubmed": "42202327"
+      },
+      "impacto_clinico": "Leitura recomendada junto ao trial BioVAT para contextualizar significado e limitações. Sem mudança prática direta."
+    },
+    {
+      "id": "art_012",
+      "titulo": "Cardiovascular Risk Factors - Hypertension",
+      "publicacao": "The New England journal of medicine",
+      "autores": [
+        "Biola H",
+        "Khan SS",
+        "Lloyd-Jones D",
+        "Pagidipati NJ"
+      ],
+      "classe": "B",
+      "score": 6.5,
+      "categoria_fonte": "revista",
+      "emoji": "📰",
+      "resumo": "Perspective NEJM atualizada sobre HAS como fator de risco CV — síntese para clínicos sobre detecção, manejo e impacto populacional.",
+      "contexto_clinico": "HAS continua o fator de risco modificável mais impactante para CVD. Síntese pragmática é útil para clínica geral e cardiologia.",
+      "pergunta_principal": "Como integrar o manejo atual da hipertensão como fator de risco CV em 2026?",
+      "desenho_estudo": {
+        "populacao": "Adultos com HAS ou risco CV",
+        "tipo": "Perspective NEJM"
+      },
+      "pontos_chave": [
+        "Síntese pragmática do manejo de HAS em 2026",
+        "Foco em fator de risco CV",
+        "Inserção em série da NEJM sobre fatores de risco CV"
+      ],
+      "principais_resultados": "Texto curto de perspectiva. Sem dado primário novo, mas oferece síntese contemporânea didática para clínicos sobre HAS na avaliação de risco CV.",
+      "interpretacao_pratica": "Leitura rápida útil para revisão geral; não muda conduta, mas atualiza enquadramento da HAS na prática clínica.",
+      "limitacoes": [
+        "Texto curto / perspectiva",
+        "Sem síntese sistemática"
+      ],
+      "conclusao_uma_frase": "Perspective didática sobre HAS como fator de risco CV — útil para revisão, sem novidade clínica.",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42160722/",
+        "doi": "10.1056/NEJMp2516850",
+        "pubmed": "42160722"
+      },
+      "impacto_clinico": "Leitura rápida útil para revisão geral; não muda conduta, mas atualiza enquadramento da HAS na prática clínica."
+    },
+    {
+      "id": "art_013",
+      "titulo": "Cardiovascular Risk Factors - Lifestyle Modifications",
+      "publicacao": "The New England journal of medicine",
+      "autores": [
+        "Biola H",
+        "Davis J",
+        "Khan SS",
+        "Lloyd-Jones D"
+      ],
+      "classe": "B",
+      "score": 6.3,
+      "categoria_fonte": "revista",
+      "emoji": "📰",
+      "resumo": "Perspective NEJM da série sobre fatores de risco CV — foco em modificações de estilo de vida.",
+      "contexto_clinico": "Estilo de vida (dieta, exercício, sono, peso) permanece pilar da prevenção CV. Síntese pragmática é útil.",
+      "pergunta_principal": "Como integrar modificações de estilo de vida na prevenção CV em 2026?",
+      "desenho_estudo": {
+        "populacao": "Adultos em prevenção CV",
+        "tipo": "Perspective NEJM"
+      },
+      "pontos_chave": [
+        "Pilares do estilo de vida na prevenção CV",
+        "Síntese da série NEJM sobre fatores de risco"
+      ],
+      "principais_resultados": "Síntese atualizada do papel do estilo de vida na prevenção CV — sem dados primários novos, mas referência útil.",
+      "interpretacao_pratica": "Leitura para reforço de mensagens preventivas; sem mudança de conduta.",
+      "limitacoes": [
+        "Texto curto / perspectiva"
+      ],
+      "conclusao_uma_frase": "Perspective NEJM didática sobre estilo de vida em prevenção CV.",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42202317/",
+        "doi": "10.1056/NEJMp2605247",
+        "pubmed": "42202317"
+      },
+      "impacto_clinico": "Leitura para reforço de mensagens preventivas; sem mudança de conduta."
+    },
+    {
+      "id": "art_014",
+      "titulo": "Ventricular fibrillation dynamics reveal regional asymmetry in resilience to cardiac arrest and predict clinical outcome",
+      "publicacao": "Cardiovascular research",
+      "autores": [
+        "Redondo-Rodríguez A",
+        "Quintanilla JG",
+        "Macías Á",
+        "Lee P"
+      ],
+      "classe": "B",
+      "score": 6.5,
+      "categoria_fonte": "revista",
+      "emoji": "🫀",
+      "resumo": "Estudo translacional em modelo suíno (n=72) e 60 pacientes com PCR-EH mostra que dinâmica de FV é assimétrica entre VD e VE, e taxas de ativação no ECG antes do primeiro choque predizem desfecho neurológico favorável.",
+      "contexto_clinico": "FV é principal causa de morte súbita cardíaca. Mecanismos da dinâmica de FV em coração estruturalmente normal e infartado, e sua relevância prognóstica em PCR, são incompletos.",
+      "pergunta_principal": "Propriedades regionais da FV explicam variabilidade clínica e prognóstico após PCR ressuscitado?",
+      "desenho_estudo": {
+        "populacao": "72 porcos + 60 pacientes com PCR-EH por FV",
+        "tipo": "Estudo translacional (modelo suíno + pacientes)",
+        "n": "72 porcos + 60 pacientes"
+      },
+      "pontos_chave": [
+        "Dinâmica de FV inicial independe de substrato infartado",
+        "Taxas de ativação RV > LV em FV de longa duração",
+        "VE deprime eletricamente antes em FV prolongada",
+        "Taxas de ativação no ECG pré-choque associam-se a melhor desfecho neurológico"
+      ],
+      "principais_resultados": "Estudo mecanístico interessante mostra assimetria RV>LV na resiliência elétrica durante FV, ligada à tolerância à isquemia global. Translacionalmente, taxas de ativação derivadas do ECG antes do primeiro choque associam-se a desfecho neurológico favorável em 60 pacientes — possível ferramenta de triagem prognóstica.",
+      "interpretacao_pratica": "Sem aplicação clínica imediata, mas sugere que análise quantitativa do padrão de FV no DEA poderia eventualmente guiar decisões de ressuscitação (continuar vs interromper). Requer validação prospectiva.",
+      "limitacoes": [
+        "N pequeno na coorte clínica (60)",
+        "Análise observacional translacional",
+        "Sem validação prospectiva",
+        "Sem ferramenta clínica disponível"
+      ],
+      "conclusao_uma_frase": "Dinâmica regional de FV é assimétrica (VD mais resistente) e parâmetros do ECG pré-choque parecem predizer desfecho neurológico — promissor mas sem aplicação imediata.",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42203211/",
+        "doi": "10.1093/cvr/cvag101",
+        "pubmed": "42203211"
+      },
+      "impacto_clinico": "Sem aplicação clínica imediata, mas sugere que análise quantitativa do padrão de FV no DEA poderia eventualmente guiar decisões de ressuscitação (continuar vs interromper). Requer validação prospectiva."
+    },
+    {
+      "id": "art_015",
+      "titulo": "Rural-Urban Disparity in Postacute Care and 1-Year Outcomes After Ischemic Stroke",
+      "publicacao": "Stroke",
+      "autores": [
+        "Man S",
+        "Sun JL",
+        "Alhanti B",
+        "Mac Grory B"
+      ],
+      "classe": "B",
+      "score": 6.3,
+      "categoria_fonte": "revista",
+      "emoji": "🧠",
+      "resumo": "Coorte Medicare (n=507.856) mostra que pacientes rurais com AVC isquêmico recebem menos reabilitação intra-hospitalar (20% vs 25%) e têm 1,8 dias a menos em casa em 1 ano, com mortalidade similar exceto em alta domiciliar (HR 1,11).",
+      "contexto_clinico": "Disparidades rurais-urbanas em mortalidade por AVC estão crescendo nos EUA. Possíveis causas incluem diferenças no cuidado pós-agudo.",
+      "pergunta_principal": "Pacientes rurais com AVC isquêmico recebem cuidado pós-agudo comparável e alcançam desfechos similares aos urbanos?",
+      "desenho_estudo": {
+        "comparador": "Hospitalizados em hospital rural vs urbano",
+        "populacao": "Beneficiários ≥65 anos com AVCi 2017-2022",
+        "seguimento": "1 ano",
+        "tipo": "Coorte (Medicare + GWTG-Stroke)",
+        "n": "507.856 (29.734 rural, 478.122 urbano)"
+      },
+      "pontos_chave": [
+        "N = 507.856 pacientes Medicare",
+        "Alta para reabilitação: 20% rural vs 25% urbano (aOR 0,76)",
+        "Alta para SNF: 24,5% vs 20,9% (aOR 1,21)",
+        "1,8 dias a menos em casa para rurais",
+        "Mortalidade total similar; mas rural com alta domiciliar HR 1,11"
+      ],
+      "principais_resultados": "Estudo confirma disparidades rurais no acesso a reabilitação intra-hospitalar e maior uso de SNF, levando a menos dias em casa. Mortalidade geral similar, mas subgrupo rural com alta direta para casa tem 11% mais mortalidade — sugere subutilização inadequada de reabilitação.",
+      "interpretacao_pratica": "Reforça necessidade de melhorar acesso a reabilitação intra-hospitalar pós-AVC em áreas rurais. Relevante para política de saúde, menos para conduta direta.",
+      "limitacoes": [
+        "Observacional",
+        "Não captura razões da disparidade (preferência vs acesso)",
+        "Foco em Medicare ≥65 anos"
+      ],
+      "conclusao_uma_frase": "Pacientes rurais com AVC têm menor acesso a reabilitação e mais alta para SNF, com mortalidade aumentada quando vão direto para casa.",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42206363/",
+        "doi": "10.1161/STROKEAHA.125.054423",
+        "pubmed": "42206363"
+      },
+      "impacto_clinico": "Reforça necessidade de melhorar acesso a reabilitação intra-hospitalar pós-AVC em áreas rurais. Relevante para política de saúde, menos para conduta direta."
+    },
+    {
+      "id": "art_016",
+      "titulo": "Macrophages and the Survival of Cardiomyocytes After Myocardial Infarction",
+      "publicacao": "Arteriosclerosis, thrombosis, and vascular biology",
+      "autores": [
+        "Zhang M",
+        "Tao G"
+      ],
+      "classe": "B",
+      "score": 6.0,
+      "categoria_fonte": "revista",
+      "emoji": "🔬",
+      "resumo": "Revisão narrativa sobre papéis heterogêneos dos macrófagos na sobrevida e regulação dos cardiomiócitos após IM, com foco em clusters identificáveis por single-cell tech para alvo terapêutico.",
+      "contexto_clinico": "Macrófagos pós-IM têm ontogenia e função heterogêneas, com papéis muitas vezes contraditórios na sobrevida do cardiomiócito.",
+      "pergunta_principal": "Como diferentes populações de macrófagos regulam sobrevida vs morte de cardiomiócitos após IM?",
+      "desenho_estudo": {
+        "tipo": "Revisão narrativa"
+      },
+      "pontos_chave": [
+        "Heterogeneidade ontogênica dos macrófagos pós-IM",
+        "Papéis contraditórios em sobrevida vs morte celular",
+        "Single-cell tech identifica clusters específicos",
+        "Potencial alvo terapêutico para preservar cardiomiócito"
+      ],
+      "principais_resultados": "Revisão útil para entender complexidade da resposta inflamatória pós-IM e como subpopulações distintas de macrófagos podem ser alvos terapêuticos seletivos para preservar cardiomiócitos.",
+      "interpretacao_pratica": "Sem aplicação clínica imediata; relevante para pesquisa translacional pós-IM.",
+      "limitacoes": [
+        "Revisão narrativa",
+        "Sem síntese quantitativa"
+      ],
+      "conclusao_uma_frase": "Revisão sobre heterogeneidade de macrófagos pós-IM como potencial alvo terapêutico — relevante para pesquisa, sem mudança imediata na prática.",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42206365/",
+        "doi": "10.1161/ATVBAHA.125.323161",
+        "pubmed": "42206365"
+      },
+      "impacto_clinico": "Sem aplicação clínica imediata; relevante para pesquisa translacional pós-IM."
+    },
+    {
+      "id": "art_017",
+      "titulo": "Microplastic Exposure Aggravates Cardiomyopathy Under Hemodynamic Stress Through the Gut-Heart Axis",
+      "publicacao": "Circulation",
+      "autores": [
+        "Wang J",
+        "Xu J",
+        "Mai H",
+        "Niu G"
+      ],
+      "classe": "B",
+      "score": 6.5,
+      "categoria_fonte": "revista",
+      "emoji": "🔬",
+      "resumo": "Estudo translacional mostra que bisfenol F (BPF) — substituto comum do BPA detectado em 90% de amostras urinárias humanas — agrava cardiomiopatia via eixo intestino-coração mediado por metabólito microbiano (NAP).",
+      "contexto_clinico": "Bisfenol F substituiu BPA em plásticos, mas sua toxicidade cardiovascular era pouco estudada. BPF está amplamente distribuído na população (urina detectável em 90%).",
+      "pergunta_principal": "BPF causa cardiotoxicidade e por qual mecanismo?",
+      "desenho_estudo": {
+        "comparador": "Sem exposição",
+        "populacao": "Modelos murinos + 285 amostras urinárias humanas",
+        "intervencao": "Exposição a BPF",
+        "tipo": "Estudo translacional (modelos murinos + amostras humanas)",
+        "n": "285 humanas + cohort animal"
+      },
+      "pontos_chave": [
+        "BPF detectado em 90,5% de 285 urinas humanas",
+        "BPF induz hipertrofia cardíaca via microbiota",
+        "Metabólito-chave: N-acetilputrescina (NAP)",
+        "NAP ativa via p53 nos cardiomiócitos",
+        "Akkermansia muciniphila reverte os efeitos"
+      ],
+      "principais_resultados": "Estudo mecanístico identifica eixo intestino-coração dirigido por bisfenol F: microbiota converte BPF em NAP via Sat1, NAP causa hipertrofia cardíaca via p53 e dano à barreira intestinal. NAP elevado em pacientes com DII correlaciona-se a marcadores de lesão cardíaca. Suplementação de Akkermansia ou triptofol reverte os efeitos.",
+      "interpretacao_pratica": "Sem mudança clínica imediata, mas adiciona evidência sobre risco CV de exposições ambientais a bisfenóis. Pode informar política regulatória e pesquisa de probióticos cardioprotetores.",
+      "limitacoes": [
+        "Predominantemente em modelo murino",
+        "Correlação NAP-marcadores em humanos é observacional",
+        "Sem demonstração de eventos CV duros em humanos"
+      ],
+      "conclusao_uma_frase": "Identifica eixo microbiota-Sat1-NAP-p53 como mecanismo da cardiotoxicidade do bisfenol F — relevante para política ambiental e pesquisa translacional.",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42206375/",
+        "doi": "10.1161/CIRCULATIONAHA.126.079820",
+        "pubmed": "42206375"
+      },
+      "impacto_clinico": "Sem mudança clínica imediata, mas adiciona evidência sobre risco CV de exposições ambientais a bisfenóis. Pode informar política regulatória e pesquisa de probióticos cardioprotetores."
+    },
+    {
+      "id": "art_018",
+      "titulo": "Patient Engagement Strategies for Implementing Evidence-Based Care in Atherosclerosis",
+      "publicacao": "Current atherosclerosis reports",
+      "autores": [
+        "Brown EE",
+        "Byrne K"
+      ],
+      "classe": "C",
+      "score": 5.0,
+      "categoria_fonte": "revista",
+      "emoji": "📰",
+      "resumo": "Revisão narrativa sobre estratégias para aumentar engajamento do paciente em cuidado da aterosclerose — educação personalizada, intervenções digitais e medicina personalizada via teste genético.",
+      "contexto_clinico": "Apesar de avanços terapêuticos, CVD continua liderando mortalidade — desafio principal é engajamento e adesão do paciente.",
+      "pergunta_principal": "Quais estratégias melhoram engajamento do paciente no cuidado de aterosclerose?",
+      "desenho_estudo": {
+        "tipo": "Revisão narrativa"
+      },
+      "pontos_chave": [
+        "Educação personalizada e acessível",
+        "Intervenções digitais em saúde",
+        "Medicina personalizada via teste genético"
+      ],
+      "principais_resultados": "Revisão sumariza três principais estratégias de engajamento com evidência variada. Sem síntese quantitativa.",
+      "interpretacao_pratica": "Útil como referência para programas de prevenção e adesão, mas sem novidade prática direta.",
+      "limitacoes": [
+        "Revisão narrativa",
+        "Evidência heterogênea sintetizada qualitativamente"
+      ],
+      "conclusao_uma_frase": "Revisão sobre estratégias de engajamento em aterosclerose — sem novidade prática significativa.",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42207212/",
+        "doi": "10.1007/s11883-026-01423-1",
+        "pubmed": "42207212"
+      },
+      "impacto_clinico": "Útil como referência para programas de prevenção e adesão, mas sem novidade prática direta."
+    },
+    {
+      "id": "art_019",
+      "titulo": "12-Month Clinical Outcomes Using a Variable-Loop Circular Catheter for PFA in a Chinese Atrial Fibrillation Population",
+      "publicacao": "Pacing and clinical electrophysiology : PACE",
+      "autores": [
+        "Tao H",
+        "Cai H",
+        "Fu H",
+        "Liu S"
+      ],
+      "classe": "C",
+      "score": 5.5,
+      "categoria_fonte": "revista",
+      "emoji": "🫀",
+      "resumo": "Trial afIRE multicêntrico chinês (n=142) confirma eficácia (74,8%) e segurança (PAE 1,6%) do cateter circular de loop variável para PFA em FA paroxística em população asiática.",
+      "contexto_clinico": "PFA (ablação por campo pulsado) está se difundindo globalmente; reprodutibilidade em populações asiáticas precisava ser validada.",
+      "pergunta_principal": "Qual a eficácia e segurança em 12 meses do cateter VLCC para PFA em chineses com FA paroxística?",
+      "desenho_estudo": {
+        "populacao": "FA paroxística sintomática refratária a drogas",
+        "seguimento": "12 meses",
+        "intervencao": "PFA com VLCC para PVI",
+        "tipo": "Trial multicêntrico prospectivo single-arm",
+        "n": "142 (123 main-stage)"
+      },
+      "pontos_chave": [
+        "N = 123 main-stage",
+        "PVI agudo em 100%; 89% sem reconexão aguda",
+        "Sucesso primário 12m: 74,8%",
+        "Liberdade de recorrência sintomática: 87%",
+        "Eventos adversos primários: 1,6%"
+      ],
+      "principais_resultados": "Resultados positivos consistentes com dados ocidentais — PFA com VLCC tem perfil de eficácia (~75% em 12m) e segurança (1,6% PAE) reprodutíveis em chineses com FA paroxística. FEVE preservada associada a 86% menos chance de recorrência.",
+      "interpretacao_pratica": "Confirma reprodutibilidade global do PFA — incremental, não practice-changing.",
+      "limitacoes": [
+        "Single-arm sem comparador",
+        "FA paroxística apenas",
+        "12 meses (seguimento ainda relativamente curto)"
+      ],
+      "conclusao_uma_frase": "PFA com cateter de loop variável é reprodutivelmente eficaz e seguro em FA paroxística chinesa — confirma dados ocidentais.",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42205100/",
+        "doi": "10.1111/pace.70294",
+        "pubmed": "42205100"
+      },
+      "impacto_clinico": "Confirma reprodutibilidade global do PFA — incremental, não practice-changing."
+    },
+    {
+      "id": "art_020",
+      "titulo": "A Standardized Zero-Fluoroscopy, 3D-Guided Workflow for AVNRT Ablation With Same-Day Discharge: PICENO AVNRT Approach",
+      "publicacao": "Pacing and clinical electrophysiology : PACE",
+      "autores": [
+        "Marchese P",
+        "Gennaro F",
+        "Mazzotta G",
+        "Cocchiara L"
+      ],
+      "classe": "C",
+      "score": 5.5,
+      "categoria_fonte": "revista",
+      "emoji": "🫀",
+      "resumo": "Coorte retrospectiva (n=150) de ablação de TRNAV com workflow padronizado 3D zero-fluoroscopia mostra 100% de sucesso agudo, 0% de BAV e 0,7% de recorrência em ~30 meses.",
+      "contexto_clinico": "Ablação de TRNAV é altamente eficaz mas tem risco residual de BAV. Workflow 3D zero-fluoro padronizado pode aumentar segurança e reprodutibilidade.",
+      "pergunta_principal": "Workflow padronizado PICENO para ablação de TRNAV é seguro, eficaz e reproduzível em day-hospital?",
+      "desenho_estudo": {
+        "populacao": "TRNAV confirmada eletrofisiologicamente",
+        "seguimento": "30,5 ± 18,8 meses",
+        "intervencao": "Ablação PICENO 3D zero-fluoro",
+        "tipo": "Coorte retrospectiva",
+        "n": "150 pacientes"
+      },
+      "pontos_chave": [
+        "N = 150",
+        "Sucesso agudo: 100%",
+        "BAV transitório ou permanente: 0%",
+        "Fluoroscopia: 0",
+        "Recorrência em ~30 meses: 0,7%"
+      ],
+      "principais_resultados": "Resultados excelentes em série pequena single-center — sucesso 100%, sem BAV, sem fluoro, recorrência mínima. Reprodutibilidade em outros centros é desconhecida.",
+      "interpretacao_pratica": "Mostra viabilidade de workflow zero-fluoro padronizado para TRNAV em day-hospital. Pode inspirar adoção em centros com mapeamento 3D.",
+      "limitacoes": [
+        "Single-center, retrospectivo",
+        "N pequeno",
+        "Sem comparador"
+      ],
+      "conclusao_uma_frase": "Workflow padronizado zero-fluoro 3D para ablação de TRNAV é viável e seguro em série single-center — promissor mas requer replicação.",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42205103/",
+        "doi": "10.1111/pace.70308",
+        "pubmed": "42205103"
+      },
+      "impacto_clinico": "Mostra viabilidade de workflow zero-fluoro padronizado para TRNAV em day-hospital. Pode inspirar adoção em centros com mapeamento 3D."
+    },
+    {
+      "id": "art_021",
+      "titulo": "Coronary Artery Proximity to Potential Ablation Sites in Children: The Case for Careful Consideration",
+      "publicacao": "Pacing and clinical electrophysiology : PACE",
+      "autores": [
+        "Magnan RA",
+        "Qureshi M",
+        "Asztalos I",
+        "Taggart NW"
+      ],
+      "classe": "C",
+      "score": 5.0,
+      "categoria_fonte": "revista",
+      "emoji": "🫀",
+      "resumo": "Análise retrospectiva de 72 angio-TC pediátricas mostra que coronárias estão ≤3mm de sítios potenciais de ablação no seio coronário ou base das aurículas em 64-100% dos casos — chama atenção para risco de lesão coronária.",
+      "contexto_clinico": "Lesão coronária na ablação pediátrica é rara mas subreconhecida. Risco aumenta significativamente quando coronária está ≤3mm do ponto de ablação.",
+      "pergunta_principal": "Qual a proximidade média das coronárias aos sítios de ablação em pediatria?",
+      "desenho_estudo": {
+        "populacao": "Pacientes pediátricos >15 kg e <18 anos",
+        "tipo": "Coorte retrospectiva (CTAs)",
+        "n": "72 CTAs em 67 pacientes"
+      },
+      "pontos_chave": [
+        "N = 72 CTAs",
+        "RCA ≤3mm do seio coronário: 64% (dominância D), 100% (E/co-dominante)",
+        "RCA ≤3mm da base AD: 71%",
+        "Cx ≤3mm da base AE: 74%"
+      ],
+      "principais_resultados": "Achado anatômico relevante: na maioria dos pacientes pediátricos, coronárias estão extremamente próximas a sítios potenciais de ablação no seio coronário e bases auriculares. Reforça argumento para imagem coronária pré-ablação em pediatria.",
+      "interpretacao_pratica": "Considerar imagem coronária (CTA) antes de ablação em sítios de risco em crianças. Influencia conduta em centros de eletrofisiologia pediátrica.",
+      "limitacoes": [
+        "Retrospectivo",
+        "N pequeno (72)",
+        "Single-center (Mayo)"
+      ],
+      "conclusao_uma_frase": "Maioria dos pacientes pediátricos tem coronárias ≤3mm de potenciais sítios de ablação — argumenta a favor de imagem coronária pré-procedimento.",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42206323/",
+        "doi": "10.1111/pace.70306",
+        "pubmed": "42206323"
+      },
+      "impacto_clinico": "Considerar imagem coronária (CTA) antes de ablação em sítios de risco em crianças. Influencia conduta em centros de eletrofisiologia pediátrica."
+    },
+    {
+      "id": "art_022",
+      "titulo": "Electrocardiographic Characteristics Associated With Lead Position Variations in Left Bundle Branch Area Pacing",
+      "publicacao": "Pacing and clinical electrophysiology : PACE",
+      "autores": [
+        "Matsumoto N",
+        "Shimeno K",
+        "Kashima Y",
+        "Kure Y"
+      ],
+      "classe": "C",
+      "score": 5.0,
+      "categoria_fonte": "revista",
+      "emoji": "🫀",
+      "resumo": "Análise de 212 pacientes com LBBAP mostra que posição do lead (alto, médio, baixo no septo) influencia parâmetros ECG usados para confirmar captura — relevante para interpretação de critérios fisiológicos.",
+      "contexto_clinico": "LBBAP é cada vez mais utilizado, mas critérios ECG para confirmar captura do feixe esquerdo dependem da posição do lead, pouco estudada.",
+      "pergunta_principal": "Variações na posição do lead alteram parâmetros ECG usados para confirmar LBBAP?",
+      "desenho_estudo": {
+        "comparador": "HS vs MS vs LS no septo",
+        "populacao": "Pacientes com LBBAP bem-sucedido",
+        "tipo": "Coorte retrospectiva",
+        "n": "212 pacientes"
+      },
+      "pontos_chave": [
+        "HS n=49, MS n=119, LS n=44",
+        "LS: maior prevalência de R dominante em V1 (qR 38,6%)",
+        "LS: sV1RWPT mais longo (105 ms)",
+        "LS: intervalo V6-V1 mais longo (46 ms)",
+        "LS: maior frequência de critério V6-V1 >44 ms (86%)"
+      ],
+      "principais_resultados": "Posição do lead septal modifica parâmetros ECG usados como critérios fisiológicos de captura — implantes baixos têm padrão característico em V1 e intervalos mais longos. Reforça importância de considerar localização anatômica ao interpretar ECG durante LBBAP.",
+      "interpretacao_pratica": "Útil para eletrofisiologistas para refinar interpretação de captura LBB durante implante.",
+      "limitacoes": [
+        "Retrospectivo",
+        "Single-center",
+        "Sem desfecho clínico de longo prazo"
+      ],
+      "conclusao_uma_frase": "Posição do lead septal modifica parâmetros ECG fisiológicos de LBBAP — implantação baixa associa-se a R em V1 e intervalos mais longos.",
+      "links": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42206320/",
+        "doi": "10.1111/pace.70307",
+        "pubmed": "42206320"
+      },
+      "impacto_clinico": "Útil para eletrofisiologistas para refinar interpretação de captura LBB durante implante."
+    }
+  ],
+  "discussoes_x": [
+    {
+      "id": "x_001",
+      "titulo": "FUND-HF pilot: direct financial support boosts GDMT adherence in low-income HF patients",
+      "autor": "@JACCJournals",
+      "categoria": "revista",
+      "emoji": "🫀",
+      "classe": "B",
+      "score": 7.0,
+      "resumo": "Post do JACC Journals destaca estudo piloto FUND-HF que demonstrou que suporte financeiro direto pós-alta para pacientes de baixa renda com insuficiência cardíaca aumenta a adesão à terapia medicamentosa guiada por guidelines (GDMT). O post inclui link para o artigo completo.",
+      "impacto_clinico": "Pode incentivar programas de suporte financeiro em serviços de cardiologia para melhorar adesão à GDMT em pacientes vulneráveis, potencialmente reduzindo readmissões por descompensação de heart failure.",
+      "media": [
+        "https://pbs.twimg.com/media/HJbGFMuXAAAtQQm.png"
+      ],
+      "links": {
+        "post_url": "https://x.com/JACCJournals/status/2060051693086052460",
+        "url": "https://www.jacc.org/doi/10.1016/j.jacc.2026.02.5113",
+        "doi": null,
+        "pubmed": null
+      }
+    },
+    {
+      "id": "x_002",
+      "titulo": "What’s new in #HeartFailure? February 2026",
+      "autor": "@HanCardiomd",
+      "categoria": "especialista",
+      "emoji": "🫀",
+      "classe": "B",
+      "score": 7.0,
+      "resumo": "Cardiologista compartilha resumo das principais atualizações em insuficiência cardíaca publicadas no European Journal of Heart Failure em fevereiro de 2026, com foco em avanços terapêuticos e manejo.",
+      "impacto_clinico": "Oferece visão atualizada de evidências recentes para otimizar tratamento de heart failure na prática clínica diária.",
+      "media": [
+        "https://pbs.twimg.com/media/HJb6fmaWYAA3ZWJ.jpg",
+        "https://pbs.twimg.com/media/HJb6fkXWEAUhBT1.jpg",
+        "https://pbs.twimg.com/media/HJb6fm1XAAEXRPh.jpg"
+      ],
+      "links": {
+        "post_url": "https://x.com/HanCardiomd/status/2060109314312839285",
+        "url": "https://academic.oup.com/eurjhf/article-abstract/28/2/165/8571343",
+        "doi": null,
+        "pubmed": null
+      }
+    },
+    {
+      "id": "x_003",
+      "titulo": "Two patients with same AVA 1.0 cm² require different therapies: TAVR vs Impella bridge to LVAD",
+      "autor": "@alex1708ander",
+      "categoria": "especialista",
+      "emoji": "🫀",
+      "classe": "C",
+      "score": 5.0,
+      "resumo": "Discussão técnica sobre como a área valvar aórtica isolada (AVA 1.0 cm²) não determina o tratamento; depende de reserva contrátil do VE, estado de fluxo e acoplamento ventrículo-arterial. Inclui vídeo de caso clínico com Impella 5.5 via transaxilar.",
+      "impacto_clinico": "Reforça necessidade de avaliação multimodal (eco, hemodinâmica) antes de decidir entre TAVR ou suporte mecânico em estenose aórtica grave descompensada.",
+      "media": [
+        "https://video.twimg.com/amplify_video/2060050240913248260/vid/avc1/1280x720/VOSIhw2cWNwoTUQD.mp4"
+      ],
+      "links": {
+        "post_url": "https://x.com/alex1708ander/status/2060050307480948855",
+        "url": null,
+        "doi": null,
+        "pubmed": null
+      }
+    },
+    {
+      "id": "x_004",
+      "titulo": "TCTAP2026 highlights: expert perspectives on TAVR, TMVR and transcatheter tricuspid therapies",
+      "autor": "@summitmd_cvrf",
+      "categoria": "especialista",
+      "emoji": "🫀",
+      "classe": "C",
+      "score": 5.0,
+      "resumo": "Atualização sobre artigos e perspectivas de especialistas em TAVR, TMVR e terapias transcateter para valva tricúspide apresentadas no TCTAP2026.",
+      "impacto_clinico": "Mantém cardiologistas intervencionistas atualizados sobre estratégias emergentes em structural heart disease.",
+      "media": [
+        "https://pbs.twimg.com/media/HJTpvkabgAASf89.jpg"
+      ],
+      "links": {
+        "post_url": "https://x.com/summitmd_cvrf/status/2060126471402946615",
+        "url": "https://summitmd.com/html/conference.php?conference=tctap",
+        "doi": null,
+        "pubmed": null
+      }
+    },
+    {
+      "id": "x_005",
+      "titulo": "CMS decision on Medicare coverage expansion for TAVR expected June 15",
+      "autor": "@WomenHeartOrg",
+      "categoria": "especialista",
+      "emoji": "🫀",
+      "classe": "C",
+      "score": 5.0,
+      "resumo": "Post da WomenHeart alerta sobre decisão iminente do CMS sobre cobertura Medicare para TAVR em estenose aórtica, destacando importância de acesso equitativo para mulheres.",
+      "impacto_clinico": "Pode ampliar indicações de TAVR em pacientes de baixo risco ou com comorbidades, influenciando prática nos EUA.",
+      "media": [
+        "https://pbs.twimg.com/media/HJcDZDBW0AUrh7Z.jpg"
+      ],
+      "links": {
+        "post_url": "https://x.com/WomenHeartOrg/status/2060119086755938411",
+        "url": null,
+        "doi": null,
+        "pubmed": null
+      }
+    },
+    {
+      "id": "x_006",
+      "titulo": "AVA 1.0 cm² alone insufficient to decide TAVR vs Impella bridge to LVAD",
+      "autor": "@murshid_eyad2",
+      "categoria": "especialista",
+      "emoji": "🫀",
+      "classe": "C",
+      "score": 5.0,
+      "resumo": "Cirurgião cardíaco concorda que pacientes com mesma área valvar aórtica podem precisar de terapias distintas (TAVR ou Impella) dependendo de reserva contrátil, fluxo e acoplamento ventrículo-arterial.",
+      "impacto_clinico": "Reforça abordagem individualizada na decisão terapêutica de estenose aórtica grave.",
+      "media": [
+        "https://pbs.twimg.com/media/HJcCF2aXUAAWJA9.jpg"
+      ],
+      "links": {
+        "post_url": "https://x.com/murshid_eyad2/status/2060117657165205823",
+        "url": null,
+        "doi": null,
+        "pubmed": null
+      }
+    },
+    {
+      "id": "x_007",
+      "titulo": "Context matters for HALT screening post-TAVR: tailored CTA approach recommended",
+      "autor": "@IHSCardiac",
+      "categoria": "especialista",
+      "emoji": "🫀",
+      "classe": "C",
+      "score": 5.0,
+      "resumo": "Discussão sobre hipodensidades associadas a trombose (HALT) após TAVR: impacto em outcomes de longo prazo ainda debatido; CTA rotineira não recomendada, mas considerada em pacientes de alto risco por volta de 30 dias.",
+      "impacto_clinico": "Orienta uso seletivo de tomografia para detecção de HALT, evitando exames desnecessários.",
+      "media": [],
+      "links": {
+        "post_url": "https://x.com/IHSCardiac/status/2060037645191766071",
+        "url": null,
+        "doi": null,
+        "pubmed": null
+      }
+    }
+  ],
+  "videos_youtube": [
+    {
+      "titulo": "Atualização Médica | Nova Diretriz Brasileira de Dislipidemias 2026 - Parte 2",
+      "canal": "Afya CardioPapers",
+      "tier": 0,
+      "data_publicacao": "2026-05-28",
+      "thumbnail": "https://i.ytimg.com/vi/3lqyh4VaUAw/hqdefault.jpg",
+      "video_url": "https://www.youtube.com/watch?v=3lqyh4VaUAw",
+      "descricao_preview": "Nova Diretriz Brasileira de Dislipidemias, agora com foco no tratamento. Nesta segunda parte do vídeo, vamos abordar o ...",
+      "categoria_fonte": "youtube",
+      "emoji": "📺"
+    },
+    {
+      "titulo": "VEM AI - CARDIOXP 2026",
+      "canal": "Afya CardioPapers",
+      "tier": 0,
+      "data_publicacao": "2026-05-26",
+      "thumbnail": "https://i.ytimg.com/vi/AGl159W3GKk/hqdefault.jpg",
+      "video_url": "https://www.youtube.com/watch?v=AGl159W3GKk",
+      "descricao_preview": "Saiba tudo sobre o Afya CardioPapers Experience 2026, o evento presencial que traduz as maiores atualizações da cardiologia ...",
+      "categoria_fonte": "youtube",
+      "emoji": "📺"
+    },
+    {
+      "titulo": "DCB vs DES in Noncomplex Coronary Bifurcation Lesions: REC CAGEFREE I | JACC: CV Interventions",
+      "canal": "American College of Cardiology",
+      "tier": 1,
+      "data_publicacao": "2026-05-28",
+      "thumbnail": "https://i.ytimg.com/vi/53_rSzhFU5Y/hqdefault.jpg",
+      "video_url": "https://www.youtube.com/watch?v=53_rSzhFU5Y",
+      "descricao_preview": "Dr. Aaysha Cader, Social Media editor for JACC Interventions and Dr. Chao Gao discuss the pre-specified subgroup analysis of ...",
+      "categoria_fonte": "youtube",
+      "emoji": "📺"
+    },
+    {
+      "titulo": "Side Branch Treatment for Bifurcation Revascularization: KISS Trial | JACC: CV Interventions",
+      "canal": "American College of Cardiology",
+      "tier": 1,
+      "data_publicacao": "2026-05-28",
+      "thumbnail": "https://i.ytimg.com/vi/uSKzqiQRJGk/hqdefault.jpg",
+      "video_url": "https://www.youtube.com/watch?v=uSKzqiQRJGk",
+      "descricao_preview": "Dr. Aaysha Cader, Social Media editor for JACC Interventions and Dr. Antoinette Neylon discuss the randomized KISS trial: Side ...",
+      "categoria_fonte": "youtube",
+      "emoji": "📺"
+    },
+    {
+      "titulo": "Why we launched the world’s largest live virtual arrhythmia event.",
+      "canal": "Radcliffe Cardiology",
+      "tier": 1,
+      "data_publicacao": "2026-05-28",
+      "thumbnail": "https://i.ytimg.com/vi/vT_hggudsT8/hqdefault.jpg",
+      "video_url": "https://www.youtube.com/watch?v=vT_hggudsT8",
+      "descricao_preview": "Did we need another meeting? No. Did we need something different? Yes.",
+      "categoria_fonte": "youtube",
+      "emoji": "📺"
+    },
+    {
+      "titulo": "ASE 2026 Scientific Sessions—Sign Up Today and Save $125!",
+      "canal": "American Society of Echocardiography",
+      "tier": 1,
+      "data_publicacao": "2026-05-28",
+      "thumbnail": "https://i.ytimg.com/vi/upSkCQKWFLA/hqdefault.jpg",
+      "video_url": "https://www.youtube.com/watch?v=upSkCQKWFLA",
+      "descricao_preview": "Join us for the ASE 2026 Scientific Sessions, the world's premier meeting for cardiovascular ultrasound practitioners, in Aurora, ...",
+      "categoria_fonte": "youtube",
+      "emoji": "📺"
+    },
+    {
+      "titulo": "How Renal Denervation for the Treatment of Resistant Hypertension Should be Implemented in a Mult...",
+      "canal": "Medscape",
+      "tier": 1,
+      "data_publicacao": "2026-05-28",
+      "thumbnail": "https://i.ytimg.com/vi/MvoCyv9PQZU/hqdefault.jpg",
+      "video_url": "https://www.youtube.com/watch?v=MvoCyv9PQZU",
+      "descricao_preview": "Drs Marwah Abdalla, Herbert Aronow, and Syed Ahsan discuss resistant hypertension, candidacy for renal denervation, and what ...",
+      "categoria_fonte": "youtube",
+      "emoji": "📺"
+    },
+    {
+      "titulo": "Managing Heart Failure in ATTR-CM",
+      "canal": "Medscape",
+      "tier": 1,
+      "data_publicacao": "2026-05-28",
+      "thumbnail": "https://i.ytimg.com/vi/40IDtc1btgQ/hqdefault.jpg",
+      "video_url": "https://www.youtube.com/watch?v=40IDtc1btgQ",
+      "descricao_preview": "From narrow volume windows to SGLT2 inhibitors and emerging devices, Drs Kevin Alexander and Sarah Cuddy discuss heart ...",
+      "categoria_fonte": "youtube",
+      "emoji": "📺"
+    },
+    {
+      "titulo": "MIND: Monthly Insights on Navigating Depression",
+      "canal": "Medscape",
+      "tier": 1,
+      "data_publicacao": "2026-05-28",
+      "thumbnail": "https://i.ytimg.com/vi/9W68yKMI9Kk/hqdefault.jpg",
+      "video_url": "https://www.youtube.com/watch?v=9W68yKMI9Kk",
+      "descricao_preview": "Join us for a clinical deep dive into the management of depression using novel, rapid-acting agents. While traditional therapies ...",
+      "categoria_fonte": "youtube",
+      "emoji": "📺"
+    },
+    {
+      "titulo": "LACI / RACI e o acoplamento atrio-ventricular - um parâmetro promissor | EJC #070",
+      "canal": "Eco Descomplicado",
+      "tier": 1,
+      "data_publicacao": "2026-05-28",
+      "thumbnail": "https://i.ytimg.com/vi/-jfQmvrxtnU/hqdefault.jpg",
+      "video_url": "https://www.youtube.com/watch?v=-jfQmvrxtnU",
+      "descricao_preview": "Seja bem vindo a mais uma edição do Echo Journal Club, um programa de atualização em Ecocardiografia a partir da curadoria ...",
+      "categoria_fonte": "youtube",
+      "emoji": "📺"
+    },
+    {
+      "titulo": "Ômega-3 protege o coração? O que a evidência realmente diz (DozeCast 226)",
+      "canal": "Doze por Oito Cardiologia",
+      "tier": 1,
+      "data_publicacao": "2026-05-28",
+      "thumbnail": "https://i.ytimg.com/vi/H-bHlz-dAgU/hqdefault.jpg",
+      "video_url": "https://www.youtube.com/watch?v=H-bHlz-dAgU",
+      "descricao_preview": "Seu paciente chega no consultório com um vidro de ômega-3 importado e te olha esperando confirmação: \"é bom pro coração, ...",
+      "categoria_fonte": "youtube",
+      "emoji": "📺"
+    },
+    {
+      "titulo": "Cardiovascular Risk Factors — Lifestyle Modifications | NEJM",
+      "canal": "NEJM Group",
+      "tier": 1,
+      "data_publicacao": "2026-05-27",
+      "thumbnail": "https://i.ytimg.com/vi/KYIEyRT9_HU/hqdefault.jpg",
+      "video_url": "https://www.youtube.com/watch?v=KYIEyRT9_HU",
+      "descricao_preview": "This second episode of a two-part Double Take miniseries on cardiovascular risk factors from the New England Journal of ...",
+      "categoria_fonte": "youtube",
+      "emoji": "📺"
+    },
+    {
+      "titulo": "Patient video: Living with Chagas disease and HF",
+      "canal": "European Society of Cardiology",
+      "tier": 1,
+      "data_publicacao": "2026-05-27",
+      "thumbnail": "https://i.ytimg.com/vi/gc-q7nfjL6k/hqdefault.jpg",
+      "video_url": "https://www.youtube.com/watch?v=gc-q7nfjL6k",
+      "descricao_preview": "https://www.heartfailurematters.org/ In this episode of “Discussion with a patient”, a Brazilian patient shares her experience living ...",
+      "categoria_fonte": "youtube",
+      "emoji": "📺"
+    },
+    {
+      "titulo": "EuroPCR 26: SMART Trial: Three-Year Outcomes in Small Aortic Annulus TAVR",
+      "canal": "Radcliffe Cardiology",
+      "tier": 1,
+      "data_publicacao": "2026-05-27",
+      "thumbnail": "https://i.ytimg.com/vi/pljQXP5OQwo/hqdefault.jpg",
+      "video_url": "https://www.youtube.com/watch?v=pljQXP5OQwo",
+      "descricao_preview": "EuroPCR 2026 – Prof Howard Herrmann (University of Pennsylvania School of Medicine, Philadelphia, PA, US) joins us to ...",
+      "categoria_fonte": "youtube",
+      "emoji": "📺"
+    },
+    {
+      "titulo": "EuroPCR 26: VESALIUS-CV: Evolocumab in Stented Patients Without Prior MI",
+      "canal": "Radcliffe Cardiology",
+      "tier": 1,
+      "data_publicacao": "2026-05-27",
+      "thumbnail": "https://i.ytimg.com/vi/pLDVKpINAPQ/hqdefault.jpg",
+      "video_url": "https://www.youtube.com/watch?v=pLDVKpINAPQ",
+      "descricao_preview": "EuroPCR 2026 – Dr Brian Bergmark (Brigham and Women's Hospital, Boston, MA, US) joins us to discuss findings from the ...",
+      "categoria_fonte": "youtube",
+      "emoji": "📺"
+    },
+    {
+      "titulo": "Identificando a CIV perimembranosa na prática | Discutindo Casos da Comunidade EcoDescomplicado #174",
+      "canal": "Eco Descomplicado",
+      "tier": 1,
+      "data_publicacao": "2026-05-27",
+      "thumbnail": "https://i.ytimg.com/vi/zbpXMfa3xU0/hqdefault.jpg",
+      "video_url": "https://www.youtube.com/watch?v=zbpXMfa3xU0",
+      "descricao_preview": "Saiba mais sobre o Curso de Ecocardiografia e se inscreva para ser avisado por email das próximas aulas ao-vivo ...",
+      "categoria_fonte": "youtube",
+      "emoji": "📺"
+    },
+    {
+      "titulo": "HFpEF and HFmrEF: Can KCCQ-12 Replace KCCQ-23? | JACC Baran",
+      "canal": "American College of Cardiology",
+      "tier": 1,
+      "data_publicacao": "2026-05-26",
+      "thumbnail": "https://i.ytimg.com/vi/4aG8HDwXyho/hqdefault.jpg",
+      "video_url": "https://www.youtube.com/watch?v=4aG8HDwXyho",
+      "descricao_preview": "Hosts Mitsuaki Sawano, MD, Kentaro Ejiri, MD, and Nobuhiro Ikemura, MD welcome Dr. Yasuhiro Hamatani, MD (Brigham and ...",
+      "categoria_fonte": "youtube",
+      "emoji": "📺"
+    },
+    {
+      "titulo": "Optimizing Post Discharge Care for HFpEF HFmrEF: Strategies to Reduce Readmissions",
+      "canal": "American Heart Association",
+      "tier": 1,
+      "data_publicacao": "2026-05-26",
+      "thumbnail": "https://i.ytimg.com/vi/LXqSTxWyYbg/hqdefault.jpg",
+      "video_url": "https://www.youtube.com/watch?v=LXqSTxWyYbg",
+      "descricao_preview": "This session explores the unique post-discharge needs of patients with heart failure with preserved ejection fraction and heart ...",
+      "categoria_fonte": "youtube",
+      "emoji": "📺"
+    },
+    {
+      "titulo": "Dr. Glaucomflecken Explains: Intensive LDL Cholesterol Targeting in Atherosclerotic CVD (Ez-PAVE)",
+      "canal": "NEJM Group",
+      "tier": 1,
+      "data_publicacao": "2026-05-26",
+      "thumbnail": "https://i.ytimg.com/vi/dDzmhmP7EQk/hqdefault.jpg",
+      "video_url": "https://www.youtube.com/watch?v=dDzmhmP7EQk",
+      "descricao_preview": "This video in our partnership with @DGlaucomflecken explains a randomized trial evaluating the appropriate low-density ...",
+      "categoria_fonte": "youtube",
+      "emoji": "📺"
+    },
+    {
+      "titulo": "Advanced Imaging Techniques 2026—Available Now!",
+      "canal": "American Society of Echocardiography",
+      "tier": 1,
+      "data_publicacao": "2026-05-26",
+      "thumbnail": "https://i.ytimg.com/vi/jZnypvvPcS0/hqdefault.jpg",
+      "video_url": "https://www.youtube.com/watch?v=jZnypvvPcS0",
+      "descricao_preview": "The Advanced Imaging Techniques 2026: Virtual Experience will be held August 29-30, 2026, and feature a clinically applicable ...",
+      "categoria_fonte": "youtube",
+      "emoji": "📺"
+    },
+    {
+      "titulo": "Is durability still a concern for TAVI patients? Remaining challenges to overcome - EuroPCR 2026",
+      "canal": "PCR / EuroPCR",
+      "tier": 2,
+      "data_publicacao": "2026-05-28",
+      "thumbnail": "https://i.ytimg.com/vi/URL5NLxqbN0/hqdefault.jpg",
+      "video_url": "https://www.youtube.com/watch?v=URL5NLxqbN0",
+      "descricao_preview": "This educational session investigates the durability of TAVI valves, discussing its clinical relevance, influencing factors, and ...",
+      "categoria_fonte": "youtube",
+      "emoji": "📺"
+    },
+    {
+      "titulo": "SEVA VentRounds Express: Measuring Pplat",
+      "canal": "Cleveland Clinic",
+      "tier": 2,
+      "data_publicacao": "2026-05-28",
+      "thumbnail": "https://i.ytimg.com/vi/s7NOURGDssQ/hqdefault.jpg",
+      "video_url": "https://www.youtube.com/watch?v=s7NOURGDssQ",
+      "descricao_preview": "For more information about the SEVA VentRounds, please visit https://cle.clinic/3M7bSOw One of the key measurements we ...",
+      "categoria_fonte": "youtube",
+      "emoji": "📺"
+    },
+    {
+      "titulo": "Ascending into the future with drug-coated balloons - EuroPCR 2026",
+      "canal": "PCR / EuroPCR",
+      "tier": 2,
+      "data_publicacao": "2026-05-27",
+      "thumbnail": "https://i.ytimg.com/vi/_lQR2xfuXm4/hqdefault.jpg",
+      "video_url": "https://www.youtube.com/watch?v=_lQR2xfuXm4",
+      "descricao_preview": "Step into the future of interventional cardiology with comprehensive insights into drug‑coated balloons (DCB). This session covers ...",
+      "categoria_fonte": "youtube",
+      "emoji": "📺"
+    },
+    {
+      "titulo": "Rethinking stentless PCI strategy - Improving outcomes with Bioadaptor - EuroPCR 2026",
+      "canal": "PCR / EuroPCR",
+      "tier": 2,
+      "data_publicacao": "2026-05-27",
+      "thumbnail": "https://i.ytimg.com/vi/MRnUh-KEyu8/hqdefault.jpg",
+      "video_url": "https://www.youtube.com/watch?v=MRnUh-KEyu8",
+      "descricao_preview": "Explore contemporary PCI strategies through the emerging concept of stentless intervention using the Bioadaptor device.",
+      "categoria_fonte": "youtube",
+      "emoji": "📺"
+    },
+    {
+      "titulo": "SEVA VentRounds Express: Ventilator Virtual Simulators",
+      "canal": "Cleveland Clinic",
+      "tier": 2,
+      "data_publicacao": "2026-05-27",
+      "thumbnail": "https://i.ytimg.com/vi/5T0f9GyKhzw/hqdefault.jpg",
+      "video_url": "https://www.youtube.com/watch?v=5T0f9GyKhzw",
+      "descricao_preview": "For more information about the SEVA VentRounds, please visit https://cle.clinic/3M7bSOw In this edition of SEVA VentRounds ...",
+      "categoria_fonte": "youtube",
+      "emoji": "📺"
+    },
+    {
+      "titulo": "SEVA VentRounds Express: Baseline of Support",
+      "canal": "Cleveland Clinic",
+      "tier": 2,
+      "data_publicacao": "2026-05-27",
+      "thumbnail": "https://i.ytimg.com/vi/BnXjXybRCjo/hqdefault.jpg",
+      "video_url": "https://www.youtube.com/watch?v=BnXjXybRCjo",
+      "descricao_preview": "For more information about the SEVA VentRounds, please visit https://cle.clinic/3M7bSOw In this edition of SEVA VentRounds ...",
+      "categoria_fonte": "youtube",
+      "emoji": "📺"
+    },
+    {
+      "titulo": "Can Food Improve Mental Health? Nutritional Psychiatry Explained | Mayo Clinic On Nutrition Podcast",
+      "canal": "Mayo Clinic",
+      "tier": 2,
+      "data_publicacao": "2026-05-26",
+      "thumbnail": "https://i.ytimg.com/vi/E8WKMvBRY4w/hqdefault.jpg",
+      "video_url": "https://www.youtube.com/watch?v=E8WKMvBRY4w",
+      "descricao_preview": "Can what you eat affect depression, anxiety, ADHD and overall mental health? In this episode of On Nutrition, Mayo Clinic ...",
+      "categoria_fonte": "youtube",
+      "emoji": "📺"
+    }
+  ],
+  "pulso": [
+    {
+      "id": "pulso_001",
+      "is_destaque_do_dia": true,
+      "titulo": "HI-PEITHO confirma: fibrinólise por cateter reduz 61% desfechos em TEP intermediário-alto",
+      "razao_destaque": "Primeiro RCT bem dimensionado a demonstrar benefício clínico claro da fibrinólise dirigida por cateter assistida por ultrassom em EP de risco intermediário-alto — população em que anticoagulação isolada era o único padrão. O resultado é robusto, com p=0,005, sem hemorragia intracraniana, e muda diretamente a conversa em centros que travam esse debate há anos. Vale notar que os resultados primários do HI-PEITHO já haviam sido apresentados no SCAI em 18/05/2026, e agora chegam publicados no NEJM com análise completa.",
+      "o_que_paper_diz": "O HI-PEITHO (n=544) randomizou pacientes com EP de risco intermediário-alto para fibrinólise dirigida por cateter assistida por US versus anticoagulação isolada. O desfecho composto de morte relacionada à EP, descompensação cardiorrespiratória ou recorrência sintomática em 7 dias foi 4,0% versus 10,3% (RR 0,39; IC 95% 0,20-0,77; p=0,005). Sangramento maior ocorreu em 4,1% versus 2,2% (p=0,32, não significativo), sem hemorragia intracraniana em nenhum grupo.",
+      "interpretacao_comunidade": "Mandrola, no episódio TWIC de 22/05/2026, discutiu criticamente os critérios de seleção de pacientes e o endpoint composto — sua posição típica de questionar se desfechos substitutos (descompensação) superam em peso o risco hemorrágico real. O podcast Heart Sounds do TCTMD (pod_006) incluiu o tema no roundup de maio. A discussão na comunidade é de que, em centros com experiência em PERT e intervenção por cateter, o trial destranca a indicação para o subgrupo de EP intermediário-alto com sinais de sofrimento cardiorrespiratório.",
+      "o_que_muda": "Em pacientes com EP de risco intermediário-alto (disfunção de VD + troponina elevada) com deterioração cardiorrespiratória, a fibrinólise dirigida por cateter assistida por US passa a ter respaldo de RCT robusto como alternativa à anticoagulação isolada, especialmente em centros com equipe PERT estruturada.",
+      "o_que_nao_muda_ainda": "O perfil de sangramento maior, embora não significativo, foi numericamente maior no grupo intervenção (4,1% vs 2,2%), e o trial foi realizado em centros de excelência — replicabilidade em hospitais sem programa PERT dedicado ainda é incerta. Aguardam-se dados de seguimento de longo prazo (3-6 meses) antes de generalização ampla.",
+      "fontes_cobertura": [
+        {
+          "tipo": "artigo",
+          "id": "art_001",
+          "publicacao": "New England Journal of Medicine"
+        },
+        {
+          "tipo": "podcast",
+          "id": "pod_001",
+          "publicacao": "This Week in Cardiology (Mandrola)"
+        },
+        {
+          "tipo": "podcast",
+          "id": "pod_006",
+          "publicacao": "Heart Sounds (TCTMD)"
+        }
+      ],
+      "historical_references": [
+        {
+          "date": "2026-05-18",
+          "type": "pulso",
+          "titulo": "HI-PEITHO: resultados primários em TEP intermediário-alto risco apresentados no SCAI",
+          "comment": "Os resultados primários já haviam sido apresentados no SCAI em maio/2026; a publicação no NEJM agora entrega o peer-review completo com análise de segurança detalhada."
+        }
+      ],
+      "classe": "A",
+      "score": 9.2
+    },
+    {
+      "id": "pulso_002",
+      "is_destaque_do_dia": false,
+      "titulo": "Potássio ideal em IC é 4,2–5,0 mmol/L: hipercalemia leve é segura, hipocalemia mata",
+      "razao_destaque": "Meta-análise IPD com quase 50 mil pacientes de 12 RCTs define, pela primeira vez de forma robusta, a faixa ótima de potássio em IC — e o achado mais impactante inverte o medo clínico usual: não é a hipercalemia leve que mata, é a hipocalemia. Médicos que reduzem espironolactona, IECA ou ARNI por K+ de 5,1-5,5 mmol/L precisam rever essa prática.",
+      "o_que_paper_diz": "Meta-análise de dados de pacientes individuais (n=46.069, 12 RCTs) definiu faixa ótima de potássio em IC como 4,2–5,0 mmol/L tanto em HFrEF quanto em HFpEF. Hipocalemia <3,5 mmol/L associou-se a aumento de 49% na mortalidade total (HR 1,49; IC 95% 1,27-1,76). Hipercalemia leve (5,0-5,5 mmol/L) não se associou a piores desfechos em HFrEF.",
+      "interpretacao_comunidade": "O Eagle's Eye View do ACC (pod_003) abordou diretamente o manejo de medicações neuro-hormonais em IC, contexto que dialoga com essa evidência. Não há posts X de especialistas identificados especificamente sobre este artigo hoje. Ainda assim, o achado tem repercussão imediata: a EHJ é periódico de alto impacto e o tamanho amostral da meta-análise IPD confere credibilidade singular para recomendar não suspender terapia por K+ 5,0-5,5.",
+      "o_que_muda": "K+ entre 5,0-5,5 mmol/L em HFrEF não justifica redução ou suspensão de espironolactona, IECA/BRA ou ARNI — a evidência agora é robusta o suficiente para manter a terapia neuro-hormonal nessa faixa. Hipocalemia deve ser tratada agressivamente como risco independente de morte.",
+      "o_que_nao_muda_ainda": "A faixa ótima foi derivada de associações em RCTs, não de intervenção randomizada sobre o nível de potássio em si. Pacientes com K+ >5,5 mmol/L ou com progressão rápida ainda exigem avaliação individualizada e cautela com redução de dose.",
+      "fontes_cobertura": [
+        {
+          "tipo": "artigo",
+          "id": "art_003",
+          "publicacao": "European Heart Journal"
+        },
+        {
+          "tipo": "podcast",
+          "id": "pod_003",
+          "publicacao": "Eagle's Eye View (ACC)"
+        }
+      ],
+      "historical_references": [],
+      "classe": "A",
+      "score": 8.5
+    },
+    {
+      "id": "pulso_003",
+      "is_destaque_do_dia": false,
+      "titulo": "BioVAT-HF: iPSC remusculariza miocárdio humano pela primeira vez — mas ainda longe da clínica",
+      "razao_destaque": "Marco histórico publicado no NEJM com editorial acompanhante: pela primeira vez em humanos, tecido cardíaco engenheirado de células-tronco pluripotentes alogênicas demonstrou aumento mensurável de espessura miocárdica e FEVE. Décadas de tentativas frustradas com células isoladas chegam a um ponto de inflexão conceitual — mas mortalidade de 15% e necessidade de imunossupressão colocam o entusiasmo em perspectiva.",
+      "o_que_paper_diz": "No BioVAT-HF (fase 1-2, n=20), nos 12 pacientes com dose máxima e 3 meses de seguimento, houve aumento significativo da espessura miocárdica-alvo (+4,5 mm; p<0,001) e da FEVE (+3,9 pp; p=0,04), com tendência de melhora de qualidade de vida (KCCQ). Ocorreram 3 mortes (15%) e 2 implantes de LVAD entre os 20 pacientes; todos necessitaram de imunossupressão sistêmica.",
+      "interpretacao_comunidade": "O NEJM publicou editorial acompanhante (art_011) contextualizando o BioVAT como ruptura conceitual após décadas de frustração com células isoladas, mas sublinhando barreiras de escalabilidade industrial, potencial arritmogênico e imunossupressão crônica. Discussão na comunidade especializada ainda incipiente em fontes secundárias do relatório de hoje além do próprio NEJM.",
+      "o_que_muda": "Não há mudança prática imediata — BioVAT é tecnologia experimental, fase 1-2, sem indicação clínica estabelecida. Serve como horizonte para programas de pesquisa em IC avançada.",
+      "o_que_nao_muda_ainda": "Imunossupressão crônica obrigatória, risco de arritmias induzidas pelo enxerto, pequeno tamanho amostral e ausência de grupo controle aleatorizado impedem qualquer tradução clínica. Fases 2/3 com alotransplante sem imunossupressão são o próximo passo necessário.",
+      "fontes_cobertura": [
+        {
+          "tipo": "artigo",
+          "id": "art_002",
+          "publicacao": "New England Journal of Medicine"
+        },
+        {
+          "tipo": "artigo",
+          "id": "art_011",
+          "publicacao": "New England Journal of Medicine (Editorial)"
+        }
+      ],
+      "historical_references": [
+        {
+          "date": "2026-05-27",
+          "type": "pulso",
+          "titulo": "BioVAT: remuscularização cardíaca com iPSC melhora FEVE em ICFEr",
+          "comment": "O destaque de 27/05 já havia capturado o marco do BioVAT; a publicação formal no NEJM com editorial agora consolida o resultado no registro científico permanente."
+        }
+      ],
+      "classe": "A",
+      "score": 8.5
+    },
+    {
+      "id": "pulso_004",
+      "is_destaque_do_dia": false,
+      "titulo": "Ômega-3 e coração: REDUCE-IT vs STRENGTH, risco de FA e o que dizer ao paciente",
+      "razao_destaque": "Tema de alta demanda em consultório — pacientes chegam com frascos de ômega-3 importado esperando validação. O DozeCast 226 fez revisão completa e honesta das evidências, incluindo o paradoxo dos dois maiores trials com conclusões opostas e o sinal consistente de aumento de FA. Mito popular encontra evidência complexa, com cobertura cruzada em podcast brasileiro e vídeo no YouTube.",
+      "o_que_paper_diz": "Não há artigo primário novo hoje sobre ômega-3 — a cobertura é editorial/revisão. O DozeCast 226 (pod_005) revisou os megaensaios VITAL, ASCEND e OMEMI (~50 mil pacientes em dose baixa: pouco benefício), o paradoxo REDUCE-IT versus STRENGTH (dois trials semelhantes, conclusões opostas), o sinal consistente de aumento de FA com ômega-3, e o estudo PISCES (NEJM 2025) sugerindo benefício em hemodiálise.",
+      "interpretacao_comunidade": "Mateus Prata e Raphael Rossi no DozeCast 226 (pod_005) fizeram síntese crítica e didática, diferenciando EPA, DHA e ALA e desmistificando chia e linhaça como substitutos de cápsula. O vídeo acompanhante no YouTube (@DozeporOito, url=https://www.youtube.com/watch?v=H-bHlz-dAgU) amplifica o alcance. Nenhum post X de especialista identificado hoje sobre o tema.",
+      "o_que_muda": "Para a maioria dos pacientes em prevenção primária ou secundária em uso de estatina, ômega-3 em dose baixa não tem benefício cardiovascular comprovado — a mensagem ao paciente é que o frasco pode ser desnecessário, especialmente com o risco aumentado de FA. EPA em alta dose (ícaro/vascepa) tem respaldo em REDUCE-IT, mas com controvérsia metodológica séria.",
+      "o_que_nao_muda_ainda": "O debate REDUCE-IT versus STRENGTH não está encerrado — diferenças no óleo mineral do braço placebo do REDUCE-IT e a heterogeneidade entre preparações de EPA puro versus EPA+DHA ainda dividem especialistas. Aguardam-se trials adicionais com endpoint cardiovascular duro sem a controvérsia do controle.",
+      "fontes_cobertura": [
+        {
+          "tipo": "podcast",
+          "id": "pod_005",
+          "publicacao": "DozeCast - Cardiologia"
+        },
+        {
+          "tipo": "video",
+          "id": "https://www.youtube.com/watch?v=H-bHlz-dAgU",
+          "publicacao": "Doze por Oito Cardiologia (YouTube)"
+        }
+      ],
+      "historical_references": [],
+      "classe": "B",
+      "score": 7.0
+    },
+    {
+      "id": "pulso_005",
+      "is_destaque_do_dia": false,
+      "titulo": "Prednisolona não previne lesões coronárias em Kawasaki — RCT no NEJM é negativo",
+      "razao_destaque": "Resultado negativo relevante que derruba prática variável em centros pediátricos: adicionar prednisolona ao esquema padrão de IVIG+AAS não preveniu lesões coronárias em 1 mês na doença de Kawasaki. O tema tem cobertura cruzada em notícia Healio e confirmação histórica pelo contexto dos últimos dias.",
+      "o_que_paper_diz": "RCT publicado no NEJM mostrou que a adição de prednisolona à terapia padrão (IVIG + AAS) não preveniu lesões coronárias em 1 mês após o início da doença de Kawasaki. O resultado negativo contraria a expectativa de que a supressão adicional da inflamação com corticosteroide protegeria as coronárias.",
+      "interpretacao_comunidade": "A Healio Cardiology (not_006) cobriu o resultado destacando que desafia a prática variável em alguns centros que rotineiramente adicionavam prednisolona. Discussão na comunidade ainda incipiente além da cobertura de notícias — posts X de especialistas pediátricos/cardiopediatras não identificados no relatório de hoje.",
+      "o_que_muda": "Prednisolona não deve ser adicionada rotineiramente ao esquema IVIG+AAS na doença de Kawasaki com objetivo de prevenção de lesões coronárias — a evidência de RCT agora não sustenta essa prática.",
+      "o_que_nao_muda_ainda": "Subgrupos de risco muito elevado (score de Kobayashi alto, resistência à IVIG) podem ainda ter considerações específicas para corticosteroide — o trial pode não ter sido dimensionado para esses casos. Análises de subgrupo e seguimento de longo prazo das lesões são necessários.",
+      "fontes_cobertura": [
+        {
+          "tipo": "noticia",
+          "id": "not_006",
+          "publicacao": "Healio Cardiology"
+        }
+      ],
+      "historical_references": [],
+      "classe": "A",
+      "score": 7.8
+    },
+    {
+      "id": "pulso_006",
+      "is_destaque_do_dia": false,
+      "titulo": "Terapias anti-Lp(a) chegando: dosagem única ao longo da vida já justifica rastreio",
+      "razao_destaque": "Após décadas sem opção terapêutica específica, o ecossistema de Lp(a) está se movendo: a Healio cobre duas frentes em simultâneo — a iminência de leituras de fase final de terapias-alvo e a mensagem prática de que a dosagem única já tem utilidade clínica hoje para estratificar e intensificar controle dos demais fatores. Cobertura cruzada em duas notícias distintas.",
+      "o_que_paper_diz": "Não há artigo primário novo sobre Lp(a) no relatório de hoje — a cobertura é via notícias Healio (not_001 e not_005). Not_001 reporta expectativa de primeiras leituras de trials fase final no segundo semestre de 2026. Not_005 reforça que dosagem única de Lp(a) ao longo da vida pode reduzir morbimortalidade ao identificar pacientes para controle agressivo dos demais fatores modificáveis.",
+      "interpretacao_comunidade": "A Healio Cardiology cobriu o tema em dois ângulos complementares hoje (not_001 e not_005), refletindo o momento de transição: ainda não há terapia aprovada, mas o rastreio já tem valor clínico imediato. O contexto histórico dos últimos 90 dias reforça: artigos de maio/2026 já haviam mostrado que Lp(a) prediz risco residual mesmo com LDL controlado (Circulation, 24/05) e que evolocumabe modula parte do risco Lp(a) no VESALIUS-CV (vídeo EuroPCR 2026: url=https://www.youtube.com/watch?v=pLDVKpINAPQ).",
+      "o_que_muda": "Dosa Lp(a) uma vez na vida em todo paciente com risco cardiovascular — o resultado identifica quem precisa de controle ainda mais agressivo dos fatores clássicos e posiciona o paciente para acesso às novas terapias quando aprovadas.",
+      "o_que_nao_muda_ainda": "Não há terapia aprovada especificamente para Lp(a) ainda — as leituras de fase 3 são esperadas para o segundo semestre de 2026. Até lá, a conduta permanece intensificação do controle de LDL, pressão arterial e outros fatores modificáveis.",
+      "fontes_cobertura": [
+        {
+          "tipo": "noticia",
+          "id": "not_001",
+          "publicacao": "Healio Cardiology"
+        },
+        {
+          "tipo": "noticia",
+          "id": "not_005",
+          "publicacao": "Healio Cardiology"
+        },
+        {
+          "tipo": "video",
+          "id": "https://www.youtube.com/watch?v=pLDVKpINAPQ",
+          "publicacao": "Radcliffe Cardiology / EuroPCR 2026"
+        }
+      ],
+      "historical_references": [],
+      "classe": "B",
+      "score": 7.2
+    },
+    {
+      "id": "pulso_007",
+      "is_destaque_do_dia": false,
+      "titulo": "Apneia central em HFrEF estável: risco de morte CV triplicado no 1º ano",
+      "razao_destaque": "Dado prognóstico de alta utilidade prática: em HFrEF estável, apneia central recém-diagnosticada concentra risco de mortalidade cardiovascular de forma marcante no primeiro ano (HR 3,58), janela que pode ser aproveitada para avaliação de terapias avançadas. O achado muda a urgência — não é só marcador de gravidade, é marcador de timing.",
+      "o_que_paper_diz": "Análise post-hoc do ADVENT-HF (n=731) comparou HFrEF com apneia central versus obstrutiva. Mortalidade CV no 1º ano foi HR 3,58 (IC 1,58-8,12) para apneia central versus obstrutiva. O risco se atenua após 1 ano (HR ~0,9, não significativo), sugerindo que a janela crítica de avaliação e intervenção é precoce.",
+      "interpretacao_comunidade": "Discussão na comunidade ainda incipiente — não há posts X de especialistas nem cobertura em podcasts identificados hoje especificamente sobre este estudo. O European Journal of Heart Failure é periódico de alto impacto em IC, e o achado é clinicamente acionável mesmo sem repercussão nas redes hoje.",
+      "o_que_muda": "Em pacientes com HFrEF estável recém-diagnosticados com apneia central do sono, a avaliação para terapias avançadas (LVAD, transplante) deve ser antecipada — o risco é máximo no primeiro ano. A polissonografia em HFrEF não é apenas para manejo do sono, mas para estratificação prognóstica de alta urgência.",
+      "o_que_nao_muda_ainda": "Os dados são post-hoc de um RCT (ADVENT-HF) não desenhado para essa pergunta; o estudo não randomizou intervenção específica para CSA e não há evidência de que tratar a apneia central melhore os desfechos nessa janela. O achado é prognóstico, não terapêutico.",
+      "fontes_cobertura": [
+        {
+          "tipo": "artigo",
+          "id": "art_009",
+          "publicacao": "European Journal of Heart Failure"
+        }
+      ],
+      "historical_references": [],
+      "classe": "B",
+      "score": 7.0
+    },
+    {
+      "id": "pulso_008",
+      "is_destaque_do_dia": false,
+      "titulo": "ARNI e MRA reduzem PAP em IC; SGLT2i não altera hemodinâmica pulmonar aguda",
+      "razao_destaque": "Achado contraintuitivo com impacto direto na titulação de GDMT guiada por CardioMEMS: SGLT2i, apesar de benefício clínico consistente em IC, não reduz pressão pulmonar de forma mensurável em 30 dias — seu mecanismo de benefício provavelmente não passa por redução aguda de pressões de enchimento. Isso redefine o que esperar (e o que não esperar) ao iniciar cada pilar da terapia quádrupla.",
+      "o_que_paper_diz": "Análise do GUIDE-HF (sensor CardioMEMS) mostrou que ARNI reduziu PAP diastólica em -1,56 mmHg e MRA em -1,15 mmHg em 30 dias. SGLT2i não mostrou efeito detectável de PAP. Betabloqueador teve tendência a aumentar PAP (esperado pelo efeito inotrópico negativo inicial), sem significância estatística.",
+      "interpretacao_comunidade": "O podcast Eagle's Eye View do ACC (pod_003) discutiu sacubitril/valsartan em HFpEF com IM funcional, contexto hemodinâmico que complementa os achados de hoje. Não há posts X de especialistas identificados sobre este artigo especificamente. O achado sobre SGLT2i é particularmente relevante para discussão de mecanismo — seu benefício em IC pode ser predominantemente via efeito natriurético/metabólico e de peso, não via redução de PAP.",
+      "o_que_muda": "Ao titrar GDMT em paciente monitorado por CardioMEMS, ao iniciar SGLT2i não use redução de PAP como marcador de resposta — use diurese, peso e sintomas. Ao adicionar ARNI ou MRA, uma queda discreta de PAP (~1-1,6 mmHg) pode ser usada como sinal de resposta hemodinâmica para guiar desmame de diurético.",
+      "o_que_nao_muda_ainda": "As magnitudes de redução são modestas (~1 mmHg) e a relevância clínica dessas pequenas mudanças de PAP para decisões individuais ainda não está validada prospectivamente. O GUIDE-HF foi desenhado para gestão hemodinâmica, não como trial de titulação de GDMT.",
+      "fontes_cobertura": [
+        {
+          "tipo": "artigo",
+          "id": "art_006",
+          "publicacao": "Circulation: Heart Failure"
+        },
+        {
+          "tipo": "podcast",
+          "id": "pod_003",
+          "publicacao": "Eagle's Eye View (ACC)"
+        }
+      ],
+      "historical_references": [],
+      "classe": "B",
+      "score": 7.0
+    },
+    {
+      "id": "pulso_009",
+      "is_destaque_do_dia": false,
+      "titulo": "T4F + troca de valva pulmonar: ablação guiada por EP reduz risco de TV/morte súbita em 10 anos",
+      "razao_destaque": "Coorte multicêntrica prospectiva com 10 anos de seguimento mostra diferença marcante entre ablação cirúrgica guiada por EP versus empírica em adultos com T4F corrigido submetidos a PVR — não-inducibilidade pós-op 74% versus 15%, com HR 5,3 para TV/morte súbita em quem permanece induzível. Para cardiologistas de adultos com cardiopatia congênita, isso define o padrão do procedimento.",
+      "o_que_paper_diz": "Coorte multicêntrica prospectiva (n=204, seguimento mediano 10 anos): 45% dos adultos com T4F tinham TV induzível antes da PVR. A estratégia guiada por EP alcançou não-inducibilidade pós-op em 74% vs 15% com ablação empírica (aOR 20,4; p<0,0001). Persistência de inducibilidade pós-op associou-se a HR 5,3 para TV/morte súbita em 10 anos.",
+      "interpretacao_comunidade": "Discussão na comunidade ainda incipiente — não há cobertura em podcasts ou posts X de especialistas identificados hoje sobre este estudo. O European Heart Journal confere peso ao achado. Para centros de referência em cardiopatia congênita do adulto, a mensagem é clara: mapeamento EP pré-operatório e crioablação direcionada devem ser o padrão, não a ablação empírica.",
+      "o_que_muda": "Adultos com T4F submetidos a troca de valva pulmonar devem realizar estudo eletrofisiológico pré-operatório com mapeamento de istmos anatômicos; a crioablação deve ser direcionada pelos istmos induzíveis — não empírica. A inducibilidade residual pós-op é preditor de alto risco e deve influenciar decisão sobre CDI.",
+      "o_que_nao_muda_ainda": "O estudo é observacional (não randomizado), e a seleção de centros com experiência em EP congênita adulta pode inflar os resultados. Replicação em centros com menor volume de T4F é necessária antes de generalização ampla. Custo e disponibilidade de equipe EP no intraoperatório são barreiras reais.",
+      "fontes_cobertura": [
+        {
+          "tipo": "artigo",
+          "id": "art_004",
+          "publicacao": "European Heart Journal"
+        }
+      ],
+      "historical_references": [],
+      "classe": "A",
+      "score": 8.2
+    }
+  ],
+  "post_ideas": [
+    {
+      "tipo": "novidade",
+      "emoji": "🆕",
+      "ideia": "Um novo jeito de tratar embolia pulmonar grave sem aumentar o risco de sangramento — o que o maior estudo sobre o tema revelou?",
+      "bullets": [
+        "Embolia pulmonar de risco intermediário-alto: situação em que o coágulo no pulmão compromete o coração",
+        "Novo tratamento dissolve o coágulo direto no local, com cateter guiado por ultrassom — menos remédio, mais precisão",
+        "Estudo com 544 pacientes mostrou redução de 60% no desfecho composto de complicações graves (4% vs 10,3%)",
+        "Sangramento maior não aumentou de forma significativa — principal preocupação até então",
+        "O que isso muda: pacientes com EP grave podem ter nova opção além da anticoagulação convencional"
+      ],
+      "formato_visual": {
+        "tipo_post": "post_unico",
+        "estilo": "numero_destacado",
+        "dado_central": "4% vs 10,3% — nova técnica reduziu complicações graves na embolia pulmonar"
+      },
+      "fonte": {
+        "tipo": "artigo",
+        "publicacao": "New England Journal of Medicine",
+        "titulo_origem": "Ultrasound-Facilitated, Catheter-Directed Fibrinolysis for Acute Pulmonary Embolism",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41910345/"
+      },
+      "id": "pi_001"
+    },
+    {
+      "tipo": "novidade",
+      "emoji": "🆕",
+      "ideia": "Pela primeira vez na história, cientistas 'reconstruíram' músculo cardíaco doente com células-tronco — entenda o que isso significa (e o que ainda não significa)",
+      "bullets": [
+        "Estudo em 20 pacientes com insuficiência cardíaca avançada usou tecido fabricado de células-tronco e implantou no coração",
+        "Resultado: parede do coração ficou mais espessa, função cardíaca melhorou levemente em 3 meses",
+        "Marco histórico — nunca antes tinha sido mostrado que é possível 'remuscularizar' o coração humano assim",
+        "Ainda é fase inicial de pesquisa: não está disponível para pacientes hoje",
+        "Para o paciente: o coração que parou de funcionar bem pode, no futuro, ser 'reprogramado' — não substituído"
+      ],
+      "formato_visual": {
+        "tipo_post": "carrossel",
+        "estilo": "passo_a_passo",
+        "dado_central": "Primeira vez: tecido cardíaco artificial regenerou músculo humano"
+      },
+      "fonte": {
+        "tipo": "artigo",
+        "publicacao": "New England Journal of Medicine",
+        "titulo_origem": "Stem-Cell-Derived Biologic Ventricular Assist Tissue in Heart Failure",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42202318/"
+      },
+      "id": "pi_002"
+    },
+    {
+      "tipo": "dado",
+      "emoji": "📊",
+      "ideia": "Qual é o nível ideal de potássio no sangue para quem tem insuficiência cardíaca? A maior análise já feita sobre o tema responde",
+      "bullets": [
+        "Análise de 46 mil pacientes de 12 estudos definiu a faixa ideal: entre 4,2 e 5,0 mmol/L",
+        "Potássio baixo (abaixo de 3,5) aumenta risco de morte em 49% — esse é o real perigo",
+        "Potássio levemente elevado (entre 5,0 e 5,5) NÃO piorou os desfechos em insuficiência cardíaca — medo exagerado",
+        "Prática importante: não suspender remédios essenciais para o coração por medo de potássio 'levemente alto'",
+        "Mensagem para o paciente: faça o exame de potássio regularmente e converse com seu médico sobre os seus valores"
+      ],
+      "formato_visual": {
+        "tipo_post": "post_unico",
+        "estilo": "grafico_barras",
+        "dado_central": "K+ <3,5 aumenta mortalidade em 49% — K+ 5,0-5,5 não aumenta"
+      },
+      "fonte": {
+        "tipo": "artigo",
+        "publicacao": "European Heart Journal",
+        "titulo_origem": "Optimal serum potassium concentrations in heart failure: an individual patient data meta-analysis",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42206478/"
+      },
+      "id": "pi_003"
+    },
+    {
+      "tipo": "alerta",
+      "emoji": "🚨",
+      "ideia": "Insuficiência cardíaca + apneia do sono: a combinação que dobra o risco de morte cardiovascular — você está investigando isso?",
+      "bullets": [
+        "Existem dois tipos de apneia do sono: a obstrutiva (mais comum, garganta fecha) e a central (o cérebro para de mandar sinal pra respirar)",
+        "Em pacientes com insuficiência cardíaca, a apneia central está ligada a risco de morte cardiovascular quase 4 vezes maior no primeiro ano",
+        "A diferença é enorme: apneia obstrutiva tem prognóstico bem melhor na IC",
+        "O exame de sono (polissonografia) pode mudar completamente o manejo do paciente com IC",
+        "Sinal de alerta: ronco, pausas na respiração durante o sono, acordar cansado, sonolência diurna — fale com seu cardiologista"
+      ],
+      "formato_visual": {
+        "tipo_post": "carrossel",
+        "estilo": "comparativo_lado_a_lado",
+        "dado_central": "Apneia central: risco de morte CV 3,5x maior que obstrutiva na IC"
+      },
+      "fonte": {
+        "tipo": "artigo",
+        "publicacao": "European Journal of Heart Failure",
+        "titulo_origem": "Event rates of patients with stable heart failure with reduced ejection fraction and newly diagnosed obstructive or central sleep apnoea",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42206383/"
+      },
+      "id": "pi_004"
+    },
+    {
+      "tipo": "lifestyle",
+      "emoji": "🥗",
+      "ideia": "Frio intenso pode descompensar quem tem insuficiência cardíaca — e calor extremo também, mas de formas diferentes",
+      "bullets": [
+        "Estudo com quase 27 mil internações por IC no Japão mostrou que frio extremo aumenta risco de descompensação em 80% no mesmo dia",
+        "O frio sobrecarrega o coração de quem tem pressão alta — eleva a resistência dos vasos e força o coração a trabalhar mais",
+        "Já o calor intenso descompensa mais quem tem IC com pressão baixa — o vaso dilata demais e o coração não dá conta",
+        "Prática: em ondas de frio ou calor, pacientes com IC devem redobrar atenção e monitorar sintomas",
+        "Sinais de alerta: inchaço nas pernas, falta de ar que piora deitado, ganho rápido de peso — procure atendimento"
+      ],
+      "formato_visual": {
+        "tipo_post": "carrossel",
+        "estilo": "comparativo_lado_a_lado",
+        "dado_central": "Frio extremo: 80% mais risco de descompensação cardíaca no mesmo dia"
+      },
+      "fonte": {
+        "tipo": "artigo",
+        "publicacao": "Circulation: Heart Failure",
+        "titulo_origem": "Short-Term Effects of Ambient Temperature on Acute Heart Failure Decompensation",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42206403/"
+      },
+      "id": "pi_005"
+    },
+    {
+      "tipo": "mito",
+      "emoji": "🚫",
+      "ideia": "Mito ou verdade: suplemento de ômega-3 protege o coração?",
+      "bullets": [
+        "A resposta curta: depende — e a ciência está longe de ser unanime",
+        "Grandes estudos com 50 mil pacientes (VITAL, ASCEND, OMEMI) mostraram pouco ou nenhum benefício com doses baixas",
+        "Dois trials com dose alta chegaram a conclusões OPOSTAS — um mostrou benefício, o outro não mostrou nada",
+        "Risco real e subestimado: ômega-3 aumenta consistentemente o risco de fibrilação atrial (arritmia)",
+        "Importante: chia e linhaça (ômega-3 vegetal/ALA) têm impacto diferente do EPA/DHA — não se equivalem"
+      ],
+      "formato_visual": {
+        "tipo_post": "carrossel",
+        "estilo": "pergunta_resposta",
+        "dado_central": "Ômega-3: protege ou prejudica o coração?"
+      },
+      "fonte": {
+        "tipo": "podcast",
+        "publicacao": "DozeCast - Cardiologia",
+        "titulo_origem": "Ômega-3 protege o coração? O que a evidência realmente diz (DozeCast 226)",
+        "url": "https://podcasters.spotify.com/pod/show/doze-por-oito/episodes/mega-3-protege-o-corao--O-que-a-evidncia-realmente-diz-DozeCast-226-e3jugo7"
+      },
+      "id": "pi_006"
+    },
+    {
+      "tipo": "mito",
+      "emoji": "🚫",
+      "ideia": "Mito ou verdade: suplemento de ômega-3 é inofensivo — no máximo não ajuda, mas também não faz mal?",
+      "bullets": [
+        "Esse é um dos mitos mais perigosos sobre suplementos: a ideia de que 'natural não tem risco'",
+        "Estudos mostraram sinal consistente de aumento no risco de fibrilação atrial com uso de ômega-3 — arritmia que pode precisar de anticoagulante",
+        "Ômega-3 em dose alta pode interagir com anticoagulantes e aumentar risco de sangramento",
+        "Suplementar sem indicação médica e sem investigar por que o colesterol ou triglicérides estão altos pode mascarar o problema real",
+        "Conclusão: antes de tomar ômega-3, converse com seu cardiologista — não é decisão só de prateleira de farmácia"
+      ],
+      "formato_visual": {
+        "tipo_post": "carrossel",
+        "estilo": "pergunta_resposta",
+        "dado_central": ""
+      },
+      "fonte": {
+        "tipo": "video",
+        "publicacao": "Doze por Oito Cardiologia (YouTube)",
+        "titulo_origem": "Ômega-3 protege o coração? O que a evidência realmente diz (DozeCast 226)",
+        "url": "https://www.youtube.com/watch?v=H-bHlz-dAgU"
+      },
+      "id": "pi_007"
+    },
+    {
+      "tipo": "novidade",
+      "emoji": "🆕",
+      "ideia": "Lp(a): o fator de risco cardiovascular que você provavelmente nunca mediu — e terapias específicas estão chegando",
+      "bullets": [
+        "Lp(a) é uma partícula de gordura no sangue, diferente do LDL, que aumenta muito o risco de infarto e AVC",
+        "É genético: quem tem alto, nasce com alto — dieta e exercício quase não mudam",
+        "Hoje, a única ação possível é medir uma vez na vida e controlar agressivamente os demais fatores de risco",
+        "Novidade: as primeiras terapias específicas para reduzir Lp(a) estão em fase final de estudos, com resultados esperados ainda em 2026",
+        "Pergunte ao seu cardiologista: 'Você já mediu meu Lp(a)?'"
+      ],
+      "formato_visual": {
+        "tipo_post": "carrossel",
+        "estilo": "lista_numerada",
+        "dado_central": "Lp(a): medição única pode mudar sua prevenção cardiovascular"
+      },
+      "fonte": {
+        "tipo": "noticia",
+        "publicacao": "Healio Cardiology",
+        "titulo_origem": "Lp(a) and cardiovascular risk: What you should know",
+        "url": "https://www.healio.com/news/cardiology/20260526/lpa-and-cardiovascular-risk-what-you-should-know"
+      },
+      "id": "pi_008"
+    },
+    {
+      "tipo": "evolucao",
+      "emoji": "🔄",
+      "ideia": "Nova Diretriz Brasileira de Dislipidemias 2026: o que mudou no tratamento do colesterol no Brasil?",
+      "bullets": [
+        "A diretriz brasileira foi atualizada em 2026 com novas metas de LDL para pacientes de alto e muito alto risco",
+        "Novidade: fatores reprodutivos e hormonais (menopausa, síndrome dos ovários policísticos, uso de anticoncepcionais) agora entram no cálculo de risco cardiovascular da mulher",
+        "Sequência de tratamento revisada: estatina → ezetimiba → injeções para reduzir LDL — escada terapêutica clara",
+        "Intolerância à estatina: guideline reconhece o 'efeito nocebo' e traz estratégias para superar a dificuldade",
+        "Mensagem prática: se você tem colesterol alto e acha que já tomou tudo que pode, vale revisar com seu médico — há mais opções hoje"
+      ],
+      "formato_visual": {
+        "tipo_post": "carrossel",
+        "estilo": "passo_a_passo",
+        "dado_central": ""
+      },
+      "fonte": {
+        "tipo": "video",
+        "publicacao": "Afya CardioPapers (YouTube)",
+        "titulo_origem": "Atualização Médica | Nova Diretriz Brasileira de Dislipidemias 2026 - Parte 2",
+        "url": "https://www.youtube.com/watch?v=3lqyh4VaUAw"
+      },
+      "id": "pi_009"
+    },
+    {
+      "tipo": "prevencao",
+      "emoji": "🛡️",
+      "ideia": "Hábitos saudáveis para o coração podem ter te protegido da COVID-19 grave — e o estudo que prova isso",
+      "bullets": [
+        "Pesquisa mostrou que cada melhora nos 8 hábitos de saúde cardiovascular da AHA estava associada a ~20% menos risco de COVID-19 grave",
+        "Os 8 hábitos: não fumar, atividade física, alimentação saudável, sono adequado, peso controlado, glicose, colesterol e pressão dentro das metas",
+        "Mecanismo: coração e pulmões saudáveis resistem melhor a qualquer agressão — COVID não foi exceção",
+        "Reforço importante: o cuidado cardiovascular não é só sobre o coração — é sobre saúde geral",
+        "Ação concreta: dos 8 hábitos, qual você já faz? Qual pode melhorar hoje?"
+      ],
+      "formato_visual": {
+        "tipo_post": "carrossel",
+        "estilo": "lista_numerada",
+        "dado_central": "8 hábitos saudáveis = 20% menos risco de COVID grave"
+      },
+      "fonte": {
+        "tipo": "noticia",
+        "publicacao": "Healio Cardiology",
+        "titulo_origem": "Heart-healthy habits may have prevented cases of severe COVID-19",
+        "url": "https://www.healio.com/news/cardiology/20260527/hearthealthy-habits-may-have-prevented-cases-of-severe-covid19"
+      },
+      "id": "pi_010"
+    },
+    {
+      "tipo": "alerta",
+      "emoji": "🚨",
+      "ideia": "Enxaqueca com aura aumenta o risco de AVC — o que quem sofre com isso precisa saber",
+      "bullets": [
+        "Estudo em adultos de meia-idade confirmou que enxaqueca com aura (aquela com pontos de luz, formigamento antes da dor) aumenta o risco de AVC isquêmico",
+        "Aura é o sinal que diferencia: enxaqueca sem aura tem risco bem menor",
+        "Em homens com menos de 72 anos, até enxaqueca sem aura mostrou aumento de risco — achado surpreendente",
+        "O que fazer: quem tem enxaqueca com aura deve conversar com o médico sobre controle rigoroso de pressão, colesterol e parar de fumar",
+        "Atenção especial: mulheres jovens com enxaqueca com aura e uso de anticoncepcional hormonal — risco cumulativo importante"
+      ],
+      "formato_visual": {
+        "tipo_post": "carrossel",
+        "estilo": "lista_numerada",
+        "dado_central": ""
+      },
+      "fonte": {
+        "tipo": "noticia",
+        "publicacao": "Healio Cardiology",
+        "titulo_origem": "Stroke risk greater in older adults with migraine with aura",
+        "url": "https://www.healio.com/news/neurology/20260527/migraine-with-aura-linked-to-greater-risk-for-ischemic-stroke-in-older-adults"
+      },
+      "id": "pi_011"
+    },
+    {
+      "tipo": "lifestyle",
+      "emoji": "🥗",
+      "ideia": "Pressão alta é o fator de risco cardiovascular número 1 do mundo — e ainda é subestimada",
+      "bullets": [
+        "A NEJM publicou uma revisão atualizada sobre hipertensão como fator de risco cardiovascular em 2026",
+        "Metade dos hipertensos não sabe que tem a doença — a pressão alta não dói",
+        "Mesmo quando diagnosticada, o controle ainda é ruim na maioria das pessoas: menos de metade atinge a meta",
+        "Metas atuais: abaixo de 130/80 mmHg para quem tem risco cardiovascular elevado",
+        "Ação concreta: meça sua pressão regularmente, mesmo sentindo-se bem — é o único jeito de saber"
+      ],
+      "formato_visual": {
+        "tipo_post": "carrossel",
+        "estilo": "lista_numerada",
+        "dado_central": ""
+      },
+      "fonte": {
+        "tipo": "artigo",
+        "publicacao": "New England Journal of Medicine",
+        "titulo_origem": "Cardiovascular Risk Factors - Hypertension",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42160722/"
+      },
+      "id": "pi_012"
+    },
+    {
+      "tipo": "lifestyle",
+      "emoji": "🥗",
+      "ideia": "A NEJM listou as modificações de estilo de vida que mais importam para o coração — você faz quantas?",
+      "bullets": [
+        "Série especial da NEJM revisou as mudanças de comportamento com maior impacto cardiovascular comprovado",
+        "No topo: parar de fumar, atividade física regular, dieta com menos ultraprocessados e mais vegetais",
+        "Sono de qualidade e duração adequada (7-8h) também aparece como pilar essencial — frequentemente ignorado",
+        "Gerenciamento do estresse crônico: cada vez mais evidência de impacto direto no coração",
+        "A mensagem central: não existe remédio que substitua estilo de vida — mas estilo de vida saudável pode reduzir a necessidade de remédios"
+      ],
+      "formato_visual": {
+        "tipo_post": "carrossel",
+        "estilo": "lista_numerada",
+        "dado_central": ""
+      },
+      "fonte": {
+        "tipo": "artigo",
+        "publicacao": "New England Journal of Medicine",
+        "titulo_origem": "Cardiovascular Risk Factors - Lifestyle Modifications",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42202317/"
+      },
+      "id": "pi_013"
+    },
+    {
+      "tipo": "prevencao",
+      "emoji": "🛡️",
+      "ideia": "Você já fez o exame do colesterol ruim do futuro? Conheça o Lp(a) — o fator de risco que muda tudo para alguns pacientes",
+      "bullets": [
+        "O Lp(a) é uma variante do LDL com potencial muito maior de causar infarto e AVC — e 1 em cada 5 pessoas tem nível elevado",
+        "Diferente do LDL comum, o Lp(a) é quase 100% genético: não muda muito com dieta ou exercício",
+        "A dosagem é simples, feita uma vez na vida com exame de sangue",
+        "Hoje ainda não há remédio aprovado específico para ele — mas saber que está alto muda a conduta: controle ainda mais rigoroso dos outros fatores",
+        "Novas terapias específicas estão em estudos finais e podem estar disponíveis em breve"
+      ],
+      "formato_visual": {
+        "tipo_post": "carrossel",
+        "estilo": "pergunta_resposta",
+        "dado_central": "1 em cada 5 pessoas tem Lp(a) elevado sem saber"
+      },
+      "fonte": {
+        "tipo": "noticia",
+        "publicacao": "Healio Cardiology",
+        "titulo_origem": "'Excitement and interest' as Lp(a) therapies inch closer",
+        "url": "https://www.healio.com/news/cardiology/20260528/excitement-and-interest-as-lpa-therapies-inch-closer"
+      },
+      "id": "pi_014"
+    },
+    {
+      "tipo": "evolucao",
+      "emoji": "🔄",
+      "ideia": "Antes evitado, hoje recomendado: o que mudou no pensamento sobre colesterol LDL nas novas diretrizes de 2026?",
+      "bullets": [
+        "As novas diretrizes lipídicas incluíram fatores reprodutivos e hormonais femininos no cálculo de risco — menopausa precoce, SOP e complicações na gravidez agora pesam",
+        "A escada de tratamento ficou mais clara: primeiro tenta-se com estatina, depois adiciona-se ezetimiba, depois as injeções para reduzir LDL",
+        "Quatro pontos de atenção levantados por especialistas: pacientes de alto risco não estão chegando às metas; intolerância à estatina ainda é mal manejada; Lp(a) segue ignorado; risco residual após LDL controlado não é abordado",
+        "Novidade: o 'efeito nocebo' das estatinas (pessoa acha que tem efeito colateral por ler a bula) recebe atenção oficial nas diretrizes",
+        "Para o paciente: se você toma remédio para colesterol e nunca chegou à meta, pergunte ao médico se há próximo passo"
+      ],
+      "formato_visual": {
+        "tipo_post": "carrossel",
+        "estilo": "passo_a_passo",
+        "dado_central": ""
+      },
+      "fonte": {
+        "tipo": "podcast",
+        "publicacao": "This Week in Cardiology (Mandrola)",
+        "titulo_origem": "May 22 2026 This Week in Cardiology",
+        "url": "https://twicardiology.libsyn.com/may-22-2026-this-week-in-cardiology"
+      },
+      "id": "pi_015"
+    },
+    {
+      "tipo": "medicacao",
+      "emoji": "💊",
+      "ideia": "O colesterol LDL precisa ir para qual nível? O estudo Ez-PAVE explica — e a resposta pode surpreender",
+      "bullets": [
+        "Estudo randomizado avaliou qual meta de LDL traz mais benefício em pacientes com doença cardiovascular estabelecida",
+        "A tendência atual das diretrizes é buscar LDL cada vez mais baixo em pacientes de alto risco — abaixo de 55 mg/dL",
+        "Para chegar lá, muitos pacientes precisam de mais de um remédio: estatina + ezetimiba (comprimido), e às vezes injeção bimestral",
+        "Mito derrubável: 'meu colesterol baixou, posso parar o remédio' — a meta não é só baixar, é manter baixo de forma sustentada",
+        "Converse com seu cardiologista: qual é a sua meta de LDL? Você está atingindo ela?"
+      ],
+      "formato_visual": {
+        "tipo_post": "carrossel",
+        "estilo": "pergunta_resposta",
+        "dado_central": "LDL <55 mg/dL: nova meta para quem tem doença cardiovascular estabelecida"
+      },
+      "fonte": {
+        "tipo": "video",
+        "publicacao": "NEJM Group (YouTube)",
+        "titulo_origem": "Dr. Glaucomflecken Explains: Intensive LDL Cholesterol Targeting in Atherosclerotic CVD (Ez-PAVE)",
+        "url": "https://www.youtube.com/watch?v=dDzmhmP7EQk"
+      },
+      "id": "pi_016"
+    },
+    {
+      "tipo": "medicacao",
+      "emoji": "💊",
+      "ideia": "Você sabe como funciona o remédio para colesterol que vem em injeção? O que muda para o paciente na prática?",
+      "bullets": [
+        "Existem injeções bimestrais ou mensais que reduzem o LDL em até 50-60% a mais do que estatina sozinha",
+        "São indicadas quando estatina + ezetimiba comprimido não conseguem atingir a meta — especialmente em quem já teve infarto ou AVC",
+        "Diferença prática: em vez de tomar comprimido todo dia, aplica-se uma injeção a cada 2 meses",
+        "Segurança comprovada em estudos grandes — mais de 10 anos de acompanhamento de pacientes",
+        "Limitação atual: custo elevado, disponibilidade variável — nem sempre acessível no sistema público"
+      ],
+      "formato_visual": {
+        "tipo_post": "carrossel",
+        "estilo": "comparativo_lado_a_lado",
+        "dado_central": ""
+      },
+      "fonte": {
+        "tipo": "artigo",
+        "publicacao": "Journal of Atherosclerosis and Thrombosis",
+        "titulo_origem": "Current and Future Perspectives of LDL-C Lowering Therapies 2026",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42203447/"
+      },
+      "id": "pi_017"
+    },
+    {
+      "tipo": "faq",
+      "emoji": "❓",
+      "ideia": "Paciente pergunta: 'posso colocar stent para tratar problema de válvula? Ou precisa de cirurgia aberta?'",
+      "bullets": [
+        "Hoje é possível trocar a válvula do coração (aórtica) sem abrir o peito — usando um cateter pela perna",
+        "O procedimento é chamado de implante de válvula via cateter — já é feito há mais de 15 anos",
+        "Para quem é indicado: inicialmente para pacientes mais velhos ou com alto risco cirúrgico; hoje a indicação está sendo expandida",
+        "Discussão atual: qual a durabilidade da válvula implantada via cateter? Estudos de 3 anos apresentados em congresso internacional mostram bons resultados em válvulas pequenas",
+        "Decisão individualizada: seu cardiologista e cirurgião cardíaco avaliam juntos qual abordagem é melhor para você"
+      ],
+      "formato_visual": {
+        "tipo_post": "carrossel",
+        "estilo": "pergunta_resposta",
+        "dado_central": ""
+      },
+      "fonte": {
+        "tipo": "video",
+        "publicacao": "Radcliffe Cardiology (YouTube)",
+        "titulo_origem": "EuroPCR 26: SMART Trial: Three-Year Outcomes in Small Aortic Annulus TAVR",
+        "url": "https://www.youtube.com/watch?v=pljQXP5OQwo"
+      },
+      "id": "pi_018"
+    },
+    {
+      "tipo": "prevencao",
+      "emoji": "🛡️",
+      "ideia": "Você sabia que colocar stent sem ter tido infarto pode ser indicado para prevenir o primeiro evento? O trial VESALIUS-CV explica",
+      "bullets": [
+        "Estudo apresentado no EuroPCR 2026 avaliou uso de remédio para reduzir muito o LDL em pacientes que fizeram stent mas nunca tiveram infarto",
+        "Resultado: redução significativa de eventos cardiovasculares futuros com LDL muito controlado após o procedimento",
+        "A mensagem: colocar stent não é o fim do tratamento — é o início de uma estratégia de prevenção agressiva",
+        "Após stent, metas de LDL são mais rigorosas e o controle de todos os fatores de risco é ainda mais importante",
+        "Prática: se você ou alguém que conhece fez stent, pergunte ao cardiologista qual é a meta de LDL e se ela está sendo atingida"
+      ],
+      "formato_visual": {
+        "tipo_post": "carrossel",
+        "estilo": "lista_numerada",
+        "dado_central": ""
+      },
+      "fonte": {
+        "tipo": "video",
+        "publicacao": "Radcliffe Cardiology (YouTube)",
+        "titulo_origem": "EuroPCR 26: VESALIUS-CV: Evolocumab in Stented Patients Without Prior MI",
+        "url": "https://www.youtube.com/watch?v=pLDVKpINAPQ"
+      },
+      "id": "pi_019"
+    },
+    {
+      "tipo": "alerta",
+      "emoji": "🚨",
+      "ideia": "Plástico no seu corpo pode estar prejudicando seu coração — a ciência ainda inicial que todo mundo deveria conhecer",
+      "bullets": [
+        "Estudo mostrou que o BPF — substituto comum do BPA em plásticos 'sem BPA' — foi detectado na urina de 90% das pessoas testadas",
+        "No laboratório, essa substância agravou lesão cardíaca via microbiota intestinal — eixo intestino-coração",
+        "Ainda é pesquisa translacional: sem mudança de conduta clínica confirmada hoje",
+        "Mas o sinal é preocupante: trocar BPA por BPF pode não ser a solução que se pensava",
+        "Ação possível hoje: reduzir uso de plástico para alimentos quentes, preferir vidro e inox — medida de precaução razoável"
+      ],
+      "formato_visual": {
+        "tipo_post": "carrossel",
+        "estilo": "lista_numerada",
+        "dado_central": "BPF detectado em 90% das amostras de urina humana testadas"
+      },
+      "fonte": {
+        "tipo": "artigo",
+        "publicacao": "Circulation",
+        "titulo_origem": "Microplastic Exposure Aggravates Cardiomyopathy Under Hemodynamic Stress Through the Gut-Heart Axis",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42206375/"
+      },
+      "id": "pi_020"
+    },
+    {
+      "tipo": "checklist",
+      "emoji": "📋",
+      "ideia": "Salve esse post: 7 perguntas que você deveria fazer ao seu cardiologista na próxima consulta",
+      "bullets": [
+        "1. Qual é minha meta de LDL? Estou atingindo ela?",
+        "2. Já medi meu Lp(a) alguma vez?",
+        "3. Minha pressão está abaixo de 130/80 mmHg consistentemente?",
+        "4. Tenho apneia do sono investigada? (especialmente se tenho IC ou arritmia)",
+        "5. Meus remédios precisam de ajuste de dose por função renal ou potássio?",
+        "6. Qual é meu risco cardiovascular calculado? Alto, intermediário ou baixo?",
+        "7. O que posso mudar no estilo de vida para reduzir meu risco agora?"
+      ],
+      "formato_visual": {
+        "tipo_post": "carrossel",
+        "estilo": "lista_numerada",
+        "dado_central": "7 perguntas para levar à consulta cardiológica"
+      },
+      "fonte": {
+        "tipo": "artigo",
+        "publicacao": "New England Journal of Medicine",
+        "titulo_origem": "Cardiovascular Risk Factors - Hypertension",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42160722/"
+      },
+      "id": "pi_021"
+    },
+    {
+      "tipo": "prevencao",
+      "emoji": "🛡️",
+      "ideia": "A doença de Chagas e a insuficiência cardíaca: o que um paciente brasileiro precisa saber sobre essa combinação",
+      "bullets": [
+        "A doença de Chagas ainda afeta milhões de brasileiros e pode levar à insuficiência cardíaca décadas depois da infecção",
+        "Vídeo da ESC traz depoimento de paciente brasileira vivendo com Chagas e IC — experiência real, não só teoria",
+        "Sintomas podem aparecer 20-30 anos depois: arritmia, falta de ar progressiva, inchaço",
+        "Quem viveu em área endêmica (norte de MG, GO, BA, interior do NE) e nunca foi testado: vale conversar com o médico",
+        "Hoje existem tratamentos para IC de Chagas que melhoram muito a qualidade de vida"
+      ],
+      "formato_visual": {
+        "tipo_post": "carrossel",
+        "estilo": "pergunta_resposta",
+        "dado_central": ""
+      },
+      "fonte": {
+        "tipo": "video",
+        "publicacao": "European Society of Cardiology (YouTube)",
+        "titulo_origem": "Patient video: Living with Chagas disease and HF",
+        "url": "https://www.youtube.com/watch?v=gc-q7nfjL6k"
+      },
+      "id": "pi_022"
+    },
+    {
+      "tipo": "faq",
+      "emoji": "❓",
+      "ideia": "Por que renda baixa piora os resultados de quem tem insuficiência cardíaca? O estudo FUND-HF revela algo que todo paciente merece entender",
+      "bullets": [
+        "Estudo piloto mostrou que oferecer suporte financeiro direto após alta hospitalar para pacientes de baixa renda com IC melhorou significativamente a adesão ao tratamento",
+        "O problema não é falta de vontade: é custo de remédio, transporte para consulta, alimentação adequada",
+        "Pacientes que não conseguem seguir o tratamento têm mais reinternações, mais complicações, pior qualidade de vida",
+        "Mensagem para o paciente: se você está com dificuldade de seguir o tratamento por razões financeiras, diga ao seu médico — existem recursos e estratégias",
+        "Assistência social hospitalar, programas de medicamento gratuito, farmácia popular — esses recursos existem e precisam ser mobilizados"
+      ],
+      "formato_visual": {
+        "tipo_post": "carrossel",
+        "estilo": "pergunta_resposta",
+        "dado_central": ""
+      },
+      "fonte": {
+        "tipo": "x",
+        "publicacao": "JACC Journals (Twitter/X)",
+        "titulo_origem": "FUND-HF pilot: direct financial support boosts GDMT adherence in low-income HF patients",
+        "url": "https://x.com/JACCJournals/status/2060051693086052460"
+      },
+      "id": "pi_023"
+    },
+    {
+      "tipo": "lifestyle",
+      "emoji": "🥗",
+      "ideia": "Remédios para emagrecer (tipo GLP-1): o que acontece com o peso quando você para de tomar?",
+      "bullets": [
+        "Dados sobre tirzepatida mostram que parte do peso perdido retorna após a descontinuação do remédio",
+        "Isso acontece porque esses medicamentos controlam o apetite — quando param, o apetite volta",
+        "Não é fraqueza de vontade: é biologia. O ponto de ajuste do peso no cérebro não muda permanentemente com o remédio",
+        "Implicação prática: o tratamento da obesidade com esses remédios tende a ser de longo prazo — não é ciclo curto",
+        "Para o coração: a perda de peso sustentada tem benefício cardiovascular comprovado — por isso a manutenção importa"
+      ],
+      "formato_visual": {
+        "tipo_post": "carrossel",
+        "estilo": "pergunta_resposta",
+        "dado_central": ""
+      },
+      "fonte": {
+        "tipo": "podcast",
+        "publicacao": "Eagle's Eye View (ACC)",
+        "titulo_origem": "Maintaining Weight Loss with Tirzepatide; the new Dyslipidemia Guidelines; Sacubitril/Valsartan & HFpEF & Functional MR; Digitoxin & Heart Failure",
+        "url": "https://eagleseye.acc.org/maintaining-weight-loss-with-tirzepatide-the-new-dyslipidemia-guidelines-sacubitrilvalsartan-hfpef-functional-mr-digitoxin-heart-failure"
+      },
+      "id": "pi_024"
+    },
+    {
+      "tipo": "evolucao",
+      "emoji": "🔄",
+      "ideia": "A angiografia coronária evoluiu: hoje o exame pode dizer não só se você tem obstrução, mas se ela causa sintoma e como está a placa",
+      "bullets": [
+        "A angiotomografia coronária (angioTC) era usada principalmente para ver se havia bloqueio nas artérias",
+        "Hoje, com tecnologia adicional, o mesmo exame pode estimar se a obstrução realmente reduz o fluxo de sangue — sem cateter",
+        "Mais recente: inteligência artificial analisa a composição da placa e estima seu risco de romper — antes que cause infarto",
+        "Estudos grandes (SCOT-HEART, PROMISE) validaram que esse exame muda decisões terapêuticas e melhora resultados",
+        "Prática: para investigar dor no peito em paciente de risco intermediário, a angioTC já é opção sólida e não-invasiva"
+      ],
+      "formato_visual": {
+        "tipo_post": "carrossel",
+        "estilo": "passo_a_passo",
+        "dado_central": ""
+      },
+      "fonte": {
+        "tipo": "podcast",
+        "publicacao": "CardioNerds",
+        "titulo_origem": "151: CCTA, CT-FFR, and AI Plaque Analysis to Personalize CAD Detection, Prevention, and Management with Dr. Michael Gallagher",
+        "url": "https://www.cardionerds.com/151-ccta-ct-ffr-and-ai-plaque-analysis-to-personalize-cad-detection-prevention-and-management-with-dr-michael-gallagher/"
+      },
+      "id": "pi_025"
+    },
+    {
+      "tipo": "comparativo",
+      "emoji": "🆚",
+      "ideia": "Capacidade física vs exame de imagem: qual é melhor para prever o futuro de quem tem doença coronária avançada?",
+      "bullets": [
+        "Novo editorial da ESC destaca que a capacidade funcional (o quanto você consegue se exercitar) pode ser preditor prognóstico tão importante quanto os achados do cateterismo ou da angioTC",
+        "Paciente com obstrução grave mas boa capacidade física tem prognóstico melhor que paciente com obstrução moderada e muito limitado fisicamente",
+        "Isso reforça a importância do teste ergométrico e dos testes funcionais na avaliação cardiológica",
+        "Implicação prática: não é só o que aparece no exame — é o que você consegue fazer que determina muito sobre o seu coração",
+        "Pergunta para provocar reflexão: quando foi a última vez que seu cardio perguntou quantos andares você consegue subir sem parar?"
+      ],
+      "formato_visual": {
+        "tipo_post": "carrossel",
+        "estilo": "comparativo_lado_a_lado",
+        "dado_central": ""
+      },
+      "fonte": {
+        "tipo": "podcast",
+        "publicacao": "ESC Cardio Talk",
+        "titulo_origem": "Journal editorial: Beyond ischemia and anatomy: functional capacity as a stage-specific prognostic driver in advanced coronary atherosclerosis",
+        "url": "https://escardio.libsyn.com/journal-editorial-beyond-ischemia-and-anatomy-functional-capacity-as-a-stage-specific-prognostic-driver-in-advanced-coronary-atherosclerosis"
+      },
+      "id": "pi_026"
+    },
+    {
+      "tipo": "alerta",
+      "emoji": "🚨",
+      "ideia": "Hipertensão resistente: quando a pressão não baixa mesmo com 3 remédios, existe saída — e ela não é cirúrgica",
+      "bullets": [
+        "Hipertensão resistente é quando a pressão permanece alta mesmo usando 3 ou mais remédios de classes diferentes, incluindo diurético",
+        "Existe um procedimento minimamente invasivo (denervação renal) que bloqueia os nervos que 'aceleram' os rins a elevar a pressão",
+        "É feito via cateter, sem cirurgia aberta — semelhante a um cateterismo",
+        "Não é para qualquer hipertenso: só para quem realmente não controla com medicação adequada e bem usada",
+        "Passo antes de considerar: confirmar que o paciente realmente toma os remédios e que não há causa corrigível (apneia, problema renal, hormonal)"
+      ],
+      "formato_visual": {
+        "tipo_post": "carrossel",
+        "estilo": "fluxograma",
+        "dado_central": ""
+      },
+      "fonte": {
+        "tipo": "video",
+        "publicacao": "Medscape (YouTube)",
+        "titulo_origem": "How Renal Denervation for the Treatment of Resistant Hypertension Should be Implemented in a Multidisciplinary Setting",
+        "url": "https://www.youtube.com/watch?v=MvoCyv9PQZU"
+      },
+      "id": "pi_027"
+    },
+    {
+      "tipo": "mito",
+      "emoji": "🚫",
+      "ideia": "Mito ou verdade: 'Estatina destrói a memória e por isso não vou tomar'",
+      "bullets": [
+        "Esse é um dos motivos mais comuns de abandono de estatina no Brasil — e a evidência não sustenta",
+        "As novas diretrizes de 2026 dedicam atenção especial ao chamado 'efeito nocebo': o paciente lê a bula, acha que vai ter o efeito, e passa a sentir o sintoma",
+        "Estudos controlados não confirmam associação entre estatina e declínio cognitivo",
+        "O risco de parar a estatina por conta própria é real: aumento de LDL e maior risco de infarto e AVC",
+        "Se você está com sintomas que atribui à estatina, converse com o médico antes de parar — há estratégias comprovadas para lidar com intolerância"
+      ],
+      "formato_visual": {
+        "tipo_post": "carrossel",
+        "estilo": "pergunta_resposta",
+        "dado_central": ""
+      },
+      "fonte": {
+        "tipo": "podcast",
+        "publicacao": "This Week in Cardiology (Mandrola)",
+        "titulo_origem": "May 22 2026 This Week in Cardiology",
+        "url": "https://twicardiology.libsyn.com/may-22-2026-this-week-in-cardiology"
+      },
+      "id": "pi_028"
+    },
+    {
+      "tipo": "medicacao",
+      "emoji": "💊",
+      "ideia": "Remédio para diabetes que protege o coração: o que muda para quem tem insuficiência cardíaca com função 'preservada'?",
+      "bullets": [
+        "A insuficiência cardíaca com fração de ejeção preservada (o coração bate normal mas está rígido) era a forma sem tratamento específico por muitos anos",
+        "Hoje, uma classe de remédios para diabetes (que age nos rins para eliminar açúcar pela urina) mostrou benefício também nesse tipo de IC — mesmo em quem não tem diabetes",
+        "Discussão atual: como esse remédio interage com outras terapias e qual o benefício em perfis específicos de paciente",
+        "Para o paciente com IC: pergunte ao cardiologista se você já está recebendo todas as 4 classes de medicamentos recomendadas atualmente",
+        "A combinação certa de remédios pode reduzir internações e melhorar qualidade de vida significativamente"
+      ],
+      "formato_visual": {
+        "tipo_post": "carrossel",
+        "estilo": "lista_numerada",
+        "dado_central": ""
+      },
+      "fonte": {
+        "tipo": "video",
+        "publicacao": "Medscape (YouTube)",
+        "titulo_origem": "Managing Heart Failure in ATTR-CM",
+        "url": "https://www.youtube.com/watch?v=40IDtc1btgQ"
+      },
+      "id": "pi_029"
+    },
+    {
+      "tipo": "comparativo",
+      "emoji": "🆚",
+      "ideia": "Marca-passo tradicional vs marca-passo sem fio: o que você precisa saber antes de precisar de um",
+      "bullets": [
+        "O marca-passo convencional tem um gerador no tórax com fios que vão até o coração — implantado há décadas",
+        "O marca-passo sem fio (leadless) é uma cápsula minúscula colocada direto dentro do coração via cateter — sem fios, sem cicatriz no tórax",
+        "Vantagem do sem fio: sem risco de infecção do fio, sem restrição de movimento, quase invisível sob a pele",
+        "Limitação atual: ainda em desenvolvimento a sincronia entre câmaras (importa para alguns pacientes)",
+        "Primeiros implantes europeus de nova geração com sincronia melhorada foram anunciados — tecnologia avança rapidamente"
+      ],
+      "formato_visual": {
+        "tipo_post": "carrossel",
+        "estilo": "comparativo_lado_a_lado",
+        "dado_central": ""
+      },
+      "fonte": {
+        "tipo": "noticia",
+        "publicacao": "Cardiac Rhythm News",
+        "titulo_origem": "Biotronik announces first European implants of LivIQ leadless pacemaker",
+        "url": "https://cardiacrhythmnews.com/biotronik-announces-first-european-implants-of-liviq-leadless-pacemaker/"
+      },
+      "id": "pi_030"
+    },
+    {
+      "tipo": "dado",
+      "emoji": "📊",
+      "ideia": "1 infarto pode não aparecer no ECG — especialmente em mulheres",
+      "bullets": [
+        "Podcast da Circulation discute o MINOCA: infarto sem obstrução visível nas artérias — mais comum em mulheres",
+        "ECG normal e até cateterismo 'limpo' não excluem infarto: o dano pode ter causa diferente (espasmo, dissecção, coágulo pequeno)",
+        "Imagens mais avançadas (ressonância magnética do coração) são essenciais para identificar a causa real nesses casos",
+        "Mensagem prática: dor no peito em mulher com ECG normal não significa 'está tudo bem' — investigação completa é necessária",
+        "Implicação: o diagnóstico de infarto em mulheres ainda é mais tardio que em homens — atenção redobrada"
+      ],
+      "formato_visual": {
+        "tipo_post": "carrossel",
+        "estilo": "lista_numerada",
+        "dado_central": ""
+      },
+      "fonte": {
+        "tipo": "podcast",
+        "publicacao": "Circulation on the Run",
+        "titulo_origem": "Circulation May 26, 2026 Issue",
+        "url": "https://circulation.libsyn.com/circulation-may-26-2026-issue"
+      },
+      "id": "pi_031"
+    },
+    {
+      "tipo": "checklist",
+      "emoji": "📋",
+      "ideia": "Checklist: 5 hábitos para proteger o coração que a ciência de 2026 reforça com mais evidência do que nunca",
+      "bullets": [
+        "1. Exercício aeróbico regular (mínimo 150 min/semana de intensidade moderada) — benefício dose-resposta comprovado",
+        "2. Sono de 7-8 horas de qualidade — privação de sono eleva pressão, inflamação e risco de arritmia",
+        "3. Dieta com menos ultraprocessados e mais vegetais, leguminosas, peixes — padrão mediterrâneo",
+        "4. Não fumar — o maior fator de risco modificável único para infarto e AVC",
+        "5. Controle de pressão, colesterol e glicose — saber seus números e ter metas definidas com o médico"
+      ],
+      "formato_visual": {
+        "tipo_post": "carrossel",
+        "estilo": "lista_numerada",
+        "dado_central": "5 hábitos com maior evidência cardiovascular em 2026"
+      },
+      "fonte": {
+        "tipo": "video",
+        "publicacao": "NEJM Group (YouTube)",
+        "titulo_origem": "Cardiovascular Risk Factors — Lifestyle Modifications | NEJM",
+        "url": "https://www.youtube.com/watch?v=KYIEyRT9_HU"
+      },
+      "id": "pi_032"
+    },
+    {
+      "tipo": "lifestyle",
+      "emoji": "🥗",
+      "ideia": "Enxaqueca com aura e pressão alta: a dupla que você precisa levar a sério — e o que fazer",
+      "bullets": [
+        "Enxaqueca com aura já é fator de risco independente para AVC — especialmente em mulheres",
+        "Combinada com pressão alta não controlada, o risco se multiplica",
+        "Anticoncepcionais hormonais em mulheres com enxaqueca com aura aumentam ainda mais o risco — decisão médica importante",
+        "Ação concreta: se você tem enxaqueca com aura, informe ao seu cardiologista (não só ao neurologista) — ele precisa saber",
+        "Controle rigoroso de pressão, colesterol, parar de fumar e praticar exercício são as melhores proteções disponíveis hoje"
+      ],
+      "formato_visual": {
+        "tipo_post": "carrossel",
+        "estilo": "fluxograma",
+        "dado_central": ""
+      },
+      "fonte": {
+        "tipo": "noticia",
+        "publicacao": "Healio Cardiology",
+        "titulo_origem": "Stroke risk greater in older adults with migraine with aura",
+        "url": "https://www.healio.com/news/neurology/20260527/migraine-with-aura-linked-to-greater-risk-for-ischemic-stroke-in-older-adults"
+      },
+      "id": "pi_033"
+    }
+  ]
+}
