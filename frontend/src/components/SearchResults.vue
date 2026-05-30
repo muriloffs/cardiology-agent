@@ -50,7 +50,7 @@
                 {{ typeEmoji(r.type) }} {{ typeLabel(r.type) }}
               </span>
               <h4 class="font-semibold text-sm text-gray-900 leading-snug break-words">
-                {{ r.item.titulo || r.item.ideia || '(sem título)' }}
+                {{ r.item.titulo_pt || r.item.titulo || r.item.ideia || '(sem título)' }}
               </h4>
             </div>
             <p

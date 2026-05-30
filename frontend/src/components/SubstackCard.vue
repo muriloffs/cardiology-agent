@@ -49,9 +49,15 @@
     <!-- Body -->
     <div class="px-4 md:px-5 pb-4 space-y-3">
       <!-- Title -->
-      <h3 class="font-bold text-base md:text-lg leading-snug text-gray-900">
-        {{ post.titulo }}
-      </h3>
+      <div>
+        <h3 class="font-bold text-base md:text-lg leading-snug text-gray-900">
+          {{ post.titulo_pt || post.titulo }}
+        </h3>
+        <p v-if="post.titulo_pt && post.titulo && post.titulo_pt !== post.titulo"
+           class="text-[11px] text-gray-400 italic font-normal mt-0.5 break-words">
+          {{ post.titulo }}
+        </p>
+      </div>
 
       <!-- Bullets -->
       <ul v-if="post.bullets?.length" class="space-y-1.5">

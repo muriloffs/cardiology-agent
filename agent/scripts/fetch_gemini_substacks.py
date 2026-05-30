@@ -169,6 +169,7 @@ def _parse_single_block(block: str) -> dict | None:
 
     post = {
         "titulo": "",
+        "titulo_pt": "",
         "url": "",
         "data_pub": "",
         "autor": "",
@@ -187,6 +188,7 @@ def _parse_single_block(block: str) -> dict | None:
     # Label → post-field mapping (multi-line capable for resumo/contraponto/quem_se_aplica/evidencia_chave)
     LABEL_MAP = {
         "TITLE": "titulo", "TITULO": "titulo",
+        "TITLE_PT": "titulo_pt", "TITULO_PT": "titulo_pt",
         "URL": "url",
         "DATE": "data_pub", "DATA": "data_pub",
         "AUTOR": "autor", "AUTHOR": "autor",
@@ -196,7 +198,7 @@ def _parse_single_block(block: str) -> dict | None:
         "EVIDENCIA_CHAVE": "evidencia_chave", "EVIDENCIACHAVE": "evidencia_chave",
         "CONTRAPONTO": "contraponto",
     }
-    MULTILINE_FIELDS = {"resumo", "quem_se_aplica", "evidencia_chave", "contraponto", "titulo"}
+    MULTILINE_FIELDS = {"resumo", "quem_se_aplica", "evidencia_chave", "contraponto", "titulo", "titulo_pt"}
 
     for raw_line in lines:
         line = raw_line.rstrip()
@@ -285,7 +287,8 @@ Use Google Search para encontrar os {max_items} posts mais recentes (últimos {d
 
 Para cada post, responda EXATAMENTE neste formato. Separe posts com uma linha contendo apenas '---'.
 
-TITLE: <título traduzido para português brasileiro — natural, fluente, não literal>
+TITLE: <título ORIGINAL do post no idioma em que foi publicado (sem traduzir)>
+TITLE_PT: <tradução do título em português brasileiro — natural, fluente, não literal. Preserve nomes próprios e termos técnicos consagrados (TAVR, HFpEF, MACE, etc). Se o título já está em PT-BR, repita igual ao original.>
 URL: <URL completa do post>
 DATE: <data de publicação no formato YYYY-MM-DD>
 AUTOR: <nome do autor original, sem traduzir>

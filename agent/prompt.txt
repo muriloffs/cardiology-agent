@@ -257,6 +257,7 @@ Return EXACTLY this JSON structure (no markdown, no text before/after):
     {
       "id": "not_001",
       "titulo": "Full article title from provided RSS data",
+      "titulo_pt": "Tradução em PT-BR claro e fluente. Preserve termos técnicos consagrados em inglês (TAVR, HFpEF, MACE, etc) e nomes próprios. Se já está em PT-BR, repita igual ao original.",
       "publicacao": "Source name (TCTMD, Healio, etc.)",
       "autores": [],
       "classe": "B",
@@ -274,6 +275,7 @@ Return EXACTLY this JSON structure (no markdown, no text before/after):
     {
       "id": "pod_001",
       "titulo": "Exact episode title from provided podcast data",
+      "titulo_pt": "Tradução em PT-BR claro e fluente. Preserve termos técnicos consagrados em inglês (TAVR, HFpEF, MACE, etc) e nomes próprios. Se já está em PT-BR (ex: Afya Cardiopapers), repita igual ao original.",
       "publicacao": "Podcast show name (e.g. 'This Week in Cardiology (Mandrola)')",
       "host": "Host name from provided data",
       "classe": "B",
@@ -299,6 +301,7 @@ Return EXACTLY this JSON structure (no markdown, no text before/after):
     {
       "id": "art_001",
       "titulo": "Full article title from provided data",
+      "titulo_pt": "Tradução em PT-BR claro e fluente. Preserve termos técnicos consagrados em inglês (TAVR, HFpEF, MACE, NNT, NIHSS, etc), abreviações cientificas (PCI, ACS, CKD, etc) e nomes próprios. Se o título já está em PT-BR, repita exatamente igual ao original.",
       "publicacao": "Source journal",
       "autores": ["Author 1", "Author 2"],
       "classe": "A",

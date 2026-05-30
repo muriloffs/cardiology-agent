@@ -23,7 +23,7 @@
         <header class="reader-header">
           <div class="reader-title-row">
             <span v-if="currentItem.emoji" class="reader-emoji">{{ currentItem.emoji }}</span>
-            <h2 class="reader-title">{{ currentItem.titulo }}</h2>
+            <h2 class="reader-title">{{ currentItem.titulo_pt || currentItem.titulo }}</h2>
           </div>
           <div class="reader-controls">
             <button

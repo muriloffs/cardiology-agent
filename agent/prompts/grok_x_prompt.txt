@@ -133,6 +133,7 @@ Cada item deve seguir exatamente este schema:
 [
   {
     "titulo": "Título descritivo do tópico (não o texto do tweet) — pode ficar no idioma original",
+    "titulo_pt": "Tradução em PT-BR claro e fluente do titulo. Preserve termos técnicos consagrados em inglês (TAVR, HFpEF, MACE, etc), hashtags (#HFA2026) e nomes próprios. Se o titulo já está em PT-BR, repita igual.",
     "publicacao": "X/@handle ou instituição que publicou",
     "autores": ["@handle"],
     "resumo": "2-3 frases EM PORTUGUÊS BRASILEIRO: o que foi postado e por que importa clinicamente",

@@ -16,7 +16,11 @@
           </span>
           <span class="text-xs text-gray-500 font-medium">{{ discussion.autor }}</span>
         </div>
-        <h3 class="font-semibold text-gray-900 text-sm leading-snug mb-1">{{ discussion.titulo }}</h3>
+        <h3 class="font-semibold text-gray-900 text-sm leading-snug mb-1">{{ discussion.titulo_pt || discussion.titulo }}</h3>
+        <p v-if="discussion.titulo_pt && discussion.titulo && discussion.titulo_pt !== discussion.titulo"
+           class="text-[10px] text-gray-400 italic font-normal mb-1 break-words">
+          {{ discussion.titulo }}
+        </p>
         <p class="text-gray-600 text-xs line-clamp-2">{{ discussion.resumo }}</p>
 
         <!-- X media (thumbnails + download). Grid 2x2 (até 4 imgs). -->

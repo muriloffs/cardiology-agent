@@ -410,8 +410,13 @@ def _parse_grok_response(raw: str, date: str) -> list[dict[str, Any]]:
         if norm_classe not in ("A", "B", "C"):
             norm_classe = "C"  # default to C if missing/invalid
 
+        # titulo_pt: tradução opcional do Grok. Se vier vazia, frontend faz
+        # fallback pro titulo original.
+        titulo_pt = (post.get("titulo_pt") or "").strip() or None
+
         articles.append({
             "titulo": titulo,
+            "titulo_pt": titulo_pt,
             "publicacao": publicacao,
             "autores": autores,
             "data_publicacao": date,
@@ -508,6 +513,7 @@ def transform_to_discussoes_x(grok_articles: list[dict[str, Any]]) -> list[dict[
         result.append({
             "id": f"x_{i:03d}",
             "titulo": post.get("titulo", ""),
+            "titulo_pt": post.get("titulo_pt"),
             "autor": autor,
             "categoria": categoria,
             "emoji": "🫀",

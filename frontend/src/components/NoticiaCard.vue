@@ -22,9 +22,15 @@
       <span class="text-2xl flex-shrink-0">{{ noticia.emoji || '📰' }}</span>
       <div class="flex-1 min-w-0">
         <div class="flex items-start justify-between gap-2">
-          <h3 class="font-bold text-base md:text-lg group-hover:text-orange-600 transition-colors break-words min-w-0">
-            {{ noticia.titulo }}
-          </h3>
+          <div class="min-w-0">
+            <h3 class="font-bold text-base md:text-lg group-hover:text-orange-600 transition-colors break-words">
+              {{ noticia.titulo_pt || noticia.titulo }}
+            </h3>
+            <p v-if="noticia.titulo_pt && noticia.titulo && noticia.titulo_pt !== noticia.titulo"
+               class="text-[11px] text-gray-400 italic font-normal mt-0.5 break-words">
+              {{ noticia.titulo }}
+            </p>
+          </div>
           <div class="flex flex-col items-end gap-1 flex-shrink-0">
             <span :class="[
               'badge',
