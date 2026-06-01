@@ -529,7 +529,8 @@ REGRAS:
 - NUNCA inventar números, citações ou conclusões que não estejam no artigo.
 - Se não houver falas, omita a seção FALAS (deixe vazia: "FALAS:" com nada depois).
 - Se a notícia for muito curta/headline-only e você não conseguir extrair pontos suficientes, deixe seções vazias.
-- Plain text only. No JSON. No markdown fences. Headers em CAIXA ALTA seguidos de dois-pontos."""
+- Plain text only. No JSON. No markdown fences. Headers em CAIXA ALTA seguidos de dois-pontos.
+- **Siglas (convenção científica):** em CONTEXTO/PONTOS_PRINCIPAIS/INSIGHTS/POR_QUE_IMPORTA, na primeira menção de uma sigla técnica, escreva o significado por extenso seguido da sigla entre parênteses (ex: "fração de ejeção do ventrículo esquerdo (FEVE)", "transcatheter aortic valve replacement (TAVR)"). Em menções subsequentes dentro do mesmo campo, use só a sigla. Exceções (use direto): AVC, IAM, IC, HAS, PA, DM, DAC, RCT, FDA, HR, IC95%, p, NEJM, JAMA, BMJ."""
 
 
 def _parse_news_enrichment(text: str) -> dict:

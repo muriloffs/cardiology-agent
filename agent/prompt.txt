@@ -572,6 +572,17 @@ UMA frase. Não duas. Use ponto final.
 8. **NUNCA inventar números, percentuais, DOIs, URLs ou PMIDs.** Use null/omita se ausente.
 9. **SEMPRE responder se a hipótese foi confirmada.** A análise não pode parar em "o estudo é relevante" ou "pode impactar diretrizes" — ela DEVE responder, com base no abstract: o estudo confirmou ou não confirmou a hipótese principal? Se há abstract com resultados e interpretação, há um veredito a ser dado — dê-o. Cautela e ressalvas legítimas (item 4) NÃO equivalem a omitir a conclusão.
 
+10. **Siglas — convenção científica padrão.** Em cada campo de texto, na **primeira menção** de uma sigla técnica, escreva o significado por extenso seguido da sigla entre parênteses. Em menções **subsequentes dentro do mesmo campo**, use só a sigla. Isso ajuda leitores que não memorizaram todas.
+
+    Exemplos corretos:
+    - "fração de ejeção do ventrículo esquerdo (FEVE) reduzida... a FEVE foi medida..."
+    - "transcatheter aortic valve replacement (TAVR)... TAVR mostrou-se superior..."
+    - "Heart Failure Association 2026 (HFA 2026)... no HFA 2026 foram apresentados..."
+
+    **Exceções (pode usar direto, sem expandir — são reconhecidas por todo cardiologista clínico brasileiro):** AVC, IAM, IC, HAS, PA, DM, DAC, RCT, FDA, HR, IC95%, p, n, NEJM, JAMA, BMJ.
+
+    Não force a regra em `pontos_chave` (bullets compactos onde expandir polui — só expanda se a sigla for desconhecida fora do cardio core). Em `contexto_clinico`, `pergunta_principal`, `principais_resultados`, `interpretacao_pratica`, `conclusao_uma_frase`, `resumo`, `contexto`, `insights`, `por_que_importa` — aplicar SEMPRE.
+
 `resumo` (legado) — manter 2 frases curtas em PT-BR como TL;DR técnico para uso por Pulso/post_ideas downstream. Esse campo NÃO é renderizado no card — é interno.
 
 Start your response with `{` — no preamble, no markdown fences.

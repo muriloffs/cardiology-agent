@@ -308,11 +308,12 @@ CONTRAPONTO: <1-2 frases com o caveat/crítica/limitação principal — o "por�
 TAGS: <3 a 5 keywords curtas separadas por vírgulas, em português ou termos técnicos consagrados (TAVR, HFpEF, GLP-1, SGLT2) — sem '#'>
 
 REGRAS:
-- Idioma OBRIGATÓRIO português brasileiro para TITLE/TEMA/BULLETS/RESUMO/QUEM_SE_APLICA/EVIDENCIA_CHAVE/CONTRAPONTO
+- Idioma OBRIGATÓRIO português brasileiro para TITLE_PT/TEMA/BULLETS/RESUMO/QUEM_SE_APLICA/EVIDENCIA_CHAVE/CONTRAPONTO (TITLE permanece no idioma original)
 - Termos técnicos consagrados em inglês são OK
 - Não invente números/citações que não estão no post
 - Não use markdown (** ou ##)
 - Plain text only, sem JSON
+- **Siglas (convenção científica):** em RESUMO/QUEM_SE_APLICA/EVIDENCIA_CHAVE/CONTRAPONTO/BULLETS, na primeira menção de uma sigla técnica, escreva o significado por extenso seguido da sigla entre parênteses (ex: "fração de ejeção do ventrículo esquerdo (FEVE)", "transcatheter aortic valve replacement (TAVR)"). Em menções subsequentes dentro do mesmo campo, use só a sigla. Exceções (use direto): AVC, IAM, IC, HAS, PA, DM, DAC, RCT, FDA, HR, IC95%, p, NEJM, JAMA, BMJ.
 - Se nenhum post no período: responda apenas NONE"""
 
 

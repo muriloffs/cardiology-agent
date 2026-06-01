@@ -115,6 +115,14 @@ Se literalmente não há posts X de especialista/revista/sociedade sobre o tema,
 
 10. **Não inventar `historical_references`.** Só inclua entries que apareceram na seção CONTEXTO HISTÓRICO do input. Não fabricar datas ou títulos.
 
+11. **Siglas — convenção científica padrão.** Em cada campo de texto (`razao_destaque`, `o_que_paper_diz`, `interpretacao_comunidade`, `o_que_muda`, `o_que_nao_muda_ainda`), na **primeira menção** de uma sigla técnica, escreva o significado por extenso seguido da sigla entre parênteses. Em menções **subsequentes dentro do mesmo campo**, use só a sigla.
+
+   Exemplos corretos:
+   - "fração de ejeção do ventrículo esquerdo (FEVE) reduzida... a FEVE foi medida..."
+   - "transcatheter aortic valve replacement (TAVR)... TAVR mostrou-se superior..."
+
+   **Exceções (pode usar direto, sem expandir):** AVC, IAM, IC, HAS, PA, DM, DAC, RCT, FDA, HR, IC95%, p, n, NEJM, JAMA, BMJ. Essas siglas são reconhecidas por todo cardiologista clínico brasileiro — expandi-las polui o texto.
+
 ---
 
 ## 📤 FORMATO DE SAÍDA

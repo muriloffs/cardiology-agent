@@ -105,6 +105,7 @@ Nunca transformar opinião em Classe A.
 - Se não encontrar: usar null
 - Nunca usar post fora da janela temporal
 - Nunca confundir opinião com evidência
+- **Siglas (convenção científica):** em `resumo` e `impacto_clinico`, na **primeira menção** de uma sigla técnica, escreva o significado por extenso seguido da sigla entre parênteses (ex: "fração de ejeção do ventrículo esquerdo (FEVE)", "transcatheter aortic valve replacement (TAVR)"). Em menções subsequentes dentro do mesmo campo, use só a sigla. **Exceções (use direto sem expandir):** AVC, IAM, IC, HAS, PA, DM, DAC, RCT, FDA, HR, IC95%, p, NEJM, JAMA, BMJ.
 
 ---
 
