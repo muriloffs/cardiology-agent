@@ -26,6 +26,14 @@
       <div class="flex-1 min-w-0">
         <div class="flex items-start justify-between gap-2">
           <div class="min-w-0">
+            <span
+              v-if="studyTypeBadge"
+              :class="['inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide mb-1', studyTypeBadge.classes]"
+              :title="article.desenho_estudo?.tipo || ''"
+            >
+              <span>{{ studyTypeBadge.emoji }}</span>
+              <span>{{ studyTypeBadge.label }}</span>
+            </span>
             <h3 class="font-bold text-base md:text-lg group-hover:text-purple-600 transition-colors break-words">
               {{ article.titulo_pt || article.titulo }}
             </h3>
@@ -212,6 +220,35 @@ const desenhoFields = computed(() => {
 })
 
 const hasDesenho = computed(() => Object.keys(desenhoFields.value).length > 0)
+
+// Detecta se o artigo é uma REVISÃO (revisa uma patologia / estado da arte /
+// narrative review / systematic review — inclui "revisão sistemática + MA"
+// porque tem componente de revisão de literatura) ou uma DIRETRIZ (guideline /
+// consenso / statement / posicionamento).
+// Meta-análise PURA (sem componente de revisão) NÃO entra — mas na prática não
+// aparece nos relatórios; o tipo registrado sempre traz "Revisão sistemática +
+// MA" quando há MA, e aí o selo é apropriado. Validado contra 14 dias de dados:
+// ~24% dos artigos ganham selo (69 review + 21 diretriz em 366 artigos).
+const studyTypeBadge = computed(() => {
+  const t = (props.article?.desenho_estudo?.tipo || '').toLowerCase()
+  if (!t) return null
+
+  if (/revis(ã|a)o\b|\breview\b|estado da arte|state[\s\-.]of[\s\-.]the[\s\-.]art/.test(t)) {
+    return {
+      emoji: '📖',
+      label: 'Revisão',
+      classes: 'bg-amber-100 text-amber-800 border border-amber-300',
+    }
+  }
+  if (/diretriz|consenso|guideline|statement|posicionamento/.test(t)) {
+    return {
+      emoji: '📋',
+      label: 'Diretriz',
+      classes: 'bg-blue-100 text-blue-800 border border-blue-300',
+    }
+  }
+  return null
+})
 
 // PMC figure URLs default to .jpg but some originals are .gif/.png. On
 // 404 we just hide the thumbnail rather than show a broken-image icon.
