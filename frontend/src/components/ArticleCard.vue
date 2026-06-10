@@ -17,7 +17,7 @@
 -->
 <template>
   <div
-    @click="$emit('click')"
+    @click="expanded = !expanded"
     class="card cursor-pointer group"
   >
     <!-- Header -->
@@ -61,6 +61,8 @@
       </div>
     </div>
 
+    <!-- Seções detalhadas — ocultas no modo compacto, visíveis ao expandir -->
+    <template v-if="expanded">
     <!-- 1. Contexto clínico -->
     <div v-if="article.contexto_clinico" class="mb-3 p-2.5 bg-slate-50 border-l-2 border-slate-400 rounded-r">
       <p class="text-[10px] font-bold uppercase tracking-wider text-slate-700 mb-0.5">🩺 Contexto clínico</p>
@@ -129,14 +131,26 @@
       </ul>
     </div>
 
-    <!-- 8. Conclusão em uma frase (veredito final, destaque visual) -->
+    </template>
+    <!-- /seções detalhadas -->
+
+    <!-- 8. Conclusão em uma frase (veredito final) — SEMPRE visível, mesmo compacto -->
     <div v-if="article.conclusao_uma_frase" class="mb-3 p-3 bg-gradient-to-r from-rose-50 to-pink-50 border-2 border-rose-300 rounded">
       <p class="text-[10px] font-bold uppercase tracking-wider text-rose-700 mb-0.5">⚡ Veredito</p>
       <p class="text-sm font-semibold text-gray-900 leading-relaxed break-words">{{ article.conclusao_uma_frase }}</p>
     </div>
 
+    <!-- Affordance de expandir/recolher (só faz sentido se há seções a mostrar) -->
+    <button
+      v-if="hasDetails"
+      @click.stop="expanded = !expanded"
+      class="w-full text-center text-xs text-gray-400 hover:text-gray-600 py-1 mb-2 transition-colors"
+    >
+      {{ expanded ? '▲ recolher' : '▼ ver análise completa' }}
+    </button>
+
     <!-- Figuras open-access do PMC (preview, ações no modal) -->
-    <div v-if="article.figures?.length" class="mb-3">
+    <div v-if="expanded && article.figures?.length" class="mb-3">
       <p class="text-[10px] font-bold uppercase tracking-wider text-gray-600 mb-1.5">
         🖼️ {{ article.figures.length }} {{ article.figures.length === 1 ? 'figura' : 'figuras' }} open-access
       </p>
@@ -190,7 +204,7 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, ref, watch } from 'vue'
 import SendToThingsButton from './SendToThingsButton.vue'
 import ShareButton from './ShareButton.vue'
 import { handleExternalLinkClick } from '../utils/openLink'
@@ -199,10 +213,29 @@ import { useReader } from '../composables/useReader'
 const reader = useReader()
 
 const props = defineProps({
-  article: Object
+  article: Object,
+  // Estado inicial vindo do toggle global (Compacto/Completo) no App.vue.
+  expandedDefault: { type: Boolean, default: false },
 })
 
 defineEmits(['click'])
+
+// Estado de expansão local (cada card pode ser aberto/fechado individualmente).
+// Inicializa do default global; quando o global muda, segue o global.
+const expanded = ref(props.expandedDefault)
+watch(() => props.expandedDefault, (v) => { expanded.value = v })
+
+// Só mostra o botão "ver análise" se o artigo tem alguma seção detalhada além
+// do veredito (artigos antigos/finos podem só ter título + veredito).
+const hasDetails = computed(() => {
+  const a = props.article
+  return Boolean(
+    a?.contexto_clinico || a?.pergunta_principal || a?.principais_resultados ||
+    a?.interpretacao_pratica || a?.impacto_clinico ||
+    (a?.pontos_chave?.length) || (a?.limitacoes?.length) ||
+    hasDesenho.value || (a?.figures?.length)
+  )
+})
 
 const desenhoLabels = {
   tipo: 'Tipo',

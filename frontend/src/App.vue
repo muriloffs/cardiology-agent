@@ -150,9 +150,17 @@
       />
       <section class="px-4 py-8 max-w-6xl mx-auto">
         <h2 class="text-2xl md:text-3xl font-bold mb-2">📚 Artigos Científicos</h2>
-        <p class="text-sm text-gray-500 mb-3">
-          {{ filteredArticles.length }} de {{ report?.artigos?.length || 0 }} artigos{{ selectedClass !== 'all' ? ' (Classe ' + selectedClass + ')' : '' }}{{ selectedTema !== 'all' ? ' · ' + selectedTema : '' }}
-        </p>
+        <div class="flex items-center justify-between gap-2 mb-3 flex-wrap">
+          <p class="text-sm text-gray-500">
+            {{ filteredArticles.length }} de {{ report?.artigos?.length || 0 }} artigos{{ selectedClass !== 'all' ? ' (Classe ' + selectedClass + ')' : '' }}{{ selectedTema !== 'all' ? ' · ' + selectedTema : '' }}
+          </p>
+          <button
+            @click="toggleArticlesExpanded"
+            class="text-xs px-3 py-1.5 rounded-full border border-gray-300 bg-white text-gray-600 hover:bg-gray-50 font-medium transition-colors flex-shrink-0"
+          >
+            {{ articlesExpanded ? '📖 Completo' : '📑 Compacto' }}
+          </button>
+        </div>
 
         <!-- Filtro por tema (patologia) -->
         <div v-if="temasDisponiveis.length" class="flex flex-wrap gap-1.5 mb-6">
@@ -184,7 +192,7 @@
                 v-for="article in articlesByClass[classe]"
                 :key="article.id"
                 :article="article"
-                @click="openArticle(article)"
+                :expanded-default="articlesExpanded"
               />
             </div>
           </div>
@@ -594,6 +602,14 @@ const report = ref(null)
 const selectedDiscussion = ref(null)
 const selectedClass = ref('all')
 const selectedTema = ref('all')
+
+// Modo de densidade dos cards de artigo: compacto (default) vs completo.
+// Persistido em localStorage para a preferência grudar entre sessões.
+const articlesExpanded = ref(localStorage.getItem('articlesExpanded') === '1')
+function toggleArticlesExpanded() {
+  articlesExpanded.value = !articlesExpanded.value
+  localStorage.setItem('articlesExpanded', articlesExpanded.value ? '1' : '0')
+}
 const loading = ref(false)
 const selectedXCategoria = ref('all')
 const selectedVideoTier = ref(-1)  // -1 = all
