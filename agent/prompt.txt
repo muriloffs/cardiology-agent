@@ -258,6 +258,7 @@ Return EXACTLY this JSON structure (no markdown, no text before/after):
       "id": "not_001",
       "titulo": "Full article title from provided RSS data",
       "titulo_pt": "Tradução em PT-BR claro e fluente. Preserve termos técnicos consagrados em inglês (TAVR, HFpEF, MACE, etc) e nomes próprios. Se já está em PT-BR, repita igual ao original.",
+      "tema_principal": "UM tema da LISTA CANÔNICA DE TEMAS (ver regras). Tema DOMINANTE — apenas um. Rótulo EXATO da lista.",
       "publicacao": "Source name (TCTMD, Healio, etc.)",
       "autores": [],
       "classe": "B",
@@ -307,6 +308,7 @@ Return EXACTLY this JSON structure (no markdown, no text before/after):
       "classe": "A",
       "score": 8.5,
       "categoria_fonte": "revista",
+      "tema_principal": "UM tema da LISTA CANÔNICA DE TEMAS (ver regras). Escolha o tema DOMINANTE do artigo — apenas um. Use o rótulo EXATO da lista.",
       "emoji": "📰",
       "resumo": "2 sentences in Portuguese: very short TL;DR for indexing/downstream features (Pulso, post_ideas). NOT shown to user — keep brief.",
       "contexto_clinico": "2-3 frases em PT-BR claro: qual o problema clínico que motivou o estudo? Qual cenário ele tenta melhorar ou responder? Evite jargão epidemiológico desnecessário.",
@@ -553,6 +555,29 @@ Frase simples e direta dizendo:
 - Se provavelmente muda ou não a prática
 
 UMA frase. Não duas. Use ponto final.
+
+---
+
+## LISTA CANÔNICA DE TEMAS (para `tema_principal` em artigos e notícias)
+
+Escolha **exatamente UM** tema por item — o **dominante**, não todos que tangenciam.
+Use o rótulo **EXATO** (copie a string como está). Eixo principal: patologia.
+
+1. `Insuficiência cardíaca` — IC, ICFEr, ICFEp, IC aguda, choque cardiogênico, transplante, assistência circulatória
+2. `Doença coronariana` — DAC, SCA, IAM, angina, isquemia, revascularização, anti-plaquetário/anticoagulação no contexto coronário
+3. `Arritmias e FA` — fibrilação/flutter atrial, TV/FV, bradiarritmias, morte súbita, síncope arrítmica
+4. `Valvopatias e estrutural` — estenose/insuficiência valvar, TAVR, mitral/tricúspide transcateter, endocardite, doença estrutural
+5. `Hipertensão arterial` — HAS, HAS resistente, MAPA, crise hipertensiva, hipertensão secundária
+6. `Lípides e aterosclerose` — dislipidemia, LDL, Lp(a), estatina, PCSK9, aterosclerose subclínica, prevenção lipídica
+7. `Cardiometabolismo e diabetes` — DM, obesidade, síndrome metabólica, SGLT2i, GLP-1RA, risco CV metabólico
+8. `Prevenção e estilo de vida` — atividade física, dieta, tabagismo, reabilitação cardíaca, sono, prevenção primária populacional
+9. `Doença vascular, aorta e AVC` — AVC, AIT, TEV/TEP, aorta (aneurisma/dissecção), doença arterial periférica, trombose
+10. `Cardiomiopatias e miocárdio` — miocardiopatias (hipertrófica, dilatada), amiloidose, miocardite, pericardite, doenças do miocárdio
+11. `Imagem cardiovascular` — quando o artigo é PRIMARIAMENTE sobre o método: eco, RM cardíaca, TC coronária, cintilografia, IA em imagem
+12. `Eletrofisiologia e dispositivos` — quando PRIMARIAMENTE sobre método/procedimento: ablação, marcapasso, CDI, ressincronização, mapeamento
+13. `Outros` — saúde digital, epidemiologia ampla, política/sistema de saúde, genética geral, ou o que não couber claramente acima
+
+**Regra de desempate:** se um artigo cruza dois temas (ex: "SGLT2 em IC"), escolha o tema do **desfecho/população principal** — "SGLT2 em IC com FEr" → `Insuficiência cardíaca` (a doença estudada), não Cardiometabolismo. Imagem/Eletrofisiologia (11/12) só quando o artigo é sobre a TÉCNICA em si; se usa imagem para estudar uma doença, classifique pela doença.
 
 ---
 

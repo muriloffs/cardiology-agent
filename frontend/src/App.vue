@@ -150,9 +150,29 @@
       />
       <section class="px-4 py-8 max-w-6xl mx-auto">
         <h2 class="text-2xl md:text-3xl font-bold mb-2">📚 Artigos Científicos</h2>
-        <p class="text-sm text-gray-500 mb-6">
-          {{ filteredArticles.length }} de {{ report?.artigos?.length || 0 }} artigos{{ selectedClass !== 'all' ? ' (Classe ' + selectedClass + ')' : '' }}
+        <p class="text-sm text-gray-500 mb-3">
+          {{ filteredArticles.length }} de {{ report?.artigos?.length || 0 }} artigos{{ selectedClass !== 'all' ? ' (Classe ' + selectedClass + ')' : '' }}{{ selectedTema !== 'all' ? ' · ' + selectedTema : '' }}
         </p>
+
+        <!-- Filtro por tema (patologia) -->
+        <div v-if="temasDisponiveis.length" class="flex flex-wrap gap-1.5 mb-6">
+          <button
+            @click="selectedTema = 'all'"
+            :class="['text-xs px-2.5 py-1 rounded-full border transition-colors',
+                     selectedTema === 'all'
+                       ? 'bg-teal-600 text-white border-teal-600'
+                       : 'bg-white text-gray-600 border-gray-300 hover:bg-gray-50']"
+          >Todos</button>
+          <button
+            v-for="t in temasDisponiveis"
+            :key="t.tema"
+            @click="selectedTema = (selectedTema === t.tema ? 'all' : t.tema)"
+            :class="['text-xs px-2.5 py-1 rounded-full border transition-colors',
+                     selectedTema === t.tema
+                       ? 'bg-teal-600 text-white border-teal-600'
+                       : 'bg-white text-gray-600 border-gray-300 hover:bg-gray-50']"
+          >{{ t.tema }} <span class="opacity-70">{{ t.count }}</span></button>
+        </div>
 
         <template v-for="classe in ['A', 'B', 'C']" :key="classe">
           <div v-if="articlesByClass[classe]?.length" class="mb-6">
@@ -573,6 +593,7 @@ import { openInBrowser } from './utils/openLink'
 const report = ref(null)
 const selectedDiscussion = ref(null)
 const selectedClass = ref('all')
+const selectedTema = ref('all')
 const loading = ref(false)
 const selectedXCategoria = ref('all')
 const selectedVideoTier = ref(-1)  // -1 = all
@@ -602,6 +623,7 @@ async function navigateDate(direction) {
   currentDateIndex.value = newIndex
   const date = availableDates.value[newIndex]
   report.value = await fetchReportByDate(date)
+  selectedTema.value = 'all'  // reset tema ao trocar de dia (temas variam por dia)
   window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
@@ -780,10 +802,27 @@ const uniqueSubstackPubs = computed(() => {
   return new Set(posts.map(p => p.publicacao)).size
 })
 
+// Temas (patologias) presentes nos artigos do dia, com contagem — para os chips
+// de filtro. Respeita o filtro de classe ativo para os números baterem.
+const temasDisponiveis = computed(() => {
+  const base = (report.value?.artigos || []).filter(
+    a => selectedClass.value === 'all' || a.classe === selectedClass.value
+  )
+  const counts = {}
+  for (const a of base) {
+    const t = a.tema_principal
+    if (t) counts[t] = (counts[t] || 0) + 1
+  }
+  return Object.entries(counts)
+    .map(([tema, count]) => ({ tema, count }))
+    .sort((a, b) => b.count - a.count)
+})
+
 const filteredArticles = computed(() => {
-  if (!report.value?.artigos) return []
-  if (selectedClass.value === 'all') return report.value.artigos
-  return report.value.artigos.filter(a => a.classe === selectedClass.value)
+  let list = report.value?.artigos || []
+  if (selectedClass.value !== 'all') list = list.filter(a => a.classe === selectedClass.value)
+  if (selectedTema.value !== 'all') list = list.filter(a => a.tema_principal === selectedTema.value)
+  return list
 })
 
 const articlesByClass = computed(() => {

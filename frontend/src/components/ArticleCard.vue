@@ -162,9 +162,15 @@
 
     <!-- Footer: source + actions -->
     <div class="flex items-center justify-between gap-2 flex-wrap">
-      <span class="text-xs text-gray-500">
-        {{ { revista: '📰 Revista', noticias: '📡 Notícias', substack: '📝 Substack', podcast: '🎙️ Podcast' }[article.categoria_fonte] || '📰 Revista' }}
-      </span>
+      <div class="flex items-center gap-2 flex-wrap">
+        <span class="text-xs text-gray-500">
+          {{ { revista: '📰 Revista', noticias: '📡 Notícias', substack: '📝 Substack', podcast: '🎙️ Podcast' }[article.categoria_fonte] || '📰 Revista' }}
+        </span>
+        <span v-if="article.tema_principal"
+              class="text-[11px] px-2 py-0.5 rounded-full bg-teal-50 text-teal-700 border border-teal-200 font-medium">
+          {{ article.tema_principal }}
+        </span>
+      </div>
       <div class="flex items-center gap-2 flex-wrap">
         <ShareButton :item="article" type="artigo" />
         <SendToThingsButton :item="article" type="artigo" />

@@ -58,6 +58,7 @@ function extractSearchableText(item, type) {
   // Common across most types
   push(item.titulo)
   push(item.titulo_pt)
+  push(item.tema_principal)
   push(item.publicacao)
   push(item.autor)
   push(item.autores)
