@@ -174,8 +174,12 @@
       </div>
     </div>
 
-    <!-- Footer: source + actions -->
-    <div class="flex items-center justify-between gap-2 flex-wrap">
+    <!-- Footer: source + actions.
+         @click.stop no container INTEIRO: o rodapé é uma "barra de controle"
+         isolada do toggle do card. Sem isso, no mobile um toque a poucos px do
+         botão "Ler" acerta o gap do flex, vaza pro card root e expande por engano
+         (as duas funções colidiam na mesma região). -->
+    <div class="flex items-center justify-between gap-2 flex-wrap" @click.stop>
       <div class="flex items-center gap-2 flex-wrap">
         <span class="text-xs text-gray-500">
           {{ { revista: '📰 Revista', noticias: '📡 Notícias', substack: '📝 Substack', podcast: '🎙️ Podcast' }[article.categoria_fonte] || '📰 Revista' }}
