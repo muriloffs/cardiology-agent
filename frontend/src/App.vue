@@ -151,6 +151,21 @@
             {{ report.post_ideas.length }}
           </span>
         </button>
+        <!-- Acumulador mensal de revisões/diretrizes (estilo amber = selo de revisão) -->
+        <button
+          @click="openRevisoesMes"
+          :class="['px-2.5 md:px-5 py-1.5 md:py-3 rounded-lg text-sm md:text-lg font-semibold transition-all flex items-center gap-1.5 md:gap-2.5',
+                   currentView === 'revisoes'
+                     ? 'bg-amber-500 text-white shadow-md'
+                     : 'bg-white text-amber-700 hover:bg-amber-50 border border-amber-300']"
+        >
+          📖 Revisões do Mês
+          <span v-if="reviewsCounts.total"
+                :class="['px-1.5 md:px-2 py-0.5 rounded-full text-xs md:text-sm font-bold',
+                         currentView === 'revisoes' ? 'bg-white text-amber-700' : 'bg-amber-100 text-amber-800']">
+            {{ reviewsCounts.total }}
+          </span>
+        </button>
       </div>
     </div>
 
@@ -570,6 +585,92 @@
       </section>
     </template>
 
+    <!-- ============================================================ -->
+    <!-- VIEW: REVISÕES E DIRETRIZES DO MÊS (acumulador) -->
+    <!-- ============================================================ -->
+    <template v-else-if="currentView === 'revisoes'">
+      <section class="px-4 py-8 max-w-4xl mx-auto">
+        <div class="mb-4">
+          <h2 class="text-2xl md:text-3xl font-bold mb-1">📖 Revisões e Diretrizes — {{ reviewsMonthLabel }}</h2>
+          <p class="text-sm text-gray-600">
+            Acumula tudo que foi publicado no mês para você baixar e ler na íntegra.
+            Zera sozinho no dia 1 do mês seguinte (o histórico permanece).
+          </p>
+          <p v-if="reviewsCounts.total" class="text-sm text-gray-500 mt-1">
+            {{ reviewsCounts.total }} no mês · {{ reviewsCounts.revisoes }} revisões · {{ reviewsCounts.diretrizes }} diretrizes
+          </p>
+        </div>
+
+        <div v-if="reviewsLoading" class="text-center text-gray-500 py-10">
+          Carregando revisões do mês…
+        </div>
+        <div v-else-if="reviewsLoadError" class="text-center text-red-600 py-10">
+          Falha ao carregar: {{ reviewsLoadError }}
+        </div>
+        <div v-else-if="reviewsItems.length === 0" class="text-center text-gray-500 py-10">
+          <p class="text-lg mb-1">Nenhuma revisão ou diretriz neste mês ainda.</p>
+          <p class="text-sm">Elas vão se acumulando aqui conforme saem nos relatórios diários.</p>
+        </div>
+
+        <template v-else>
+          <!-- Filtro por tema -->
+          <div v-if="reviewsTemas.length > 1" class="flex flex-wrap gap-1.5 mb-5">
+            <button
+              @click="reviewsTemaFiltro = 'all'"
+              :class="['text-xs px-2.5 py-1 rounded-full border transition-colors',
+                       reviewsTemaFiltro === 'all' ? 'bg-amber-500 text-white border-amber-500'
+                       : 'bg-white text-gray-600 border-gray-300 hover:bg-gray-50']"
+            >Todos</button>
+            <button
+              v-for="t in reviewsTemas"
+              :key="t.tema"
+              @click="reviewsTemaFiltro = (reviewsTemaFiltro === t.tema ? 'all' : t.tema)"
+              :class="['text-xs px-2.5 py-1 rounded-full border transition-colors',
+                       reviewsTemaFiltro === t.tema ? 'bg-amber-500 text-white border-amber-500'
+                       : 'bg-white text-gray-600 border-gray-300 hover:bg-gray-50']"
+            >{{ t.tema }} <span class="opacity-70">{{ t.count }}</span></button>
+          </div>
+
+          <ul class="space-y-2">
+            <li
+              v-for="(it, i) in reviewsFiltrados"
+              :key="i"
+              class="border border-gray-200 rounded-lg p-3 bg-white hover:border-amber-300 transition-colors"
+            >
+              <div class="flex items-start gap-2 mb-1 flex-wrap">
+                <span :class="['inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide flex-shrink-0',
+                               it.tipo === 'diretriz' ? 'bg-blue-100 text-blue-800 border border-blue-300'
+                               : 'bg-amber-100 text-amber-800 border border-amber-300']">
+                  {{ it.tipo === 'diretriz' ? '📋 Diretriz' : '📖 Revisão' }}
+                </span>
+                <span v-if="it.article.tema_principal"
+                      class="text-[10px] px-2 py-0.5 rounded-full bg-teal-50 text-teal-700 border border-teal-200 font-medium flex-shrink-0">
+                  {{ it.article.tema_principal }}
+                </span>
+                <span class="text-[11px] text-gray-400 flex-shrink-0">{{ formatRevDate(it.date) }}</span>
+              </div>
+              <h3 class="font-semibold text-sm text-gray-900 leading-snug break-words">
+                {{ it.article.titulo_pt || it.article.titulo }}
+              </h3>
+              <p v-if="it.article.titulo_pt && it.article.titulo && it.article.titulo_pt !== it.article.titulo"
+                 class="text-[11px] text-gray-400 italic break-words">{{ it.article.titulo }}</p>
+              <div class="flex items-center gap-3 mt-2">
+                <a
+                  v-if="revUrl(it.article)"
+                  :href="revUrl(it.article)"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-xs text-blue-600 hover:text-blue-800 font-medium"
+                  @click.stop="handleExternalLinkClick($event, revUrl(it.article))"
+                >🔗 Abrir / baixar</a>
+                <span class="text-[11px] text-gray-400">{{ it.article.publicacao }}</span>
+              </div>
+            </li>
+          </ul>
+        </template>
+      </section>
+    </template>
+
 
     <!-- X Discussion Detail Modal (only modal left — cards have all article info) -->
     <XDiscussionDetail
@@ -604,8 +705,45 @@ import SearchBar from './components/SearchBar.vue'
 import SearchResults from './components/SearchResults.vue'
 import { useSearch } from './composables/useSearch'
 import { copyAudioBriefing } from './composables/useAudioBriefing'
+import { useMonthlyReviews } from './composables/useMonthlyReviews'
 
 const { isActive: searchActive } = useSearch()
+
+// Revisões/diretrizes do mês (acumulador)
+const {
+  loading: reviewsLoading,
+  loadError: reviewsLoadError,
+  items: reviewsItems,
+  monthLabelText: reviewsMonthLabel,
+  temas: reviewsTemas,
+  counts: reviewsCounts,
+  loadMonth: loadReviewsMonth,
+} = useMonthlyReviews()
+const reviewsTemaFiltro = ref('all')
+
+function openRevisoesMes() {
+  currentView.value = 'revisoes'
+  loadReviewsMonth()  // lazy — carrega na 1ª abertura (ou se o mês virou)
+}
+
+const reviewsFiltrados = computed(() => {
+  if (reviewsTemaFiltro.value === 'all') return reviewsItems.value
+  return reviewsItems.value.filter(it => (it.article.tema_principal || 'Outros temas') === reviewsTemaFiltro.value)
+})
+
+function revUrl(a) {
+  return a?.links?.url
+    || (a?.links?.doi ? `https://doi.org/${a.links.doi}` : null)
+    || (a?.links?.pubmed ? `https://pubmed.ncbi.nlm.nih.gov/${a.links.pubmed}/` : null)
+    || null
+}
+
+function formatRevDate(dateStr) {
+  try {
+    const [, m, d] = dateStr.split('-')
+    return `${d}/${m}`
+  } catch { return dateStr }
+}
 
 // Áudio briefing — copia o dia estruturado pro clipboard (cola no NotebookLM)
 const briefingCopied = ref(false)
@@ -624,7 +762,7 @@ import SubstackCard from './components/SubstackCard.vue'
 import VideoCardEnriched from './components/VideoCardEnriched.vue'
 import CongressBanner from './components/CongressBanner.vue'
 import { fetchLatestReport, fetchIndex, fetchReportByDate } from './utils/api'
-import { openInBrowser } from './utils/openLink'
+import { openInBrowser, handleExternalLinkClick } from './utils/openLink'
 
 const report = ref(null)
 const selectedDiscussion = ref(null)
