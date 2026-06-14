@@ -79,6 +79,76 @@ já conhece o campo. Português brasileiro.
 Salve esse prompt (no NotebookLM dá pra ver/reusar via "Ver prompt
 personalizado" no menu de três pontos). Ele não muda de um dia pro outro.
 
+### Variante "expandida" do prompt de áudio (opcional — corta a enrolação)
+
+O NotebookLM tende a encher de conversa fiada. Esta versão adiciona anti-banter,
+ordem das seções e transição por tema. Teste ouvindo qual prefere:
+
+```
+Briefing diário de cardiologia para UM cardiologista (especialista —
+use termos técnicos sem explicar o básico; pronuncie siglas como TAVR,
+HFpEF, SGLT2 com naturalidade).
+
+Percorra o documento na ORDEM das seções: primeiro os destaques, depois
+as revisões e diretrizes, depois os artigos por tema, por fim as
+notícias. Cubra TODOS os itens, não só os destaques.
+
+Por artigo: uma frase com o que é + a conclusão. Nada além disso.
+Ao trocar de tema, anuncie ("agora, em insuficiência cardíaca...").
+Na seção de revisões e diretrizes, deixe claro que são leituras para
+baixar e ler na íntegra.
+
+Estilo: ritmo eficiente, direto ao ponto. EVITE conversa fiada, reações
+genéricas ("nossa, fascinante!") e repetições — é um briefing técnico,
+não um bate-papo descontraído. Português brasileiro.
+```
+
+Controle de duração: o NotebookLM tem "Mais curto / Padrão / Mais longo". Se
+30 min ficar longo, use "Mais curto" + o prompt acima.
+
+## Outros formatos do mesmo documento (slides e mapa mental)
+
+O MESMO documento (botão "Copiar briefing") serve para os três formatos do
+NotebookLM. Você gera uma vez e escolhe ouvir, ver ou mapear. Os três aceitam
+prompt (o Mapa Mental ganhou customização em maio/2026, nas contas pagas).
+
+### 🎬 Slides (Visão geral em vídeo)
+
+```
+Apresentação visual do briefing diário de cardiologia para UM cardiologista
+especialista. Siga a ordem do documento: destaques, revisões e diretrizes,
+artigos por tema, notícias.
+
+Um slide por estudo relevante (agrupe estudos do mesmo tema quando fizer
+sentido). Em cada slide: título curto + a CONCLUSÃO como frase de destaque +
+os números-chave (HR, IC 95%, p, n) quando houver.
+
+Dê um slide-separador destacado para "Revisões e diretrizes — ler na íntegra",
+listando-as.
+
+Linguagem técnica, sem explicar o básico. Direto ao ponto, sem slides de
+enchimento. Português brasileiro.
+```
+
+### 🧠 Mapa mental
+
+```
+Mapa mental do dia em cardiologia, para um cardiologista especialista.
+
+Nó central: "Cardiologia — [data]".
+Ramos principais: os TEMAS / patologias (insuficiência cardíaca, doença
+coronariana, arritmias, valvopatias, etc.).
+Sob cada tema: um nó por estudo, com o título curto; abaixo do estudo, um nó
+com a conclusão em poucas palavras.
+Crie um ramo separado e destacado: "Revisões e diretrizes — ler na íntegra".
+
+Rótulos curtos e específicos (com números quando relevante). Português
+brasileiro.
+```
+
+Os três aproveitam o agrupamento por `tema_principal`: no mapa mental os temas
+viram os ramos; nos slides, os separadores de seção; no áudio, as transições.
+
 ## Passo a passo diário (~30 segundos)
 
 1. No dashboard, toque **"📋 Copiar briefing"** (copia o dia pro clipboard).
