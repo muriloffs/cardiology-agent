@@ -21,6 +21,21 @@
     <!-- Congress banner (acontecendo agora + próximos 14 dias) -->
     <CongressBanner />
 
+    <!-- Áudio briefing: copia o dia estruturado para colar no NotebookLM -->
+    <div v-if="!searchActive && report" class="bg-indigo-50 border-b border-indigo-100">
+      <div class="max-w-6xl mx-auto px-4 py-2 flex items-center justify-between gap-2 flex-wrap">
+        <span class="text-xs text-indigo-700">
+          🎧 Ouvir o dia: copie o briefing e cole no NotebookLM ("criar podcast")
+        </span>
+        <button
+          @click="onCopyBriefing"
+          class="text-xs px-3 py-1.5 rounded-full bg-indigo-600 text-white hover:bg-indigo-700 font-medium transition-colors flex-shrink-0"
+        >
+          {{ briefingCopied ? '✓ Copiado!' : '📋 Copiar briefing' }}
+        </button>
+      </div>
+    </div>
+
     <!-- View Toggle (also serves as primary counter — replaces HeaderStats grid) -->
     <div class="bg-gray-50 border-b border-gray-200">
       <div class="max-w-6xl mx-auto px-4 py-3 flex gap-2 md:gap-3 flex-wrap">
@@ -588,8 +603,21 @@ import ReaderModal from './components/ReaderModal.vue'
 import SearchBar from './components/SearchBar.vue'
 import SearchResults from './components/SearchResults.vue'
 import { useSearch } from './composables/useSearch'
+import { copyAudioBriefing } from './composables/useAudioBriefing'
 
 const { isActive: searchActive } = useSearch()
+
+// Áudio briefing — copia o dia estruturado pro clipboard (cola no NotebookLM)
+const briefingCopied = ref(false)
+async function onCopyBriefing() {
+  const { ok } = await copyAudioBriefing(report.value)
+  if (ok) {
+    briefingCopied.value = true
+    setTimeout(() => { briefingCopied.value = false }, 2500)
+  } else {
+    alert('Não consegui copiar automaticamente. Tente de novo ou use outro navegador.')
+  }
+}
 import PostIdeaCard from './components/PostIdeaCard.vue'
 import PulsoCard from './components/PulsoCard.vue'
 import SubstackCard from './components/SubstackCard.vue'
