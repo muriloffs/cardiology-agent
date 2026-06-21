@@ -1,50 +1,242 @@
 {
-  "gerado_em": "2026-06-21T19:59:57.825426+00:00",
-  "total": 4,
+  "gerado_em": "2026-06-21T20:13:32.623336+00:00",
+  "total": 25,
   "por_tipo": {
-    "grafico": 1,
-    "fluxograma": 2,
-    "graphical_abstract": 1
+    "grafico": 11,
+    "figura": 3,
+    "tabela": 1,
+    "slide": 10
   },
   "por_categoria_fonte": {
-    "revista": 4
+    "revista": 18,
+    "sociedade": 6,
+    "especialista": 1
   },
   "imagens": [
     {
-      "image_url": "https://pbs.twimg.com/media/HLXAOaxWEAAcgrp.png",
-      "tipo": "grafico",
-      "descricao": "Gráficos de barras (A e B) mostrando a gravidade da síndrome pós-trombótica segundo VCSS e escala de Villalta no baseline e 6 meses no trial C-TRACT (EVT vs No EVT)",
-      "fonte": "@NEJM",
-      "categoria_fonte": "revista",
-      "post_url": "https://x.com/NEJM/status/2068770979409539426",
-      "assunto": "síndrome pós-trombótica"
-    },
-    {
       "image_url": "https://pbs.twimg.com/media/HLXH_BgXsAEH6lb.jpg",
-      "tipo": "fluxograma",
-      "descricao": "Fluxograma de follow-up de 10 anos em TAVR: mortalidade, função valvar, consentimento, fontes de dados e re-intervenção",
+      "tipo": "grafico",
+      "descricao": "Figura sobre follow-up de 10 anos em TAVR expandindo para pacientes mais jovens, discutindo missing data e competing risks",
       "fonte": "@JACCJournals",
       "categoria_fonte": "revista",
       "post_url": "https://x.com/JACCJournals/status/2068779510028198119",
       "assunto": "TAVR"
     },
     {
+      "image_url": "https://pbs.twimg.com/media/HLWxyJiXoAAEmBB.jpg",
+      "tipo": "figura",
+      "descricao": "Ilustração de implante de TAVR supra-anular em BAV com grande anel cônico",
+      "fonte": "@JACCJournals",
+      "categoria_fonte": "revista",
+      "post_url": "https://x.com/JACCJournals/status/2068755099342536745",
+      "assunto": "TAVR"
+    },
+    {
       "image_url": "https://pbs.twimg.com/media/HLR3TJ-WMAEEFYq.jpg",
-      "tipo": "graphical_abstract",
-      "descricao": "Ilustração central: papel de triggers não-pulmonares em recorrência de FA após ablação de primeira vez (NPV triggers, taxas de recorrência e HRs)",
+      "tipo": "grafico",
+      "descricao": "Gráfico de recorrência de FA após ablação de triggers NPV",
       "fonte": "@JACCJournals",
       "categoria_fonte": "revista",
       "post_url": "https://x.com/JACCJournals/status/2068409320476131421",
-      "assunto": "FA ablação"
+      "assunto": "FA"
     },
     {
       "image_url": "https://pbs.twimg.com/media/HLLwX8gW8AAhSSR.jpg",
-      "tipo": "fluxograma",
-      "descricao": "Framework prático em 4 passos para rechallenge com ICI após miocardite induzida por ICI (justificativa, readiness, reinício e interrupção)",
+      "tipo": "figura",
+      "descricao": "Fluxograma ou evidência sobre rechallenge de ICI após miocardite em cardio-oncologia",
       "fonte": "@JACCJournals",
       "categoria_fonte": "revista",
       "post_url": "https://x.com/JACCJournals/status/2067979493822595323",
-      "assunto": "Cardio-Oncologia"
+      "assunto": "Cardio-oncologia"
+    },
+    {
+      "image_url": "https://pbs.twimg.com/media/HLLpgpqXMAA0gYW.jpg",
+      "tipo": "grafico",
+      "descricao": "Gráfico de mortalidade CV entre negros e brancos nos EUA 2024",
+      "fonte": "@JACCJournals",
+      "categoria_fonte": "revista",
+      "post_url": "https://x.com/JACCJournals/status/2067971967886475593",
+      "assunto": "Disparidades CV"
+    },
+    {
+      "image_url": "https://pbs.twimg.com/media/HLLph3LXMAERQBq.jpg",
+      "tipo": "tabela",
+      "descricao": "Tabela complementar de desfechos CV por raça nos EUA",
+      "fonte": "@JACCJournals",
+      "categoria_fonte": "revista",
+      "post_url": "https://x.com/JACCJournals/status/2067971967886475593",
+      "assunto": "Disparidades CV"
+    },
+    {
+      "image_url": "https://pbs.twimg.com/media/HLLk8F1WYAAk_qv.jpg",
+      "tipo": "grafico",
+      "descricao": "Forest plot ou curva de sacubitril/valsartan em CTRCD",
+      "fonte": "@JACCJournals",
+      "categoria_fonte": "revista",
+      "post_url": "https://x.com/JACCJournals/status/2067966920536514849",
+      "assunto": "Cardio-oncologia"
+    },
+    {
+      "image_url": "https://pbs.twimg.com/media/HLLav0-XEAAMdPY.jpg",
+      "tipo": "slide",
+      "descricao": "Slide de apresentação sobre unmet needs em cardio-oncologia por DrBonnieKy",
+      "fonte": "@JACCJournals",
+      "categoria_fonte": "revista",
+      "post_url": "https://x.com/JACCJournals/status/2067955777822658878",
+      "assunto": "Cardio-oncologia"
+    },
+    {
+      "image_url": "https://pbs.twimg.com/media/HLKoRanWgAAHVpO.jpg",
+      "tipo": "slide",
+      "descricao": "Slide sobre como escrever manuscrito forte em cardio-oncologia",
+      "fonte": "@JACCJournals",
+      "categoria_fonte": "revista",
+      "post_url": "https://x.com/JACCJournals/status/2067900279018635270",
+      "assunto": "Cardio-oncologia"
+    },
+    {
+      "image_url": "https://pbs.twimg.com/media/HLIP2d-WoAA7AJW.jpg",
+      "tipo": "grafico",
+      "descricao": "Gráfico de impacto de alertas EHR em substituição valvar",
+      "fonte": "@JACCJournals",
+      "categoria_fonte": "revista",
+      "post_url": "https://x.com/JACCJournals/status/2067732627948294328",
+      "assunto": "Valvopatia"
+    },
+    {
+      "image_url": "https://pbs.twimg.com/media/HLICV44XEAACyE5.jpg",
+      "tipo": "figura",
+      "descricao": "Ilustração de exclusão percutânea de pseudoaneurisma de SVG",
+      "fonte": "@JACCJournals",
+      "categoria_fonte": "revista",
+      "post_url": "https://x.com/JACCJournals/status/2067717774667903208",
+      "assunto": "Intervenção coronária"
+    },
+    {
+      "image_url": "https://pbs.twimg.com/media/HLXAOaxWEAAcgrp.png",
+      "tipo": "grafico",
+      "descricao": "Figura do trial C-TRACT sobre terapia endovascular em síndrome pós-trombótica",
+      "fonte": "@NEJM",
+      "categoria_fonte": "revista",
+      "post_url": "https://x.com/NEJM/status/2068770979409539426",
+      "assunto": "Trombose venosa"
+    },
+    {
+      "image_url": "https://pbs.twimg.com/media/HLW8T-DWoAAs4F1.jpg",
+      "tipo": "slide",
+      "descricao": "Slide sobre aplicações para ACC Leadership Forum",
+      "fonte": "@ACCinTouch",
+      "categoria_fonte": "sociedade",
+      "post_url": "https://x.com/ACCinTouch/status/2068766675629981752",
+      "assunto": "Educação"
+    },
+    {
+      "image_url": "https://pbs.twimg.com/media/HLWcRKQXwAA0q-j.jpg",
+      "tipo": "grafico",
+      "descricao": "Gráfico de melhora de LVEF após ablação em AFib com LVSD (CAMERA-MRI II)",
+      "fonte": "@ACCinTouch",
+      "categoria_fonte": "sociedade",
+      "post_url": "https://x.com/ACCinTouch/status/2068731443061100919",
+      "assunto": "FA"
+    },
+    {
+      "image_url": "https://pbs.twimg.com/media/HLR_xSuXoAAJw8D.jpg",
+      "tipo": "grafico",
+      "descricao": "Gráfico de risco de CVD com treinamento de resistência",
+      "fonte": "@ACCinTouch",
+      "categoria_fonte": "sociedade",
+      "post_url": "https://x.com/ACCinTouch/status/2068418634171470270",
+      "assunto": "Prevenção CV"
+    },
+    {
+      "image_url": "https://pbs.twimg.com/media/HLRUVvEWQAA7xV0.jpg",
+      "tipo": "slide",
+      "descricao": "Slide de encerramento #ESCardioOnco26",
+      "fonte": "@escardio",
+      "categoria_fonte": "sociedade",
+      "post_url": "https://x.com/escardio/status/2068370869420769326",
+      "assunto": "Cardio-oncologia"
+    },
+    {
+      "image_url": "https://pbs.twimg.com/media/HLL2ZChWAAAVwoI.jpg",
+      "tipo": "grafico",
+      "descricao": "Nomograma para risco de sangramento em câncer e FA",
+      "fonte": "@escardio",
+      "categoria_fonte": "sociedade",
+      "post_url": "https://x.com/escardio/status/2067986092049990048",
+      "assunto": "Cardio-oncologia"
+    },
+    {
+      "image_url": "https://pbs.twimg.com/media/HLLytSuXoAAOeyY.jpg",
+      "tipo": "grafico",
+      "descricao": "Forest plot de meta-análise de terapia cardioprotetora em CTRCD",
+      "fonte": "@escardio",
+      "categoria_fonte": "sociedade",
+      "post_url": "https://x.com/escardio/status/2067982041740726345",
+      "assunto": "Cardio-oncologia"
+    },
+    {
+      "image_url": "https://pbs.twimg.com/media/HLLaxDTWwAEQIYP.png",
+      "tipo": "slide",
+      "descricao": "Slide complementar sobre mecanismos de DCV no câncer.",
+      "fonte": "@JACCJournals",
+      "categoria_fonte": "revista",
+      "post_url": "https://x.com/JACCJournals/status/2067955777822658878",
+      "assunto": "cardio-oncologia"
+    },
+    {
+      "image_url": "https://pbs.twimg.com/media/HLLayRJXMAA9LVy.jpg",
+      "tipo": "slide",
+      "descricao": "Slide sobre predição de risco CV em oncologia.",
+      "fonte": "@JACCJournals",
+      "categoria_fonte": "revista",
+      "post_url": "https://x.com/JACCJournals/status/2067955777822658878",
+      "assunto": "cardio-oncologia"
+    },
+    {
+      "image_url": "https://pbs.twimg.com/media/HLLazgAWgAAnwjy.png",
+      "tipo": "slide",
+      "descricao": "Slide sobre inovação em ensaios clínicos cardio-oncológicos.",
+      "fonte": "@JACCJournals",
+      "categoria_fonte": "revista",
+      "post_url": "https://x.com/JACCJournals/status/2067955777822658878",
+      "assunto": "cardio-oncologia"
+    },
+    {
+      "image_url": "https://pbs.twimg.com/media/HLKoSmXWgAAwii-.png",
+      "tipo": "slide",
+      "descricao": "Slide complementar sobre mentoria em pesquisa cardio-oncológica.",
+      "fonte": "@JACCJournals",
+      "categoria_fonte": "revista",
+      "post_url": "https://x.com/JACCJournals/status/2067900279018635270",
+      "assunto": "cardio-oncologia"
+    },
+    {
+      "image_url": "https://pbs.twimg.com/media/HLKoT06WwAA9Yb7.jpg",
+      "tipo": "slide",
+      "descricao": "Slide sobre perguntas de pesquisa impactantes.",
+      "fonte": "@JACCJournals",
+      "categoria_fonte": "revista",
+      "post_url": "https://x.com/JACCJournals/status/2067900279018635270",
+      "assunto": "cardio-oncologia"
+    },
+    {
+      "image_url": "https://pbs.twimg.com/media/HLKoVCvW0AAMFkm.png",
+      "tipo": "slide",
+      "descricao": "Slide sobre impacto no paciente em publicações.",
+      "fonte": "@JACCJournals",
+      "categoria_fonte": "revista",
+      "post_url": "https://x.com/JACCJournals/status/2067900279018635270",
+      "assunto": "cardio-oncologia"
+    },
+    {
+      "image_url": "https://pbs.twimg.com/media/HLLm0I6awAAeEpf.jpg",
+      "tipo": "grafico",
+      "descricao": "Gráfico editorial sobre avanços médicos incluindo doença cardíaca.",
+      "fonte": "@EricTopol",
+      "categoria_fonte": "especialista",
+      "post_url": "https://x.com/EricTopol/status/2067970040469819684",
+      "assunto": "doença cardíaca"
     }
   ]
 }
