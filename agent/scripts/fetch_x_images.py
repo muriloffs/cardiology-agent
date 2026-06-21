@@ -37,6 +37,21 @@ IMAGE_HOST_WHITELIST = ("pbs.twimg.com", "pic.twitter.com")
 MAX_RETRIES = 3
 BACKOFF = [30, 60, 120]
 
+# Handles VERIFICADOS (da HANDLE_CATEGORIES, validados pelo pipeline principal).
+# Usados em allowed_x_handles na PASSADA DE PRECISÃO — o Grok GARANTE que vasculha
+# essas contas (não fica à mercê da amostragem). Cap do xAI: 20 handles.
+# Priorizamos as fontes ricas em figura: revistas + sociedades + top especialistas.
+VERIFIED_HANDLES = [
+    # Revistas (7)
+    "NEJM", "TheLancet", "JACCJournals", "CircAHA", "JAMACardio", "EuroHeartJ", "JACCCRJournals",
+    # Sociedades (7)
+    "ACCinTouch", "American_Heart", "escardio", "HRSonline", "TCTMD", "cardiol_br", "SOCESP",
+    # Especialistas que postam figura (6 → total 20)
+    "EricTopol", "drjohnm", "ErinMichos", "MarthaGulati", "RoxanaMehran", "CarlosRochitte",
+]
+
+TARGET_IMAGES = 15  # abaixo disso, faz retry da passada aberta
+
 
 def _extract_text(data: dict) -> str:
     for item in data.get("output", []):
@@ -93,58 +108,105 @@ def _parse_images(raw: str) -> list[dict[str, Any]]:
     return out
 
 
-def fetch_x_images() -> list[dict[str, Any]]:
+def _call_grok_once(prompt: str, from_date: str, allowed_handles: list[str] | None,
+                    retry_feedback: str = "") -> list[dict[str, Any]]:
+    """Uma chamada Grok. Se allowed_handles for dado, restringe a busca a essas
+    contas (passada de PRECISÃO). Senão, busca aberta (passada de RECALL)."""
     api_key = os.environ.get("XAI_API_KEY")
     if not api_key:
+        return []
+
+    import requests
+    headers = {"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
+    tool: dict[str, Any] = {
+        "type": "x_search",
+        "from_date": from_date,
+        "enable_image_understanding": True,
+        "enable_video_understanding": True,   # figuras postadas como video/GIF (congresso)
+    }
+    if allowed_handles:
+        tool["allowed_x_handles"] = allowed_handles[:20]  # cap xAI
+
+    content = prompt + retry_feedback if retry_feedback else prompt
+    payload = {
+        "model": GROK_MODEL,
+        "input": [{"role": "user", "content": content}],
+        "tools": [tool],
+        "temperature": 0.2,
+        "max_output_tokens": 16000,
+        "max_tool_calls": 14,
+        "parallel_tool_calls": True,
+    }
+
+    modo = f"precisão ({len(allowed_handles)} handles)" if allowed_handles else "aberta (hashtags/tema)"
+    for attempt in range(1, MAX_RETRIES + 1):
+        try:
+            logger.info(f"Chamada Grok [{modo}] (tentativa {attempt}/{MAX_RETRIES})")
+            resp = requests.post(GROK_API_URL, headers=headers, json=payload, timeout=180)
+            resp.raise_for_status()
+            data = resp.json()
+            logger.info(f"  usage: {json.dumps(data.get('usage', {}))[:160]}")
+            raw = _extract_text(data)
+            if not raw:
+                if attempt < MAX_RETRIES:
+                    time.sleep(BACKOFF[attempt - 1]); continue
+                return []
+            imgs = _parse_images(raw)
+            logger.info(f"  [{modo}] colhidas: {len(imgs)}")
+            return imgs
+        except Exception as e:
+            logger.error(f"  [{modo}] erro tentativa {attempt}: {e}")
+            if attempt < MAX_RETRIES:
+                time.sleep(BACKOFF[attempt - 1])
+    return []
+
+
+def _dedupe(images: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    seen, out = set(), []
+    for im in images:
+        u = im.get("image_url")
+        if u and u not in seen:
+            seen.add(u); out.append(im)
+    return out
+
+
+def fetch_x_images() -> list[dict[str, Any]]:
+    """Estratégia de duas passadas agregadas (aprendido da doc xAI):
+
+    1. PRECISÃO — allowed_x_handles fixo nas 20 contas verificadas. O Grok GARANTE
+       que vasculha revistas/sociedades (elimina variância onde mais importa).
+    2. RECALL — busca aberta por hashtags/tema, captura o long-tail de congresso
+       e contas fora da lista.
+    3. Agrega + dedupa. Se o total < TARGET, faz 1 retry da passada aberta com
+       feedback (igual ao pipeline principal que recupera volume).
+    """
+    if not os.environ.get("XAI_API_KEY"):
         logger.warning("XAI_API_KEY não setada — pulando.")
         return []
 
     prompt = PROMPT_PATH.read_text(encoding="utf-8")
-
     brasilia_tz = timezone(timedelta(hours=-3))
     target = (datetime.now(brasilia_tz) - timedelta(days=1)).strftime("%Y-%m-%d")
     from_date = (datetime.strptime(target, "%Y-%m-%d") - timedelta(days=5)).strftime("%Y-%m-%d")
 
-    import requests
-    headers = {"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
-    payload = {
-        "model": GROK_MODEL,
-        "input": [{"role": "user", "content": prompt}],
-        "tools": [{
-            "type": "x_search",
-            "from_date": from_date,
-            "enable_image_understanding": True,
-        }],
-        "temperature": 0.2,
-        "max_output_tokens": 16000,   # capturar TODAS as boas (varias por post/fonte) pode gerar array grande
-        "max_tool_calls": 12,         # mais buscas = mais imagens colhidas
-        "parallel_tool_calls": True,
-    }
+    # Passada 1: precisão (handles fixos)
+    precisao = _call_grok_once(prompt, from_date, allowed_handles=VERIFIED_HANDLES)
+    # Passada 2: recall (aberta)
+    aberta = _call_grok_once(prompt, from_date, allowed_handles=None)
 
-    for attempt in range(1, MAX_RETRIES + 1):
-        try:
-            logger.info(f"Chamada Grok imagens (tentativa {attempt}/{MAX_RETRIES}, model={GROK_MODEL})")
-            resp = requests.post(GROK_API_URL, headers=headers, json=payload, timeout=180)
-            resp.raise_for_status()
-            data = resp.json()
-            usage = data.get("usage", {})
-            logger.info(f"Grok usage: {json.dumps(usage)[:200]}")
-            raw = _extract_text(data)
-            if not raw:
-                logger.warning("Sem texto na resposta.")
-                if attempt < MAX_RETRIES:
-                    time.sleep(BACKOFF[attempt - 1])
-                    continue
-                return []
-            logger.info(f"Preview: {raw[:300]}")
-            images = _parse_images(raw)
-            logger.info(f"Imagens válidas colhidas: {len(images)}")
-            return images
-        except Exception as e:
-            logger.error(f"Erro na tentativa {attempt}: {e}")
-            if attempt < MAX_RETRIES:
-                time.sleep(BACKOFF[attempt - 1])
-    return []
+    todas = _dedupe(precisao + aberta)
+    logger.info(f"Após 2 passadas: {len(precisao)} precisão + {len(aberta)} aberta = {len(todas)} únicas")
+
+    # Retry da aberta se ainda baixo
+    if len(todas) < TARGET_IMAGES:
+        feedback = (f"\n\nATENÇÃO: a busca anterior trouxe poucas imagens ({len(todas)}). "
+                    f"Faça MAIS buscas (varie hashtags, termos e datas) e traga TODAS as figuras "
+                    f"científicas de qualidade que encontrar. Alvo: pelo menos {TARGET_IMAGES}.")
+        extra = _call_grok_once(prompt, from_date, allowed_handles=None, retry_feedback=feedback)
+        todas = _dedupe(todas + extra)
+        logger.info(f"Após retry: +{len(extra)} → {len(todas)} únicas")
+
+    return todas
 
 
 def main():

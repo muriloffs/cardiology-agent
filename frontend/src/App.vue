@@ -717,13 +717,11 @@
             :key="i"
             class="border border-gray-200 rounded-lg overflow-hidden bg-white flex flex-col"
           >
-            <a :href="im.post_url || im.image_url" target="_blank" rel="noopener noreferrer"
-               @click.stop="handleExternalLinkClick($event, im.post_url || im.image_url)"
-               class="block bg-gray-50">
-              <img :src="im.image_url" :alt="im.descricao" loading="lazy" referrerpolicy="no-referrer"
-                   @error="onXImgError"
-                   class="w-full h-48 object-contain bg-gray-50" />
-            </a>
+            <!-- Imagem "nua" (sem wrapper de link) para o long-press do iOS oferecer
+                 "Adicionar às Fotos". Mantemos referrerpolicy p/ carregar do X. -->
+            <img :src="im.image_url" :alt="im.descricao" loading="lazy" referrerpolicy="no-referrer"
+                 @error="onXImgError"
+                 class="w-full h-48 object-contain bg-gray-50" />
             <div class="p-3 flex-1 flex flex-col gap-1.5">
               <div class="flex items-center gap-1.5 flex-wrap">
                 <span class="text-[10px] px-1.5 py-0.5 rounded bg-teal-100 text-teal-800 font-bold uppercase">{{ im.tipo }}</span>
@@ -731,12 +729,14 @@
                 <span class="text-[11px] text-gray-400">{{ im.fonte }}</span>
               </div>
               <p class="text-xs text-gray-700 leading-snug break-words flex-1">{{ im.descricao }}</p>
+              <p class="text-[10px] text-gray-400">📲 Segure a imagem → "Adicionar às Fotos"</p>
               <div class="flex items-center gap-3 pt-1">
                 <a v-if="im.post_url" :href="im.post_url" target="_blank" rel="noopener noreferrer"
                    @click.stop="handleExternalLinkClick($event, im.post_url)"
                    class="text-xs text-blue-600 hover:text-blue-800 font-medium">𝕏 Ver post</a>
-                <a :href="xImgDownloadUrl(im, i)" @click.stop
-                   class="text-xs text-teal-700 hover:text-teal-900 font-medium">⬇ Salvar</a>
+                <a :href="im.image_url" target="_blank" rel="noopener noreferrer"
+                   @click.stop="handleExternalLinkClick($event, im.image_url)"
+                   class="text-xs text-teal-700 hover:text-teal-900 font-medium">⬇ Abrir imagem</a>
               </div>
             </div>
           </div>
