@@ -1,20 +1,38 @@
-name: X Images Prototype (manual)
+name: X Images (after daily report)
 
-# PROTÓTIPO — colhe figuras científicas do X numa chamada Grok dedicada.
-# SÓ disparo manual (workflow_dispatch). Não roda no cron. Custo controlado:
-# você dispara quando quiser medir o rendimento.
+# Colhe figuras cientificas do X numa chamada Grok DEDICADA, encadeada APOS o
+# relatorio principal terminar. Defesa em profundidade contra falha/colisao:
+#
+#  - workflow_run: roda quando "Daily Cardiology Research Report" COMPLETA —
+#    nao por horario fixo (o cron do GitHub atrasa 1-3h; horario fixo arriscaria
+#    rodar antes do principal). Sequencial = sem colisao com a chamada Grok
+#    principal (evita 429).
+#  - if conclusion == 'success': se o principal FALHOU, nao roda (sem relatorio
+#    fresco). workflow_dispatch sempre roda (teste manual).
+#  - Idempotencia: o principal tem 2 crons (primario + backup). workflow_run
+#    dispara no fim de CADA um. O step "Check" pula se ja colheu hoje — assim o
+#    backup nao dispara uma 2a colheita (sem custo Grok duplicado).
+#  - Isolado: workflow separada. Se a colheita falhar, o relatorio ja esta
+#    commitado e intacto. fetch_x_images retorna [] em qualquer erro.
 
 on:
+  workflow_run:
+    workflows: ["Daily Cardiology Research Report"]
+    types: [completed]
   workflow_dispatch:
 
 concurrency:
-  group: x-images-prototype
-  cancel-in-progress: true
+  group: x-images
+  cancel-in-progress: false   # nao interrompe uma colheita em andamento
 
 jobs:
   harvest:
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    # Roda se: disparo manual OU o relatorio principal terminou com SUCESSO
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      github.event.workflow_run.conclusion == 'success'
 
     permissions:
       contents: write
@@ -24,29 +42,50 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
+          ref: main   # garante o main mais recente (com o relatorio fresco)
+
+      - name: Check if already harvested today (idempotencia)
+        id: check
+        run: |
+          if [ "${{ github.event_name }}" != "workflow_dispatch" ] && [ -f data/imagens-x-sample.json ]; then
+            GEN=$(python -c "import json,sys; print(json.load(open('data/imagens-x-sample.json')).get('gerado_em','')[:10])" 2>/dev/null || echo "")
+            TODAY=$(date -u +%Y-%m-%d)
+            if [ "$GEN" = "$TODAY" ]; then
+              echo "Ja colhido hoje ($GEN) — pulando (provavel disparo do cron backup)."
+              echo "skip=true" >> "$GITHUB_OUTPUT"
+            else
+              echo "skip=false" >> "$GITHUB_OUTPUT"
+            fi
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Set up Python 3.11
+        if: steps.check.outputs.skip != 'true'
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
           cache: 'pip'
 
       - name: Install dependencies
+        if: steps.check.outputs.skip != 'true'
         run: |
           python -m pip install --upgrade pip
           pip install --default-timeout=30 -r agent/requirements.txt
 
       - name: Harvest X images
+        if: steps.check.outputs.skip != 'true'
         env:
           XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
           GROK_MODEL: ${{ vars.GROK_MODEL || 'grok-4.3' }}
         run: python -m agent.scripts.fetch_x_images
 
       - name: Commit sample
+        if: steps.check.outputs.skip != 'true'
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add data/imagens-x-sample.json
-          git commit -m "chore: amostra de imagens do X (prototipo)" || echo "Nada para commitar"
+          git commit -m "chore: imagens do X $(date -u +%Y-%m-%d)" || echo "Nada para commitar"
           git pull --rebase origin main
           git push origin main
