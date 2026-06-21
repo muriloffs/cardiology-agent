@@ -166,6 +166,21 @@
             {{ reviewsCounts.total }}
           </span>
         </button>
+        <!-- Imagens do X (protótipo) -->
+        <button
+          @click="openXImages"
+          :class="['px-2.5 md:px-5 py-1.5 md:py-3 rounded-lg text-sm md:text-lg font-semibold transition-all flex items-center gap-1.5 md:gap-2.5',
+                   currentView === 'imagens'
+                     ? 'bg-teal-600 text-white shadow-md'
+                     : 'bg-white text-teal-700 hover:bg-teal-50 border border-teal-300']"
+        >
+          🖼️ Imagens
+          <span v-if="xImagesData?.total"
+                :class="['px-1.5 md:px-2 py-0.5 rounded-full text-xs md:text-sm font-bold',
+                         currentView === 'imagens' ? 'bg-white text-teal-700' : 'bg-teal-100 text-teal-800']">
+            {{ xImagesData.total }}
+          </span>
+        </button>
       </div>
     </div>
 
@@ -671,6 +686,64 @@
       </section>
     </template>
 
+    <!-- ============================================================ -->
+    <!-- VIEW: IMAGENS DO X (protótipo) -->
+    <!-- ============================================================ -->
+    <template v-else-if="currentView === 'imagens'">
+      <section class="px-4 py-8 max-w-6xl mx-auto">
+        <div class="mb-4">
+          <h2 class="text-2xl md:text-3xl font-bold mb-1">🖼️ Imagens do X — figuras de trabalhos</h2>
+          <p class="text-sm text-gray-600">
+            Gráficos, tabelas, graphical abstracts e slides de congresso colhidos do X.
+            Visualize, abra o post original ou salve a imagem.
+          </p>
+          <p v-if="xImagesData?.total" class="text-sm text-gray-500 mt-1">
+            {{ xImagesData.total }} imagens · {{ formatXImgStats(xImagesData.por_tipo) }}
+          </p>
+        </div>
+
+        <div v-if="xImagesLoading" class="text-center text-gray-500 py-10">Carregando imagens…</div>
+        <div v-else-if="xImagesLoadError" class="text-center text-gray-500 py-10">
+          <p class="text-lg mb-1">Sem amostra ainda.</p>
+          <p class="text-sm">Rode o protótipo (workflow "X Images Prototype") para gerar a amostra.</p>
+        </div>
+        <div v-else-if="!xImagesData?.imagens?.length" class="text-center text-gray-500 py-10">
+          Nenhuma imagem na amostra.
+        </div>
+
+        <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div
+            v-for="(im, i) in xImagesData.imagens"
+            :key="i"
+            class="border border-gray-200 rounded-lg overflow-hidden bg-white flex flex-col"
+          >
+            <a :href="im.post_url || im.image_url" target="_blank" rel="noopener noreferrer"
+               @click.stop="handleExternalLinkClick($event, im.post_url || im.image_url)"
+               class="block bg-gray-50">
+              <img :src="im.image_url" :alt="im.descricao" loading="lazy" referrerpolicy="no-referrer"
+                   @error="onXImgError"
+                   class="w-full h-48 object-contain bg-gray-50" />
+            </a>
+            <div class="p-3 flex-1 flex flex-col gap-1.5">
+              <div class="flex items-center gap-1.5 flex-wrap">
+                <span class="text-[10px] px-1.5 py-0.5 rounded bg-teal-100 text-teal-800 font-bold uppercase">{{ im.tipo }}</span>
+                <span v-if="im.assunto" class="text-[10px] px-1.5 py-0.5 rounded-full bg-gray-100 text-gray-600">{{ im.assunto }}</span>
+                <span class="text-[11px] text-gray-400">{{ im.fonte }}</span>
+              </div>
+              <p class="text-xs text-gray-700 leading-snug break-words flex-1">{{ im.descricao }}</p>
+              <div class="flex items-center gap-3 pt-1">
+                <a v-if="im.post_url" :href="im.post_url" target="_blank" rel="noopener noreferrer"
+                   @click.stop="handleExternalLinkClick($event, im.post_url)"
+                   class="text-xs text-blue-600 hover:text-blue-800 font-medium">𝕏 Ver post</a>
+                <a :href="xImgDownloadUrl(im, i)" @click.stop
+                   class="text-xs text-teal-700 hover:text-teal-900 font-medium">⬇ Salvar</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </template>
+
 
     <!-- X Discussion Detail Modal (only modal left — cards have all article info) -->
     <XDiscussionDetail
@@ -706,6 +779,7 @@ import SearchResults from './components/SearchResults.vue'
 import { useSearch } from './composables/useSearch'
 import { copyAudioBriefing } from './composables/useAudioBriefing'
 import { useMonthlyReviews } from './composables/useMonthlyReviews'
+import { useXImages } from './composables/useXImages'
 
 const { isActive: searchActive } = useSearch()
 
@@ -736,6 +810,36 @@ function revUrl(a) {
     || (a?.links?.doi ? `https://doi.org/${a.links.doi}` : null)
     || (a?.links?.pubmed ? `https://pubmed.ncbi.nlm.nih.gov/${a.links.pubmed}/` : null)
     || null
+}
+
+// Imagens do X (protótipo)
+const {
+  loading: xImagesLoading,
+  loadError: xImagesLoadError,
+  data: xImagesData,
+  loadXImages,
+} = useXImages()
+
+function openXImages() {
+  currentView.value = 'imagens'
+  loadXImages()
+}
+
+function formatXImgStats(porTipo) {
+  if (!porTipo) return ''
+  return Object.entries(porTipo).map(([t, n]) => `${n} ${t}`).join(' · ')
+}
+
+function xImgDownloadUrl(im, index) {
+  const ext = (im.image_url.match(/\.([a-z0-9]{3,4})(?:\?|$)/i)?.[1] || 'jpg').toLowerCase()
+  const filename = `x-figura-${String(index + 1).padStart(2, '0')}.${ext}`
+  const params = new URLSearchParams({ url: im.image_url, filename })
+  return `/api/proxy-image?${params.toString()}`
+}
+
+function onXImgError(evt) {
+  const card = evt?.target?.closest('.border')
+  if (card) card.style.display = 'none'  // some media URLs expire/404 — esconde silenciosamente
 }
 
 function formatRevDate(dateStr) {
