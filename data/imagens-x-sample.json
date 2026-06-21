@@ -1,0 +1,50 @@
+{
+  "gerado_em": "2026-06-21T19:59:57.825426+00:00",
+  "total": 4,
+  "por_tipo": {
+    "grafico": 1,
+    "fluxograma": 2,
+    "graphical_abstract": 1
+  },
+  "por_categoria_fonte": {
+    "revista": 4
+  },
+  "imagens": [
+    {
+      "image_url": "https://pbs.twimg.com/media/HLXAOaxWEAAcgrp.png",
+      "tipo": "grafico",
+      "descricao": "Gráficos de barras (A e B) mostrando a gravidade da síndrome pós-trombótica segundo VCSS e escala de Villalta no baseline e 6 meses no trial C-TRACT (EVT vs No EVT)",
+      "fonte": "@NEJM",
+      "categoria_fonte": "revista",
+      "post_url": "https://x.com/NEJM/status/2068770979409539426",
+      "assunto": "síndrome pós-trombótica"
+    },
+    {
+      "image_url": "https://pbs.twimg.com/media/HLXH_BgXsAEH6lb.jpg",
+      "tipo": "fluxograma",
+      "descricao": "Fluxograma de follow-up de 10 anos em TAVR: mortalidade, função valvar, consentimento, fontes de dados e re-intervenção",
+      "fonte": "@JACCJournals",
+      "categoria_fonte": "revista",
+      "post_url": "https://x.com/JACCJournals/status/2068779510028198119",
+      "assunto": "TAVR"
+    },
+    {
+      "image_url": "https://pbs.twimg.com/media/HLR3TJ-WMAEEFYq.jpg",
+      "tipo": "graphical_abstract",
+      "descricao": "Ilustração central: papel de triggers não-pulmonares em recorrência de FA após ablação de primeira vez (NPV triggers, taxas de recorrência e HRs)",
+      "fonte": "@JACCJournals",
+      "categoria_fonte": "revista",
+      "post_url": "https://x.com/JACCJournals/status/2068409320476131421",
+      "assunto": "FA ablação"
+    },
+    {
+      "image_url": "https://pbs.twimg.com/media/HLLwX8gW8AAhSSR.jpg",
+      "tipo": "fluxograma",
+      "descricao": "Framework prático em 4 passos para rechallenge com ICI após miocardite induzida por ICI (justificativa, readiness, reinício e interrupção)",
+      "fonte": "@JACCJournals",
+      "categoria_fonte": "revista",
+      "post_url": "https://x.com/JACCJournals/status/2067979493822595323",
+      "assunto": "Cardio-Oncologia"
+    }
+  ]
+}
