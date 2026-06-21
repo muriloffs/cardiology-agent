@@ -1,0 +1,52 @@
+name: X Images Prototype (manual)
+
+# PROTÓTIPO — colhe figuras científicas do X numa chamada Grok dedicada.
+# SÓ disparo manual (workflow_dispatch). Não roda no cron. Custo controlado:
+# você dispara quando quiser medir o rendimento.
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: x-images-prototype
+  cancel-in-progress: true
+
+jobs:
+  harvest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install --default-timeout=30 -r agent/requirements.txt
+
+      - name: Harvest X images
+        env:
+          XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
+          GROK_MODEL: ${{ vars.GROK_MODEL || 'grok-4.3' }}
+        run: python -m agent.scripts.fetch_x_images
+
+      - name: Commit sample
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add data/imagens-x-sample.json
+          git commit -m "chore: amostra de imagens do X (prototipo)" || echo "Nada para commitar"
+          git pull --rebase origin main
+          git push origin main
