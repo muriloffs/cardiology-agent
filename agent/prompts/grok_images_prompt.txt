@@ -19,19 +19,24 @@ outras revistas, sociedades, sub-journals (ex: imagem, EP, intervenção),
 cardiologistas e grupos de pesquisa. O critério é a CREDIBILIDADE da fonte e a
 QUALIDADE da imagem, não estar numa lista pré-definida.
 
+ALVO: figuras de TRABALHOS CIENTÍFICOS (estudos, trials, meta-análises, diretrizes) — dados e resultados, não exames clínicos.
+
 O QUE COLHER (somente imagens que sejam):
 - Gráficos de resultados (Kaplan-Meier, forest plot, curvas, barras de desfecho)
 - Tabelas (características basais, desfechos, comparações)
 - Graphical abstracts / visual abstracts
-- Figuras de método/mecanismo de papers
-- Slides de apresentação de trial em congresso
+- Figuras de método/mecanismo/desenho de estudo
+- Slides de apresentação de trial em congresso (resultados, desfechos)
 - Algoritmos/fluxogramas de diretrizes
 
-O QUE IGNORAR (NÃO colha):
+O QUE IGNORAR (NÃO colha — MUITO IMPORTANTE):
+- IMAGENS DE EXAME BRUTO / CASO CLÍNICO DE ENSINO: traçado de ECG/eletrocardiograma, imagem ou clipe de ECOCARDIOGRAMA, RESSONÂNCIA cardíaca, angiografia/cateterismo, tomografia, raio-X. Mesmo que sejam educativas ("qual o diagnóstico?"). NÃO são figuras de trabalho — são exames. PULE.
 - Fotos de pessoas, selfies, plateias, palcos
 - Memes, piadas, imagens decorativas
 - Logos, capas de revista sem conteúdo, banners de evento
 - Prints de texto puro sem gráfico/tabela
+
+REGRA DE OURO para o exame vs trabalho: se a imagem é o REGISTRO de um exame de um paciente (um ECG, um eco, uma RM), IGNORE. Se é um GRÁFICO/TABELA/figura que resume os RESULTADOS de um estudo, COLHA. Um estudo SOBRE imagem cardíaca: quero o gráfico de desfecho dele, NÃO a imagem de exame que ele mostra.
 
 COBERTURA COMPLETA (capture TODAS as boas, sem limite artificial):
 - Uma mesma fonte pode ter VÁRIAS publicações no dia — colha todas que tiverem figura de qualidade. NÃO limite a uma por fonte.
