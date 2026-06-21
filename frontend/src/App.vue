@@ -717,11 +717,12 @@
             :key="i"
             class="border border-gray-200 rounded-lg overflow-hidden bg-white flex flex-col"
           >
-            <!-- Imagem "nua" (sem wrapper de link) para o long-press do iOS oferecer
-                 "Adicionar às Fotos". Mantemos referrerpolicy p/ carregar do X. -->
+            <!-- Imagem "nua" (sem wrapper de link): toque abre o lightbox; long-press
+                 do iOS oferece "Adicionar às Fotos". Os dois gestos não conflitam. -->
             <img :src="im.image_url" :alt="im.descricao" loading="lazy" referrerpolicy="no-referrer"
                  @error="onXImgError"
-                 class="w-full h-48 object-contain bg-gray-50" />
+                 @click="lightboxImage = im"
+                 class="w-full h-48 object-contain bg-gray-50 cursor-zoom-in" />
             <div class="p-3 flex-1 flex flex-col gap-1.5">
               <div class="flex items-center gap-1.5 flex-wrap">
                 <span class="text-[10px] px-1.5 py-0.5 rounded bg-teal-100 text-teal-800 font-bold uppercase">{{ im.tipo }}</span>
@@ -745,6 +746,42 @@
     </template>
 
 
+    <!-- Lightbox de imagem do X — abre ao tocar na figura -->
+    <Teleport to="body">
+      <div
+        v-if="lightboxImage"
+        class="fixed inset-0 z-[9999] bg-black/90 flex flex-col items-center justify-center p-4"
+        @click.self="lightboxImage = null"
+      >
+        <button
+          @click="lightboxImage = null"
+          class="absolute top-3 right-3 text-white/80 hover:text-white text-2xl w-11 h-11 flex items-center justify-center rounded-full bg-white/10"
+          aria-label="Fechar"
+        >✕</button>
+        <!-- Imagem grande "nua" — long-press salva nas Fotos -->
+        <img
+          :src="lightboxImage.image_url"
+          :alt="lightboxImage.descricao"
+          referrerpolicy="no-referrer"
+          class="max-w-full max-h-[80vh] object-contain rounded shadow-2xl"
+        />
+        <div class="mt-3 max-w-2xl text-center px-2">
+          <p class="text-white/90 text-sm leading-snug">{{ lightboxImage.descricao }}</p>
+          <p class="text-white/50 text-xs mt-1">
+            {{ lightboxImage.fonte }} · 📲 segure a imagem para "Adicionar às Fotos"
+          </p>
+          <div class="flex items-center justify-center gap-5 mt-3">
+            <a v-if="lightboxImage.post_url" :href="lightboxImage.post_url" target="_blank" rel="noopener noreferrer"
+               @click.stop="handleExternalLinkClick($event, lightboxImage.post_url)"
+               class="text-blue-300 hover:text-blue-200 text-sm font-medium">𝕏 Ver post</a>
+            <a :href="lightboxImage.image_url" target="_blank" rel="noopener noreferrer"
+               @click.stop="handleExternalLinkClick($event, lightboxImage.image_url)"
+               class="text-teal-300 hover:text-teal-200 text-sm font-medium">⬇ Abrir imagem</a>
+          </div>
+        </div>
+      </div>
+    </Teleport>
+
     <!-- X Discussion Detail Modal (only modal left — cards have all article info) -->
     <XDiscussionDetail
       v-if="selectedDiscussion"
@@ -764,7 +801,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import HeaderStats from './components/HeaderStats.vue'
 import FilterBar from './components/FilterBar.vue'
 import ArticleCard from './components/ArticleCard.vue'
@@ -841,6 +878,12 @@ function onXImgError(evt) {
   const card = evt?.target?.closest('.border')
   if (card) card.style.display = 'none'  // some media URLs expire/404 — esconde silenciosamente
 }
+
+// Lightbox de imagem (abre ao tocar na figura). Trava o scroll de fundo.
+const lightboxImage = ref(null)
+watch(lightboxImage, (v) => {
+  if (typeof document !== 'undefined') document.body.style.overflow = v ? 'hidden' : ''
+})
 
 function formatRevDate(dateStr) {
   try {
@@ -1137,5 +1180,9 @@ async function loadReport() {
 
 onMounted(() => {
   loadReport()
+  // Esc fecha o lightbox de imagem
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && lightboxImage.value) lightboxImage.value = null
+  })
 })
 </script>
