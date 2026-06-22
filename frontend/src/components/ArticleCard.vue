@@ -290,6 +290,16 @@ const studyTypeBadge = computed(() => {
       classes: 'bg-blue-100 text-blue-800 border border-blue-300',
     }
   }
+  // Editorial / comentário / perspectiva / viewpoint / opinião — opinião de
+  // especialista que contextualiza um estudo. Tipos observados nos dados:
+  // "Editorial / Comentário", "Comentário", "Editorial / opinião".
+  if (/editorial|coment[áa]rio|\bcomment\b|perspectiv|viewpoint|opini[ãa]o/.test(t)) {
+    return {
+      emoji: '✍️',
+      label: 'Editorial',
+      classes: 'bg-violet-100 text-violet-800 border border-violet-300',
+    }
+  }
   return null
 })
 
