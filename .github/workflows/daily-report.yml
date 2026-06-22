@@ -2,23 +2,23 @@ name: Daily Cardiology Research Report
 
 on:
   schedule:
-    # DOIS crons (defesa em profundidade contra o scheduler do GitHub Actions
-    # pular o disparo):
+    # SEIS crons espalhados (defesa em profundidade contra o scheduler do
+    # GitHub Actions PULAR o disparo — não só atrasar). O GH pula cron de forma
+    # probabilística em horário de carga; pular UM é comum, pular SEIS espalhados
+    # em 5h é muito improvável. Só o primeiro que disparar faz o trabalho — o
+    # step "Check if report exists" abaixo faz os demais virarem no-op em ~8s
+    # (custo ~zero, sem LLM). Minuto 17 (não 0) evita o pico de carga do minuto 0.
     #
-    # 1) Primário: 04:17 UTC (01:17 BRT). Janela quieta — madrugada Europa,
-    #    fim-de-tarde Ásia. Minuto 17 (não 0) reduz fila — GitHub documenta
-    #    que minuto 0 sofre carga alta. Originalmente era 07:17 UTC mas o GH
-    #    pulou cron em dois dias consecutivos (18 e 19/05/26) nessa janela
-    #    europeia matinal — movido para horário menos disputado.
+    # Horários UTC → BRT: 04:17→01:17, 05:17→02:17, 06:17→03:17, 07:17→04:17,
+    # 08:17→05:17, 09:17→06:17. Cobre a madrugada/manhã inteira.
     #
-    # 2) Backup: 06:17 UTC (03:17 BRT). Se o primário pular ou falhar, o
-    #    backup pega o slot. Step "Check if report exists" abaixo impede
-    #    duplicação: em eventos `schedule`, se o arquivo de hoje já existir,
-    #    todos os steps seguintes viram no-op (sem custo de LLM). Em
-    #    `workflow_dispatch` (botão manual), o check é ignorado — assumimos
-    #    que o usuário quer re-run.
+    # workflow_dispatch (botão manual) ignora o check — assume re-run intencional.
     - cron: '17 4 * * *'
+    - cron: '17 5 * * *'
     - cron: '17 6 * * *'
+    - cron: '17 7 * * *'
+    - cron: '17 8 * * *'
+    - cron: '17 9 * * *'
   workflow_dispatch:
 
 concurrency:
