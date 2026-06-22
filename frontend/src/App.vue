@@ -606,10 +606,24 @@
     <template v-else-if="currentView === 'revisoes'">
       <section class="px-4 py-8 max-w-4xl mx-auto">
         <div class="mb-4">
-          <h2 class="text-2xl md:text-3xl font-bold mb-1">📖 Revisões e Diretrizes — {{ reviewsMonthLabel }}</h2>
+          <h2 class="text-2xl md:text-3xl font-bold mb-2">📖 Revisões e Diretrizes</h2>
+          <!-- Navegação de mês: abre no atual, ◄ volta para meses anteriores -->
+          <div class="flex items-center gap-2 mb-2">
+            <button
+              @click="reviewsOlder" :disabled="!reviewsCanOlder"
+              class="w-9 h-9 flex items-center justify-center rounded-lg border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed"
+              aria-label="Mês anterior"
+            >◄</button>
+            <span class="font-semibold text-gray-800 text-center min-w-[11rem]">{{ reviewsMonthLabel }}</span>
+            <button
+              @click="reviewsNewer" :disabled="!reviewsCanNewer"
+              class="w-9 h-9 flex items-center justify-center rounded-lg border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed"
+              aria-label="Mês seguinte"
+            >►</button>
+          </div>
           <p class="text-sm text-gray-600">
-            Acumula tudo que foi publicado no mês para você baixar e ler na íntegra.
-            Zera sozinho no dia 1 do mês seguinte (o histórico permanece).
+            Tudo que saiu no mês para baixar e ler na íntegra. Abre no mês atual;
+            use ◄ ► para meses anteriores. O histórico se acumula — nada é apagado.
           </p>
           <p v-if="reviewsCounts.total" class="text-sm text-gray-500 mt-1">
             {{ reviewsCounts.total }} no mês · {{ reviewsCounts.revisoes }} revisões · {{ reviewsCounts.diretrizes }} diretrizes
@@ -828,14 +842,21 @@ const {
   monthLabelText: reviewsMonthLabel,
   temas: reviewsTemas,
   counts: reviewsCounts,
-  loadMonth: loadReviewsMonth,
+  canOlder: reviewsCanOlder,
+  canNewer: reviewsCanNewer,
+  olderMonth: reviewsOlderMonth,
+  newerMonth: reviewsNewerMonth,
+  open: openReviews,
 } = useMonthlyReviews()
 const reviewsTemaFiltro = ref('all')
 
 function openRevisoesMes() {
   currentView.value = 'revisoes'
-  loadReviewsMonth()  // lazy — carrega na 1ª abertura (ou se o mês virou)
+  reviewsTemaFiltro.value = 'all'
+  openReviews()  // lazy — vai pro mês atual (ou o mais recente com dados)
 }
+async function reviewsOlder() { reviewsTemaFiltro.value = 'all'; await reviewsOlderMonth() }
+async function reviewsNewer() { reviewsTemaFiltro.value = 'all'; await reviewsNewerMonth() }
 
 const reviewsFiltrados = computed(() => {
   if (reviewsTemaFiltro.value === 'all') return reviewsItems.value

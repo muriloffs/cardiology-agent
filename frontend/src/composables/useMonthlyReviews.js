@@ -1,17 +1,15 @@
 /**
- * "Revisões e Diretrizes do Mês" — acumulador de leitura.
+ * "Revisões e Diretrizes do Mês" — acumulador navegável por mês.
  *
- * Junta todas as revisões/diretrizes publicadas no MÊS CALENDÁRIO ATUAL
- * (varrendo os relatórios daquele mês), para o usuário ter uma fila do que
- * vale baixar e ler na íntegra. "Reseta" no dia 1 do mês seguinte sem apagar
- * nada — é só uma view filtrada por mês; o histórico permanece.
+ * Abre sempre no mês CALENDÁRIO atual; permite voltar para meses anteriores
+ * (junho, maio...). Conforme os meses passam, o histórico se acumula — nada é
+ * apagado, são views filtradas por mês. Cache por mês (voltar é instantâneo).
  *
- * Lazy-load: só busca os relatórios quando a aba é aberta. Singleton.
+ * Lazy: carrega o índice + o mês selecionado só ao abrir a aba. Singleton.
  */
 import { ref, computed } from 'vue'
 import { fetchIndex, fetchReportByDate } from '../utils/api'
 
-// Mesma deteção do selo no ArticleCard / do briefing de áudio.
 function isReviewOrGuideline(article) {
   const t = (article?.desenho_estudo?.tipo || '').toLowerCase()
   if (!t) return false
@@ -24,39 +22,50 @@ function classifyTipo(article) {
   return 'revisao'
 }
 
-const loading = ref(false)
-const loaded = ref(false)
-const loadError = ref(null)
-const items = ref([])       // [{ date, article, tipo }]
-const currentMonth = ref('') // 'YYYY-MM'
-
 function monthLabel(ym) {
   if (!ym) return ''
   try {
     const [y, m] = ym.split('-').map(Number)
-    const dt = new Date(y, m - 1, 1)
-    const nome = dt.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' })
+    const nome = new Date(y, m - 1, 1).toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' })
     return nome.charAt(0).toUpperCase() + nome.slice(1)
   } catch {
     return ym
   }
 }
 
-async function loadMonth(force = false) {
-  // Recarrega se o mês virou desde o último load (caso a aba fique aberta)
-  const now = new Date()
-  const ym = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0')
-  if (!force && loaded.value && currentMonth.value === ym) return
-  if (loading.value) return
+function currentYM() {
+  const n = new Date()
+  return n.getFullYear() + '-' + String(n.getMonth() + 1).padStart(2, '0')
+}
 
+// Estado singleton
+const allDates = ref([])            // datas do index.json
+const indexLoaded = ref(false)
+const selectedMonth = ref('')       // 'YYYY-MM'
+const monthCache = ref(new Map())   // ym -> items[]
+const loading = ref(false)
+const loadError = ref(null)
+
+async function ensureIndex() {
+  if (indexLoaded.value) return
+  allDates.value = await fetchIndex()
+  indexLoaded.value = true
+}
+
+function availableMonthsRaw() {
+  const set = new Set(allDates.value.map((d) => d.slice(0, 7)))
+  return [...set].sort().reverse() // mais recente primeiro
+}
+
+async function loadMonth(ym) {
+  if (!ym || monthCache.value.has(ym)) return // cache
   loading.value = true
   loadError.value = null
-  currentMonth.value = ym
   try {
-    const dates = await fetchIndex()
-    const monthDates = dates.filter((d) => d.startsWith(ym))
+    await ensureIndex()
+    const dates = allDates.value.filter((d) => d.startsWith(ym))
     const results = await Promise.allSettled(
-      monthDates.map((d) => fetchReportByDate(d).then((r) => [d, r]))
+      dates.map((d) => fetchReportByDate(d).then((r) => [d, r]))
     )
     const collected = []
     const seen = new Set()
@@ -65,16 +74,14 @@ async function loadMonth(force = false) {
       const [date, report] = r.value
       for (const a of report.artigos || []) {
         if (!isReviewOrGuideline(a)) continue
-        // Dedupe: mesmo paper pode reaparecer em dias diferentes
         const key = a.links?.pubmed || a.links?.doi || (a.titulo || '').slice(0, 80)
         if (seen.has(key)) continue
         seen.add(key)
         collected.push({ date, article: a, tipo: classifyTipo(a) })
       }
     }
-    collected.sort((x, y) => y.date.localeCompare(x.date)) // mais recente primeiro
-    items.value = collected
-    loaded.value = true
+    collected.sort((x, y) => y.date.localeCompare(x.date))
+    monthCache.value.set(ym, collected)
   } catch (e) {
     loadError.value = e?.message || 'Falha ao carregar o mês'
     console.error('useMonthlyReviews loadMonth failed:', e)
@@ -83,7 +90,36 @@ async function loadMonth(force = false) {
   }
 }
 
+/** Abre a aba: vai pro mês atual (ou o mais recente com dados) e carrega. */
+async function open() {
+  await ensureIndex()
+  const ym = currentYM()
+  const months = availableMonthsRaw()
+  selectedMonth.value = months.includes(ym) ? ym : (months[0] || ym)
+  await loadMonth(selectedMonth.value)
+}
+
+async function goToMonth(ym) {
+  if (!ym) return
+  selectedMonth.value = ym
+  await loadMonth(ym)
+}
+
 export function useMonthlyReviews() {
+  const items = computed(() => monthCache.value.get(selectedMonth.value) || [])
+  const availableMonths = computed(() => availableMonthsRaw())
+
+  // Navegação prev/next pelos meses DISPONÍVEIS (não calendário cego)
+  const monthIndex = computed(() => availableMonths.value.indexOf(selectedMonth.value))
+  const canOlder = computed(() => monthIndex.value >= 0 && monthIndex.value < availableMonths.value.length - 1)
+  const canNewer = computed(() => monthIndex.value > 0)
+  async function olderMonth() {
+    if (canOlder.value) await goToMonth(availableMonths.value[monthIndex.value + 1])
+  }
+  async function newerMonth() {
+    if (canNewer.value) await goToMonth(availableMonths.value[monthIndex.value - 1])
+  }
+
   const byTema = computed(() => {
     const g = {}
     for (const it of items.value) {
@@ -107,14 +143,19 @@ export function useMonthlyReviews() {
 
   return {
     loading,
-    loaded,
     loadError,
     items,
-    currentMonth,
-    monthLabelText: computed(() => monthLabel(currentMonth.value)),
+    selectedMonth,
+    availableMonths,
+    monthLabelText: computed(() => monthLabel(selectedMonth.value)),
+    canOlder,
+    canNewer,
+    olderMonth,
+    newerMonth,
+    goToMonth,
     byTema,
     temas,
     counts,
-    loadMonth,
+    open,
   }
 }
