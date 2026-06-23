@@ -1,20 +1,38 @@
 {
-  "gerado_em": "2026-06-22T10:36:36.671379+00:00",
-  "total": 21,
+  "gerado_em": "2026-06-23T08:32:37.773452+00:00",
+  "total": 20,
   "por_tipo": {
-    "grafico": 7,
-    "figura": 4,
-    "slide": 10
+    "grafico": 16,
+    "slide": 2,
+    "tabela": 2
   },
   "por_categoria_fonte": {
-    "revista": 17,
-    "sociedade": 4
+    "revista": 19,
+    "especialista": 1
   },
   "imagens": [
     {
+      "image_url": "https://pbs.twimg.com/media/HLcsJF8XcAAgGhU.jpg",
+      "tipo": "grafico",
+      "descricao": "Gráfico e texto sobre lacunas de pesquisa em Lp(a) na saúde reprodutiva e CV de mulheres (raça/etnia, isoformas apo(a), idade reprodutiva, TRH)",
+      "fonte": "@JACCJournals",
+      "categoria_fonte": "revista",
+      "post_url": "https://x.com/JACCJournals/status/2069171109249835081",
+      "assunto": "Lp(a) mulheres"
+    },
+    {
+      "image_url": "https://pbs.twimg.com/media/HLccG-tXAAAj1q6.jpg",
+      "tipo": "slide",
+      "descricao": "Resultados do estudo UNICORN em TAVR: prevenção de obstrução coronariana, hipotensão intraprocedimento",
+      "fonte": "@JACCJournals",
+      "categoria_fonte": "revista",
+      "post_url": "https://x.com/JACCJournals/status/2069153480653074926",
+      "assunto": "TAVR"
+    },
+    {
       "image_url": "https://pbs.twimg.com/media/HLXH_BgXsAEH6lb.jpg",
       "tipo": "grafico",
-      "descricao": "Gráfico e discussão sobre follow-up de 10 anos em TAVR em pacientes mais jovens, abordando missing data, competing risk e reconsentimento.",
+      "descricao": "Discussão sobre follow-up de 10 anos em TAVR em pacientes mais jovens: missing data, competing risk, reconsent",
       "fonte": "@JACCJournals",
       "categoria_fonte": "revista",
       "post_url": "https://x.com/JACCJournals/status/2068779510028198119",
@@ -22,35 +40,35 @@
     },
     {
       "image_url": "https://pbs.twimg.com/media/HLWxyJiXoAAEmBB.jpg",
-      "tipo": "figura",
-      "descricao": "Figura ilustrativa de implante supra-anular de TAVR em paciente com BAV e grande anel, mostrando ancoragem e selamento.",
+      "tipo": "slide",
+      "descricao": "TAVR supra-anular em BAV com anel muito grande: ancoragem e selamento nas cúspides",
       "fonte": "@JACCJournals",
       "categoria_fonte": "revista",
       "post_url": "https://x.com/JACCJournals/status/2068755099342536745",
-      "assunto": "TAVR"
+      "assunto": "TAVR BAV"
     },
     {
       "image_url": "https://pbs.twimg.com/media/HLR3TJ-WMAEEFYq.jpg",
       "tipo": "grafico",
-      "descricao": "Gráfico de Kaplan-Meier ou curva de recorrência após ablação de triggers NPV em FA.",
+      "descricao": "Risco de recorrência de FA após ablação de triggers NPV: impacto na taxa de recorrência",
       "fonte": "@JACCJournals",
       "categoria_fonte": "revista",
       "post_url": "https://x.com/JACCJournals/status/2068409320476131421",
-      "assunto": "Fibrilação atrial"
+      "assunto": "FA ablação"
     },
     {
       "image_url": "https://pbs.twimg.com/media/HLLwX8gW8AAhSSR.jpg",
-      "tipo": "figura",
-      "descricao": "Figura sobre rechallenge com ICI após miocardite em cardio-oncologia.",
+      "tipo": "grafico",
+      "descricao": "Evidência para rechallenge com ICI após miocardite: limiares, monitoramento e trade-offs",
       "fonte": "@JACCJournals",
       "categoria_fonte": "revista",
       "post_url": "https://x.com/JACCJournals/status/2067979493822595323",
-      "assunto": "Cardio-oncologia"
+      "assunto": "Cardio-oncologia ICI"
     },
     {
       "image_url": "https://pbs.twimg.com/media/HLLpgpqXMAA0gYW.jpg",
       "tipo": "grafico",
-      "descricao": "Gráfico de mortalidade CV e YPLL entre negros e brancos nos EUA em 2024.",
+      "descricao": "Gráfico de mortalidade CV e YPLL entre negros e brancos nos EUA 2024: gaps persistentes",
       "fonte": "@JACCJournals",
       "categoria_fonte": "revista",
       "post_url": "https://x.com/JACCJournals/status/2067971967886475593",
@@ -58,8 +76,8 @@
     },
     {
       "image_url": "https://pbs.twimg.com/media/HLLph3LXMAERQBq.jpg",
-      "tipo": "grafico",
-      "descricao": "Gráfico complementar de desfechos CV por categoria em disparidades raciais.",
+      "tipo": "tabela",
+      "descricao": "Tabela complementar de dados de mortalidade CV excessiva e YPLL por categoria de DCV",
       "fonte": "@JACCJournals",
       "categoria_fonte": "revista",
       "post_url": "https://x.com/JACCJournals/status/2067971967886475593",
@@ -68,137 +86,110 @@
     {
       "image_url": "https://pbs.twimg.com/media/HLLk8F1WYAAk_qv.jpg",
       "tipo": "grafico",
-      "descricao": "Forest plot ou gráfico de resultados sobre sacubitril/valsartan e CTRCD.",
+      "descricao": "Evidência insuficiente para sacubitril/valsartan reduzir CTRCD: declínio GLS vs hipotensão",
       "fonte": "@JACCJournals",
       "categoria_fonte": "revista",
       "post_url": "https://x.com/JACCJournals/status/2067966920536514849",
-      "assunto": "Cardio-oncologia"
+      "assunto": "Cardio-oncologia CTRCD"
     },
     {
-      "image_url": "https://pbs.twimg.com/media/HLLav0-XEAAMdPY.jpg",
-      "tipo": "slide",
-      "descricao": "Slide de sessão conjunta JACCCardioOnc/ESCCardioOnco26 sobre necessidades não atendidas em cardio-oncologia.",
-      "fonte": "@JACCJournals",
-      "categoria_fonte": "revista",
-      "post_url": "https://x.com/JACCJournals/status/2067955777822658878",
-      "assunto": "Cardio-oncologia"
-    },
-    {
-      "image_url": "https://pbs.twimg.com/media/HLKoRanWgAAHVpO.jpg",
-      "tipo": "slide",
-      "descricao": "Slide com dicas para escrita de manuscrito forte por @DrBonnieKy.",
-      "fonte": "@JACCJournals",
-      "categoria_fonte": "revista",
-      "post_url": "https://x.com/JACCJournals/status/2067900279018635270",
-      "assunto": "Pesquisa CV"
-    },
-    {
-      "image_url": "https://pbs.twimg.com/media/HLIP2d-WoAA7AJW.jpg",
+      "image_url": "https://pbs.twimg.com/media/HLXaa2QXMAEan1q.png",
       "tipo": "grafico",
-      "descricao": "Gráfico de impacto de alertas EMR em taxa de substituição valvar em VHD grave.",
-      "fonte": "@JACCJournals",
+      "descricao": "Resultados do trial de suplementação alimentar em insuficiência cardíaca: hospitalizações e visitas ED",
+      "fonte": "@JAMACardio",
       "categoria_fonte": "revista",
-      "post_url": "https://x.com/JACCJournals/status/2067732627948294328",
-      "assunto": "Valvopatia"
+      "post_url": "https://x.com/JAMACardio/status/2069012523391537474",
+      "assunto": "insuficiência cardíaca"
     },
     {
-      "image_url": "https://pbs.twimg.com/media/HLICV44XEAACyE5.jpg",
-      "tipo": "figura",
-      "descricao": "Figura de exclusão percutânea de pseudoaneurisma de SVG.",
-      "fonte": "@JACCJournals",
-      "categoria_fonte": "revista",
-      "post_url": "https://x.com/JACCJournals/status/2067717774667903208",
-      "assunto": "Intervenção coronária"
-    },
-    {
-      "image_url": "https://pbs.twimg.com/media/HLWXcrKWUAA7fBC.jpg",
-      "tipo": "slide",
-      "descricao": "Slide promocional de programa de NYValves2026 com foco em valvular e structural heart.",
-      "fonte": "@crfheart",
-      "categoria_fonte": "sociedade",
-      "post_url": "https://x.com/crfheart/status/2068726126424244379",
-      "assunto": "Valvopatia"
-    },
-    {
-      "image_url": "https://pbs.twimg.com/media/HLVFzAmXIAA7ODI.png",
+      "image_url": "https://pbs.twimg.com/media/HLSeGzeXkAA6-RC.png",
       "tipo": "grafico",
-      "descricao": "Graphical abstract ou figura sobre uso de MRA em insuficiência cardíaca contemporânea.",
-      "fonte": "@radcliffeCARDIO",
-      "categoria_fonte": "sociedade",
-      "post_url": "https://x.com/radcliffeCARDIO/status/2068636348332798203",
-      "assunto": "Insuficiência cardíaca"
+      "descricao": "Precisão do screening ECG com IA para disfunção sistólica VE em adultos quenianos",
+      "fonte": "@JAMACardio",
+      "categoria_fonte": "revista",
+      "post_url": "https://x.com/JAMACardio/status/2068650136503259333",
+      "assunto": "IA ECG disfunção VE"
     },
     {
-      "image_url": "https://pbs.twimg.com/media/HLMKx0UXQAA2C37.jpg",
-      "tipo": "slide",
-      "descricao": "Slide de sessão #ESCardioOnco26 sobre nomograma de risco de sangramento em câncer e FA.",
-      "fonte": "@escardio",
-      "categoria_fonte": "sociedade",
-      "post_url": "https://x.com/escardio/status/2067986092049990048",
-      "assunto": "Cardio-oncologia"
+      "image_url": "https://pbs.twimg.com/media/HLOOptzXwAEIwbE.jpg",
+      "tipo": "grafico",
+      "descricao": "Melhora no pico de VO2 e recuperação com aficamten vs metoprolol em oHCM sintomática",
+      "fonte": "@JAMACardio",
+      "categoria_fonte": "revista",
+      "post_url": "https://x.com/JAMACardio/status/2068287749585555861",
+      "assunto": "oHCM aficamten"
     },
     {
-      "image_url": "https://pbs.twimg.com/media/HLLaxDTWwAEQIYP.png",
-      "tipo": "slide",
-      "descricao": "Slide complementar sobre mecanismos de DCV no câncer.",
+      "image_url": "https://pbs.twimg.com/media/HLXAOaxWEAAcgrp.png",
+      "tipo": "grafico",
+      "descricao": "Resultados do trial C-TRACT fase 3: terapia endovascular para síndrome pós-trombótica",
+      "fonte": "@NEJM",
+      "categoria_fonte": "revista",
+      "post_url": "https://x.com/NEJM/status/2068770979409539426",
+      "assunto": "síndrome pós-trombótica"
+    },
+    {
+      "image_url": "https://pbs.twimg.com/media/HLcJ0VqXoAA65UF.png",
+      "tipo": "grafico",
+      "descricao": "Gráfico de resultados do trial SNAP: cefazolina vs vancomicina em bacteremia por S. aureus sensível à meticilina.",
+      "fonte": "@NEJM",
+      "categoria_fonte": "revista",
+      "post_url": "https://x.com/NEJM/status/2069133390981316812",
+      "assunto": "bacteremia"
+    },
+    {
+      "image_url": "https://pbs.twimg.com/media/HLcJ1kXXgAA6DT3.jpg",
+      "tipo": "tabela",
+      "descricao": "Tabela de desfechos do trial SNAP (cefazolina para bacteremia por MSSA).",
+      "fonte": "@NEJM",
+      "categoria_fonte": "revista",
+      "post_url": "https://x.com/NEJM/status/2069133390981316812",
+      "assunto": "bacteremia"
+    },
+    {
+      "image_url": "https://pbs.twimg.com/media/HLbgqptXUAASILn.jpg",
+      "tipo": "grafico",
+      "descricao": "Curva de Kaplan-Meier ou gráfico de desfechos do trial SWiFT: transfusão pré-hospitalar de sangue total vs padrão em hemorragia traumática.",
+      "fonte": "@NEJM",
+      "categoria_fonte": "revista",
+      "post_url": "https://x.com/NEJM/status/2069088122567086399",
+      "assunto": "hemorragia traumática"
+    },
+    {
+      "image_url": "https://pbs.twimg.com/media/HLa3dzUWoAAnnvU.png",
+      "tipo": "grafico",
+      "descricao": "Gráfico de resultados do trial TOWAR fase 3: ressuscitação pré-hospitalar com sangue total tipo O em trauma e hemorragia.",
+      "fonte": "@NEJM",
+      "categoria_fonte": "revista",
+      "post_url": "https://x.com/NEJM/status/2069042823144280434",
+      "assunto": "hemorragia traumática"
+    },
+    {
+      "image_url": "https://pbs.twimg.com/media/HLB7WR8WEAAaSDQ.jpg",
+      "tipo": "grafico",
+      "descricao": "Gráfico de reintervenção e mortalidade no Evolut Low Risk trial: TAVR vs cirurgia aos 6/7 anos.",
       "fonte": "@JACCJournals",
       "categoria_fonte": "revista",
-      "post_url": "https://x.com/JACCJournals/status/2067955777822658878",
-      "assunto": "Cardio-oncologia"
+      "post_url": "https://x.com/JACCJournals/status/2067287871988338777",
+      "assunto": "TAVR"
     },
     {
-      "image_url": "https://pbs.twimg.com/media/HLLayRJXMAA9LVy.jpg",
-      "tipo": "slide",
-      "descricao": "Slide sobre predição de risco CV em cardio-oncologia.",
+      "image_url": "https://pbs.twimg.com/media/HLBpM0pXgAAUBrc.jpg",
+      "tipo": "grafico",
+      "descricao": "Gráfico de risco de DCV maior (especialmente IAM) associado a treinamento de resistência em mulheres dos EUA.",
       "fonte": "@JACCJournals",
       "categoria_fonte": "revista",
-      "post_url": "https://x.com/JACCJournals/status/2067955777822658878",
-      "assunto": "Cardio-oncologia"
+      "post_url": "https://x.com/JACCJournals/status/2067267918358888811",
+      "assunto": "exercício DCV"
     },
     {
-      "image_url": "https://pbs.twimg.com/media/HLLazgAWgAAnwjy.png",
-      "tipo": "slide",
-      "descricao": "Slide sobre inovação em ensaios clínicos em cardio-oncologia.",
-      "fonte": "@JACCJournals",
-      "categoria_fonte": "revista",
-      "post_url": "https://x.com/JACCJournals/status/2067955777822658878",
-      "assunto": "Cardio-oncologia"
-    },
-    {
-      "image_url": "https://pbs.twimg.com/media/HLKoSmXWgAAwii-.png",
-      "tipo": "slide",
-      "descricao": "Slide complementar sobre mentoria e perguntas de pesquisa.",
-      "fonte": "@JACCJournals",
-      "categoria_fonte": "revista",
-      "post_url": "https://x.com/JACCJournals/status/2067900279018635270",
-      "assunto": "Cardio-oncologia"
-    },
-    {
-      "image_url": "https://pbs.twimg.com/media/HLKoT06WwAA9Yb7.jpg",
-      "tipo": "slide",
-      "descricao": "Slide sobre contar uma história convincente em publicações.",
-      "fonte": "@JACCJournals",
-      "categoria_fonte": "revista",
-      "post_url": "https://x.com/JACCJournals/status/2067900279018635270",
-      "assunto": "Cardio-oncologia"
-    },
-    {
-      "image_url": "https://pbs.twimg.com/media/HLKoVCvW0AAMFkm.png",
-      "tipo": "slide",
-      "descricao": "Slide sobre impacto no paciente em cardio-oncologia.",
-      "fonte": "@JACCJournals",
-      "categoria_fonte": "revista",
-      "post_url": "https://x.com/JACCJournals/status/2067900279018635270",
-      "assunto": "Cardio-oncologia"
-    },
-    {
-      "image_url": "https://pbs.twimg.com/media/HLL2ZChWAAAVwoI.jpg",
-      "tipo": "figura",
-      "descricao": "Nomograma para predição de risco de sangramento em pacientes com câncer e FA.",
-      "fonte": "@escardio",
-      "categoria_fonte": "sociedade",
-      "post_url": "https://x.com/escardio/status/2067986092049990048",
-      "assunto": "FA"
+      "image_url": "https://pbs.twimg.com/media/HLbZcl-WUAEM53B.jpg",
+      "tipo": "grafico",
+      "descricao": "Gráfico de associação entre treinamento de resistência e menor risco de diabetes tipo 2.",
+      "fonte": "@EricTopol",
+      "categoria_fonte": "especialista",
+      "post_url": "https://x.com/EricTopol/status/2069080205377827248",
+      "assunto": "diabetes exercício"
     }
   ]
 }
