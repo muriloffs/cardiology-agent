@@ -37,20 +37,27 @@ IMAGE_HOST_WHITELIST = ("pbs.twimg.com", "pic.twitter.com")
 MAX_RETRIES = 3
 BACKOFF = [30, 60, 120]
 
-# Handles VERIFICADOS (da HANDLE_CATEGORIES, validados pelo pipeline principal).
-# Usados em allowed_x_handles na PASSADA DE PRECISÃO — o Grok GARANTE que vasculha
-# essas contas (não fica à mercê da amostragem). Cap do xAI: 20 handles.
-# Priorizamos as fontes ricas em figura: revistas + sociedades + top especialistas.
-VERIFIED_HANDLES = [
-    # Revistas (7)
-    "NEJM", "TheLancet", "JACCJournals", "CircAHA", "JAMACardio", "EuroHeartJ", "JACCCRJournals",
-    # Sociedades (7)
-    "ACCinTouch", "American_Heart", "escardio", "HRSonline", "TCTMD", "cardiol_br", "SOCESP",
-    # Especialistas que postam figura (6 → total 20)
-    "EricTopol", "drjohnm", "ErinMichos", "MarthaGulati", "RoxanaMehran", "CarlosRochitte",
+# Handles VERIFICADOS (existentes do pipeline + produtores indicados pelo usuário,
+# todos confirmados — são contas que o usuário segue). Usados em allowed_x_handles
+# na PASSADA DE PRECISÃO. A doc do xAI diz cap de ~10 handles por busca, então
+# dividimos em GRUPOS de <=10 e fazemos uma passada por grupo (fan-out) — cada
+# escopo estreito força o Grok a enumerar em vez de resumir.
+#
+# Imagem-pesados (TheEKGGuy, DrRumberger, VLSorrellImages, echocardiac, mswami001)
+# foram DEIXADOS DE FORA: postam exame bruto (ECG/eco/CT) que o filtro corta.
+HANDLE_GROUPS = [
+    # Grupo 1 — produtores/KOLs de alto rendimento (visual abstract, trial, editorial)
+    ["EricTopol", "drjohnm", "DrMarthaGulati", "GreggWStone", "purviparwani",
+     "iamritu", "onco_cardiology", "MusaSharkawi", "mirvatalasnag", "ottoecho"],
+    # Grupo 2 — KOLs restantes + brasileiros + sociedades
+    ["ErinMichos", "RoxanaMehran", "CarlosRochitte", "cardiopapers", "echotalk",
+     "escardio", "ACCinTouch", "HRSonline", "TCTMD", "American_Heart"],
+    # Grupo 3 — revistas / notícias
+    ["NEJM", "TheLancet", "JACCJournals", "CircAHA", "JAMACardio", "EuroHeartJ",
+     "JACCCRJournals", "Heart_BMJ", "NEJMClinician", "theheartorg"],
 ]
 
-TARGET_IMAGES = 15  # abaixo disso, faz retry da passada aberta
+TARGET_IMAGES = 30  # alvo maior agora (fan-out); abaixo disso, retry da aberta
 
 
 def _extract_text(data: dict) -> str:
@@ -171,14 +178,17 @@ def _dedupe(images: list[dict[str, Any]]) -> list[dict[str, Any]]:
 
 
 def fetch_x_images() -> list[dict[str, Any]]:
-    """Estratégia de duas passadas agregadas (aprendido da doc xAI):
+    """Estratégia FAN-OUT (maximiza volume — combate a tendência do x_search de
+    'resumir em vez de listar', confirmada na doc do xAI):
 
-    1. PRECISÃO — allowed_x_handles fixo nas 20 contas verificadas. O Grok GARANTE
-       que vasculha revistas/sociedades (elimina variância onde mais importa).
-    2. RECALL — busca aberta por hashtags/tema, captura o long-tail de congresso
-       e contas fora da lista.
-    3. Agrega + dedupa. Se o total < TARGET, faz 1 retry da passada aberta com
-       feedback (igual ao pipeline principal que recupera volume).
+    - 1 passada de PRECISÃO por GRUPO de handles (<=10) — escopo estreito força
+      o Grok a enumerar todas as figuras daquelas contas.
+    - 1 passada de HASHTAGS — agrega a comunidade inteira (produtores conhecidos
+      e não), focada nas hashtags ricas em figura.
+    - 1 passada ABERTA — long-tail por tema.
+    - Agrega tudo + dedupa por URL. Retry da aberta se ficar < TARGET.
+
+    Custo: ~5 chamadas/run. Mais caro que 2, mas é o caminho pra sair de ~25.
     """
     if not os.environ.get("XAI_API_KEY"):
         logger.warning("XAI_API_KEY não setada — pulando.")
@@ -189,22 +199,37 @@ def fetch_x_images() -> list[dict[str, Any]]:
     target = (datetime.now(brasilia_tz) - timedelta(days=1)).strftime("%Y-%m-%d")
     from_date = (datetime.strptime(target, "%Y-%m-%d") - timedelta(days=5)).strftime("%Y-%m-%d")
 
-    # Passada 1: precisão (handles fixos)
-    precisao = _call_grok_once(prompt, from_date, allowed_handles=VERIFIED_HANDLES)
-    # Passada 2: recall (aberta)
-    aberta = _call_grok_once(prompt, from_date, allowed_handles=None)
+    todas: list[dict[str, Any]] = []
 
-    todas = _dedupe(precisao + aberta)
-    logger.info(f"Após 2 passadas: {len(precisao)} precisão + {len(aberta)} aberta = {len(todas)} únicas")
+    # Passadas de precisão — uma por grupo de handles
+    for i, grupo in enumerate(HANDLE_GROUPS, 1):
+        imgs = _call_grok_once(prompt, from_date, allowed_handles=grupo)
+        todas = _dedupe(todas + imgs)
+        logger.info(f"Grupo {i} (precisão): +{len(imgs)} → {len(todas)} únicas")
+
+    # Passada de hashtags (aberta, mas com ênfase em buscar pelas hashtags)
+    hashtag_emphasis = (
+        "\n\nFOCO DESTA BUSCA: priorize as HASHTAGS listadas (FRENTE 2). Busque "
+        "ativamente por elas — é onde a comunidade posta figuras de trabalho. "
+        "Traga TODAS as figuras científicas de qualidade que encontrar sob essas hashtags."
+    )
+    hashtags = _call_grok_once(prompt, from_date, allowed_handles=None, retry_feedback=hashtag_emphasis)
+    todas = _dedupe(todas + hashtags)
+    logger.info(f"Hashtags: +{len(hashtags)} → {len(todas)} únicas")
+
+    # Passada aberta (long-tail por tema)
+    aberta = _call_grok_once(prompt, from_date, allowed_handles=None)
+    todas = _dedupe(todas + aberta)
+    logger.info(f"Aberta: +{len(aberta)} → {len(todas)} únicas")
 
     # Retry da aberta se ainda baixo
     if len(todas) < TARGET_IMAGES:
-        feedback = (f"\n\nATENÇÃO: a busca anterior trouxe poucas imagens ({len(todas)}). "
-                    f"Faça MAIS buscas (varie hashtags, termos e datas) e traga TODAS as figuras "
-                    f"científicas de qualidade que encontrar. Alvo: pelo menos {TARGET_IMAGES}.")
+        feedback = (f"\n\nATENÇÃO: a busca trouxe poucas imagens ({len(todas)}). Faça MAIS "
+                    f"buscas (varie hashtags, termos e datas) e traga TODAS as figuras de "
+                    f"qualidade. Alvo: pelo menos {TARGET_IMAGES}.")
         extra = _call_grok_once(prompt, from_date, allowed_handles=None, retry_feedback=feedback)
         todas = _dedupe(todas + extra)
-        logger.info(f"Após retry: +{len(extra)} → {len(todas)} únicas")
+        logger.info(f"Retry: +{len(extra)} → {len(todas)} únicas")
 
     return todas
 
