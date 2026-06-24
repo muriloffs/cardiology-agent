@@ -1,132 +1,23 @@
 {
-  "gerado_em": "2026-06-23T20:15:31.978164+00:00",
-  "total": 45,
+  "gerado_em": "2026-06-24T08:31:30.004326+00:00",
+  "total": 22,
   "por_tipo": {
-    "slide": 13,
-    "grafico": 16,
-    "tabela": 2,
-    "figura": 6,
-    "fluxograma": 6,
-    "graphical_abstract": 2
+    "grafico": 13,
+    "graphical_abstract": 1,
+    "figura": 5,
+    "fluxograma": 2,
+    "tabela": 1
   },
   "por_categoria_fonte": {
-    "especialista": 23,
-    "sociedade": 10,
-    "revista": 12
+    "sociedade": 8,
+    "revista": 8,
+    "especialista": 6
   },
   "imagens": [
     {
-      "image_url": "https://pbs.twimg.com/media/HLSSlaeWIAAAXi_.jpg",
-      "tipo": "slide",
-      "descricao": "Slide apresentando associação linear de NT-proBNP com desfechos CV independentemente de eGFR em pacientes com insuficiência cardíaca",
-      "fonte": "@DrMarthaGulati",
-      "categoria_fonte": "especialista",
-      "post_url": "https://x.com/DrMarthaGulati/status/2068350243272622267",
-      "assunto": "insuficiência cardíaca"
-    },
-    {
-      "image_url": "https://pbs.twimg.com/media/HLSSlacW8AEWq_0.jpg",
-      "tipo": "slide",
-      "descricao": "Slide com dados sobre NT-proBNP prognóstico de outcomes CV em HF prevention",
-      "fonte": "@DrMarthaGulati",
-      "categoria_fonte": "especialista",
-      "post_url": "https://x.com/DrMarthaGulati/status/2068350243272622267",
-      "assunto": "insuficiência cardíaca"
-    },
-    {
-      "image_url": "https://pbs.twimg.com/media/HLSSlaeWkAA0t0r.jpg",
-      "tipo": "slide",
-      "descricao": "Slide destacando que elevação de proBNP em CKD tem significado clínico",
-      "fonte": "@DrMarthaGulati",
-      "categoria_fonte": "especialista",
-      "post_url": "https://x.com/DrMarthaGulati/status/2068350243272622267",
-      "assunto": "insuficiência cardíaca"
-    },
-    {
-      "image_url": "https://pbs.twimg.com/media/HLSSlabWYAAwRgg.jpg",
-      "tipo": "slide",
-      "descricao": "Slide sobre valor de peptídeos natriuréticos em prevenção de HF",
-      "fonte": "@DrMarthaGulati",
-      "categoria_fonte": "especialista",
-      "post_url": "https://x.com/DrMarthaGulati/status/2068350243272622267",
-      "assunto": "insuficiência cardíaca"
-    },
-    {
-      "image_url": "https://pbs.twimg.com/media/HLGZMUaWkAALCGo.jpg",
-      "tipo": "slide",
-      "descricao": "Slide comparando RCT, pragmatic trial e dados observacionais em trials de dispositivos cardiovasculares",
-      "fonte": "@DrMarthaGulati",
-      "categoria_fonte": "especialista",
-      "post_url": "https://x.com/DrMarthaGulati/status/2067602143964471737",
-      "assunto": "trials clínicos"
-    },
-    {
-      "image_url": "https://pbs.twimg.com/media/HLGZMUZX0AAUFwY.jpg",
-      "tipo": "slide",
-      "descricao": "Slide sobre uso de linguagem não causal em dados observacionais de intervenções cardiovasculares",
-      "fonte": "@DrMarthaGulati",
-      "categoria_fonte": "especialista",
-      "post_url": "https://x.com/DrMarthaGulati/status/2067602143964471737",
-      "assunto": "trials clínicos"
-    },
-    {
-      "image_url": "https://pbs.twimg.com/media/HLcQmh0WAAEh32W.jpg",
-      "tipo": "slide",
-      "descricao": "Slide de chamada para submissões de edição especial sobre cardiometabolic disease no J Card Fail",
-      "fonte": "@DrMarthaGulati",
-      "categoria_fonte": "especialista",
-      "post_url": "https://x.com/DrMarthaGulati/status/2069140810898292953",
-      "assunto": "cardiometabólico"
-    },
-    {
-      "image_url": "https://pbs.twimg.com/media/HLSZNC2WwAAjPe9.jpg",
-      "tipo": "slide",
-      "descricao": "Slide sobre gaps de awareness no tratamento de diabetes e hipertensão em adultos jovens",
-      "fonte": "@DrMarthaGulati",
-      "categoria_fonte": "especialista",
-      "post_url": "https://x.com/DrMarthaGulati/status/2068446585713750517",
-      "assunto": "cardiometabólico"
-    },
-    {
-      "image_url": "https://pbs.twimg.com/media/HLSZNC5XUAADEjg.jpg",
-      "tipo": "slide",
-      "descricao": "Slide com estatísticas de controle de BP e uso de terapias novas em cardiometabolic disease",
-      "fonte": "@DrMarthaGulati",
-      "categoria_fonte": "especialista",
-      "post_url": "https://x.com/DrMarthaGulati/status/2068446585713750517",
-      "assunto": "cardiometabólico"
-    },
-    {
-      "image_url": "https://pbs.twimg.com/media/HLSZNC4W8AAiSea.jpg",
-      "tipo": "slide",
-      "descricao": "Slide sobre baixa taxa de tratamento de diabetes e HTN em jovens",
-      "fonte": "@DrMarthaGulati",
-      "categoria_fonte": "especialista",
-      "post_url": "https://x.com/DrMarthaGulati/status/2068446585713750517",
-      "assunto": "cardiometabólico"
-    },
-    {
-      "image_url": "https://pbs.twimg.com/media/HLSZNDMWcAAKcJB.jpg",
-      "tipo": "slide",
-      "descricao": "Slide resumindo problemas de manejo de lipídios e fatores de risco modificáveis",
-      "fonte": "@DrMarthaGulati",
-      "categoria_fonte": "especialista",
-      "post_url": "https://x.com/DrMarthaGulati/status/2068446585713750517",
-      "assunto": "cardiometabólico"
-    },
-    {
-      "image_url": "https://pbs.twimg.com/media/HLBYh9GagAAjdW_.jpg",
-      "tipo": "grafico",
-      "descricao": "Gráfico de coortes de mulheres mostrando redução de CVD com resistance training adicionado a exercício aeróbico",
-      "fonte": "@EricTopol",
-      "categoria_fonte": "especialista",
-      "post_url": "https://x.com/EricTopol/status/2067250981671428243",
-      "assunto": "prevenção cardiovascular"
-    },
-    {
       "image_url": "https://pbs.twimg.com/media/HLcqwPdW4AAW63K.jpg",
       "tipo": "grafico",
-      "descricao": "Gráfico/tabela sobre tratamento de hipertensão e hiperlipidemia em adultos EUA com síndrome CKM, com menos de metade alcançando controle de PA ou glicemia e maiores gaps em mulheres, jovens e hispânicos (estudo JACC).",
+      "descricao": "Gráfico de tratamento de hipertensão e hiperlipidemia em adultos EUA com síndrome CKM, mostrando baixas taxas de controle de PA e glicemia, com maiores gaps em mulheres, jovens e hispânicos.",
       "fonte": "@ACCinTouch",
       "categoria_fonte": "sociedade",
       "post_url": "https://x.com/ACCinTouch/status/2069169582338646030",
@@ -135,250 +26,169 @@
     {
       "image_url": "https://pbs.twimg.com/media/HLR_xSuXoAAJw8D.jpg",
       "tipo": "grafico",
-      "descricao": "Gráfico de resultados de coorte sobre treinamento de resistência e menor risco de DCV, especialmente IAM, combinado com aeróbico (estudo JACC).",
+      "descricao": "Gráfico de risco de DCV e IAM em mulheres com treinamento de resistência combinado com aeróbico, de estudo de coorte grande publicado no JACC.",
       "fonte": "@ACCinTouch",
       "categoria_fonte": "sociedade",
       "post_url": "https://x.com/ACCinTouch/status/2068418634171470270",
-      "assunto": "SportsCardio"
-    },
-    {
-      "image_url": "https://pbs.twimg.com/media/HLCFdu5WAAAZjKh.jpg",
-      "tipo": "tabela",
-      "descricao": "Tabela dos Impact Factors 2025 de #JACC e família de journals.",
-      "fonte": "@ACCinTouch",
-      "categoria_fonte": "sociedade",
-      "post_url": "https://x.com/ACCinTouch/status/2067298995571966004",
-      "assunto": "JACC Journals"
-    },
-    {
-      "image_url": "https://pbs.twimg.com/media/HLBbXAgXIAASZKy.jpg",
-      "tipo": "grafico",
-      "descricao": "Gráfico de desfechos CLASP IID: pacientes com resultado ótimo em M-TEER tiveram melhores hemodinâmicas e menos eventos adversos, mortalidade, hospitalização por IC ou reintervenção em 1 ano (JACCIMG).",
-      "fonte": "@ACCinTouch",
-      "categoria_fonte": "sociedade",
-      "post_url": "https://x.com/ACCinTouch/status/2067252700522180890",
-      "assunto": "valvular disease"
-    },
-    {
-      "image_url": "https://pbs.twimg.com/media/HLg6rEhXYAAtSyE.jpg",
-      "tipo": "slide",
-      "descricao": "Slide de webinar sobre cenário de política TAVR e impacto na equipe cardiovascular (ACCCVT).",
-      "fonte": "@ACCinTouch",
-      "categoria_fonte": "sociedade",
-      "post_url": "https://x.com/ACCinTouch/status/2069468560829608397",
-      "assunto": "TAVR"
+      "assunto": "exercício físico"
     },
     {
       "image_url": "https://pbs.twimg.com/media/HLgYGoRWQAAZGuj.jpg",
       "tipo": "grafico",
-      "descricao": "Gráfico de meta-análise de 9 trials randomizados: desfechos TAVR vs SAVR diferem por sexo, com benefício precoce em mulheres convergindo em 5 anos (JACCAdvances).",
+      "descricao": "Gráfico de meta-análise de 9 ensaios randomizados comparando TAVR vs SAVR por sexo, mostrando benefício precoce em mulheres que converge em 5 anos.",
       "fonte": "@ACCinTouch",
       "categoria_fonte": "sociedade",
       "post_url": "https://x.com/ACCinTouch/status/2069430551220465949",
       "assunto": "TAVR"
     },
     {
-      "image_url": "https://pbs.twimg.com/media/HLfW-s5WsAAFLne.jpg",
-      "tipo": "slide",
-      "descricao": "Slide deck sobre evidência de Lp(a) associado a MI, stroke, PAD, heart failure e aortic valve stenosis",
-      "fonte": "@LpaForum",
-      "categoria_fonte": "especialista",
-      "post_url": "https://x.com/LpaForum/status/2069358931021901841",
-      "assunto": "Lp(a) ASCVD"
-    },
-    {
-      "image_url": "https://pbs.twimg.com/media/HLcDBTrXEAAQ2r_.jpg",
-      "tipo": "figura",
-      "descricao": "Figura do protocolo HALT AF: primeiro RCT de convergent hybrid ablation vs catheter ablation em persistent AF com heart failure",
-      "fonte": "@JAHA_AHA",
-      "categoria_fonte": "revista",
-      "post_url": "https://x.com/JAHA_AHA/status/2069125880723468329",
-      "assunto": "Heart Failure AFib"
-    },
-    {
-      "image_url": "https://pbs.twimg.com/media/HLcTeY1XwAAEX-O.jpg",
-      "tipo": "figura",
-      "descricao": "Diagrama de lipo-inflammation: adipocyte dysfunction, lipotoxicity, biomarkers hs-CRP, adiponectin/leptin, ApoB, Lp(a) e intervenções",
-      "fonte": "@icorvilud",
-      "categoria_fonte": "especialista",
-      "post_url": "https://x.com/icorvilud/status/2069144113488818513",
-      "assunto": "Cardiometabolic risk"
-    },
-    {
-      "image_url": "https://pbs.twimg.com/media/HLXH_BgXsAEH6lb.jpg",
-      "tipo": "figura",
-      "descricao": "Figura editorial sobre TAVR em pacientes jovens: follow-up de 10 anos, missing data e competing risks",
-      "fonte": "@JACCJournals",
-      "categoria_fonte": "revista",
-      "post_url": "https://x.com/JACCJournals/status/2068779510028198119",
-      "assunto": "TAVR"
-    },
-    {
-      "image_url": "https://pbs.twimg.com/media/HLgwgaGaEAEKPga.jpg",
-      "tipo": "figura",
-      "descricao": "Figura 1 do Expert Consensus Document EJHF sobre adaptação de guidelines de Heart Failure em resource-limited settings",
-      "fonte": "@HFA_President",
-      "categoria_fonte": "sociedade",
-      "post_url": "https://x.com/HFA_President/status/2069457378739908824",
-      "assunto": "Heart Failure"
-    },
-    {
-      "image_url": "https://pbs.twimg.com/media/HLgwgZxaEAc5-1h.jpg",
-      "tipo": "tabela",
-      "descricao": "Tabela do Expert Consensus Document EJHF: framework prático para diagnóstico e tratamento de Heart Failure em recursos limitados",
-      "fonte": "@HFA_President",
-      "categoria_fonte": "sociedade",
-      "post_url": "https://x.com/HFA_President/status/2069457378739908824",
-      "assunto": "Heart Failure"
-    },
-    {
-      "image_url": "https://pbs.twimg.com/media/HLgwgZyaYAAZgSR.jpg",
-      "tipo": "figura",
-      "descricao": "Figura 2 do Expert Consensus Document EJHF: recomendações de GDMT em contextos de baixa disponibilidade",
-      "fonte": "@HFA_President",
-      "categoria_fonte": "sociedade",
-      "post_url": "https://x.com/HFA_President/status/2069457378739908824",
-      "assunto": "Heart Failure"
-    },
-    {
-      "image_url": "https://pbs.twimg.com/media/HLgwgZxaoAAcIVq.jpg",
-      "tipo": "fluxograma",
-      "descricao": "Fluxograma do Expert Consensus Document EJHF para adaptação de diretrizes de Heart Failure",
-      "fonte": "@HFA_President",
-      "categoria_fonte": "sociedade",
-      "post_url": "https://x.com/HFA_President/status/2069457378739908824",
-      "assunto": "Heart Failure"
-    },
-    {
-      "image_url": "https://pbs.twimg.com/media/HI6UE17XEAAlSEq.jpg",
+      "image_url": "https://pbs.twimg.com/media/HLWcRKQXwAA0q-j.jpg",
       "tipo": "grafico",
-      "descricao": "Gráfico de prevalência e outcomes de elevated right ventricular systolic pressure em myelofibrosis (CardioOncology)",
-      "fonte": "@SN_Oncology",
+      "descricao": "Gráfico de resultados do estudo CAMERA-MRI II: aumento de FEVE após ablação em pacientes com FA e disfunção sistólica, menor em presença de LGE.",
+      "fonte": "@ACCinTouch",
+      "categoria_fonte": "sociedade",
+      "post_url": "https://x.com/ACCinTouch/status/2068731443061100919",
+      "assunto": "FA"
+    },
+    {
+      "image_url": "https://pbs.twimg.com/media/HLXAOaxWEAAcgrp.png",
+      "tipo": "graphical_abstract",
+      "descricao": "Graphical abstract do artigo original sobre terapia endovascular para síndrome pós-trombótica no ensaio randomizado fase 3 C-TRACT.",
+      "fonte": "@NEJM",
       "categoria_fonte": "revista",
-      "post_url": "https://x.com/SN_Oncology/status/2069027625373422032",
-      "assunto": "CardioOnc"
+      "post_url": "https://x.com/NEJM/status/2068770979409539426",
+      "assunto": "síndrome pós-trombótica"
     },
     {
       "image_url": "https://pbs.twimg.com/media/HLhVN8yWoAE5DgL.jpg",
-      "tipo": "graphical_abstract",
-      "descricao": "Central illustration: Familial Divergence in ERS Ito,slow-Driven and Structural Substrates Illustrates the Mechanistic Heterogeneity of J-Wave Syndromes (epicardial vs endocardial substrates, repolarization and conduction abnormalities).",
+      "tipo": "figura",
+      "descricao": "Figura do estudo sobre anormalidades endocardiais Ito,slow-driven em síndrome de repolarização precoce e mecanismos distintos entre irmãos em síndromes de onda J.",
       "fonte": "@JACCJournals",
       "categoria_fonte": "revista",
       "post_url": "https://x.com/JACCJournals/status/2069497747279945828",
-      "assunto": "arritmias J-wave"
+      "assunto": "síndrome de onda J"
     },
     {
       "image_url": "https://pbs.twimg.com/media/HLcsJF8XcAAgGhU.jpg",
-      "tipo": "graphical_abstract",
-      "descricao": "Central illustration: Lipoprotein(a) Levels in Women Throughout Life and Remaining Evidence Gaps (fluctuations in pregnancy/menopause, research priorities by age and reproductive status).",
+      "tipo": "figura",
+      "descricao": "Figura destacando lacunas de pesquisa sobre Lp(a) elevado na saúde reprodutiva e cardiovascular de mulheres.",
       "fonte": "@JACCJournals",
       "categoria_fonte": "revista",
       "post_url": "https://x.com/JACCJournals/status/2069171109249835081",
-      "assunto": "lipoproteína(a) mulheres"
+      "assunto": "Lp(a) saúde cardiovascular feminina"
     },
     {
-      "image_url": "https://pbs.twimg.com/media/HLB640DW8AA1wpY.jpg",
-      "tipo": "grafico",
-      "descricao": "Gráfico de ranking do JACCHF como #1 journal de insuficiência cardíaca.",
-      "fonte": "@yaleHFdoc",
-      "categoria_fonte": "especialista",
-      "post_url": "https://x.com/yaleHFdoc/status/2067288008118718939",
-      "assunto": "insuficiência cardíaca"
-    },
-    {
-      "image_url": "https://pbs.twimg.com/media/HLbglr9XoAALQ0s.png",
-      "tipo": "grafico",
-      "descricao": "Gráfico/insights práticos sobre uso do CardioMEMS em prática real para insuficiência cardíaca.",
-      "fonte": "@InvasiveCardiol",
-      "categoria_fonte": "revista",
-      "post_url": "https://x.com/InvasiveCardiol/status/2069088018774794586",
-      "assunto": "insuficiência cardíaca"
-    },
-    {
-      "image_url": "https://pbs.twimg.com/media/HLVFzAmXIAA7ODI.png",
-      "tipo": "grafico",
-      "descricao": "Graphical abstract sobre uso de antagonistas de receptor de mineralocorticoides na insuficiência cardíaca contemporânea.",
-      "fonte": "@radcliffeCARDIO",
-      "categoria_fonte": "revista",
-      "post_url": "https://x.com/radcliffeCARDIO/status/2068636348332798203",
-      "assunto": "insuficiência cardíaca"
-    },
-    {
-      "image_url": "https://pbs.twimg.com/media/HKPSU0pXUAAXrsC.jpg",
-      "tipo": "fluxograma",
-      "descricao": "Slide/overview das diretrizes AHA/ESC e recomendações intervencionistas.",
-      "fonte": "@AustinBourgeois",
-      "categoria_fonte": "especialista",
-      "post_url": "https://x.com/AustinBourgeois/status/2068178072386556380",
-      "assunto": "diretrizes cardiovasculares"
-    },
-    {
-      "image_url": "https://pbs.twimg.com/media/HKPScS_WsAAlzCQ.jpg",
-      "tipo": "fluxograma",
-      "descricao": "Slide/overview das diretrizes AHA/ESC e recomendações intervencionistas (segunda imagem).",
-      "fonte": "@AustinBourgeois",
-      "categoria_fonte": "especialista",
-      "post_url": "https://x.com/AustinBourgeois/status/2068178072386556380",
-      "assunto": "diretrizes cardiovasculares"
-    },
-    {
-      "image_url": "https://pbs.twimg.com/media/HLMe5j6WIAAcasw.jpg",
-      "tipo": "grafico",
-      "descricao": "Gráfico/comentário sobre timing na identificação de risco em choque cardiogênico.",
-      "fonte": "@GabriellaRouge",
-      "categoria_fonte": "especialista",
-      "post_url": "https://x.com/GabriellaRouge/status/2068030631473184960",
-      "assunto": "choque cardiogênico"
-    },
-    {
-      "image_url": "https://pbs.twimg.com/media/HLMe5j4WQAAJMK9.jpg",
-      "tipo": "grafico",
-      "descricao": "Gráfico/comentário sobre timing na identificação de risco em choque cardiogênico (segunda imagem).",
-      "fonte": "@GabriellaRouge",
-      "categoria_fonte": "especialista",
-      "post_url": "https://x.com/GabriellaRouge/status/2068030631473184960",
-      "assunto": "choque cardiogênico"
-    },
-    {
-      "image_url": "https://pbs.twimg.com/media/HLc9CJ5W4AE6URL.jpg",
-      "tipo": "grafico",
-      "descricao": "Gráfico sobre Lp(a) elevado na saúde reprodutiva e CV de mulheres, com gaps de pesquisa.",
-      "fonte": "@JACCJournals",
-      "categoria_fonte": "revista",
-      "post_url": "https://x.com/JACCJournals/status/2069189665186250798",
-      "assunto": "Lp(a) e saúde CV feminina"
-    },
-    {
-      "image_url": "https://pbs.twimg.com/media/HLWxyJiXoAAEmBB.jpg",
+      "image_url": "https://pbs.twimg.com/media/HLccG-tXAAAj1q6.jpg",
       "tipo": "figura",
-      "descricao": "Figura de caso: TAVR supra-anular em BAV com anel grande.",
+      "descricao": "Figura do estudo UNICORN sobre prevenção de obstrução coronariana em TAVR com hipotensão intraprocedimento.",
       "fonte": "@JACCJournals",
       "categoria_fonte": "revista",
-      "post_url": "https://x.com/JACCJournals/status/2068755099342536745",
+      "post_url": "https://x.com/JACCJournals/status/2069153480653074926",
       "assunto": "TAVR"
+    },
+    {
+      "image_url": "https://pbs.twimg.com/media/HLcPgx-WgAM8S8Y.jpg",
+      "tipo": "grafico",
+      "descricao": "Gráfico de resultados sobre falha em ablar triggers NPV associada a maior risco de recorrência em ablação.",
+      "fonte": "@JACCJournals",
+      "categoria_fonte": "revista",
+      "post_url": "https://x.com/JACCJournals/status/2069139630637633702",
+      "assunto": "ablação FA"
     },
     {
       "image_url": "https://pbs.twimg.com/media/HLR3TJ-WMAEEFYq.jpg",
       "tipo": "grafico",
-      "descricao": "Gráfico sobre ablação de triggers NPV e risco de recorrência em FA.",
+      "descricao": "Gráfico de desfechos sobre ablação de triggers NPV e redução de recorrência em pacientes com FA.",
       "fonte": "@JACCJournals",
       "categoria_fonte": "revista",
       "post_url": "https://x.com/JACCJournals/status/2068409320476131421",
-      "assunto": "FA"
+      "assunto": "ablação FA"
     },
     {
-      "image_url": "https://pbs.twimg.com/media/HLLwX8gW8AAhSSR.jpg",
+      "image_url": "https://pbs.twimg.com/media/HLgwgaGaEAEKPga.jpg",
+      "tipo": "fluxograma",
+      "descricao": "Framework prático para adaptação de diretrizes de insuficiência cardíaca em cenários com recursos limitados (Expert Consensus Document EJHF)",
+      "fonte": "@HFA_President",
+      "categoria_fonte": "sociedade",
+      "post_url": "https://x.com/HFA_President/status/2069457378739908824",
+      "assunto": "insuficiência cardíaca"
+    },
+    {
+      "image_url": "https://pbs.twimg.com/media/HLgwgZxaEAc5-1h.jpg",
+      "tipo": "tabela",
+      "descricao": "Tabela de recomendações adaptadas para diagnóstico e tratamento de HF em países de baixa/média renda",
+      "fonte": "@HFA_President",
+      "categoria_fonte": "sociedade",
+      "post_url": "https://x.com/HFA_President/status/2069457378739908824",
+      "assunto": "insuficiência cardíaca"
+    },
+    {
+      "image_url": "https://pbs.twimg.com/media/HLgwgZyaYAAZgSR.jpg",
       "tipo": "grafico",
-      "descricao": "Gráfico sobre rechallenge com ICI após miocardite em cardio-oncologia.",
-      "fonte": "@JACCJournals",
+      "descricao": "Gráfico comparativo de acesso a GDMT e dispositivos em diferentes regiões mundiais",
+      "fonte": "@HFA_President",
+      "categoria_fonte": "sociedade",
+      "post_url": "https://x.com/HFA_President/status/2069457378739908824",
+      "assunto": "insuficiência cardíaca"
+    },
+    {
+      "image_url": "https://pbs.twimg.com/media/HLgwgZxaoAAcIVq.jpg",
+      "tipo": "fluxograma",
+      "descricao": "Algoritmo passo a passo para implementação de cuidados baseados em evidência em HF com recursos escassos",
+      "fonte": "@HFA_President",
+      "categoria_fonte": "sociedade",
+      "post_url": "https://x.com/HFA_President/status/2069457378739908824",
+      "assunto": "insuficiência cardíaca"
+    },
+    {
+      "image_url": "https://pbs.twimg.com/media/HLSSlaeWIAAAXi_.jpg",
+      "tipo": "grafico",
+      "descricao": "Gráfico de associação linear entre NT-proBNP e desfechos CV independentemente da função renal (apresentação Heart in Diabetes)",
+      "fonte": "@DrMarthaGulati",
+      "categoria_fonte": "especialista",
+      "post_url": "https://x.com/DrMarthaGulati/status/2068439307929407717",
+      "assunto": "insuficiência cardíaca"
+    },
+    {
+      "image_url": "https://pbs.twimg.com/media/HLSSlacW8AEWq_0.jpg",
+      "tipo": "grafico",
+      "descricao": "Curva de prognóstico de NT-proBNP em pacientes com HF e CKD (apresentação Heart in Diabetes)",
+      "fonte": "@DrMarthaGulati",
+      "categoria_fonte": "especialista",
+      "post_url": "https://x.com/DrMarthaGulati/status/2068439307929407717",
+      "assunto": "insuficiência cardíaca"
+    },
+    {
+      "image_url": "https://pbs.twimg.com/media/HLSSlaeWkAA0t0r.jpg",
+      "tipo": "grafico",
+      "descricao": "Gráfico de impacto de elevação de proBNP em desfechos renais e cardíacos",
+      "fonte": "@DrMarthaGulati",
+      "categoria_fonte": "especialista",
+      "post_url": "https://x.com/DrMarthaGulati/status/2068439307929407717",
+      "assunto": "insuficiência cardíaca"
+    },
+    {
+      "image_url": "https://pbs.twimg.com/media/HLSSlabWYAAwRgg.jpg",
+      "tipo": "grafico",
+      "descricao": "Forest plot ou curva de risco de NT-proBNP em prevenção de HF",
+      "fonte": "@DrMarthaGulati",
+      "categoria_fonte": "especialista",
+      "post_url": "https://x.com/DrMarthaGulati/status/2068439307929407717",
+      "assunto": "insuficiência cardíaca"
+    },
+    {
+      "image_url": "https://pbs.twimg.com/media/HLcDBTrXEAAQ2r_.jpg",
+      "tipo": "figura",
+      "descricao": "Figura de protocolo do ensaio HALT AF (convergente hybrid ablation vs catheter ablation em FA persistente com HF)",
+      "fonte": "@JAHA_AHA",
       "categoria_fonte": "revista",
-      "post_url": "https://x.com/JACCJournals/status/2067979493822595323",
-      "assunto": "cardio-oncologia"
+      "post_url": "https://x.com/JAHA_AHA/status/2069125880723468329",
+      "assunto": "FA"
     },
     {
       "image_url": "https://pbs.twimg.com/media/HLXaa2QXMAEan1q.png",
       "tipo": "grafico",
-      "descricao": "Gráfico do estudo JAMA Cardiology: suplementação alimentar em pacientes com IC.",
+      "descricao": "Gráfico de resultados do ensaio de suplementação alimentar em pacientes com insuficiência cardíaca (JAMA Cardiology)",
       "fonte": "@JAMACardio",
       "categoria_fonte": "revista",
       "post_url": "https://x.com/JAMACardio/status/2069012523391537474",
@@ -387,38 +197,20 @@
     {
       "image_url": "https://pbs.twimg.com/media/HLYNXVRbIAAuZbR.jpg",
       "tipo": "grafico",
-      "descricao": "Gráfico do estudo PURSUIT-HFpEF: associação do índice TyG com desfechos em ICpEF.",
+      "descricao": "Gráfico de associação entre índice TyG e desfechos em PURSUIT-HFpEF (estudo multicêntrico japonês)",
       "fonte": "@OCVC_lab",
       "categoria_fonte": "especialista",
       "post_url": "https://x.com/OCVC_lab/status/2068855931316908048",
-      "assunto": "insuficiência cardíaca"
+      "assunto": "HFpEF"
     },
     {
-      "image_url": "https://pbs.twimg.com/media/HLUWwlnWEAAS4kZ.jpg",
-      "tipo": "fluxograma",
-      "descricao": "Fluxograma das diretrizes 2026 AHA/ACC/ADA/ASN CKM e GDMT em IC e DRC.",
-      "fonte": "@SayedSRahman1",
+      "image_url": "https://pbs.twimg.com/media/HLhu3cDW4AAz2Wx.png",
+      "tipo": "figura",
+      "descricao": "Figura de estudo JACC Asia sobre desfechos em pacientes chineses (Xiangbin Pan et al.)",
+      "fonte": "@DrVoice2024",
       "categoria_fonte": "especialista",
-      "post_url": "https://x.com/SayedSRahman1/status/2068584641901031928",
-      "assunto": "CKM e insuficiência cardíaca"
-    },
-    {
-      "image_url": "https://pbs.twimg.com/media/HLUWwn3WoAAVtNI.jpg",
-      "tipo": "fluxograma",
-      "descricao": "Fluxograma das diretrizes 2026 AHA/ACC/ADA/ASN CKM e GDMT em IC e DRC (segunda imagem).",
-      "fonte": "@SayedSRahman1",
-      "categoria_fonte": "especialista",
-      "post_url": "https://x.com/SayedSRahman1/status/2068584641901031928",
-      "assunto": "CKM e insuficiência cardíaca"
-    },
-    {
-      "image_url": "https://pbs.twimg.com/media/HLUWwlkXcAAw6Iy.jpg",
-      "tipo": "fluxograma",
-      "descricao": "Fluxograma das diretrizes 2026 AHA/ACC/ADA/ASN CKM e GDMT em IC e DRC (terceira imagem).",
-      "fonte": "@SayedSRahman1",
-      "categoria_fonte": "especialista",
-      "post_url": "https://x.com/SayedSRahman1/status/2068584641901031928",
-      "assunto": "CKM e insuficiência cardíaca"
+      "post_url": "https://x.com/DrVoice2024/status/2068691067860553847",
+      "assunto": "cardiologia"
     }
   ]
 }
