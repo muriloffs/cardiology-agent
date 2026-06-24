@@ -449,14 +449,20 @@ HANDLE_CATEGORIES = {
     # Specialists / individual physicians
     **{h.lower(): "especialista" for h in [
         "@EricTopol", "@deepakbhatt1", "@drjohnm", "@ErinMichos",
-        "@MarthaGulati", "@RoxanaMehran", "@hmkyale", "@FusterV",
+        "@DrMarthaGulati", "@RoxanaMehran", "@hmkyale", "@FusterV",
         "@CarlosRochitte", "@SilvioBarberato", "@sciqst",
         "@CritCareReviews", "@CardiologyToday",
+        # Produtores/KOLs sincronizados da busca de imagens (mesmas fontes de
+        # qualidade que rendem figuras — também postam discussão clínica).
+        "@GreggWStone", "@purviparwani", "@iamritu", "@onco_cardiology",
+        "@MusaSharkawi", "@mirvatalasnag", "@ottoecho", "@cardiopapers",
+        "@echotalk",
     ]},
     # Journals / publications
     **{h.lower(): "revista" for h in [
         "@NEJM", "@TheLancet", "@JACCJournals", "@CircAHA",
         "@JAMACardio", "@EuroHeartJ", "@bmj_latest", "@JACCCRJournals",
+        "@theheartorg",
     ]},
     # Medical societies
     **{h.lower(): "sociedade" for h in [
