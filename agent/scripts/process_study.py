@@ -22,6 +22,18 @@ from agent.scripts.study_pdf import extract_figures
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
+# Em maquinas com antivirus que faz inspecao de HTTPS (re-assina os certificados
+# com uma CA propria que esta na loja do Windows, mas nao no bundle do Python),
+# a chamada TLS falha com "CERTIFICATE_VERIFY_FAILED". truststore redireciona a
+# validacao para a loja de certificados do SO, resolvendo de forma segura (sem
+# desligar a verificacao). Defensivo: se truststore nao estiver instalado (ex:
+# no GitHub Actions, onde o certifi padrao ja funciona), apenas segue.
+try:
+    import truststore
+    truststore.inject_into_ssl()
+except Exception:
+    pass
+
 ROOT = Path(__file__).parent.parent.parent
 INBOX = ROOT / "study-inbox"
 ESTUDOS_DIR = ROOT / "data" / "estudos"

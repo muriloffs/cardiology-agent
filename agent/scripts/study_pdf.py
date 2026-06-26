@@ -8,6 +8,13 @@ from pathlib import Path
 
 logger = logging.getLogger(__name__)
 
+# Figuras cientificas tem area substancial (milhoes de px). Imagens com area
+# pequena sao icones/badges/faixas finas — ex: o selo "Check for updates" de
+# periodicos (~228x45 = 10k px) ou logos. Filtrar por AREA pega tanto icones
+# quadrados quanto faixas largas e baixas, sem cortar figura real (que tem
+# milhoes de px). Evita que o lixo "roube" um marcador [[FIGURA]] de uma figura.
+MIN_FIG_AREA = 50_000  # ~224x224 equivalente
+
 
 def extract_figures(pdf_path: Path, out_dir: Path) -> list[dict]:
     import fitz
@@ -29,6 +36,11 @@ def extract_figures(pdf_path: Path, out_dir: Path) -> list[dict]:
                         pix = fitz.Pixmap(doc, xref)
                         if pix.n - pix.alpha >= 4:  # CMYK/outros -> RGB
                             pix = fitz.Pixmap(fitz.csRGB, pix)
+                        if pix.width * pix.height < MIN_FIG_AREA:
+                            logger.info(
+                                f"Pulando imagem pequena {pix.width}x{pix.height} "
+                                f"(icone/badge/faixa) na pag {page_index + 1}")
+                            continue
                         candidato = n + 1
                         nome = f"fig-{candidato}.png"
                         pix.save(str(out_dir / nome))

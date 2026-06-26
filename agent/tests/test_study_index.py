@@ -37,6 +37,20 @@ def test_linkify_doi_inline():
     assert "[10.1056/NEJMoa1409077](https://doi.org/10.1056/NEJMoa1409077)" in out
 
 
+def test_linkify_doi_strips_trailing_punctuation():
+    # DOI seguido de ')' e '.' (fechando um parenteses no texto-fonte):
+    # a pontuacao nao pode entrar na URL, mas deve ser preservada apos o link.
+    out = linkify_references("Ref. DOI: 10.1056/NEJMra052717).")
+    assert "[10.1056/NEJMra052717](https://doi.org/10.1056/NEJMra052717)" in out
+    assert out.rstrip().endswith(").")
+
+
+def test_linkify_doi_strips_trailing_semicolon():
+    out = linkify_references("DOI: 10.1093/eurheartj/ehz714;")
+    assert "[10.1093/eurheartj/ehz714](https://doi.org/10.1093/eurheartj/ehz714)" in out
+    assert out.rstrip().endswith(";")
+
+
 def test_linkify_pmid():
     out = linkify_references("Smith J. PMID: 31535829")
     assert "[PMID 31535829](https://pubmed.ncbi.nlm.nih.gov/31535829/)" in out

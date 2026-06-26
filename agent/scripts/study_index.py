@@ -21,7 +21,15 @@ def slugify(titulo: str) -> str:
 def linkify_references(markdown: str) -> str:
     def _doi(m):
         d = m.group(1)
-        return f"[{d}](https://doi.org/{d})"
+        # O DOI no texto-fonte costuma vir seguido de pontuacao (ex: "10.x/y)."
+        # fechando um parenteses, ou "10.x/y;" separando refs). Essa pontuacao
+        # NAO faz parte do DOI: separamos para o link ficar valido e devolvemos
+        # a pontuacao logo apos o link (preserva o texto ao redor).
+        trail = ""
+        while d and d[-1] in ").,;:":
+            trail = d[-1] + trail
+            d = d[:-1]
+        return f"[{d}](https://doi.org/{d}){trail}"
 
     def _pmid(m):
         p = m.group(1)
