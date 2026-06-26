@@ -60,10 +60,14 @@ def _call_claude(pdf_bytes: bytes, model: str) -> str:
     ]
     with client.messages.stream(
         model=model,
-        max_tokens=32000,
+        max_tokens=64000,
         messages=[{"role": "user", "content": content}],
     ) as stream:
         response = stream.get_final_message()
+    if getattr(response, "stop_reason", None) == "max_tokens":
+        logger.warning(
+            "Resposta atingiu max_tokens — o estudo pode estar truncado (documento muito longo)."
+        )
     return response.content[0].text
 
 
@@ -134,6 +138,8 @@ def main():
     processados_dir = INBOX / "processados"
     processados_dir.mkdir(parents=True, exist_ok=True)
 
+    # glob("*.pdf") e nao-recursivo: processados/ nao e re-escaneado intencionalmente
+    # (mudar para rglob reprocessaria PDFs ja arquivados)
     pdfs = sorted(p for p in INBOX.glob("*.pdf"))
     if not pdfs:
         logger.info("Nenhum PDF em study-inbox/ — nada a fazer.")
