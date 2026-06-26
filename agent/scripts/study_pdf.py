@@ -29,14 +29,15 @@ def extract_figures(pdf_path: Path, out_dir: Path) -> list[dict]:
                         pix = fitz.Pixmap(doc, xref)
                         if pix.n - pix.alpha >= 4:  # CMYK/outros -> RGB
                             pix = fitz.Pixmap(fitz.csRGB, pix)
-                        n += 1
-                        nome = f"fig-{n}.png"
+                        candidato = n + 1
+                        nome = f"fig-{candidato}.png"
                         pix.save(str(out_dir / nome))
+                        n = candidato
                         figs.append({"id": f"fig-{n}", "arquivo": nome, "pagina": page_index + 1})
                     except Exception as e:
                         logger.warning(f"Pulando imagem xref={xref} na pag {page_index+1}: {e}")
             except Exception as e:
-                logger.warning(f"Pulando pagina {page_index}: {e}")
+                logger.warning(f"Pulando pagina {page_index + 1}: {e}")
     finally:
         doc.close()
     return figs

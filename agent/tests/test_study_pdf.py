@@ -39,3 +39,13 @@ def test_render_page_writes_png(tmp_path):
     target = tmp_path / "page.png"
     assert render_page(pdf, 0, target) is True
     assert target.exists() and target.stat().st_size > 0
+
+
+def test_render_page_returns_false_on_bad_path(tmp_path):
+    result = render_page(tmp_path / "nao-existe.pdf", 0, tmp_path / "x.png")
+    assert result is False
+
+
+def test_extract_figures_bad_path_returns_empty(tmp_path):
+    result = extract_figures(tmp_path / "nao-existe.pdf", tmp_path / "figs")
+    assert result == []
