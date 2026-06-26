@@ -181,6 +181,16 @@
             {{ xImagesData.total }}
           </span>
         </button>
+        <!-- Biblioteca de estudos (PDFs processados) -->
+        <button
+          @click="openStudies"
+          :class="['px-2.5 md:px-5 py-1.5 md:py-3 rounded-lg text-sm md:text-lg font-semibold transition-all flex items-center gap-1.5 md:gap-2.5',
+                   currentView === 'estudo'
+                     ? 'bg-violet-600 text-white shadow-md'
+                     : 'bg-white text-violet-700 hover:bg-violet-50 border border-violet-300']"
+        >
+          📚 Estudo
+        </button>
       </div>
     </div>
 
@@ -760,6 +770,71 @@
     </template>
 
 
+    <!-- ============================================================ -->
+    <!-- VIEW: ESTUDO (biblioteca de PDFs processados por mes) -->
+    <!-- ============================================================ -->
+    <template v-else-if="currentView === 'estudo'">
+      <section class="px-4 py-8 max-w-4xl mx-auto">
+        <!-- Leitor aberto -->
+        <StudyReader v-if="selectedStudySlug" :slug="selectedStudySlug" @close="selectedStudySlug = null" />
+
+        <!-- Biblioteca do mes -->
+        <div v-else>
+          <div class="mb-4">
+            <h2 class="text-2xl md:text-3xl font-bold mb-2">📚 Estudos do Mes</h2>
+            <!-- Navegacao de mes: abre no atual, ◄ volta para meses anteriores -->
+            <div class="flex items-center gap-2 mb-2">
+              <button
+                @click="studiesOlderMonth" :disabled="!studiesCanOlder"
+                class="w-9 h-9 flex items-center justify-center rounded-lg border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed"
+                aria-label="Mes anterior"
+              >◄</button>
+              <span class="font-semibold text-gray-800 text-center min-w-[11rem]">{{ studiesMonthLabel }}</span>
+              <button
+                @click="studiesNewerMonth" :disabled="!studiesCanNewer"
+                class="w-9 h-9 flex items-center justify-center rounded-lg border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed"
+                aria-label="Mes seguinte"
+              >►</button>
+            </div>
+            <p class="text-sm text-gray-600">
+              PDFs processados e comprimidos para leitura rapida. Use ◄ ► para navegar entre meses.
+            </p>
+          </div>
+
+          <div v-if="studiesLoading" class="text-center text-gray-500 py-10">
+            Carregando estudos do mes…
+          </div>
+          <div v-else-if="studiesLoadError" class="text-center text-red-600 py-10">
+            Falha ao carregar: {{ studiesLoadError }}
+          </div>
+          <div v-else-if="studiesItems.length === 0" class="text-center text-gray-500 py-10">
+            <p class="text-lg mb-1">Nenhum estudo neste mes ainda.</p>
+            <p class="text-sm">
+              Solte um PDF em <code class="bg-gray-100 px-1 rounded">study-inbox/</code> e rode
+              <code class="bg-gray-100 px-1 rounded">processar.bat</code>.
+            </p>
+          </div>
+
+          <ul v-else class="space-y-2">
+            <li
+              v-for="it in studiesItems"
+              :key="it.slug"
+              class="border border-gray-200 rounded-lg bg-white hover:border-violet-300 transition-colors"
+            >
+              <button
+                class="w-full text-left p-3 flex flex-col gap-1"
+                @click="selectedStudySlug = it.slug"
+              >
+                <span class="font-semibold text-sm text-gray-900 leading-snug break-words">{{ it.titulo }}</span>
+                <span class="text-[11px] text-gray-500">{{ it.fonte }} · {{ it.tipo }} · {{ it.data }}</span>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </section>
+    </template>
+
+
     <!-- Lightbox de imagem do X — abre ao tocar na figura -->
     <Teleport to="body">
       <div
@@ -831,6 +906,8 @@ import { useSearch } from './composables/useSearch'
 import { copyAudioBriefing } from './composables/useAudioBriefing'
 import { useMonthlyReviews } from './composables/useMonthlyReviews'
 import { useXImages } from './composables/useXImages'
+import StudyReader from './components/StudyReader.vue'
+import { useMonthlyStudies } from './composables/useMonthlyStudies'
 
 const { isActive: searchActive } = useSearch()
 
@@ -881,6 +958,27 @@ const {
 function openXImages() {
   currentView.value = 'imagens'
   loadXImages()
+}
+
+// Estudos do mes (biblioteca de PDFs processados)
+const {
+  loading: studiesLoading,
+  loadError: studiesLoadError,
+  items: studiesItems,
+  monthLabelText: studiesMonthLabel,
+  canOlder: studiesCanOlder,
+  canNewer: studiesCanNewer,
+  olderMonth: studiesOlderMonth,
+  newerMonth: studiesNewerMonth,
+  open: openStudiesLib,
+} = useMonthlyStudies()
+
+const selectedStudySlug = ref(null)
+
+function openStudies() {
+  currentView.value = 'estudo'
+  selectedStudySlug.value = null
+  openStudiesLib()
 }
 
 function formatXImgStats(porTipo) {
