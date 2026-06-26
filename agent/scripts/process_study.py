@@ -1,0 +1,153 @@
+"""Modulo Estudo: processa PDFs de study-inbox/ em material de estudo PT.
+
+Roda no GitHub Actions ao dar push de PDF em study-inbox/. Defensivo:
+falha num PDF loga e segue; nunca derruba o run.
+
+Env:
+  ANTHROPIC_API_KEY  — obrigatorio
+  STUDY_MODEL        — default 'claude-opus-4-8'
+"""
+import base64
+import json
+import logging
+import os
+import re
+import shutil
+from datetime import datetime, timezone
+from pathlib import Path
+
+from agent.scripts.study_index import slugify, build_index, linkify_references
+from agent.scripts.study_pdf import extract_figures
+
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+logger = logging.getLogger(__name__)
+
+ROOT = Path(__file__).parent.parent.parent
+INBOX = ROOT / "study-inbox"
+ESTUDOS_DIR = ROOT / "data" / "estudos"
+PROMPT_PATH = Path(__file__).parent.parent / "prompts" / "study_prompt.txt"
+STUDY_MODEL = os.environ.get("STUDY_MODEL", "claude-opus-4-8")
+_FIG_MARKER_RE = re.compile(r"\[\[FIGURA:\s*(.*?)\]\]")
+
+
+def parse_study_output(raw: str) -> dict:
+    txt = (raw or "").strip()
+    a, b = txt.find("{"), txt.rfind("}")
+    if a != -1 and b != -1:
+        txt = txt[a:b + 1]
+    try:
+        obj = json.loads(txt)
+    except json.JSONDecodeError:
+        try:
+            from json_repair import repair_json
+            obj = json.loads(repair_json(txt))
+        except Exception as e:
+            raise ValueError(f"JSON irreparavel do modelo: {e}")
+    if not isinstance(obj, dict) or "markdown" not in obj:
+        raise ValueError("Resposta do modelo sem campo markdown")
+    return obj
+
+
+def _call_claude(pdf_bytes: bytes, model: str) -> str:
+    from anthropic import Anthropic
+    client = Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"], max_retries=5)
+    prompt = PROMPT_PATH.read_text(encoding="utf-8")
+    b64 = base64.standard_b64encode(pdf_bytes).decode("ascii")
+    content = [
+        {"type": "document",
+         "source": {"type": "base64", "media_type": "application/pdf", "data": b64}},
+        {"type": "text", "text": prompt},
+    ]
+    with client.messages.stream(
+        model=model,
+        max_tokens=32000,
+        messages=[{"role": "user", "content": content}],
+    ) as stream:
+        response = stream.get_final_message()
+    return response.content[0].text
+
+
+def write_study(estudos_dir: Path, parsed: dict, figs: list[dict]) -> str:
+    data = parsed.get("data") or datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    slug = f"{slugify(parsed.get('titulo', 'estudo'))}-{data}"
+    out = estudos_dir / slug
+    out.mkdir(parents=True, exist_ok=True)
+
+    markdown = parsed["markdown"]
+    # Substitui marcadores [[FIGURA: desc]] pela proxima figura disponivel
+    fig_iter = iter(figs)
+
+    def _sub(m):
+        desc = m.group(1).strip()
+        try:
+            f = next(fig_iter)
+            return f"![{desc}]({f['arquivo']})"
+        except StopIteration:
+            return f"_(figura: {desc} — ver original)_"
+
+    markdown = _FIG_MARKER_RE.sub(_sub, markdown)
+    markdown = linkify_references(markdown)
+    (out / "estudo.md").write_text(markdown, encoding="utf-8")
+
+    meta = {
+        "slug": slug,
+        "titulo": parsed.get("titulo", ""),
+        "fonte": parsed.get("fonte", ""),
+        "tipo": parsed.get("tipo", ""),
+        "data": data,
+        "mes": data[:7],
+    }
+    (out / "meta.json").write_text(json.dumps(meta, ensure_ascii=False, indent=2), encoding="utf-8")
+    return slug
+
+
+def process_one(pdf_path: Path, estudos_dir: Path, model: str) -> str | None:
+    try:
+        logger.info(f"Processando {pdf_path.name}")
+        tmp_figs = estudos_dir / "_tmp_figs"
+        if tmp_figs.exists():
+            shutil.rmtree(tmp_figs)
+        figs = extract_figures(pdf_path, tmp_figs)
+        raw = _call_claude(pdf_path.read_bytes(), model)
+        parsed = parse_study_output(raw)
+        slug = write_study(estudos_dir, parsed, figs)
+        # Move figuras para a pasta final do estudo
+        for f in figs:
+            src = tmp_figs / f["arquivo"]
+            if src.exists():
+                shutil.move(str(src), str(estudos_dir / slug / f["arquivo"]))
+        if tmp_figs.exists():
+            shutil.rmtree(tmp_figs)
+        logger.info(f"OK: {slug} ({len(figs)} figuras)")
+        return slug
+    except Exception as e:
+        logger.error(f"Falha ao processar {pdf_path.name}: {e}")
+        return None
+
+
+def main():
+    if not os.environ.get("ANTHROPIC_API_KEY"):
+        logger.error("ANTHROPIC_API_KEY nao setada — abortando.")
+        return
+    ESTUDOS_DIR.mkdir(parents=True, exist_ok=True)
+    processados_dir = INBOX / "processados"
+    processados_dir.mkdir(parents=True, exist_ok=True)
+
+    pdfs = sorted(p for p in INBOX.glob("*.pdf"))
+    if not pdfs:
+        logger.info("Nenhum PDF em study-inbox/ — nada a fazer.")
+        return
+
+    for pdf in pdfs:
+        slug = process_one(pdf, ESTUDOS_DIR, STUDY_MODEL)
+        if slug:
+            shutil.move(str(pdf), str(processados_dir / pdf.name))
+
+    index = build_index(ESTUDOS_DIR)
+    (ESTUDOS_DIR / "index.json").write_text(
+        json.dumps(index, ensure_ascii=False, indent=2), encoding="utf-8")
+    logger.info(f"Index atualizado: {len(index['meses_disponiveis'])} meses")
+
+
+if __name__ == "__main__":
+    main()
