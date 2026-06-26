@@ -781,34 +781,34 @@
         <!-- Biblioteca do mes -->
         <div v-else>
           <div class="mb-4">
-            <h2 class="text-2xl md:text-3xl font-bold mb-2">📚 Estudos do Mes</h2>
+            <h2 class="text-2xl md:text-3xl font-bold mb-2">📚 Estudos do Mês</h2>
             <!-- Navegacao de mes: abre no atual, ◄ volta para meses anteriores -->
             <div class="flex items-center gap-2 mb-2">
               <button
                 @click="studiesOlderMonth" :disabled="!studiesCanOlder"
                 class="w-9 h-9 flex items-center justify-center rounded-lg border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed"
-                aria-label="Mes anterior"
+                aria-label="Mês anterior"
               >◄</button>
               <span class="font-semibold text-gray-800 text-center min-w-[11rem]">{{ studiesMonthLabel }}</span>
               <button
                 @click="studiesNewerMonth" :disabled="!studiesCanNewer"
                 class="w-9 h-9 flex items-center justify-center rounded-lg border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed"
-                aria-label="Mes seguinte"
+                aria-label="Mês seguinte"
               >►</button>
             </div>
             <p class="text-sm text-gray-600">
-              PDFs processados e comprimidos para leitura rapida. Use ◄ ► para navegar entre meses.
+              PDFs processados e comprimidos para leitura rápida. Use ◄ ► para navegar entre meses.
             </p>
           </div>
 
           <div v-if="studiesLoading" class="text-center text-gray-500 py-10">
-            Carregando estudos do mes…
+            Carregando estudos do mês…
           </div>
           <div v-else-if="studiesLoadError" class="text-center text-red-600 py-10">
             Falha ao carregar: {{ studiesLoadError }}
           </div>
           <div v-else-if="studiesItems.length === 0" class="text-center text-gray-500 py-10">
-            <p class="text-lg mb-1">Nenhum estudo neste mes ainda.</p>
+            <p class="text-lg mb-1">Nenhum estudo neste mês ainda.</p>
             <p class="text-sm">
               Solte um PDF em <code class="bg-gray-100 px-1 rounded">study-inbox/</code> e rode
               <code class="bg-gray-100 px-1 rounded">processar.bat</code>.
