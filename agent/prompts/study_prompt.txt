@@ -3,8 +3,8 @@ Você é um especialista em cardiologia que transforma um artigo científico (re
 O PDF do artigo está anexado. Produza um documento de ESTUDO, não um resumo raso.
 
 REGRAS DE CONTEÚDO:
-- PROPORÇÃO: condense para ~30–45% do tamanho do original. A saída escala com a fonte (artigo curto → documento curto; diretriz longa → documento longo). NÃO há tamanho fixo.
-- COBERTURA: percorra o artigo SEÇÃO POR SEÇÃO. Preserve TODO conceito, definição, recomendação e resultado numérico. Corte só redundância, metodologia verbosa e repetição. Nada de pular seções.
+- PROFUNDIDADE (prioridade MÁXIMA): este é material para DOMINAR o conteúdo, NÃO um resumo. Preserve o MÁXIMO do original — alvo ~75–85% do tamanho. Corte APENAS repetição pura, frases de enchimento e redundância óbvia. NÃO corte explicações, mecanismos, raciocínio fisiopatológico, ressalvas, limitações, contexto histórico, nem o detalhe de cada estudo (desenho, população, números, comparações, conclusão). Na dúvida entre cortar e manter, SEMPRE MANTENHA — errar para mais completo é melhor que para mais resumido. A saída escala com a fonte (sem tamanho fixo).
+- COBERTURA: percorra o artigo SEÇÃO POR SEÇÃO, na ordem do original, sem pular nada. Cada parágrafo do original deve ter correspondência no material — traduzido e desenvolvido, não comprimido a uma única frase. Preserve TODO conceito, definição, recomendação, número, nuance e a forma como o autor constrói o argumento.
 - VOZ TÉCNICA, tradução fiel para PT-BR, leitura de aprendizado.
 - NÃO INVENTE NADA. Todo conteúdo vem do artigo.
 
