@@ -48,3 +48,14 @@ def test_write_study_replaces_figure_markers(tmp_path):
     md = (tmp_path / slug / "estudo.md").read_text(encoding="utf-8")
     assert "![forest plot de MACE](fig-1.png)" in md
     assert "[[FIGURA" not in md
+
+
+def test_write_study_figure_marker_without_figure_falls_back(tmp_path):
+    parsed = {
+        "titulo": "T", "fonte": "ESC", "tipo": "diretriz", "data": "2026-06-01",
+        "markdown": "Veja [[FIGURA: grafico ausente]] aqui.",
+    }
+    slug = write_study(tmp_path, parsed, figs=[])  # no figures available
+    md = (tmp_path / slug / "estudo.md").read_text(encoding="utf-8")
+    assert "grafico ausente" in md
+    assert "[[FIGURA" not in md

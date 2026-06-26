@@ -102,9 +102,9 @@ def write_study(estudos_dir: Path, parsed: dict, figs: list[dict]) -> str:
 
 
 def process_one(pdf_path: Path, estudos_dir: Path, model: str) -> str | None:
+    tmp_figs = estudos_dir / "_tmp_figs"
     try:
         logger.info(f"Processando {pdf_path.name}")
-        tmp_figs = estudos_dir / "_tmp_figs"
         if tmp_figs.exists():
             shutil.rmtree(tmp_figs)
         figs = extract_figures(pdf_path, tmp_figs)
@@ -116,13 +116,14 @@ def process_one(pdf_path: Path, estudos_dir: Path, model: str) -> str | None:
             src = tmp_figs / f["arquivo"]
             if src.exists():
                 shutil.move(str(src), str(estudos_dir / slug / f["arquivo"]))
-        if tmp_figs.exists():
-            shutil.rmtree(tmp_figs)
         logger.info(f"OK: {slug} ({len(figs)} figuras)")
         return slug
     except Exception as e:
         logger.error(f"Falha ao processar {pdf_path.name}: {e}")
         return None
+    finally:
+        if tmp_figs.exists():
+            shutil.rmtree(tmp_figs)
 
 
 def main():
