@@ -105,13 +105,18 @@ def write_study(estudos_dir: Path, parsed: dict, figs: list[dict]) -> str:
     markdown = linkify_references(markdown)
     (out / "estudo.md").write_text(markdown, encoding="utf-8")
 
+    # 'mes' agrupa pelo mes em que VOCE estudou (processou), nao pela data de
+    # publicacao do artigo — um artigo antigo estudado hoje aparece em "hoje",
+    # nao perdido num mes passado. 'data' segue sendo a publicacao (exibida).
+    processado_em = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     meta = {
         "slug": slug,
         "titulo": parsed.get("titulo", ""),
         "fonte": parsed.get("fonte", ""),
         "tipo": parsed.get("tipo", ""),
         "data": data,
-        "mes": data[:7],
+        "processado_em": processado_em,
+        "mes": processado_em[:7],
     }
     (out / "meta.json").write_text(json.dumps(meta, ensure_ascii=False, indent=2), encoding="utf-8")
     return slug

@@ -35,7 +35,13 @@ def test_write_study_creates_files_and_linkifies(tmp_path):
     estudo_md = (tmp_path / slug / "estudo.md").read_text(encoding="utf-8")
     assert "[10.1056/NEJMoa1409077](https://doi.org/10.1056/NEJMoa1409077)" in estudo_md
     meta = json.loads((tmp_path / slug / "meta.json").read_text(encoding="utf-8"))
-    assert meta["mes"] == "2026-06" and meta["slug"] == slug
+    from datetime import datetime, timezone
+    hoje = datetime.now(timezone.utc)
+    # 'mes' = mes de PROCESSAMENTO (hoje), nao da publicacao do artigo
+    assert meta["mes"] == hoje.strftime("%Y-%m")
+    assert meta["processado_em"] == hoje.strftime("%Y-%m-%d")
+    assert meta["data"] == "2026-06-24"  # data do artigo preservada para exibicao
+    assert meta["slug"] == slug
 
 
 def test_write_study_replaces_figure_markers(tmp_path):
