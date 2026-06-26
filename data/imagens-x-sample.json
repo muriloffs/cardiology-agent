@@ -1,17 +1,17 @@
 {
-  "gerado_em": "2026-06-25T08:25:03.718496+00:00",
-  "total": 34,
+  "gerado_em": "2026-06-26T08:32:17.410419+00:00",
+  "total": 41,
   "por_tipo": {
-    "tabela": 8,
-    "grafico": 15,
-    "figura": 3,
-    "slide": 6,
-    "fluxograma": 2
+    "tabela": 4,
+    "grafico": 18,
+    "slide": 13,
+    "graphical_abstract": 1,
+    "figura": 5
   },
   "por_categoria_fonte": {
-    "sociedade": 14,
-    "revista": 15,
-    "especialista": 5
+    "sociedade": 13,
+    "revista": 20,
+    "especialista": 8
   },
   "imagens": [
     {
@@ -53,7 +53,7 @@
     {
       "image_url": "https://pbs.twimg.com/media/HLcqwPdW4AAW63K.jpg",
       "tipo": "grafico",
-      "descricao": "Gráfico de tratamento de hipertensão e hiperlipidemia em adultos com síndrome CKM nos EUA, com gaps por sexo, idade e etnia",
+      "descricao": "Gráfico de tratamento de hipertensão e hiperlipidemia em adultos com síndrome CKM nos EUA",
       "fonte": "@ACCinTouch",
       "categoria_fonte": "sociedade",
       "post_url": "https://x.com/ACCinTouch/status/2069169582338646030",
@@ -62,115 +62,133 @@
     {
       "image_url": "https://pbs.twimg.com/media/HLR_xSuXoAAJw8D.jpg",
       "tipo": "grafico",
-      "descricao": "Gráfico de risco de DCV e IAM em mulheres com treinamento de resistência combinado a aeróbico (estudo de coorte JACC)",
+      "descricao": "Gráfico de risco de DCV associado a treinamento de resistência em coorte grande",
       "fonte": "@ACCinTouch",
       "categoria_fonte": "sociedade",
       "post_url": "https://x.com/ACCinTouch/status/2068418634171470270",
       "assunto": "exercício e DCV"
     },
     {
-      "image_url": "https://pbs.twimg.com/media/HLmz3JGWcAAjjMS.jpg",
-      "tipo": "tabela",
-      "descricao": "Tabela de segurança e desfechos de punção transeptal única vs dupla em ablação de FA (dados do AFib Ablation Registry)",
-      "fonte": "@ACCinTouch",
-      "categoria_fonte": "sociedade",
-      "post_url": "https://x.com/ACCinTouch/status/2069883284209680387",
-      "assunto": "FA ablação"
-    },
-    {
       "image_url": "https://pbs.twimg.com/media/HLlVj_vXkAAe3Oa.jpg",
       "tipo": "grafico",
-      "descricao": "Forest plot ou gráfico de preditores de desfechos de insuficiência cardíaca em pacientes com cvHCM (genótipo, VO2, NT-proBNP, FEVE)",
+      "descricao": "Gráfico de preditores de desfechos de insuficiência cardíaca em pacientes com HCM (genótipo, VO2, NT-proBNP, FEVE)",
       "fonte": "@ACCinTouch",
       "categoria_fonte": "sociedade",
       "post_url": "https://x.com/ACCinTouch/status/2069779600926810310",
       "assunto": "cardiomiopatia hipertrófica"
     },
     {
-      "image_url": "https://pbs.twimg.com/media/HLe8gUMWkAAdqO8.jpg",
-      "tipo": "grafico",
-      "descricao": "Gráfico de meta-análise sobre diferenças de efeitos colaterais e descontinuação de anti-hipertensivos",
-      "fonte": "@escardio",
+      "image_url": "https://pbs.twimg.com/media/HLsYdWyXsAABqnN.jpg",
+      "tipo": "slide",
+      "descricao": "Slide de agenda do congresso ACC Quality 2026",
+      "fonte": "@ACCinTouch",
       "categoria_fonte": "sociedade",
-      "post_url": "https://x.com/escardio/status/2069329820450775203",
-      "assunto": "hipertensão"
+      "post_url": "https://x.com/ACCinTouch/status/2070275367261077732",
+      "assunto": "qualidade em cardiologia"
     },
     {
-      "image_url": "https://pbs.twimg.com/media/HLZy4KOWgAA4knB.jpg",
-      "tipo": "grafico",
-      "descricao": "Infográfico sobre adesão à terapia medicamentosa guiada por diretrizes em IC com fração de ejeção reduzida",
-      "fonte": "@escardio",
+      "image_url": "https://pbs.twimg.com/media/HLr5VMgWEAAAqxb.jpg",
+      "tipo": "slide",
+      "descricao": "Slide sobre certificação CCK e FACC da ACC",
+      "fonte": "@ACCinTouch",
       "categoria_fonte": "sociedade",
-      "post_url": "https://x.com/escardio/status/2068967393527763205",
-      "assunto": "insuficiência cardíaca"
+      "post_url": "https://x.com/ACCinTouch/status/2070241142017253665",
+      "assunto": "educação em cardiologia"
     },
     {
-      "image_url": "https://pbs.twimg.com/media/HLXAOaxWEAAcgrp.png",
+      "image_url": "https://pbs.twimg.com/media/HLrbWUPXYAA0PN0.jpg",
       "tipo": "grafico",
-      "descricao": "Gráfico de resultados do ensaio randomizado fase 3 C-TRACT sobre terapia endovascular para síndrome pós-trombótica",
-      "fonte": "@NEJM",
+      "descricao": "Gráfico de análise do trial CLOSURE-AF sobre LAAO vs terapia médica em FA",
+      "fonte": "@ACCinTouch",
+      "categoria_fonte": "sociedade",
+      "post_url": "https://x.com/ACCinTouch/status/2070208175622541804",
+      "assunto": "fibrilação atrial"
+    },
+    {
+      "image_url": "https://pbs.twimg.com/media/HLqfJu-WUAA4n84.jpg",
+      "tipo": "slide",
+      "descricao": "Slide sobre série de podcasts AI-Enabled Clinician da ACC",
+      "fonte": "@ACCinTouch",
+      "categoria_fonte": "sociedade",
+      "post_url": "https://x.com/ACCinTouch/status/2070141988289048592",
+      "assunto": "IA em cardiologia"
+    },
+    {
+      "image_url": "https://pbs.twimg.com/media/HLmz3JGWcAAjjMS.jpg",
+      "tipo": "grafico",
+      "descricao": "Gráfico de segurança de punção transeptal simples vs dupla em ablação de FA",
+      "fonte": "@ACCinTouch",
+      "categoria_fonte": "sociedade",
+      "post_url": "https://x.com/ACCinTouch/status/2069883284209680387",
+      "assunto": "ablação de FA"
+    },
+    {
+      "image_url": "https://pbs.twimg.com/media/HLmAmJWXcAA5TBt.jpg",
+      "tipo": "slide",
+      "descricao": "Slide promocional do EchoSAP para preparação de boards",
+      "fonte": "@ACCinTouch",
+      "categoria_fonte": "sociedade",
+      "post_url": "https://x.com/ACCinTouch/status/2069864660854046841",
+      "assunto": "educação em ecocardiografia"
+    },
+    {
+      "image_url": "https://pbs.twimg.com/media/HLrsTHXWYAAIkZ2.jpg",
+      "tipo": "grafico",
+      "descricao": "Meta-análise de >650k indivíduos mostrando associação de clonal hematopoiesis com aumento de MI, stroke, mortalidade CV e T2D; destaque para TET2 e ASXL1 como marcadores de alto risco.",
+      "fonte": "@JACCJournals",
       "categoria_fonte": "revista",
-      "post_url": "https://x.com/NEJM/status/2068770979409539426",
-      "assunto": "síndrome pós-trombótica"
+      "post_url": "https://x.com/JACCJournals/status/2070226812400001194",
+      "assunto": "cardio-oncologia"
+    },
+    {
+      "image_url": "https://pbs.twimg.com/media/HLrOFMLXIAAg3Pw.jpg",
+      "tipo": "grafico",
+      "descricao": "Gráfico de teste de esforço em síndrome de Brugada mostrando anormalidades de despolarização no pico do exercício e padrão tipo-1 na recuperação precoce.",
+      "fonte": "@JACCJournals",
+      "categoria_fonte": "revista",
+      "post_url": "https://x.com/JACCJournals/status/2070193587887763783",
+      "assunto": "arritmias"
+    },
+    {
+      "image_url": "https://pbs.twimg.com/media/HLrF1pdXQAAajUW.jpg",
+      "tipo": "slide",
+      "descricao": "Slide de caso de TAVR emergencial em paciente com estenose aórtica congênita grave em choque cardiogênico, usando técnica UNICORN para modificação de folheto.",
+      "fonte": "@JACCJournals",
+      "categoria_fonte": "revista",
+      "post_url": "https://x.com/JACCJournals/status/2070184524525244880",
+      "assunto": "TAVR"
+    },
+    {
+      "image_url": "https://pbs.twimg.com/media/HLq5CkoWMAAf1Wp.jpg",
+      "tipo": "grafico",
+      "descricao": "Gráfico de resultados de PASCAL M-TEER em pacientes com 3D-MVOA <4 cm², mostrando sucesso técnico e redução de MR em 1 ano.",
+      "fonte": "@JACCJournals",
+      "categoria_fonte": "revista",
+      "post_url": "https://x.com/JACCJournals/status/2070171418667467214",
+      "assunto": "insuficiência mitral"
     },
     {
       "image_url": "https://pbs.twimg.com/media/HLnS_RCX0AArRvR.jpg",
       "tipo": "grafico",
-      "descricao": "Gráfico de sobrevida e desempenho valvar no procedimento de Ross em adultos",
+      "descricao": "Gráfico de sobrevida e desempenho valvar após procedimento de Ross em adultos, com baixas taxas de reintervenção.",
       "fonte": "@JACCJournals",
       "categoria_fonte": "revista",
       "post_url": "https://x.com/JACCJournals/status/2069917508723675252",
       "assunto": "valvopatia aórtica"
     },
     {
-      "image_url": "https://pbs.twimg.com/media/HLnDqKDXcAA8cOx.jpg",
-      "tipo": "figura",
-      "descricao": "Figura de estudo bench sobre dimensionamento de balão para UNICORN em plataformas THV",
+      "image_url": "https://pbs.twimg.com/media/HLm8VIqWoAA12et.jpg",
+      "tipo": "grafico",
+      "descricao": "Gráfico de estudo bench sobre dimensionamento de balão para técnica UNICORN em plataformas THV, confirmando clearance coronariano.",
       "fonte": "@JACCJournals",
       "categoria_fonte": "revista",
-      "post_url": "https://x.com/JACCJournals/status/2069900653405610101",
-      "assunto": "TAVR"
-    },
-    {
-      "image_url": "https://pbs.twimg.com/media/HLm3shMW0AI0eyL.jpg",
-      "tipo": "figura",
-      "descricao": "Figura de caso clínico com angiografia e neoskirt obstruction em TAVI-in-TAVI",
-      "fonte": "@JACCJournals",
-      "categoria_fonte": "revista",
-      "post_url": "https://x.com/JACCJournals/status/2069887499745305001",
+      "post_url": "https://x.com/JACCJournals/status/2069892595191312819",
       "assunto": "TAVR"
     },
     {
       "image_url": "https://pbs.twimg.com/media/HLlWaflXUAAil2q.jpg",
       "tipo": "slide",
-      "descricao": "Slide de apresentação sobre manuscritos JACC no NYValves2026 - Heart Team session",
-      "fonte": "@JACCJournals",
-      "categoria_fonte": "revista",
-      "post_url": "https://x.com/JACCJournals/status/2069782396208107995",
-      "assunto": "valvopatia"
-    },
-    {
-      "image_url": "https://pbs.twimg.com/media/HLlWbY8WUAA47ld.jpg",
-      "tipo": "slide",
-      "descricao": "Slide de apresentação sobre manuscritos JACC no NYValves2026 - Heart Team session",
-      "fonte": "@JACCJournals",
-      "categoria_fonte": "revista",
-      "post_url": "https://x.com/JACCJournals/status/2069782396208107995",
-      "assunto": "valvopatia"
-    },
-    {
-      "image_url": "https://pbs.twimg.com/media/HLlWcX3XsAAy84U.jpg",
-      "tipo": "slide",
-      "descricao": "Slide de apresentação sobre manuscritos JACC no NYValves2026 - Heart Team session",
-      "fonte": "@JACCJournals",
-      "categoria_fonte": "revista",
-      "post_url": "https://x.com/JACCJournals/status/2069782396208107995",
-      "assunto": "valvopatia"
-    },
-    {
-      "image_url": "https://pbs.twimg.com/media/HLlWmCiXwAAKa52.jpg",
-      "tipo": "slide",
-      "descricao": "Slide de apresentação sobre manuscritos JACC no NYValves2026 - Heart Team session",
+      "descricao": "Slide de sessão Heart Team em NYValves2026 destacando avanços em valvopatia com manuscritos JACC.",
       "fonte": "@JACCJournals",
       "categoria_fonte": "revista",
       "post_url": "https://x.com/JACCJournals/status/2069782396208107995",
@@ -178,147 +196,192 @@
     },
     {
       "image_url": "https://pbs.twimg.com/media/HLhVN8yWoAE5DgL.jpg",
-      "tipo": "figura",
-      "descricao": "Figura de mecanismos de síndromes de onda J em repolarização precoce",
+      "tipo": "grafico",
+      "descricao": "Gráfico de mecanismos em síndrome de repolarização precoce: anormalidades Ito,slow endocardiais e remodelamento estrutural.",
       "fonte": "@JACCJournals",
       "categoria_fonte": "revista",
       "post_url": "https://x.com/JACCJournals/status/2069497747279945828",
       "assunto": "arritmias"
     },
     {
-      "image_url": "https://pbs.twimg.com/media/HLcsJF8XcAAgGhU.jpg",
+      "image_url": "https://pbs.twimg.com/media/HLXaa2QXMAEan1q.png",
       "tipo": "grafico",
-      "descricao": "Gráfico ou tabela sobre Lp(a) elevado na saúde reprodutiva e cardiovascular de mulheres",
-      "fonte": "@JACCJournals",
+      "descricao": "Gráfico de estudo sobre suplementação alimentar em insuficiência cardíaca: viabilidade, aceitação e desfechos de hospitalização.",
+      "fonte": "@JAMACardio",
       "categoria_fonte": "revista",
-      "post_url": "https://x.com/JACCJournals/status/2069171109249835081",
-      "assunto": "ASCVD"
-    },
-    {
-      "image_url": "https://pbs.twimg.com/media/HLpGVx7WUAA3p_j.jpg",
-      "tipo": "grafico",
-      "descricao": "Figura sobre diferenças sexuais em estenose aórtica moderada: mulheres desenvolvem hipertrofia concêntrica e disfunção diastólica em gradientes médios mais baixos que homens, sem diferença em sintomas ou desfechos.",
-      "fonte": "@drbennisahmed",
-      "categoria_fonte": "especialista",
-      "post_url": "https://x.com/drbennisahmed/status/2070044322616021480",
-      "assunto": "estenose aórtica"
-    },
-    {
-      "image_url": "https://pbs.twimg.com/media/HLmKoKmXgAAKrrP.jpg",
-      "tipo": "grafico",
-      "descricao": "Figura do artigo publicado: Diferenças sexuais no remodelamento reverso após TAVR em estenose aórtica de baixo fluxo.",
-      "fonte": "@InvasiveCardiol",
-      "categoria_fonte": "revista",
-      "post_url": "https://x.com/InvasiveCardiol/status/2069837929321542105",
-      "assunto": "TAVR"
-    },
-    {
-      "image_url": "https://pbs.twimg.com/media/HLhNz8jXwAASCdp.jpg",
-      "tipo": "grafico",
-      "descricao": "Capa e destaques da edição focada em cirurgia cardiovascular do #JACC: reparo valvar mitral, procedimento Ross, CABG, SAVR e estratégias de revascularização.",
-      "fonte": "@JACCJournals",
-      "categoria_fonte": "revista",
-      "post_url": "https://x.com/JACCJournals/status/2069489604382650598",
-      "assunto": "cirurgia cardiovascular"
-    },
-    {
-      "image_url": "https://pbs.twimg.com/media/HLm8VIqWoAA12et.jpg",
-      "tipo": "grafico",
-      "descricao": "Estudo bench sobre dimensionamento ideal de balão para UNICORN em plataformas THV comuns e clearance coronariano em TAVR.",
-      "fonte": "@JACCJournals",
-      "categoria_fonte": "revista",
-      "post_url": "https://x.com/JACCJournals/status/2069892595191312819",
-      "assunto": "TAVR"
-    },
-    {
-      "image_url": "https://pbs.twimg.com/media/HLkxvpPXgAA-BnE.jpg",
-      "tipo": "slide",
-      "descricao": "Slide 1 do documento de melhores práticas H&VC sobre REDO-TAVR: conceitos, planejamento e execução (Parte 1: Short-in-Short, Short-in-Tall).",
-      "fonte": "@GilbertTangMD",
-      "categoria_fonte": "especialista",
-      "post_url": "https://x.com/GilbertTangMD/status/2069740207369282023",
-      "assunto": "REDO-TAVR"
-    },
-    {
-      "image_url": "https://pbs.twimg.com/media/HLkxvpPWIAAYEnj.jpg",
-      "tipo": "slide",
-      "descricao": "Slide 2 do documento de melhores práticas H&VC sobre REDO-TAVR: troubleshooting e mitigação de complicações (Parte 2: Tall-in-Short, Tall-in-Tall).",
-      "fonte": "@GilbertTangMD",
-      "categoria_fonte": "especialista",
-      "post_url": "https://x.com/GilbertTangMD/status/2069740207369282023",
-      "assunto": "REDO-TAVR"
-    },
-    {
-      "image_url": "https://pbs.twimg.com/media/HLn4YMnagAAd291.jpg",
-      "tipo": "grafico",
-      "descricao": "Figura do estudo sobre suplementação de CoQ10 em pacientes com insuficiência cardíaca, mostrando melhora na função cardíaca.",
-      "fonte": "@JCM_MDPI",
-      "categoria_fonte": "revista",
-      "post_url": "https://x.com/JCM_MDPI/status/2069959807403237750",
+      "post_url": "https://x.com/JAMACardio/status/2069012523391537474",
       "assunto": "insuficiência cardíaca"
     },
     {
-      "image_url": "https://pbs.twimg.com/media/HLflih3awAAEHkN.jpg",
+      "image_url": "https://pbs.twimg.com/media/HLr47fSW4AAl-1F.jpg",
       "tipo": "grafico",
-      "descricao": "Gráfico de 10-year outcomes de SAPIEN 3 TAVR vs cirurgia em pacientes de risco intermediário (JACC)",
+      "descricao": "Gráfico de modelo de machine learning para dano de órgão-alvo associado à hipertensão e trajetórias de progressão.",
+      "fonte": "@CircAHA",
+      "categoria_fonte": "revista",
+      "post_url": "https://x.com/CircAHA/status/2070240684137762903",
+      "assunto": "hipertensão"
+    },
+    {
+      "image_url": "https://pbs.twimg.com/media/HLr2rajXoAA42Sh.jpg",
+      "tipo": "grafico",
+      "descricao": "Gráfico de coorte prospectiva de 25 anos: associação de bebidas açucaradas e suco de fruta na infância com risco de hipertensão.",
+      "fonte": "@CircAHA",
+      "categoria_fonte": "revista",
+      "post_url": "https://x.com/CircAHA/status/2070238206721749329",
+      "assunto": "hipertensão"
+    },
+    {
+      "image_url": "https://pbs.twimg.com/media/HLr0Y7TW4AEahHR.jpg",
+      "tipo": "grafico",
+      "descricao": "Gráfico de estudo sobre uso de dispositivos de RCP mecânica em OHCA e associação com sobrevida.",
+      "fonte": "@CircAHA",
+      "categoria_fonte": "revista",
+      "post_url": "https://x.com/CircAHA/status/2070235692534227295",
+      "assunto": "parada cardíaca"
+    },
+    {
+      "image_url": "https://pbs.twimg.com/media/HLryGbtWgAASx0Z.jpg",
+      "tipo": "grafico",
+      "descricao": "Gráfico de resultados do trial SELUTION DeNovo: balão eluidor de sirolimus vs stent eluidor de fármaco em lesões coronárias de novo.",
+      "fonte": "@CircAHA",
+      "categoria_fonte": "revista",
+      "post_url": "https://x.com/CircAHA/status/2070233173665906784",
+      "assunto": "intervenção coronária"
+    },
+    {
+      "image_url": "https://pbs.twimg.com/media/HLrw9pnXIAAMrVe.jpg",
+      "tipo": "grafico",
+      "descricao": "Gráfico de mecanismo: declínio de NAD+ relacionado à idade e disfunção mitocondrial em cardiomiócitos.",
+      "fonte": "@CircAHA",
+      "categoria_fonte": "revista",
+      "post_url": "https://x.com/CircAHA/status/2070231923419435086",
+      "assunto": "biologia cardíaca"
+    },
+    {
+      "image_url": "https://pbs.twimg.com/media/HLuGnXLWwAAO2W1.jpg",
+      "tipo": "graphical_abstract",
+      "descricao": "Graphical abstract do estudo sobre Mavacamten e disfunção ventricular esquerda em cardiomiopatia hipertrófica com bloqueio de ramo esquerdo.",
+      "fonte": "@PCVDJournal",
+      "categoria_fonte": "revista",
+      "post_url": "https://x.com/PCVDJournal/status/2070396471103353332",
+      "assunto": "cardiomiopatia hipertrófica"
+    },
+    {
+      "image_url": "https://pbs.twimg.com/media/HLlWbY8WUAA47ld.jpg",
+      "tipo": "slide",
+      "descricao": "Slide de apresentação com manuscritos JACC em sessão Heart Team no NYValves2026 sobre doença valvar.",
+      "fonte": "@JACCJournals",
+      "categoria_fonte": "revista",
+      "post_url": "https://x.com/JACCJournals/status/2069782396208107995",
+      "assunto": "doença valvar"
+    },
+    {
+      "image_url": "https://pbs.twimg.com/media/HLlWcX3XsAAy84U.jpg",
+      "tipo": "slide",
+      "descricao": "Slide de apresentação com manuscritos JACC em sessão Heart Team no NYValves2026 sobre doença valvar.",
+      "fonte": "@JACCJournals",
+      "categoria_fonte": "revista",
+      "post_url": "https://x.com/JACCJournals/status/2069782396208107995",
+      "assunto": "doença valvar"
+    },
+    {
+      "image_url": "https://pbs.twimg.com/media/HLlWmCiXwAAKa52.jpg",
+      "tipo": "slide",
+      "descricao": "Slide de apresentação com manuscritos JACC em sessão Heart Team no NYValves2026 sobre doença valvar.",
+      "fonte": "@JACCJournals",
+      "categoria_fonte": "revista",
+      "post_url": "https://x.com/JACCJournals/status/2069782396208107995",
+      "assunto": "doença valvar"
+    },
+    {
+      "image_url": "https://pbs.twimg.com/media/HLflih3awAAEHkN.jpg",
+      "tipo": "figura",
+      "descricao": "Figura do estudo JACC sobre outcomes de 10 anos do SAPIEN 3 TAVR vs cirurgia em pacientes de risco intermediário.",
       "fonte": "@MayoClinicCVS",
       "categoria_fonte": "especialista",
       "post_url": "https://x.com/MayoClinicCVS/status/2069375180376551487",
       "assunto": "TAVR"
     },
     {
-      "image_url": "https://pbs.twimg.com/media/HLmZJenWgAAtumf.jpg",
-      "tipo": "fluxograma",
-      "descricao": "Diagrama comparativo de sinais de insuficiência cardíaca congestiva esquerda vs direita",
-      "fonte": "@VikaasShandily",
+      "image_url": "https://pbs.twimg.com/media/HLr3y1SWkAA9T_-.jpg",
+      "tipo": "figura",
+      "descricao": "Figura sobre interação de insuficiência cardíaca com doença renal crônica, hepática e câncer.",
+      "fonte": "@HanCardiomd",
       "categoria_fonte": "especialista",
-      "post_url": "https://x.com/VikaasShandily/status/2069853897816993857",
+      "post_url": "https://x.com/HanCardiomd/status/2070239435715739997",
       "assunto": "insuficiência cardíaca"
     },
     {
-      "image_url": "https://pbs.twimg.com/media/HLlKu--W0AE8hYA.jpg",
-      "tipo": "grafico",
-      "descricao": "Gráfico de fadiga cardíaca induzida por exercício (limite superior em 24h) de estudo em Journal of Applied Physiology",
-      "fonte": "@japplphysiol",
+      "image_url": "https://pbs.twimg.com/media/HLr3y1UXIAA5Rwn.jpg",
+      "tipo": "figura",
+      "descricao": "Figura sobre interação de insuficiência cardíaca com doença renal crônica, hepática e câncer.",
+      "fonte": "@HanCardiomd",
+      "categoria_fonte": "especialista",
+      "post_url": "https://x.com/HanCardiomd/status/2070239435715739997",
+      "assunto": "insuficiência cardíaca"
+    },
+    {
+      "image_url": "https://pbs.twimg.com/media/HLr3y1OW8AAF8RE.jpg",
+      "tipo": "figura",
+      "descricao": "Figura sobre interação de insuficiência cardíaca com doença renal crônica, hepática e câncer.",
+      "fonte": "@HanCardiomd",
+      "categoria_fonte": "especialista",
+      "post_url": "https://x.com/HanCardiomd/status/2070239435715739997",
+      "assunto": "insuficiência cardíaca"
+    },
+    {
+      "image_url": "https://pbs.twimg.com/media/HLmKoKmXgAAKrrP.jpg",
+      "tipo": "figura",
+      "descricao": "Figura do estudo sobre diferenças de sexo no remodelamento reverso após TAVR em estenose aórtica de baixo fluxo.",
+      "fonte": "@InvasiveCardiol",
       "categoria_fonte": "revista",
-      "post_url": "https://x.com/japplphysiol/status/2069767677137043713",
-      "assunto": "insuficiência cardíaca"
+      "post_url": "https://x.com/InvasiveCardiol/status/2069837929321542105",
+      "assunto": "TAVR"
     },
     {
-      "image_url": "https://pbs.twimg.com/media/HLgwgaGaEAEKPga.jpg",
-      "tipo": "fluxograma",
-      "descricao": "Framework prático para adaptação de diretrizes de insuficiência cardíaca em cenários de recursos limitados (EJHF consensus)",
-      "fonte": "@HFA_President",
-      "categoria_fonte": "sociedade",
-      "post_url": "https://x.com/HFA_President/status/2069457378739908824",
-      "assunto": "insuficiência cardíaca"
+      "image_url": "https://pbs.twimg.com/media/HLreUERWYAANZ5z.jpg",
+      "tipo": "slide",
+      "descricao": "Slide de apresentação com dados de 6 meses EFS e 2 anos FIH do trial MiRus Siegel TAVR no NYValves2026.",
+      "fonte": "@GilbertTangMD",
+      "categoria_fonte": "especialista",
+      "post_url": "https://x.com/GilbertTangMD/status/2070211424241000579",
+      "assunto": "TAVR"
     },
     {
-      "image_url": "https://pbs.twimg.com/media/HLgwgZxaEAc5-1h.jpg",
-      "tipo": "tabela",
-      "descricao": "Tabela de recomendações adaptadas para diagnóstico e tratamento de insuficiência cardíaca em recursos limitados",
-      "fonte": "@HFA_President",
-      "categoria_fonte": "sociedade",
-      "post_url": "https://x.com/HFA_President/status/2069457378739908824",
-      "assunto": "insuficiência cardíaca"
+      "image_url": "https://pbs.twimg.com/media/HLreUEMXEAACH24.jpg",
+      "tipo": "slide",
+      "descricao": "Slide de apresentação com dados de 6 meses EFS e 2 anos FIH do trial MiRus Siegel TAVR no NYValves2026.",
+      "fonte": "@GilbertTangMD",
+      "categoria_fonte": "especialista",
+      "post_url": "https://x.com/GilbertTangMD/status/2070211424241000579",
+      "assunto": "TAVR"
     },
     {
-      "image_url": "https://pbs.twimg.com/media/HLgwgZyaYAAZgSR.jpg",
-      "tipo": "tabela",
-      "descricao": "Tabela de recomendações adaptadas para diagnóstico e tratamento de insuficiência cardíaca em recursos limitados",
-      "fonte": "@HFA_President",
-      "categoria_fonte": "sociedade",
-      "post_url": "https://x.com/HFA_President/status/2069457378739908824",
-      "assunto": "insuficiência cardíaca"
+      "image_url": "https://pbs.twimg.com/media/HLrWWaBXQAA2M5B.jpg",
+      "tipo": "slide",
+      "descricao": "Slide de apresentação de Late-Breaking Clinical Science sobre TAVR no NYValves2026.",
+      "fonte": "@KrityaMangesh",
+      "categoria_fonte": "especialista",
+      "post_url": "https://x.com/KrityaMangesh/status/2070202668052586766",
+      "assunto": "TAVR"
     },
     {
-      "image_url": "https://pbs.twimg.com/media/HLgwgZxaoAAcIVq.jpg",
-      "tipo": "tabela",
-      "descricao": "Tabela de recomendações adaptadas para diagnóstico e tratamento de insuficiência cardíaca em recursos limitados",
-      "fonte": "@HFA_President",
-      "categoria_fonte": "sociedade",
-      "post_url": "https://x.com/HFA_President/status/2069457378739908824",
-      "assunto": "insuficiência cardíaca"
+      "image_url": "https://pbs.twimg.com/media/HLrWWaEWoAAgP30.jpg",
+      "tipo": "slide",
+      "descricao": "Slide de apresentação de Late-Breaking Clinical Science sobre TAVR no NYValves2026.",
+      "fonte": "@KrityaMangesh",
+      "categoria_fonte": "especialista",
+      "post_url": "https://x.com/KrityaMangesh/status/2070202668052586766",
+      "assunto": "TAVR"
+    },
+    {
+      "image_url": "https://pbs.twimg.com/media/HLm3shMW0AI0eyL.jpg",
+      "tipo": "grafico",
+      "descricao": "Bench study de balloon sizing para UNICORN em plataformas THV: clearance coronário e validação.",
+      "fonte": "@JACCJournals",
+      "categoria_fonte": "revista",
+      "post_url": "https://x.com/JACCJournals/status/2069892595191312819",
+      "assunto": "TAVR UNICORN"
     }
   ]
 }
