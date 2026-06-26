@@ -89,3 +89,7 @@ mcp.json
 create_alma_presentation*.js
 
 .vercel
+
+# Modulo Estudo: rastrear o conteudo gerado em data/estudos/
+!data/estudos/
+!data/estudos/**
