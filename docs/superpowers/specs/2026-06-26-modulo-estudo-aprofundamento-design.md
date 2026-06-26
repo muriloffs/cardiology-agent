@@ -170,6 +170,7 @@ data/estudos/
 - Integração direta com a API do Zotero.
 - Página de upload web / pasta na nuvem (Drive/Dropbox) — descartadas a favor do drop no repo.
 - Tradução fiel 1:1 do documento inteiro (o foco é condensação proporcional, não tradução literal).
+- **Embed da imagem original de figuras VETORIAIS (tabelas/algoritmos) via "foto" da página inteira.** Decisão de 2026-06-26 (após implementação): adiado para fase 2. **O que JÁ funciona na v1:** (a) a reconstrução do conteúdo em PT (tabela markdown / passos) — a parte de maior valor para estudo, sempre presente; (b) o embed da imagem original de figuras que já são **raster** (gráficos, forest plots). **O que fica para fase 2:** `render_page` (renderizar a página inteira como fallback para tabela vetorial — a função existe em `study_pdf.py` mas não está ligada na orquestração) + o modelo emitir o número da página de cada figura para um pareamento **semântico** marcador↔imagem. **Limitação conhecida da v1:** o pareamento `[[FIGURA]]`↔imagem é **posicional** (por ordem de leitura), best-effort — pode desalinhar quando há tabelas vetoriais entre as figuras raster. A reconstrução em PT nunca desalinha (é escrita inline pelo modelo).
 
 ---
 
