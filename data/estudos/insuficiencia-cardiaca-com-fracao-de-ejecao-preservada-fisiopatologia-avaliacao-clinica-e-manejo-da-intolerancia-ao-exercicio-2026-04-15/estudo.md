@@ -1,3 +1,5 @@
+📄 [Abrir o PDF original](https://github.com/muriloffs/cardiology-agent/blob/main/study-inbox/processados/icc.pdf)
+
 # Insuficiência cardíaca com fração de ejeção preservada: fisiopatologia, avaliação clínica e manejo da intolerância ao exercício
 
 *State of the Art Review — Heart failure and cardiomyopathies. European Heart Journal (2026) 47, 3065–3101. Landsteiner I, Verwerft J, Belov D, Verbrugge FH, Lewis GD.*

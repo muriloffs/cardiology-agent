@@ -65,3 +65,16 @@ def test_write_study_figure_marker_without_figure_falls_back(tmp_path):
     md = (tmp_path / slug / "estudo.md").read_text(encoding="utf-8")
     assert "grafico ausente" in md
     assert "[[FIGURA" not in md
+
+
+def test_write_study_adds_pdf_link(tmp_path):
+    parsed = {
+        "titulo": "T", "fonte": "ESC", "tipo": "revisao", "data": "2026-06-01",
+        "markdown": "Texto do estudo.",
+    }
+    slug = write_study(tmp_path, parsed, figs=[], pdf_name="meu artigo.pdf")
+    md = (tmp_path / slug / "estudo.md").read_text(encoding="utf-8")
+    assert "Abrir o PDF original" in md
+    assert "study-inbox/processados/meu%20artigo.pdf" in md  # nome url-encoded
+    meta = json.loads((tmp_path / slug / "meta.json").read_text(encoding="utf-8"))
+    assert meta["pdf"] == "meu artigo.pdf"

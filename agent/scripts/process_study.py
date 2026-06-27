@@ -15,6 +15,7 @@ import re
 import shutil
 from datetime import datetime, timezone
 from pathlib import Path
+from urllib.parse import quote
 
 from agent.scripts.study_index import slugify, build_index, linkify_references
 from agent.scripts.study_pdf import extract_figures
@@ -40,6 +41,9 @@ ESTUDOS_DIR = ROOT / "data" / "estudos"
 PROMPT_PATH = Path(__file__).parent.parent / "prompts" / "study_prompt.txt"
 STUDY_MODEL = os.environ.get("STUDY_MODEL", "claude-opus-4-8")
 _FIG_MARKER_RE = re.compile(r"\[\[FIGURA:\s*(.*?)\]\]")
+# O PDF original fica no repo (study-inbox/processados/) apos o processamento.
+# Link via blob do GitHub = abre o visualizador de PDF (bom no celular).
+PDF_BASE = "https://github.com/muriloffs/cardiology-agent/blob/main/study-inbox/processados/"
 
 
 def parse_study_output(raw: str) -> dict:
@@ -83,7 +87,7 @@ def _call_claude(pdf_bytes: bytes, model: str) -> str:
     return response.content[0].text
 
 
-def write_study(estudos_dir: Path, parsed: dict, figs: list[dict]) -> str:
+def write_study(estudos_dir: Path, parsed: dict, figs: list[dict], pdf_name: str = "") -> str:
     data = parsed.get("data") or datetime.now(timezone.utc).strftime("%Y-%m-%d")
     slug = f"{slugify(parsed.get('titulo', 'estudo'))}-{data}"
     out = estudos_dir / slug
@@ -103,6 +107,8 @@ def write_study(estudos_dir: Path, parsed: dict, figs: list[dict]) -> str:
 
     markdown = _FIG_MARKER_RE.sub(_sub, markdown)
     markdown = linkify_references(markdown)
+    if pdf_name:
+        markdown = f"📄 [Abrir o PDF original]({PDF_BASE}{quote(pdf_name)})\n\n" + markdown
     (out / "estudo.md").write_text(markdown, encoding="utf-8")
 
     # 'mes' agrupa pelo mes em que VOCE estudou (processou), nao pela data de
@@ -117,6 +123,7 @@ def write_study(estudos_dir: Path, parsed: dict, figs: list[dict]) -> str:
         "data": data,
         "processado_em": processado_em,
         "mes": processado_em[:7],
+        "pdf": pdf_name,
     }
     (out / "meta.json").write_text(json.dumps(meta, ensure_ascii=False, indent=2), encoding="utf-8")
     return slug
@@ -131,7 +138,7 @@ def process_one(pdf_path: Path, estudos_dir: Path, model: str) -> str | None:
         figs = extract_figures(pdf_path, tmp_figs)
         raw = _call_claude(pdf_path.read_bytes(), model)
         parsed = parse_study_output(raw)
-        slug = write_study(estudos_dir, parsed, figs)
+        slug = write_study(estudos_dir, parsed, figs, pdf_path.name)
         # Move figuras para a pasta final do estudo
         for f in figs:
             src = tmp_figs / f["arquivo"]

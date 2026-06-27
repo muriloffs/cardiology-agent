@@ -1,3 +1,5 @@
+📄 [Abrir o PDF original](https://github.com/muriloffs/cardiology-agent/blob/main/study-inbox/processados/ruel-et-al-2026-secondary-prevention-after-coronary-artery-bypass-graft-surgery-2026-update-a-scientific-statement-from.pdf)
+
 # Prevenção Secundária Após Cirurgia de Revascularização Miocárdica (CABG): Atualização 2026 — AHA Scientific Statement
 
 > 🎓 **Aprofunde:** Esta é uma *declaração científica* (scientific statement) da AHA — um documento de posicionamento que sintetiza evidência e oferece considerações práticas, atualizando a declaração de 2015 (Kulik et al, ref 7). Diferente de uma diretriz formal, parte das recomendações são extrapoladas de outras populações e baseadas em opinião do painel, embora muitas citem Classe/Nível das diretrizes vigentes. O cardiologista deve dominar tanto as condutas com base sólida quanto os pontos onde o painel admite incerteza (vide tabela de lacunas de conhecimento ao final).
