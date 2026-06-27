@@ -731,13 +731,24 @@
           </p>
         </div>
 
+        <!-- Navegação por dia (histórico) -->
+        <div class="flex items-center justify-center gap-3 mb-5">
+          <button
+            class="w-9 h-9 rounded-lg bg-teal-50 text-teal-700 disabled:opacity-30 disabled:cursor-not-allowed"
+            :disabled="!xImagesCanPrev" @click="xImagesPrevDay" aria-label="Dia anterior">◄</button>
+          <span class="font-semibold text-gray-700 min-w-[12rem] text-center">{{ xImagesDateLabel || '—' }}</span>
+          <button
+            class="w-9 h-9 rounded-lg bg-teal-50 text-teal-700 disabled:opacity-30 disabled:cursor-not-allowed"
+            :disabled="!xImagesCanNext" @click="xImagesNextDay" aria-label="Dia seguinte">►</button>
+        </div>
+
         <div v-if="xImagesLoading" class="text-center text-gray-500 py-10">Carregando imagens…</div>
         <div v-else-if="xImagesLoadError" class="text-center text-gray-500 py-10">
-          <p class="text-lg mb-1">Sem amostra ainda.</p>
-          <p class="text-sm">Rode o protótipo (workflow "X Images Prototype") para gerar a amostra.</p>
+          <p class="text-lg mb-1">Não consegui carregar as imagens deste dia.</p>
+          <p class="text-sm">Tente outro dia nas setas acima.</p>
         </div>
         <div v-else-if="!xImagesData?.imagens?.length" class="text-center text-gray-500 py-10">
-          Nenhuma imagem na amostra.
+          Nenhuma imagem neste dia.
         </div>
 
         <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -910,7 +921,7 @@ import SearchResults from './components/SearchResults.vue'
 import { useSearch } from './composables/useSearch'
 import { copyAudioBriefing } from './composables/useAudioBriefing'
 import { useMonthlyReviews } from './composables/useMonthlyReviews'
-import { useXImages } from './composables/useXImages'
+import { useDailyXImages } from './composables/useDailyXImages'
 import StudyReader from './components/StudyReader.vue'
 import { useMonthlyStudies } from './composables/useMonthlyStudies'
 
@@ -952,17 +963,23 @@ function revUrl(a) {
     || null
 }
 
-// Imagens do X (protótipo)
+// Imagens do X — navegáveis por dia (histórico)
 const {
   loading: xImagesLoading,
   loadError: xImagesLoadError,
   data: xImagesData,
-  loadXImages,
-} = useXImages()
+  selectedDate: xImagesDate,
+  dateLabel: xImagesDateLabel,
+  canPrev: xImagesCanPrev,
+  canNext: xImagesCanNext,
+  prevDay: xImagesPrevDay,
+  nextDay: xImagesNextDay,
+  open: openXImagesLib,
+} = useDailyXImages()
 
 function openXImages() {
   currentView.value = 'imagens'
-  loadXImages()
+  openXImagesLib()
 }
 
 // Estudos do mes (biblioteca de PDFs processados)
@@ -1307,7 +1324,7 @@ onMounted(() => {
   // Carrega os contadores das outras abas em segundo plano (nao trava a tela),
   // para o numero aparecer no botao sem precisar abrir cada aba.
   openReviews()
-  loadXImages()
+  openXImagesLib()
   openStudiesLib()
   // Esc fecha o lightbox de imagem
   document.addEventListener('keydown', (e) => {

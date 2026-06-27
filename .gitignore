@@ -78,6 +78,7 @@ data/*.json
 !data/relatorio-*.json
 !data/index.json
 !data/imagens-x-sample.json
+!data/imagens-x-*.json
 
 # Claude/Development tools
 .claude/

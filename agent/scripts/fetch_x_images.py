@@ -245,21 +245,38 @@ def main():
         por_cat[im["categoria_fonte"]] = por_cat.get(im["categoria_fonte"], 0) + 1
 
     DATA_DIR.mkdir(parents=True, exist_ok=True)
+    # data-alvo = "ontem em Brasilia" (mesma convencao do relatorio diario), para
+    # a navegacao por dia da aba Imagens alinhar com a do relatorio.
+    brasilia_tz = timezone(timedelta(hours=-3))
+    target = (datetime.now(brasilia_tz) - timedelta(days=1)).strftime("%Y-%m-%d")
     out = {
+        "data": target,
         "gerado_em": datetime.now(timezone.utc).isoformat(),
         "total": len(images),
         "por_tipo": por_tipo,
         "por_categoria_fonte": por_cat,
         "imagens": images,
     }
-    out_path = DATA_DIR / "imagens-x-sample.json"
-    out_path.write_text(json.dumps(out, ensure_ascii=False, indent=2), encoding="utf-8")
+    payload = json.dumps(out, ensure_ascii=False, indent=2)
+    # arquivo POR DIA (historico navegavel) + 'sample' (ultimo, p/ compat)
+    (DATA_DIR / f"imagens-x-{target}.json").write_text(payload, encoding="utf-8")
+    (DATA_DIR / "imagens-x-sample.json").write_text(payload, encoding="utf-8")
+    # indice dos dias que tem imagens (mais recente primeiro)
+    idx_path = DATA_DIR / "imagens-x-index.json"
+    dates = []
+    if idx_path.exists():
+        try:
+            dates = json.loads(idx_path.read_text(encoding="utf-8")).get("dates", [])
+        except Exception:
+            dates = []
+    dates = sorted(set(dates) | {target}, reverse=True)
+    idx_path.write_text(json.dumps({"dates": dates}, ensure_ascii=False, indent=2), encoding="utf-8")
 
     logger.info("=" * 50)
-    logger.info(f"RENDIMENTO: {len(images)} imagens")
+    logger.info(f"RENDIMENTO: {len(images)} imagens (data {target})")
     logger.info(f"Por tipo: {por_tipo}")
     logger.info(f"Por fonte: {por_cat}")
-    logger.info(f"Salvo em: {out_path}")
+    logger.info(f"Salvo em: imagens-x-{target}.json (+ sample + index)")
     logger.info("=" * 50)
 
 

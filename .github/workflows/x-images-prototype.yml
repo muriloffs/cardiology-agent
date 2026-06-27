@@ -47,15 +47,12 @@ jobs:
       - name: Check if already harvested today (idempotencia)
         id: check
         run: |
-          if [ "${{ github.event_name }}" != "workflow_dispatch" ] && [ -f data/imagens-x-sample.json ]; then
-            GEN=$(python -c "import json,sys; print(json.load(open('data/imagens-x-sample.json')).get('gerado_em','')[:10])" 2>/dev/null || echo "")
-            TODAY=$(date -u +%Y-%m-%d)
-            if [ "$GEN" = "$TODAY" ]; then
-              echo "Ja colhido hoje ($GEN) — pulando (provavel disparo do cron backup)."
-              echo "skip=true" >> "$GITHUB_OUTPUT"
-            else
-              echo "skip=false" >> "$GITHUB_OUTPUT"
-            fi
+          # data-alvo = ontem em Brasilia (mesma do script e do relatorio).
+          # Pula se o arquivo do dia ja existe (evita 2a colheita no cron backup).
+          TARGET=$(TZ=America/Sao_Paulo date -d "1 day ago" +%Y-%m-%d)
+          if [ "${{ github.event_name }}" != "workflow_dispatch" ] && [ -f "data/imagens-x-${TARGET}.json" ]; then
+            echo "Imagens de ${TARGET} ja existem — pulando (provavel cron backup)."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
           else
             echo "skip=false" >> "$GITHUB_OUTPUT"
           fi
@@ -85,7 +82,7 @@ jobs:
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add data/imagens-x-sample.json
+          git add data/imagens-x-*.json
           git commit -m "chore: imagens do X $(date -u +%Y-%m-%d)" || echo "Nada para commitar"
           git pull --rebase origin main
           git push origin main
