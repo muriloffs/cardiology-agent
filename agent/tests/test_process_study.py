@@ -75,7 +75,7 @@ def test_write_study_adds_pdf_link(tmp_path):
     slug = write_study(tmp_path, parsed, figs=[], pdf_name="meu artigo.pdf")
     md = (tmp_path / slug / "estudo.md").read_text(encoding="utf-8")
     assert "Abrir o PDF original" in md
-    assert "raw.githubusercontent.com" in md  # link 'raw' = PDF direto, aba dedicada
+    assert "cdn.jsdelivr.net" in md  # jsDelivr serve application/pdf -> abre inline
     assert "study-inbox/processados/meu%20artigo.pdf" in md  # nome url-encoded
     meta = json.loads((tmp_path / slug / "meta.json").read_text(encoding="utf-8"))
     assert meta["pdf"] == "meu artigo.pdf"
