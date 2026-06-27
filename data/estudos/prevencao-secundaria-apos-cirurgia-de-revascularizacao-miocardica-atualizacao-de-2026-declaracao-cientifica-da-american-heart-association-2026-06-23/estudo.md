@@ -1,4 +1,4 @@
-📄 [Abrir o PDF original](https://github.com/muriloffs/cardiology-agent/blob/main/study-inbox/processados/ruel-et-al-2026-secondary-prevention-after-coronary-artery-bypass-graft-surgery-2026-update-a-scientific-statement-from.pdf)
+📄 [Abrir o PDF original](https://raw.githubusercontent.com/muriloffs/cardiology-agent/main/study-inbox/processados/ruel-et-al-2026-secondary-prevention-after-coronary-artery-bypass-graft-surgery-2026-update-a-scientific-statement-from.pdf)
 
 # Prevenção Secundária Após Cirurgia de Revascularização Miocárdica (CABG): Atualização 2026 — AHA Scientific Statement
 

@@ -1,4 +1,4 @@
-📄 [Abrir o PDF original](https://github.com/muriloffs/cardiology-agent/blob/main/study-inbox/processados/icc.pdf)
+📄 [Abrir o PDF original](https://raw.githubusercontent.com/muriloffs/cardiology-agent/main/study-inbox/processados/icc.pdf)
 
 # Insuficiência cardíaca com fração de ejeção preservada: fisiopatologia, avaliação clínica e manejo da intolerância ao exercício
 

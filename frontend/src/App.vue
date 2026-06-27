@@ -190,6 +190,11 @@
                      : 'bg-white text-violet-700 hover:bg-violet-50 border border-violet-300']"
         >
           📚 Estudo
+          <span v-if="studiesItems.length"
+                :class="['px-1.5 md:px-2 py-0.5 rounded-full text-xs md:text-sm font-bold',
+                         currentView === 'estudo' ? 'bg-white text-violet-700' : 'bg-violet-100 text-violet-800']">
+            {{ studiesItems.length }}
+          </span>
         </button>
       </div>
     </div>
@@ -1299,6 +1304,11 @@ async function loadReport() {
 
 onMounted(() => {
   loadReport()
+  // Carrega os contadores das outras abas em segundo plano (nao trava a tela),
+  // para o numero aparecer no botao sem precisar abrir cada aba.
+  openReviews()
+  loadXImages()
+  openStudiesLib()
   // Esc fecha o lightbox de imagem
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && lightboxImage.value) lightboxImage.value = null

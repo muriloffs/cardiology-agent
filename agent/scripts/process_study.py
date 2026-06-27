@@ -42,8 +42,10 @@ PROMPT_PATH = Path(__file__).parent.parent / "prompts" / "study_prompt.txt"
 STUDY_MODEL = os.environ.get("STUDY_MODEL", "claude-opus-4-8")
 _FIG_MARKER_RE = re.compile(r"\[\[FIGURA:\s*(.*?)\]\]")
 # O PDF original fica no repo (study-inbox/processados/) apos o processamento.
-# Link via blob do GitHub = abre o visualizador de PDF (bom no celular).
-PDF_BASE = "https://github.com/muriloffs/cardiology-agent/blob/main/study-inbox/processados/"
+# Link 'raw' = abre o PDF DIRETO numa aba dedicada (so o PDF, sem a interface
+# do GitHub em volta). O blob (github.com/.../blob/...) mostraria o PDF dentro
+# da pagina do repositorio, mais poluido.
+PDF_BASE = "https://raw.githubusercontent.com/muriloffs/cardiology-agent/main/study-inbox/processados/"
 
 
 def parse_study_output(raw: str) -> dict:
