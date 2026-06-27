@@ -19,8 +19,14 @@ export function renderStudyMarkdown(md, baseUrl) {
     const abs = /^https?:\/\//.test(href) ? href : baseUrl + href
     return baseImage(abs, title, text)
   }
+  // Links abrem em NOVA ABA (para nao perder o estudo ao clicar num DOI/busca)
+  const baseLink = renderer.link.bind(renderer)
+  renderer.link = (href, title, text) => {
+    const html = baseLink(href, title, text)
+    return html.replace(/^<a /, '<a target="_blank" rel="noopener noreferrer" ')
+  }
   const raw = marked.parse(md || '', { renderer })
-  return DOMPurify.sanitize(raw, { ADD_ATTR: ['class'] })
+  return DOMPurify.sanitize(raw, { ADD_ATTR: ['class', 'target', 'rel'] })
 }
 </script>
 

@@ -9,6 +9,8 @@ from urllib.parse import quote_plus
 _DOI_RE = re.compile(r"\b[Dd][Oo][Ii]:\s*(10\.\d{4,9}/[-._;()/:A-Za-z0-9]+)")
 _PMID_RE = re.compile(r"\bPMID:\s*(\d+)")
 _NUMBERED_REF_RE = re.compile(r"^\s*\d+\.\s+\S")
+_REFS_HEADING_RE = re.compile(r"^#+\s*refer[êe]ncias", re.IGNORECASE)
+_ANY_HEADING_RE = re.compile(r"^#+\s")
 
 
 def slugify(titulo: str) -> str:
@@ -36,14 +38,32 @@ def linkify_references(markdown: str) -> str:
         return f"[PMID {p}](https://pubmed.ncbi.nlm.nih.gov/{p}/)"
 
     out_lines = []
+    in_refs = False
     for line in markdown.splitlines():
-        had_id = bool(_DOI_RE.search(line) or _PMID_RE.search(line))
+        # Rastreia se estamos DENTRO da secao "Referencias citadas" — o link de
+        # busca por NOME so vale ali (nao em listas numeradas de outras secoes,
+        # ex: "Consideracoes Praticas").
+        if _REFS_HEADING_RE.match(line):
+            in_refs = True
+        elif _ANY_HEADING_RE.match(line):
+            in_refs = False
+
+        # Link "buscar" (Google Academico) pelo NOME inteiro do artigo, em nova
+        # aba. Query montada do texto LIMPO da citacao: sem o numero e sem os
+        # tokens DOI:/PMID:. Complementa o link de DOI (que vai ao artigo exato)
+        # ajudando a achar o PDF livre / outras versoes.
+        scholar = ""
+        if in_refs and _NUMBERED_REF_RE.match(line):
+            limpo = _PMID_RE.sub("", _DOI_RE.sub("", line))
+            limpo = re.sub(r"^\s*\d+\.\s*", "", limpo).strip()
+            termos = " ".join(limpo.split()[:30])
+            if termos:
+                scholar = (" — [🔍 buscar](https://scholar.google.com/scholar"
+                           f"?q={quote_plus(termos)})")
+
         line = _DOI_RE.sub(_doi, line)
         line = _PMID_RE.sub(_pmid, line)
-        if _NUMBERED_REF_RE.match(line) and not had_id:
-            termos = " ".join(line.split()[1:11])
-            line = f"{line} — [buscar](https://pubmed.ncbi.nlm.nih.gov/?term={quote_plus(termos)})"
-        out_lines.append(line)
+        out_lines.append(line + scholar)
     return "\n".join(out_lines)
 
 

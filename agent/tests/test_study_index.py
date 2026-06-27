@@ -56,9 +56,27 @@ def test_linkify_pmid():
     assert "[PMID 31535829](https://pubmed.ncbi.nlm.nih.gov/31535829/)" in out
 
 
-def test_linkify_plain_numbered_ref_gets_search_link():
-    out = linkify_references("12. Doe J. Heart Failure Review. Circulation 2020")
-    assert "pubmed.ncbi.nlm.nih.gov/?term=" in out
+def test_linkify_reference_in_section_gets_scholar_link():
+    md = "## Referências citadas\n12. Doe J. Heart Failure Review. Circulation 2020"
+    out = linkify_references(md)
+    assert "scholar.google.com/scholar?q=" in out
+    assert "🔍 buscar" in out
+
+
+def test_linkify_reference_with_doi_also_gets_scholar():
+    md = "## Referências\n26. Sandner S. DAPT vein graft. JAMA 2022. DOI: 10.1001/jama.2022.11966"
+    out = linkify_references(md)
+    assert "[10.1001/jama.2022.11966](https://doi.org/10.1001/jama.2022.11966)" in out
+    assert "scholar.google.com/scholar?q=" in out
+
+
+def test_linkify_numbered_line_outside_refs_untouched():
+    # Lista numerada fora da secao de referencias (ex: Consideracoes Praticas)
+    # NAO deve ganhar link de busca.
+    md = "## Considerações Práticas\n1. Inicie aspirina dentro de 6 horas."
+    out = linkify_references(md)
+    assert "scholar.google" not in out
+    assert out == md
 
 
 def test_linkify_leaves_prose_without_refs_untouched():

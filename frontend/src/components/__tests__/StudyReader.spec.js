@@ -20,4 +20,11 @@ describe('renderStudyMarkdown', () => {
     expect(html).toContain('<h2')
     expect(html).toContain('Texto normal')
   })
+
+  it('abre links em nova aba (target=_blank)', () => {
+    const html = renderStudyMarkdown('[DOI](https://doi.org/10.1056/x)', BASE)
+    expect(html).toContain('target="_blank"')
+    expect(html).toContain('rel="noopener noreferrer"')
+    expect(html).toContain('href="https://doi.org/10.1056/x"')
+  })
 })
