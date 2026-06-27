@@ -4,6 +4,9 @@ on:
   push:
     paths:
       - 'study-inbox/**.pdf'
+      # NAO disparar quando a ingestao do Drive (drive-studies.yml) so move PDFs
+      # ja processados p/ a pasta processados/ — senao geraria um run no-op a toa.
+      - '!study-inbox/processados/**'
   workflow_dispatch:
 
 concurrency:

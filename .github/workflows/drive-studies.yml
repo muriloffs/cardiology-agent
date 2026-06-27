@@ -1,22 +1,43 @@
 name: Daily Drive Studies
 
-# 1x/dia, de manha cedo: puxa os PDFs novos da pasta "Para estudar" no Google
-# Drive, gera os estudos e move o PDF para "Estudados" (renomeado). NAO e tempo
-# real — voce larga PDFs na pasta quando quiser; isto recolhe uma vez por dia.
+# Puxa os PDFs novos da pasta "Para estudar" no Google Drive, gera os estudos e
+# move o PDF p/ "Estudados" (renomeado). NAO e tempo real — voce larga PDFs na
+# pasta quando quiser; isto recolhe 1x/dia.
+#
+# POR QUE workflow_run (e NAO cron fixo): o scheduler do GitHub atrasa o cron de
+# forma imprevisivel (1-3h). Um horario fixo cairia no meio da janela do
+# relatorio (04:17-09:17 UTC) e os dois dariam `git push` ao mesmo tempo — corrida
+# que faz um dos pushes falhar. Encadeando APOS o relatorio (mesmo padrao do
+# x-images), roda automatico todo dia de manha, sem horario fixo e sem colidir.
+#
+# Isolamento (nao influenciar o que ja funciona):
+#  - grupo de concorrencia PROPRIO ("drive-studies") — nunca bloqueia/atrasa o
+#    relatorio nem o x-images.
+#  - retry de push (pull --rebase + push, ate 5x com jitter): se empatar com o
+#    push do x-images, ESTE workflow reabsorve a corrida; o x-images sai intacto.
+#  - se a ingestao falhar, o relatorio/imagens ja estao commitados e intactos.
 
 on:
-  schedule:
-    - cron: '30 8 * * *'   # 08:30 UTC = 05:30 America/Sao_Paulo
-  workflow_dispatch:        # permite rodar manualmente quando quiser
+  workflow_run:
+    workflows: ["Daily Cardiology Research Report"]
+    types: [completed]
+  workflow_dispatch:        # botao manual: roda na hora que quiser
 
 concurrency:
-  group: study-process      # compartilha trava com Process Study PDFs
-  cancel-in-progress: false
+  group: drive-studies
+  cancel-in-progress: false   # nao interrompe uma ingestao em andamento
 
 jobs:
   pull-and-process:
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    # Roda se: disparo manual OU o relatorio principal terminou com SUCESSO.
+    # (estudos sao independentes do relatorio; em manha quebrada, espera o dia
+    # seguinte — ou voce dispara manual.)
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      github.event.workflow_run.conclusion == 'success'
+
     permissions:
       contents: write
 
@@ -25,6 +46,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
+          ref: main   # garante o main mais recente (com relatorio/imagens frescos)
 
       - name: Set up Python 3.11
         uses: actions/setup-python@v5
@@ -46,14 +68,24 @@ jobs:
           DRIVE_DONE_FOLDER_ID: ${{ vars.DRIVE_DONE_FOLDER_ID || '1XmWEP-u4zVzhZHMqhPjMHC6iP-zGdsAI' }}
         run: python -m agent.scripts.fetch_drive_studies
 
-      - name: Configure Git
+      - name: Commit results (with push retry)
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-
-      - name: Commit results
-        run: |
           git add data/estudos study-inbox || true
-          git commit -m "chore: estudos do Drive $(date -u +%Y-%m-%d)" || echo "Nothing to commit"
-          git pull --rebase origin main
-          git push origin main
+          if ! git commit -m "chore: estudos do Drive $(date -u +%Y-%m-%d)"; then
+            echo "Nada para commitar — nenhum PDF novo."
+            exit 0
+          fi
+          # Retry: se o x-images empurrou no mesmo instante, o push falha (non
+          # fast-forward). Re-incorpora o main e tenta de novo, ate 5x com jitter.
+          for i in 1 2 3 4 5; do
+            if git pull --rebase origin main && git push origin main; then
+              echo "Push OK na tentativa $i."
+              exit 0
+            fi
+            echo "Tentativa $i de push falhou (provavel corrida) — repetindo..."
+            sleep $((RANDOM % 8 + 4))
+          done
+          echo "Push falhou apos 5 tentativas."
+          exit 1
