@@ -50,24 +50,24 @@ export function useReadMarks() {
     }
   }
 
-  // Marca VÁRIOS de uma vez (botão "marcar tudo como lido"). Aditivo: só
-  // adiciona os que ainda não estão lidos; o ✓ individual segue funcionando.
-  async function markMany(lista) {
-    const novos = (lista || []).filter((id) => id && !ids.value.has(id))
-    if (!novos.length) return
+  // Marca/desmarca VÁRIOS de uma vez ("marcar tudo" / "desmarcar tudo"). Só
+  // mexe nos que mudam de estado; o ✓ individual segue funcionando.
+  async function markMany(lista, lido = true) {
+    const alvo = (lista || []).filter((id) => id && (lido ? !ids.value.has(id) : ids.value.has(id)))
+    if (!alvo.length) return
     const otim = new Set(ids.value)
-    novos.forEach((id) => otim.add(id))
+    alvo.forEach((id) => { if (lido) otim.add(id); else otim.delete(id) })
     ids.value = otim                       // otimista
     try {
       const r = await fetch('/api/marcas', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'x-marcas-token': localStorage.getItem(TOKEN_KEY) || '' },
-        body: JSON.stringify({ ids: novos, lido: true }),
+        body: JSON.stringify({ ids: alvo, lido }),
       })
-      if (!r.ok) throw new Error('falha ao marcar tudo')
+      if (!r.ok) throw new Error('falha ao atualizar')
     } catch (e) {
       const rev = new Set(ids.value)
-      novos.forEach((id) => rev.delete(id))
+      alvo.forEach((id) => { if (lido) rev.delete(id); else rev.add(id) })
       ids.value = rev                      // reverte
       throw e
     }
