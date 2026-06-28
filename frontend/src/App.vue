@@ -845,6 +845,7 @@
               v-for="it in studiesItems"
               :key="it.slug"
               class="border border-gray-200 rounded-lg bg-white hover:border-violet-300 transition-colors"
+              :class="{ 'opacity-50': isReadMark('estudo:' + it.slug) }"
             >
               <button
                 class="w-full text-left p-3 flex flex-col gap-1"
@@ -853,6 +854,9 @@
                 <span class="font-semibold text-sm text-gray-900 leading-snug break-words">{{ it.titulo }}</span>
                 <span class="text-[11px] text-gray-500">{{ it.fonte }} · {{ it.tipo }} · {{ it.data }}</span>
               </button>
+              <div class="px-3 pb-2">
+                <ReadToggle :id="'estudo:' + it.slug" />
+              </div>
             </li>
           </ul>
         </div>

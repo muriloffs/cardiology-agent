@@ -32,6 +32,7 @@ export function renderStudyMarkdown(md, baseUrl) {
 
 <script setup>
 import { ref, watch, computed } from 'vue'
+import ReadToggle from './ReadToggle.vue'
 
 const props = defineProps({
   slug: { type: String, required: true },
@@ -44,19 +45,6 @@ const html = ref('')
 const loading = ref(false)
 const error = ref(null)
 const baseUrl = computed(() => `${RAW_BASE}${props.slug}/`)
-
-// Marcador "já estudei" -> cria um item JÁ CONCLUÍDO no Things, com a data de
-// hoje (vai pro Logbook = seu histórico). O Things sincroniza entre seus
-// aparelhos Apple, resolvendo a marcação cross-plataforma sem backend.
-// (Ponte enquanto o ✓ sincronizado no próprio site não fica pronto.)
-const thingsUrl = computed(() => {
-  const hoje = new Date().toLocaleDateString('en-CA') // YYYY-MM-DD (data local)
-  const titulo = (props.titulo || props.slug).trim()
-  const enc = encodeURIComponent
-  const notes = enc(`Cardiology Dashboard — estudo concluído em ${hoje}`)
-  return `things:///add?title=${enc('📚 Estudei: ' + titulo)}` +
-         `&notes=${notes}&completed=true&completion-date=${hoje}`
-})
 
 async function load() {
   loading.value = true
@@ -83,8 +71,7 @@ watch(() => props.slug, load, { immediate: true })
     <div v-else-if="error" class="study-status study-error">{{ error }}</div>
     <template v-else>
       <article class="study-body" v-html="html"></article>
-      <a class="things-mark" :href="thingsUrl">✓ Marcar como estudado (Things)</a>
-      <p class="things-hint">Registra no Things com a data de hoje (sincroniza nos seus aparelhos Apple).</p>
+      <div class="mark-row"><ReadToggle :id="'estudo:' + slug" /></div>
     </template>
   </div>
 </template>
@@ -103,11 +90,5 @@ watch(() => props.slug, load, { immediate: true })
   background: #f5f3ff; border-left: 4px solid #8b5cf6; border-radius: 8px;
   padding: 0.75rem 1rem; margin: 1.25rem 0; color: #4c1d95;
 }
-.things-mark {
-  display: inline-block; margin-top: 2.5rem; padding: 0.7rem 1.25rem;
-  background: #8b5cf6; color: #fff; font-weight: 600; font-size: 1rem;
-  border-radius: 10px; text-decoration: none; box-shadow: 0 1px 3px rgba(0,0,0,.12);
-}
-.things-mark:hover { background: #7c3aed; }
-.things-hint { margin-top: 0.5rem; font-size: 0.8rem; color: #9ca3af; }
+.mark-row { margin-top: 2.5rem; }
 </style>
