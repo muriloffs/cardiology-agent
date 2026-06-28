@@ -79,22 +79,42 @@ def list_pdfs(svc, folder_id: str) -> list[tuple[str, str]]:
     return [(f["id"], f["name"]) for f in files]
 
 
+def _retry(label: str, fn, tries: int = 4):
+    """Repete uma chamada de rede do Drive em erro transitorio (ex.: 'EOF ...
+    _ssl.c', timeouts). Espera com jitter entre tentativas; relança no fim."""
+    for i in range(1, tries + 1):
+        try:
+            return fn()
+        except Exception as e:
+            if i == tries:
+                raise
+            logger.warning(f"{label}: tentativa {i} falhou ({e}); repetindo...")
+            time.sleep(random.uniform(2, 6) * i)
+
+
 def download_pdf(svc, file_id: str, dest: Path) -> None:
     from googleapiclient.http import MediaIoBaseDownload
-    buf = io.BytesIO()
-    dl = MediaIoBaseDownload(buf, svc.files().get_media(fileId=file_id))
-    done = False
-    while not done:
-        _, done = dl.next_chunk()
-    dest.write_bytes(buf.getvalue())
+
+    def _do():
+        buf = io.BytesIO()
+        dl = MediaIoBaseDownload(buf, svc.files().get_media(fileId=file_id))
+        done = False
+        while not done:
+            _, done = dl.next_chunk()
+        dest.write_bytes(buf.getvalue())
+
+    _retry(f"download {dest.name}", _do)
 
 
 def move_to_folder(svc, file_id: str, dest_id: str, new_name: str | None = None) -> None:
-    f = svc.files().get(fileId=file_id, fields="parents").execute()
-    prev = ",".join(f.get("parents", []))
-    body = {"name": new_name} if new_name else {}
-    svc.files().update(fileId=file_id, body=body, addParents=dest_id,
-                       removeParents=prev, fields="id").execute()
+    def _do():
+        f = svc.files().get(fileId=file_id, fields="parents").execute()
+        prev = ",".join(f.get("parents", []))
+        body = {"name": new_name} if new_name else {}
+        svc.files().update(fileId=file_id, body=body, addParents=dest_id,
+                           removeParents=prev, fields="id").execute()
+
+    _retry(f"move {new_name or file_id}", _do)
 
 
 def _nome_legivel(titulo: str, data: str, fallback: str) -> str:
