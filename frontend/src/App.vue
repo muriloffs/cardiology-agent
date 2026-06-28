@@ -197,6 +197,21 @@
           </span>
         </button>
 
+        <button
+          @click="currentView = 'salvos'"
+          :class="['px-2.5 md:px-5 py-1.5 md:py-3 rounded-lg text-sm md:text-lg font-semibold transition-all flex items-center gap-1.5 md:gap-2.5',
+                   currentView === 'salvos'
+                     ? 'bg-rose-600 text-white shadow-md'
+                     : 'bg-white text-rose-700 hover:bg-rose-50 border border-rose-300']"
+        >
+          🔖 Salvos
+          <span v-if="grifosList.length"
+                :class="['px-1.5 md:px-2 py-0.5 rounded-full text-xs md:text-sm font-bold',
+                         currentView === 'salvos' ? 'bg-white text-rose-700' : 'bg-rose-100 text-rose-800']">
+            {{ grifosList.length }}
+          </span>
+        </button>
+
         <!-- Senha de marcação "lido" — fica salva só neste aparelho -->
         <button
           @click="pedirSenhaMarcas"
@@ -867,6 +882,44 @@
       </section>
     </template>
 
+    <!-- ============================================================ -->
+    <!-- VIEW: SALVOS (grifos agrupados por estudo) -->
+    <!-- ============================================================ -->
+    <template v-else-if="currentView === 'salvos'">
+      <section class="px-4 py-8 max-w-4xl mx-auto">
+        <h2 class="text-xl md:text-2xl font-bold mb-1">🔖 Salvos</h2>
+        <p class="text-sm text-gray-500 mb-5">Trechos grifados nos estudos, agrupados por estudo.</p>
+
+        <div v-if="!hasMarcasToken()" class="text-center text-gray-500 py-10">
+          <p class="text-lg mb-1">Defina sua senha para ver/salvar grifos.</p>
+          <p class="text-sm">Toque no 🔑 no topo.</p>
+        </div>
+        <div v-else-if="grifosList.length === 0" class="text-center text-gray-500 py-10">
+          <p class="text-lg mb-1">Nenhum grifo ainda.</p>
+          <p class="text-sm">Abra um estudo, selecione um trecho e toque em "✚ Salvar grifo".</p>
+        </div>
+
+        <div v-else class="space-y-6">
+          <div v-for="grupo in grifosPorEstudo" :key="grupo.slug" class="border border-gray-200 rounded-lg bg-white p-3">
+            <button class="text-left w-full font-semibold text-sm text-violet-700 hover:text-violet-900 mb-2 break-words"
+                    @click="abrirEstudoDoGrifo(grupo.slug)">
+              📚 {{ grupo.titulo || grupo.slug }}
+            </button>
+            <ul class="space-y-2">
+              <li v-for="g in grupo.itens" :key="g.id"
+                  class="border-l-2 border-rose-300 bg-rose-50/50 rounded-r px-3 py-2">
+                <p class="text-sm text-gray-800 leading-snug break-words">{{ g.trecho }}</p>
+                <div class="flex items-center gap-3 mt-1">
+                  <span class="text-[11px] text-gray-400">{{ g.data }}</span>
+                  <button class="text-[11px] text-rose-600 hover:text-rose-800 font-medium" @click="apagarGrifo(g.id)">🗑 Apagar</button>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </template>
+
 
     <!-- Lightbox de imagem do X — abre ao tocar na figura -->
     <Teleport to="body">
@@ -942,6 +995,7 @@ import { useDailyXImages } from './composables/useDailyXImages'
 import StudyReader from './components/StudyReader.vue'
 import ReadToggle from './components/ReadToggle.vue'
 import { useReadMarks } from './composables/useReadMarks'
+import { useGrifos } from './composables/useGrifos'
 import { useMonthlyStudies } from './composables/useMonthlyStudies'
 
 const { isActive: searchActive } = useSearch()
@@ -1024,6 +1078,16 @@ const { isRead: isReadMark, setToken: setMarcasToken, hasToken: hasMarcasToken }
 function pedirSenhaMarcas() {
   const t = window.prompt('Sua senha de marcação (a mesma definida na Vercel). Fica salva só neste aparelho.')
   if (t) { setMarcasToken(t); location.reload() }
+}
+
+// Grifos salvos (aba "Salvos")
+const { porEstudo: grifosPorEstudo, grifos: grifosList, remove: removeGrifo } = useGrifos()
+function abrirEstudoDoGrifo(slug) {
+  currentView.value = 'estudo'
+  selectedStudySlug.value = slug
+}
+async function apagarGrifo(id) {
+  try { await removeGrifo(id) } catch { alert('Não consegui apagar o grifo.') }
 }
 
 function openStudies() {
