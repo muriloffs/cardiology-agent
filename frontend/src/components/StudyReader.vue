@@ -43,18 +43,28 @@ const props = defineProps({
 const emit = defineEmits(['close'])
 
 const grifos = useGrifos()
-const flash = ref(false)
+const flash = ref('')
+const metaTitulo = ref('')   // título confiável do estudo (independe do mês na lista)
 
-// Salvar grifo via COPIAR + COLAR — à prova de falha no iOS (não compete com o
-// menu nativo de seleção, que abria por cima do botão flutuante). Fluxo:
-// selecione → "Copiar" → toque no botão fixo → cole no campo.
+// Salvar grifo AUTOMÁTICO: lê o trecho que você COPIOU (selecione → "Copiar" →
+// toque no botão). No iOS aparece um "Colar" rápido a confirmar; depois salva
+// sozinho e vai pra aba "Salvos". Se a leitura do clipboard não rolar (navegador
+// antigo/negado), cai no colar manual.
 async function salvarGrifo() {
-  const txt = (window.prompt('Cole aqui o trecho que você copiou (toque e "Colar"):') || '').trim()
-  if (!txt) return
+  let txt = ''
   try {
-    await grifos.add(txt, props.slug, props.titulo)
-    flash.value = true
-    setTimeout(() => { flash.value = false }, 1600)
+    txt = (await navigator.clipboard.readText() || '').trim()
+  } catch {
+    txt = (window.prompt('Cole aqui o trecho que você copiou:') || '').trim()
+  }
+  if (!txt) {
+    alert('Primeiro selecione um trecho do estudo e toque em "Copiar". Depois toque em Salvar grifo.')
+    return
+  }
+  try {
+    await grifos.add(txt, props.slug, props.titulo || metaTitulo.value || props.slug)
+    flash.value = 'Grifo salvo: "' + txt.slice(0, 34) + (txt.length > 34 ? '…' : '') + '"'
+    setTimeout(() => { flash.value = '' }, 2200)
   } catch {
     alert('Não consegui salvar o grifo. Tente de novo.')
   }
@@ -98,6 +108,11 @@ async function load() {
       /<\/table>/g,
       '</table><div class="tbl-save-wrap"><button type="button" class="tbl-save">⤓ Salvar tabela como imagem</button></div>'
     )
+    // Título confiável (p/ os grifos saírem com o nome certo do artigo nos Salvos)
+    try {
+      const mr = await fetch(`${baseUrl.value}meta.json?t=${Date.now()}`)
+      if (mr.ok) metaTitulo.value = (await mr.json()).titulo || ''
+    } catch { /* o título via prop continua valendo */ }
   } catch (e) {
     error.value = e?.message || 'Falha ao carregar o estudo'
   } finally {
@@ -125,7 +140,7 @@ watch(() => props.slug, load, { immediate: true })
       @click="salvarGrifo"
       title="Copie um trecho do estudo e toque para grifar"
     >🖍 Salvar grifo</button>
-    <div v-if="flash" class="grifo-flash">Grifo salvo ✓</div>
+    <div v-if="flash" class="grifo-flash">{{ flash }}</div>
 
     <!-- Overlay da tabela como imagem: segure para salvar nas Fotos -->
     <div v-if="tableImg" class="img-overlay" @click.self="tableImg = null">
