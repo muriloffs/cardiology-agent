@@ -196,6 +196,15 @@
             {{ studiesItems.length }}
           </span>
         </button>
+
+        <!-- Senha de marcação "lido" — fica salva só neste aparelho -->
+        <button
+          @click="pedirSenhaMarcas"
+          :title="hasMarcasToken() ? 'Senha de marcação definida neste aparelho' : 'Definir senha de marcação (para marcar itens como lidos)'"
+          class="ml-auto self-center text-sm px-2.5 py-1.5 rounded-lg border border-gray-300 text-gray-500 hover:border-emerald-300 transition-colors flex-shrink-0"
+        >
+          {{ hasMarcasToken() ? '🔑 ✓' : '🔑' }}
+        </button>
       </div>
     </div>
 
@@ -923,6 +932,8 @@ import { copyAudioBriefing } from './composables/useAudioBriefing'
 import { useMonthlyReviews } from './composables/useMonthlyReviews'
 import { useDailyXImages } from './composables/useDailyXImages'
 import StudyReader from './components/StudyReader.vue'
+import ReadToggle from './components/ReadToggle.vue'
+import { useReadMarks } from './composables/useReadMarks'
 import { useMonthlyStudies } from './composables/useMonthlyStudies'
 
 const { isActive: searchActive } = useSearch()
@@ -999,6 +1010,13 @@ const selectedStudySlug = ref(null)
 const selectedStudyTitulo = computed(
   () => studiesItems.value.find((it) => it.slug === selectedStudySlug.value)?.titulo || ''
 )
+
+// Marcas "lido" sincronizadas (KV). isReadMark p/ esmaecer; senha 1x por aparelho.
+const { isRead: isReadMark, setToken: setMarcasToken, hasToken: hasMarcasToken } = useReadMarks()
+function pedirSenhaMarcas() {
+  const t = window.prompt('Sua senha de marcação (a mesma definida na Vercel). Fica salva só neste aparelho.')
+  if (t) { setMarcasToken(t); location.reload() }
+}
 
 function openStudies() {
   currentView.value = 'estudo'
