@@ -86,6 +86,7 @@
 <script setup>
 import { computed } from 'vue'
 import ReadToggle from './ReadToggle.vue'
+import { markId as buildMarkId } from '../shared/markId'
 import FavToggle from './FavToggle.vue'
 import { useReadMarks } from '../composables/useReadMarks'
 import ShareButton from './ShareButton.vue'
@@ -99,7 +100,7 @@ const props = defineProps({
 
 defineEmits(['click'])
 
-const markId = computed(() => 'discussao:' + (props.discussion.id || props.discussion.url))
+const markId = computed(() => buildMarkId('discussao', props.discussion))
 
 const postUrl = computed(() => props.discussion?.links?.post_url || null)
 

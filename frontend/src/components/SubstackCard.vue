@@ -126,6 +126,7 @@
 <script setup>
 import { computed } from 'vue'
 import ReadToggle from './ReadToggle.vue'
+import { markId as buildMarkId } from '../shared/markId'
 import FavToggle from './FavToggle.vue'
 import { useReadMarks } from '../composables/useReadMarks'
 import ShareButton from './ShareButton.vue'
@@ -139,7 +140,7 @@ const props = defineProps({
   post: { type: Object, required: true }
 })
 
-const markId = computed(() => 'substack:' + (props.post.id || props.post.url))
+const markId = computed(() => buildMarkId('substack', props.post))
 
 const authorInitials = computed(() => {
   const name = props.post.autor || props.post.publicacao || '?'

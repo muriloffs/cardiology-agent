@@ -129,6 +129,7 @@
 <script setup>
 import { computed } from 'vue'
 import ReadToggle from './ReadToggle.vue'
+import { markId as buildMarkId } from '../shared/markId'
 import FavToggle from './FavToggle.vue'
 import { useReadMarks } from '../composables/useReadMarks'
 import ShareButton from './ShareButton.vue'
@@ -144,7 +145,7 @@ const props = defineProps({
 
 defineEmits(['click'])
 
-const markId = computed(() => 'noticia:' + (props.noticia.id || props.noticia.links?.url || props.noticia.titulo))
+const markId = computed(() => buildMarkId('noticia', props.noticia))
 
 const hasRichFields = computed(() => {
   const n = props.noticia

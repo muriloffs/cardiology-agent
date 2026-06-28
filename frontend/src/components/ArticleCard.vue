@@ -213,6 +213,7 @@
 <script setup>
 import { computed, ref, watch } from 'vue'
 import ReadToggle from './ReadToggle.vue'
+import { markId as buildMarkId } from '../shared/markId'
 import FavToggle from './FavToggle.vue'
 import CopyRefButton from './CopyRefButton.vue'
 import { useReadMarks } from '../composables/useReadMarks'
@@ -231,7 +232,7 @@ const props = defineProps({
 
 defineEmits(['click'])
 
-const markId = computed(() => 'artigo:' + (props.article.id || props.article.links?.url || props.article.titulo))
+const markId = computed(() => buildMarkId('artigo', props.article))
 
 // Estado de expansão local (cada card pode ser aberto/fechado individualmente).
 // Inicializa do default global; quando o global muda, segue o global.

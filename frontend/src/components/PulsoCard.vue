@@ -175,6 +175,7 @@
 <script setup>
 import { computed } from 'vue'
 import ReadToggle from './ReadToggle.vue'
+import { markId as buildMarkId } from '../shared/markId'
 import FavToggle from './FavToggle.vue'
 import { useReadMarks } from '../composables/useReadMarks'
 import ShareButton from './ShareButton.vue'
@@ -189,7 +190,7 @@ const props = defineProps({
   report: { type: Object, default: null }
 })
 
-const markId = computed(() => 'pulso:' + (props.item.id || props.item.titulo))
+const markId = computed(() => buildMarkId('pulso', props.item))
 
 // Emit allows parent (App.vue) to handle clicks on historical pulso refs
 // that don't have an external URL — navigates to the historical report.

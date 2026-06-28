@@ -85,6 +85,7 @@
 <script setup>
 import { computed } from 'vue'
 import ReadToggle from './ReadToggle.vue'
+import { markId as buildMarkId } from '../shared/markId'
 import FavToggle from './FavToggle.vue'
 import { useReadMarks } from '../composables/useReadMarks'
 import ShareButton from './ShareButton.vue'
@@ -96,7 +97,7 @@ const props = defineProps({
   video: { type: Object, required: true }
 })
 
-const markId = computed(() => 'video:' + (props.video.video_url || props.video.id))
+const markId = computed(() => buildMarkId('video', props.video))
 
 const tierLabel = computed(() => {
   return { 0: '★ Pinned', 1: 'Sociedade', 2: 'Hospital' }[props.video.tier] || 'Vídeo'
