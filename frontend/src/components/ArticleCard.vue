@@ -19,6 +19,7 @@
   <div
     @click="expanded = !expanded"
     class="card cursor-pointer group"
+    :class="{ 'opacity-60': isRead(markId) }"
   >
     <!-- Header -->
     <div class="flex items-start gap-3 mb-3">
@@ -191,7 +192,7 @@
       </div>
       <div class="flex items-center gap-2 flex-wrap">
         <ShareButton :item="article" type="artigo" />
-        <SendToThingsButton :item="article" type="artigo" />
+        <ReadToggle :id="markId" />
         <a
           v-if="article.links?.url"
           :href="article.links.url"
@@ -209,12 +210,14 @@
 
 <script setup>
 import { computed, ref, watch } from 'vue'
-import SendToThingsButton from './SendToThingsButton.vue'
+import ReadToggle from './ReadToggle.vue'
+import { useReadMarks } from '../composables/useReadMarks'
 import ShareButton from './ShareButton.vue'
 import { handleExternalLinkClick } from '../utils/openLink'
 import { useReader } from '../composables/useReader'
 
 const reader = useReader()
+const { isRead } = useReadMarks()
 
 const props = defineProps({
   article: Object,
@@ -223,6 +226,8 @@ const props = defineProps({
 })
 
 defineEmits(['click'])
+
+const markId = computed(() => 'artigo:' + (props.article.id || props.article.links?.url || props.article.titulo))
 
 // Estado de expansão local (cada card pode ser aberto/fechado individualmente).
 // Inicializa do default global; quando o global muda, segue o global.

@@ -2,6 +2,7 @@
 <template>
   <div
     class="bg-white border border-gray-200 rounded-lg p-4 hover:border-blue-300 hover:shadow-sm transition-all cursor-pointer"
+    :class="{ 'opacity-60': isRead(markId) }"
     @click="$emit('click')"
   >
     <div class="flex items-start gap-3">
@@ -73,7 +74,7 @@
           <span v-if="!profileUrl && !articleUrl" class="text-xs text-gray-400">Sem link disponível</span>
           <div class="ml-auto flex items-center gap-2 flex-wrap">
             <ShareButton :item="discussion" type="discussao" />
-            <SendToThingsButton :item="discussion" type="discussao" />
+            <ReadToggle :id="markId" />
           </div>
         </div>
       </div>
@@ -83,15 +84,20 @@
 
 <script setup>
 import { computed } from 'vue'
-import SendToThingsButton from './SendToThingsButton.vue'
+import ReadToggle from './ReadToggle.vue'
+import { useReadMarks } from '../composables/useReadMarks'
 import ShareButton from './ShareButton.vue'
 import { handleExternalLinkClick } from '../utils/openLink'
+
+const { isRead } = useReadMarks()
 
 const props = defineProps({
   discussion: Object
 })
 
 defineEmits(['click'])
+
+const markId = computed(() => 'discussao:' + (props.discussion.id || props.discussion.url))
 
 const postUrl = computed(() => props.discussion?.links?.post_url || null)
 

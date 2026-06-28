@@ -689,6 +689,7 @@
               v-for="(it, i) in reviewsFiltrados"
               :key="i"
               class="border border-gray-200 rounded-lg p-3 bg-white hover:border-amber-300 transition-colors"
+              :class="{ 'opacity-60': isReadMark('revisao:' + (revUrl(it.article) || it.article.titulo)) }"
             >
               <div class="flex items-start gap-2 mb-1 flex-wrap">
                 <span :class="['inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide flex-shrink-0',
@@ -717,6 +718,7 @@
                   @click.stop="handleExternalLinkClick($event, revUrl(it.article))"
                 >🔗 Abrir / baixar</a>
                 <span class="text-[11px] text-gray-400">{{ it.article.publicacao }}</span>
+                <ReadToggle :id="'revisao:' + (revUrl(it.article) || it.article.titulo)" />
               </div>
             </li>
           </ul>
@@ -765,6 +767,7 @@
             v-for="(im, i) in xImagesData.imagens"
             :key="i"
             class="border border-gray-200 rounded-lg overflow-hidden bg-white flex flex-col"
+            :class="{ 'opacity-60': isReadMark('imagem:' + im.image_url) }"
           >
             <!-- Imagem "nua" (sem wrapper de link): toque abre o lightbox; long-press
                  do iOS oferece "Adicionar às Fotos". Os dois gestos não conflitam. -->
@@ -787,6 +790,7 @@
                 <a :href="im.image_url" target="_blank" rel="noopener noreferrer"
                    @click.stop="handleExternalLinkClick($event, im.image_url)"
                    class="text-xs text-teal-700 hover:text-teal-900 font-medium">⬇ Abrir imagem</a>
+                <ReadToggle :id="'imagem:' + im.image_url" />
               </div>
             </div>
           </div>

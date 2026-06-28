@@ -16,6 +16,7 @@
   <div
     @click="$emit('click')"
     class="card cursor-pointer group"
+    :class="{ 'opacity-60': isRead(markId) }"
   >
     <!-- Header -->
     <div class="flex items-start gap-3 mb-3">
@@ -108,7 +109,7 @@
       <span class="text-xs text-gray-500">📡 {{ noticia.publicacao }}</span>
       <div class="flex items-center gap-2 flex-wrap">
         <ShareButton :item="noticia" type="noticia" />
-        <SendToThingsButton :item="noticia" type="noticia" />
+        <ReadToggle :id="markId" />
         <a
           v-if="noticia.links?.url"
           :href="noticia.links.url"
@@ -126,18 +127,22 @@
 
 <script setup>
 import { computed } from 'vue'
-import SendToThingsButton from './SendToThingsButton.vue'
+import ReadToggle from './ReadToggle.vue'
+import { useReadMarks } from '../composables/useReadMarks'
 import ShareButton from './ShareButton.vue'
 import { handleExternalLinkClick } from '../utils/openLink'
 import { useReader } from '../composables/useReader'
 
 const reader = useReader()
+const { isRead } = useReadMarks()
 
 const props = defineProps({
   noticia: { type: Object, required: true }
 })
 
 defineEmits(['click'])
+
+const markId = computed(() => 'noticia:' + (props.noticia.id || props.noticia.links?.url || props.noticia.titulo))
 
 const hasRichFields = computed(() => {
   const n = props.noticia

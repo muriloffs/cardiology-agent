@@ -9,6 +9,7 @@
 <template>
   <article
     class="rounded-lg border border-gray-200 bg-white shadow-sm hover:shadow-md transition-shadow overflow-hidden flex flex-col"
+    :class="{ 'opacity-60': isRead(markId) }"
   >
     <!-- Thumbnail (16:9) -->
     <a
@@ -65,7 +66,7 @@
       <!-- Actions: Share + Things + Watch -->
       <div class="flex items-center justify-end gap-2 pt-2 mt-auto flex-wrap">
         <ShareButton :item="video" type="video" />
-        <SendToThingsButton :item="video" type="video" />
+        <ReadToggle :id="markId" />
         <a
           :href="video.video_url"
           target="_blank"
@@ -82,13 +83,18 @@
 
 <script setup>
 import { computed } from 'vue'
-import SendToThingsButton from './SendToThingsButton.vue'
+import ReadToggle from './ReadToggle.vue'
+import { useReadMarks } from '../composables/useReadMarks'
 import ShareButton from './ShareButton.vue'
 import { handleExternalLinkClick } from '../utils/openLink'
+
+const { isRead } = useReadMarks()
 
 const props = defineProps({
   video: { type: Object, required: true }
 })
+
+const markId = computed(() => 'video:' + (props.video.video_url || props.video.id))
 
 const tierLabel = computed(() => {
   return { 0: '★ Pinned', 1: 'Sociedade', 2: 'Hospital' }[props.video.tier] || 'Vídeo'

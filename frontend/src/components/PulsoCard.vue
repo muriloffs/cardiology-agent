@@ -7,7 +7,8 @@
 <template>
   <article :class="[
     'rounded-lg border-l-4 bg-white shadow-sm hover:shadow-md transition-shadow overflow-hidden',
-    item.is_destaque_do_dia ? 'border-amber-500' : classeBorderColor
+    item.is_destaque_do_dia ? 'border-amber-500' : classeBorderColor,
+    { 'opacity-60': isRead(markId) }
   ]">
     <!-- Header: Big One gets gradient, others get classe-colored background -->
     <header :class="[
@@ -164,7 +165,7 @@
       <!-- Actions: Share + Things -->
       <div class="flex justify-end gap-2 pt-2 flex-wrap">
         <ShareButton :item="item" type="pulso" />
-        <SendToThingsButton :item="item" type="pulso" />
+        <ReadToggle :id="markId" />
       </div>
     </div>
   </article>
@@ -172,17 +173,21 @@
 
 <script setup>
 import { computed } from 'vue'
-import SendToThingsButton from './SendToThingsButton.vue'
+import ReadToggle from './ReadToggle.vue'
+import { useReadMarks } from '../composables/useReadMarks'
 import ShareButton from './ShareButton.vue'
 import { handleExternalLinkClick } from '../utils/openLink'
 import { useReader } from '../composables/useReader'
 
 const reader = useReader()
+const { isRead } = useReadMarks()
 
 const props = defineProps({
   item: { type: Object, required: true },
   report: { type: Object, default: null }
 })
+
+const markId = computed(() => 'pulso:' + (props.item.id || props.item.titulo))
 
 // Emit allows parent (App.vue) to handle clicks on historical pulso refs
 // that don't have an external URL — navigates to the historical report.
