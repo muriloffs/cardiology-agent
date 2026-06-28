@@ -1,5 +1,5 @@
 {
-  "gerado_em": "2026-06-28T14:28:03.195016+00:00",
+  "gerado_em": "2026-06-28T14:35:43.383685+00:00",
   "por_mes": {
     "2026-06": [
       {
@@ -29,6 +29,13 @@
         "fonte": "Circulation Research",
         "tipo": "revisao",
         "data": "2026-06-05"
+      },
+      {
+        "slug": "atletas-masters-com-achados-cardiovasculares-anormais-declaracao-de-consenso-clinico-da-associacao-europeia-de-cardiologia-preventiva-da-esc-e-do-american-college-of-cardiology-2026-06-02",
+        "titulo": "Atletas Masters com achados cardiovasculares anormais: declaração de consenso clínico da Associação Europeia de Cardiologia Preventiva da ESC e do American College of Cardiology",
+        "fonte": "European Heart Journal (EAPC/ESC e ACC)",
+        "tipo": "recomendacao",
+        "data": "2026-06-02"
       },
       {
         "slug": "insuficiencia-cardiaca-com-fracao-de-ejecao-preservada-fisiopatologia-avaliacao-clinica-e-manejo-da-intolerancia-ao-exercicio-2026-04-15",
