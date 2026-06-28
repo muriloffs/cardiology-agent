@@ -110,6 +110,7 @@
       <div class="flex items-center gap-2 flex-wrap">
         <ShareButton :item="noticia" type="noticia" />
         <ReadToggle :id="markId" />
+        <FavToggle :id="markId" type="noticia" :item="noticia" />
         <a
           v-if="noticia.links?.url"
           :href="noticia.links.url"
@@ -128,6 +129,7 @@
 <script setup>
 import { computed } from 'vue'
 import ReadToggle from './ReadToggle.vue'
+import FavToggle from './FavToggle.vue'
 import { useReadMarks } from '../composables/useReadMarks'
 import ShareButton from './ShareButton.vue'
 import { handleExternalLinkClick } from '../utils/openLink'

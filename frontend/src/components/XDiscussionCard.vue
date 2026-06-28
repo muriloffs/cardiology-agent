@@ -75,6 +75,7 @@
           <div class="ml-auto flex items-center gap-2 flex-wrap">
             <ShareButton :item="discussion" type="discussao" />
             <ReadToggle :id="markId" />
+            <FavToggle :id="markId" type="discussao" :item="discussion" />
           </div>
         </div>
       </div>
@@ -85,6 +86,7 @@
 <script setup>
 import { computed } from 'vue'
 import ReadToggle from './ReadToggle.vue'
+import FavToggle from './FavToggle.vue'
 import { useReadMarks } from '../composables/useReadMarks'
 import ShareButton from './ShareButton.vue'
 import { handleExternalLinkClick } from '../utils/openLink'

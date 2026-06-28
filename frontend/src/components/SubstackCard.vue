@@ -107,6 +107,7 @@
         <div class="flex items-center gap-2 ml-auto flex-wrap">
           <ShareButton :item="post" type="substack" />
           <ReadToggle :id="markId" />
+          <FavToggle :id="markId" type="substack" :item="post" />
           <a
             :href="post.url"
             target="_blank"
@@ -125,6 +126,7 @@
 <script setup>
 import { computed } from 'vue'
 import ReadToggle from './ReadToggle.vue'
+import FavToggle from './FavToggle.vue'
 import { useReadMarks } from '../composables/useReadMarks'
 import ShareButton from './ShareButton.vue'
 import { handleExternalLinkClick } from '../utils/openLink'

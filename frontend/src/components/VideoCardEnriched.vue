@@ -67,6 +67,7 @@
       <div class="flex items-center justify-end gap-2 pt-2 mt-auto flex-wrap">
         <ShareButton :item="video" type="video" />
         <ReadToggle :id="markId" />
+        <FavToggle :id="markId" type="video" :item="video" />
         <a
           :href="video.video_url"
           target="_blank"
@@ -84,6 +85,7 @@
 <script setup>
 import { computed } from 'vue'
 import ReadToggle from './ReadToggle.vue'
+import FavToggle from './FavToggle.vue'
 import { useReadMarks } from '../composables/useReadMarks'
 import ShareButton from './ShareButton.vue'
 import { handleExternalLinkClick } from '../utils/openLink'

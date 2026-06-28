@@ -166,6 +166,7 @@
       <div class="flex justify-end gap-2 pt-2 flex-wrap">
         <ShareButton :item="item" type="pulso" />
         <ReadToggle :id="markId" />
+        <FavToggle :id="markId" type="pulso" :item="item" />
       </div>
     </div>
   </article>
@@ -174,6 +175,7 @@
 <script setup>
 import { computed } from 'vue'
 import ReadToggle from './ReadToggle.vue'
+import FavToggle from './FavToggle.vue'
 import { useReadMarks } from '../composables/useReadMarks'
 import ShareButton from './ShareButton.vue'
 import { handleExternalLinkClick } from '../utils/openLink'
