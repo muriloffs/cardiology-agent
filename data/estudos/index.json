@@ -1,5 +1,5 @@
 {
-  "gerado_em": "2026-06-27T22:37:08.095261+00:00",
+  "gerado_em": "2026-06-28T13:41:35.112552+00:00",
   "por_mes": {
     "2026-06": [
       {
@@ -22,6 +22,13 @@
         "fonte": "European Heart Journal (ESC)",
         "tipo": "revisao",
         "data": "2026-04-15"
+      },
+      {
+        "slug": "insuficiencia-cardiaca-no-idoso-epidemiologia-mecanismos-e-manejo-2026-02-28",
+        "titulo": "Insuficiência cardíaca no idoso: epidemiologia, mecanismos e manejo",
+        "fonte": "European Heart Journal (ESC)",
+        "tipo": "revisao",
+        "data": "2026-02-28"
       }
     ]
   },
