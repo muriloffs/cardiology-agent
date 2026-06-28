@@ -34,6 +34,7 @@ export function renderStudyMarkdown(md, baseUrl) {
 import { ref, watch, computed, onMounted, onUnmounted } from 'vue'
 import ReadToggle from './ReadToggle.vue'
 import { useGrifos } from '../composables/useGrifos'
+import { toPng } from 'html-to-image'
 
 const props = defineProps({
   slug: { type: String, required: true },
@@ -75,6 +76,26 @@ async function salvarGrifo() {
 onMounted(() => document.addEventListener('selectionchange', onSelChange))
 onUnmounted(() => document.removeEventListener('selectionchange', onSelChange))
 
+// Salvar TABELA como imagem (figuras já salvam com long-press nativo no iOS).
+// O botão é injetado após cada <table> no HTML do estudo; o clique é capturado
+// por delegação no container.
+const tableImg = ref(null)
+async function onReaderClick(e) {
+  const btn = e.target.closest ? e.target.closest('.tbl-save') : null
+  if (!btn) return
+  const table = btn.parentElement?.previousElementSibling
+  if (!table || table.tagName !== 'TABLE') return
+  const label = btn.textContent
+  btn.textContent = 'Gerando…'
+  try {
+    tableImg.value = await toPng(table, { backgroundColor: '#ffffff', pixelRatio: 2 })
+  } catch {
+    alert('Não consegui gerar a imagem da tabela.')
+  } finally {
+    btn.textContent = label
+  }
+}
+
 const RAW_BASE = 'https://raw.githubusercontent.com/muriloffs/cardiology-agent/main/data/estudos/'
 const html = ref('')
 const loading = ref(false)
@@ -88,7 +109,11 @@ async function load() {
     const resp = await fetch(`${baseUrl.value}estudo.md?t=${Date.now()}`)
     if (!resp.ok) throw new Error(`HTTP ${resp.status}`)
     const md = await resp.text()
-    html.value = renderStudyMarkdown(md, baseUrl.value)
+    // Injeta um botão "salvar como imagem" após cada tabela (já sanitizado).
+    html.value = renderStudyMarkdown(md, baseUrl.value).replace(
+      /<\/table>/g,
+      '</table><div class="tbl-save-wrap"><button type="button" class="tbl-save">⤓ Salvar tabela como imagem</button></div>'
+    )
   } catch (e) {
     error.value = e?.message || 'Falha ao carregar o estudo'
   } finally {
@@ -100,7 +125,7 @@ watch(() => props.slug, load, { immediate: true })
 </script>
 
 <template>
-  <div class="study-reader">
+  <div class="study-reader" @click="onReaderClick">
     <button class="study-close" @click="emit('close')">← Voltar</button>
     <div v-if="loading" class="study-status">Carregando…</div>
     <div v-else-if="error" class="study-status study-error">{{ error }}</div>
@@ -118,6 +143,13 @@ watch(() => props.slug, load, { immediate: true })
       @click="salvarGrifo"
     >✚ Salvar grifo</button>
     <div v-if="flash" class="grifo-flash">Grifo salvo ✓</div>
+
+    <!-- Overlay da tabela como imagem: segure para salvar nas Fotos -->
+    <div v-if="tableImg" class="img-overlay" @click.self="tableImg = null">
+      <button class="img-overlay-close" @click="tableImg = null" aria-label="Fechar">✕</button>
+      <img :src="tableImg" class="img-overlay-img" alt="Tabela" />
+      <p class="img-overlay-hint">📲 Segure a imagem → "Adicionar às Fotos" · ou <a :href="tableImg" download="tabela.png">baixar</a></p>
+    </div>
   </div>
 </template>
 
@@ -147,4 +179,23 @@ watch(() => props.slug, load, { immediate: true })
   background: #111827; color: #fff; font-size: 0.85rem; padding: 0.5rem 1rem;
   border-radius: 999px; box-shadow: 0 2px 8px rgba(0,0,0,.3);
 }
+.study-body :deep(.tbl-save-wrap) { margin: -0.5rem 0 1.25rem; }
+.study-body :deep(.tbl-save) {
+  font-size: 0.8rem; color: #0f766e; background: #f0fdfa; border: 1px solid #99f6e4;
+  padding: 0.3rem 0.7rem; border-radius: 8px; cursor: pointer;
+}
+.study-body :deep(.tbl-save):hover { background: #ccfbf1; }
+.img-overlay {
+  position: fixed; inset: 0; z-index: 9999; background: rgba(0,0,0,.9);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 1rem; gap: 0.75rem;
+}
+.img-overlay-close {
+  position: absolute; top: 0.75rem; right: 0.75rem; color: rgba(255,255,255,.85);
+  background: rgba(255,255,255,.12); border: none; font-size: 1.4rem; width: 2.75rem;
+  height: 2.75rem; border-radius: 999px; cursor: pointer;
+}
+.img-overlay-img { max-width: 100%; max-height: 80vh; object-fit: contain; background: #fff; border-radius: 8px; }
+.img-overlay-hint { color: rgba(255,255,255,.85); font-size: 0.85rem; text-align: center; }
+.img-overlay-hint a { color: #5eead4; text-decoration: underline; }
 </style>
