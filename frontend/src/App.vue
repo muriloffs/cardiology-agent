@@ -238,14 +238,19 @@
       </div>
     </div>
 
-    <!-- Marcar tudo como lido (aba atual) — aditivo: o ✓ de cada card continua -->
-    <div v-if="hasMarcasToken() && naoLidosVisiveis" class="bg-emerald-50/60 border-b border-emerald-100">
-      <div class="max-w-6xl mx-auto px-4 py-1.5 flex justify-end">
+    <!-- Marcar tudo como lido (aba atual) — aditivo: o ✓ de cada card continua.
+         Sempre visível nas abas marcáveis (quando a senha está definida). -->
+    <div v-if="hasMarcasToken() && idsVisiveis.length" class="bg-emerald-50 border-b border-emerald-200">
+      <div class="max-w-6xl mx-auto px-4 py-2 flex justify-center">
         <button
           @click="marcarTudoVisivel"
-          class="text-xs px-3 py-1 rounded-full border border-emerald-300 text-emerald-700 bg-white hover:bg-emerald-50 font-medium transition-colors"
+          :disabled="!naoLidosVisiveis"
+          class="text-sm px-4 py-1.5 rounded-full border font-semibold transition-colors"
+          :class="naoLidosVisiveis
+            ? 'border-emerald-500 text-white bg-emerald-600 hover:bg-emerald-700'
+            : 'border-gray-300 text-gray-400 bg-white'"
         >
-          ✓ Marcar tudo como lido ({{ naoLidosVisiveis }})
+          {{ naoLidosVisiveis ? `✓ Marcar tudo como lido (${naoLidosVisiveis})` : '✓ Tudo lido nesta aba' }}
         </button>
       </div>
     </div>
@@ -973,8 +978,16 @@
             <button @click="favMesProximo" :disabled="favIdxMes <= 0"
                     class="px-3 py-1.5 rounded-lg border border-gray-300 text-gray-600 disabled:opacity-30 hover:bg-gray-50">►</button>
           </div>
-          <div class="space-y-4">
-            <FavCard v-for="f in favsVisiveis" :key="f.id" :fav="f" />
+          <div class="space-y-6 fav-color">
+            <div v-for="f in favsVisiveis" :key="f.id">
+              <div class="flex justify-end mb-1">
+                <button @click="tirarFavorito(f.id)"
+                        class="text-xs px-2.5 py-1 rounded-md border border-amber-300 text-amber-700 bg-white hover:bg-amber-50 font-medium transition-colors">
+                  ✕ Tirar dos favoritos
+                </button>
+              </div>
+              <FavCard :fav="f" />
+            </div>
           </div>
         </template>
       </section>
@@ -1167,7 +1180,10 @@ async function marcarTudoVisivel() {
 }
 
 // Favoritos (aba ⭐) — navegáveis por mês (mês em que foi salvo)
-const { favs: favsList, meses: favMeses, favsDoMes } = useFavoritos()
+const { favs: favsList, meses: favMeses, favsDoMes, remove: removeFav } = useFavoritos()
+async function tirarFavorito(id) {
+  try { await removeFav(id) } catch { alert('Não consegui tirar dos favoritos. Tente de novo.') }
+}
 const favMesSel = ref('')
 watch(favMeses, (ms) => {
   if (!favMesSel.value || !ms.includes(favMesSel.value)) favMesSel.value = ms[0] || ''
@@ -1531,3 +1547,11 @@ onMounted(() => {
   })
 })
 </script>
+
+<style>
+/* Na aba Favoritos os cards salvos aparecem sempre em cor (ignora o cinza de
+   "lido" só ali — você favoritou de propósito). Maior especificidade vence as
+   utilities grayscale/opacity-60 aplicadas na raiz do card quando lido. */
+.fav-color .grayscale { filter: none; }
+.fav-color .opacity-60 { opacity: 1; }
+</style>
