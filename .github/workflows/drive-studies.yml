@@ -30,7 +30,10 @@ concurrency:
 jobs:
   pull-and-process:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    # 300 min: cabe ate 20 PDFs grandes (~6-8 min/PDF de Opus). Custo de teto
+    # alto e ~zero (so conta se travar de verdade); a durabilidade por PDF ja
+    # garante que nada pronto se perde mesmo se bater o teto. Max do GH e 360.
+    timeout-minutes: 300
     # Roda se: disparo manual OU o relatorio principal terminou com SUCESSO.
     # (estudos sao independentes do relatorio; em manha quebrada, espera o dia
     # seguinte — ou voce dispara manual.)
@@ -59,33 +62,16 @@ jobs:
           python -m pip install --upgrade pip
           pip install --default-timeout=30 -r agent/requirements.txt
 
-      - name: Pull from Drive and process
+      # O script commita+pusha CADA estudo assim que fica pronto (durabilidade
+      # por PDF) e so depois move o PDF no Drive. Nao ha etapa de commit aqui:
+      # se o run for morto, o que ja ficou pronto ja esta publicado, e o que
+      # faltou continua em "Para estudar" p/ o proximo run retomar.
+      - name: Pull from Drive and process (commits per PDF)
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           STUDY_MODEL: ${{ vars.STUDY_MODEL || 'claude-opus-4-8' }}
           GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
           DRIVE_STUDY_FOLDER_ID: ${{ vars.DRIVE_STUDY_FOLDER_ID || '1fntK4txkOm6cuOEKPi_xsH8pNQo_1UUw' }}
           DRIVE_DONE_FOLDER_ID: ${{ vars.DRIVE_DONE_FOLDER_ID || '1XmWEP-u4zVzhZHMqhPjMHC6iP-zGdsAI' }}
+          DRIVE_MAX_PER_RUN: ${{ vars.DRIVE_MAX_PER_RUN || '20' }}
         run: python -m agent.scripts.fetch_drive_studies
-
-      - name: Commit results (with push retry)
-        run: |
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-          git add data/estudos study-inbox || true
-          if ! git commit -m "chore: estudos do Drive $(date -u +%Y-%m-%d)"; then
-            echo "Nada para commitar — nenhum PDF novo."
-            exit 0
-          fi
-          # Retry: se o x-images empurrou no mesmo instante, o push falha (non
-          # fast-forward). Re-incorpora o main e tenta de novo, ate 5x com jitter.
-          for i in 1 2 3 4 5; do
-            if git pull --rebase origin main && git push origin main; then
-              echo "Push OK na tentativa $i."
-              exit 0
-            fi
-            echo "Tentativa $i de push falhou (provavel corrida) — repetindo..."
-            sleep $((RANDOM % 8 + 4))
-          done
-          echo "Push falhou apos 5 tentativas."
-          exit 1
