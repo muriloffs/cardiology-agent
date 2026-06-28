@@ -240,14 +240,22 @@
 
     <!-- Marcar tudo como lido (aba atual) — aditivo: o ✓ de cada card continua.
          Faixa verde de largura total, sempre visível nas abas marcáveis. -->
-    <button
-      v-if="hasMarcasToken() && idsVisiveis.length"
-      @click="alternarTudoVisivel"
-      :class="naoLidosVisiveis ? 'bg-emerald-600 hover:bg-emerald-700 text-white' : 'bg-gray-200 hover:bg-gray-300 text-gray-700'"
-      class="w-full block px-4 py-2.5 text-sm md:text-base font-bold text-center transition-colors"
-    >
-      {{ naoLidosVisiveis ? `✓ Marcar tudo como lido (${naoLidosVisiveis})` : '↺ Desmarcar tudo nesta aba' }}
-    </button>
+    <div v-if="hasMarcasToken() && idsVisiveis.length" class="flex w-full border-b border-emerald-200">
+      <button
+        v-if="naoLidosVisiveis"
+        @click="marcarTudoVisivel"
+        class="flex-1 px-3 py-2.5 text-sm md:text-base font-bold text-center text-white bg-emerald-600 hover:bg-emerald-700 transition-colors"
+      >
+        ✓ Marcar tudo lido ({{ naoLidosVisiveis }})
+      </button>
+      <button
+        v-if="lidosVisiveis"
+        @click="desmarcarTudoVisivel"
+        class="flex-1 px-3 py-2.5 text-sm md:text-base font-bold text-center text-gray-700 bg-gray-200 hover:bg-gray-300 transition-colors"
+      >
+        ↺ Desmarcar ({{ lidosVisiveis }})
+      </button>
+    </div>
 
     <!-- ============================================================ -->
     <!-- VIEW 1: ARTIGOS -->
@@ -1166,15 +1174,18 @@ const idsVisiveis = computed(() => {
   return []
 })
 const naoLidosVisiveis = computed(() => idsVisiveis.value.filter((id) => !isReadMark(id)).length)
-async function alternarTudoVisivel() {
+const lidosVisiveis = computed(() => idsVisiveis.value.filter((id) => isReadMark(id)).length)
+async function marcarTudoVisivel() {
   if (!hasMarcasToken()) { pedirSenhaMarcas(); return }
-  if (naoLidosVisiveis.value > 0) {
-    if (!window.confirm(`Marcar ${naoLidosVisiveis.value} item(ns) desta aba como lido?`)) return
-    try { await markManyRead(idsVisiveis.value, true) } catch { alert('Não consegui marcar. Tente de novo.') }
-  } else {
-    if (!window.confirm(`Desmarcar todos os ${idsVisiveis.value.length} item(ns) desta aba?`)) return
-    try { await markManyRead(idsVisiveis.value, false) } catch { alert('Não consegui desmarcar. Tente de novo.') }
-  }
+  if (!naoLidosVisiveis.value) return
+  if (!window.confirm(`Marcar ${naoLidosVisiveis.value} item(ns) como lido?`)) return
+  try { await markManyRead(idsVisiveis.value, true) } catch { alert('Não consegui marcar. Tente de novo.') }
+}
+async function desmarcarTudoVisivel() {
+  if (!hasMarcasToken()) { pedirSenhaMarcas(); return }
+  if (!lidosVisiveis.value) return
+  if (!window.confirm(`Desmarcar ${lidosVisiveis.value} item(ns) desta aba?`)) return
+  try { await markManyRead(idsVisiveis.value, false) } catch { alert('Não consegui desmarcar. Tente de novo.') }
 }
 
 // Favoritos (aba ⭐) — navegáveis por mês (mês em que foi salvo)
