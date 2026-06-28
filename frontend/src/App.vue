@@ -746,6 +746,7 @@
                 >🔗 Abrir / baixar</a>
                 <span class="text-[11px] text-gray-400">{{ it.article.publicacao }}</span>
                 <ReadToggle :id="'revisao:' + (revUrl(it.article) || it.article.titulo)" />
+                <CopyRefButton :titulo="it.article.titulo" :doi="it.article.doi" :url="revUrl(it.article)" />
               </div>
             </li>
           </ul>
@@ -1006,6 +1007,7 @@ import { useMonthlyReviews } from './composables/useMonthlyReviews'
 import { useDailyXImages } from './composables/useDailyXImages'
 import StudyReader from './components/StudyReader.vue'
 import ReadToggle from './components/ReadToggle.vue'
+import CopyRefButton from './components/CopyRefButton.vue'
 import { useReadMarks } from './composables/useReadMarks'
 import { useGrifos } from './composables/useGrifos'
 import { markId } from './shared/markId'

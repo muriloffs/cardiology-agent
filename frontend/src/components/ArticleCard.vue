@@ -193,6 +193,7 @@
       <div class="flex items-center gap-2 flex-wrap">
         <ShareButton :item="article" type="artigo" />
         <ReadToggle :id="markId" />
+        <CopyRefButton :titulo="article.titulo" :doi="article.links?.doi" :url="article.links?.url" />
         <a
           v-if="article.links?.url"
           :href="article.links.url"
@@ -211,6 +212,7 @@
 <script setup>
 import { computed, ref, watch } from 'vue'
 import ReadToggle from './ReadToggle.vue'
+import CopyRefButton from './CopyRefButton.vue'
 import { useReadMarks } from '../composables/useReadMarks'
 import ShareButton from './ShareButton.vue'
 import { handleExternalLinkClick } from '../utils/openLink'
