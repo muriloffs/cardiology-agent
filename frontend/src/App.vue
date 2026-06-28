@@ -212,6 +212,21 @@
           </span>
         </button>
 
+        <button
+          @click="currentView = 'favoritos'"
+          :class="['px-2.5 md:px-5 py-1.5 md:py-3 rounded-lg text-sm md:text-lg font-semibold transition-all flex items-center gap-1.5 md:gap-2.5',
+                   currentView === 'favoritos'
+                     ? 'bg-amber-500 text-white shadow-md'
+                     : 'bg-white text-amber-700 hover:bg-amber-50 border border-amber-300']"
+        >
+          ⭐ Favoritos
+          <span v-if="favsList.length"
+                :class="['px-1.5 md:px-2 py-0.5 rounded-full text-xs md:text-sm font-bold',
+                         currentView === 'favoritos' ? 'bg-white text-amber-700' : 'bg-amber-100 text-amber-800']">
+            {{ favsList.length }}
+          </span>
+        </button>
+
         <!-- Senha de marcação "lido" — fica salva só neste aparelho -->
         <button
           @click="pedirSenhaMarcas"
@@ -933,6 +948,38 @@
       </section>
     </template>
 
+    <!-- ============================================================ -->
+    <!-- VIEW: FAVORITOS (cards salvos, navegáveis por mês) -->
+    <!-- ============================================================ -->
+    <template v-else-if="currentView === 'favoritos'">
+      <section class="px-4 py-8 max-w-4xl mx-auto">
+        <div v-if="!hasMarcasToken()" class="text-center text-gray-500 py-10">
+          <p class="text-lg mb-1">Defina sua senha para ver/salvar favoritos.</p>
+          <p class="text-sm">Toque no 🔑 no topo.</p>
+        </div>
+        <div v-else-if="favsList.length === 0" class="text-center text-gray-500 py-10">
+          <p class="text-lg mb-1">Nenhum favorito ainda.</p>
+          <p class="text-sm">Toque em <strong>☆ Salvar</strong> num card pra guardá-lo aqui.</p>
+        </div>
+        <template v-else>
+          <!-- Navegação por mês -->
+          <div class="flex items-center justify-between mb-5 gap-2">
+            <button @click="favMesAnterior" :disabled="favIdxMes >= favMeses.length - 1"
+                    class="px-3 py-1.5 rounded-lg border border-gray-300 text-gray-600 disabled:opacity-30 hover:bg-gray-50">◄</button>
+            <h2 class="text-lg md:text-xl font-bold text-center capitalize">
+              ⭐ {{ favMesLabel(favMesSel) }}
+              <span class="text-sm font-normal text-gray-400">({{ favsVisiveis.length }})</span>
+            </h2>
+            <button @click="favMesProximo" :disabled="favIdxMes <= 0"
+                    class="px-3 py-1.5 rounded-lg border border-gray-300 text-gray-600 disabled:opacity-30 hover:bg-gray-50">►</button>
+          </div>
+          <div class="space-y-4">
+            <FavCard v-for="f in favsVisiveis" :key="f.id" :fav="f" />
+          </div>
+        </template>
+      </section>
+    </template>
+
 
     <!-- Lightbox de imagem do X — abre ao tocar na figura -->
     <Teleport to="body">
@@ -1008,8 +1055,10 @@ import { useDailyXImages } from './composables/useDailyXImages'
 import StudyReader from './components/StudyReader.vue'
 import ReadToggle from './components/ReadToggle.vue'
 import CopyRefButton from './components/CopyRefButton.vue'
+import FavCard from './components/FavCard.vue'
 import { useReadMarks } from './composables/useReadMarks'
 import { useGrifos } from './composables/useGrifos'
+import { useFavoritos } from './composables/useFavoritos'
 import { markId } from './shared/markId'
 import { useMonthlyStudies } from './composables/useMonthlyStudies'
 
@@ -1115,6 +1164,22 @@ async function marcarTudoVisivel() {
   if (!naoLidosVisiveis.value) return
   if (!window.confirm(`Marcar ${naoLidosVisiveis.value} item(ns) desta aba como lido?`)) return
   try { await markManyRead(idsVisiveis.value) } catch { alert('Não consegui marcar tudo. Tente de novo.') }
+}
+
+// Favoritos (aba ⭐) — navegáveis por mês (mês em que foi salvo)
+const { favs: favsList, meses: favMeses, favsDoMes } = useFavoritos()
+const favMesSel = ref('')
+watch(favMeses, (ms) => {
+  if (!favMesSel.value || !ms.includes(favMesSel.value)) favMesSel.value = ms[0] || ''
+}, { immediate: true })
+const favIdxMes = computed(() => favMeses.value.indexOf(favMesSel.value))
+const favsVisiveis = computed(() => favsDoMes(favMesSel.value))
+function favMesAnterior() { const i = favIdxMes.value; if (i < favMeses.value.length - 1) favMesSel.value = favMeses.value[i + 1] }
+function favMesProximo() { const i = favIdxMes.value; if (i > 0) favMesSel.value = favMeses.value[i - 1] }
+function favMesLabel(m) {
+  if (!m) return ''
+  const [y, mo] = m.split('-')
+  return new Date(Number(y), Number(mo) - 1, 1).toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' })
 }
 
 // Grifos salvos (aba "Salvos")
