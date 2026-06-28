@@ -1,5 +1,5 @@
 {
-  "gerado_em": "2026-06-28T14:19:47.024366+00:00",
+  "gerado_em": "2026-06-28T14:28:03.195016+00:00",
   "por_mes": {
     "2026-06": [
       {
@@ -22,6 +22,13 @@
         "fonte": "Circulation (American Heart Association)",
         "tipo": "recomendacao",
         "data": "2026-06-23"
+      },
+      {
+        "slug": "producao-hepatica-de-lipoproteinas-fenotipos-cardiometabolicos-e-subtipos-da-doenca-hepatica-esteatotica-2026-06-05",
+        "titulo": "Produção Hepática de Lipoproteínas, Fenótipos Cardiometabólicos e Subtipos da Doença Hepática Esteatótica",
+        "fonte": "Circulation Research",
+        "tipo": "revisao",
+        "data": "2026-06-05"
       },
       {
         "slug": "insuficiencia-cardiaca-com-fracao-de-ejecao-preservada-fisiopatologia-avaliacao-clinica-e-manejo-da-intolerancia-ao-exercicio-2026-04-15",
