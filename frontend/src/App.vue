@@ -792,7 +792,7 @@
     <template v-else-if="currentView === 'estudo'">
       <section class="px-4 py-8 max-w-4xl mx-auto">
         <!-- Leitor aberto -->
-        <StudyReader v-if="selectedStudySlug" :slug="selectedStudySlug" @close="selectedStudySlug = null" />
+        <StudyReader v-if="selectedStudySlug" :slug="selectedStudySlug" :titulo="selectedStudyTitulo" @close="selectedStudySlug = null" />
 
         <!-- Biblioteca do mes -->
         <div v-else>
@@ -996,6 +996,9 @@ const {
 } = useMonthlyStudies()
 
 const selectedStudySlug = ref(null)
+const selectedStudyTitulo = computed(
+  () => studiesItems.value.find((it) => it.slug === selectedStudySlug.value)?.titulo || ''
+)
 
 function openStudies() {
   currentView.value = 'estudo'
