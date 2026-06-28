@@ -223,6 +223,18 @@
       </div>
     </div>
 
+    <!-- Marcar tudo como lido (aba atual) — aditivo: o ✓ de cada card continua -->
+    <div v-if="hasMarcasToken() && naoLidosVisiveis" class="bg-emerald-50/60 border-b border-emerald-100">
+      <div class="max-w-6xl mx-auto px-4 py-1.5 flex justify-end">
+        <button
+          @click="marcarTudoVisivel"
+          class="text-xs px-3 py-1 rounded-full border border-emerald-300 text-emerald-700 bg-white hover:bg-emerald-50 font-medium transition-colors"
+        >
+          ✓ Marcar tudo como lido ({{ naoLidosVisiveis }})
+        </button>
+      </div>
+    </div>
+
     <!-- ============================================================ -->
     <!-- VIEW 1: ARTIGOS -->
     <!-- ============================================================ -->
@@ -996,6 +1008,7 @@ import StudyReader from './components/StudyReader.vue'
 import ReadToggle from './components/ReadToggle.vue'
 import { useReadMarks } from './composables/useReadMarks'
 import { useGrifos } from './composables/useGrifos'
+import { markId } from './shared/markId'
 import { useMonthlyStudies } from './composables/useMonthlyStudies'
 
 const { isActive: searchActive } = useSearch()
@@ -1074,10 +1087,32 @@ const selectedStudyTitulo = computed(
 )
 
 // Marcas "lido" sincronizadas (KV). isReadMark p/ esmaecer; senha 1x por aparelho.
-const { isRead: isReadMark, setToken: setMarcasToken, hasToken: hasMarcasToken } = useReadMarks()
+const { isRead: isReadMark, setToken: setMarcasToken, hasToken: hasMarcasToken, markMany: markManyRead } = useReadMarks()
 function pedirSenhaMarcas() {
   const t = window.prompt('Sua senha de marcação (a mesma definida na Vercel). Fica salva só neste aparelho.')
   if (t) { setMarcasToken(t); location.reload() }
+}
+
+// "Marcar tudo como lido" da aba atual — aditivo (o ✓ de cada card continua).
+const idsVisiveis = computed(() => {
+  const v = currentView.value
+  if (v === 'artigos')    return (filteredArticles.value || []).map((a) => markId('artigo', a))
+  if (v === 'noticias')   return (filteredNoticias.value || []).map((a) => markId('noticia', a))
+  if (v === 'discussoes') return (filteredDiscussoes.value || []).map((d) => markId('discussao', d))
+  if (v === 'pulso')      return (report.value?.pulso || []).map((i) => markId('pulso', i))
+  if (v === 'substacks')  return (filteredSubstacks.value || []).map((p) => markId('substack', p))
+  if (v === 'videos')     return (filteredVideos.value || []).map((x) => markId('video', x))
+  if (v === 'imagens')    return (xImagesData.value?.imagens || []).map((im) => markId('imagem', im))
+  if (v === 'estudo')     return (studiesItems.value || []).map((it) => markId('estudo', it))
+  if (v === 'revisoes')   return (reviewsFiltrados.value || []).map((it) => 'revisao:' + (revUrl(it.article) || it.article.titulo))
+  return []
+})
+const naoLidosVisiveis = computed(() => idsVisiveis.value.filter((id) => !isReadMark(id)).length)
+async function marcarTudoVisivel() {
+  if (!hasMarcasToken()) { pedirSenhaMarcas(); return }
+  if (!naoLidosVisiveis.value) return
+  if (!window.confirm(`Marcar ${naoLidosVisiveis.value} item(ns) desta aba como lido?`)) return
+  try { await markManyRead(idsVisiveis.value) } catch { alert('Não consegui marcar tudo. Tente de novo.') }
 }
 
 // Grifos salvos (aba "Salvos")

@@ -28,7 +28,8 @@ export default async function handler(req, res) {
       const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body
       const plan = redisPlan('POST', body)
       if (plan.error) return res.status(400).json({ error: plan.error })
-      await redis([plan.cmd.toUpperCase(), KEY, plan.member])
+      const membros = plan.members || [plan.member]
+      await redis([plan.cmd.toUpperCase(), KEY, ...membros])
       return res.status(200).json({ ok: true })
     }
     return res.status(405).json({ error: 'método não suportado' })

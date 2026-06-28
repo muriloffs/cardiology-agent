@@ -50,5 +50,28 @@ export function useReadMarks() {
     }
   }
 
-  return { isRead, toggle, hasToken, setToken, reload }
+  // Marca VÁRIOS de uma vez (botão "marcar tudo como lido"). Aditivo: só
+  // adiciona os que ainda não estão lidos; o ✓ individual segue funcionando.
+  async function markMany(lista) {
+    const novos = (lista || []).filter((id) => id && !ids.value.has(id))
+    if (!novos.length) return
+    const otim = new Set(ids.value)
+    novos.forEach((id) => otim.add(id))
+    ids.value = otim                       // otimista
+    try {
+      const r = await fetch('/api/marcas', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-marcas-token': localStorage.getItem(TOKEN_KEY) || '' },
+        body: JSON.stringify({ ids: novos, lido: true }),
+      })
+      if (!r.ok) throw new Error('falha ao marcar tudo')
+    } catch (e) {
+      const rev = new Set(ids.value)
+      novos.forEach((id) => rev.delete(id))
+      ids.value = rev                      // reverte
+      throw e
+    }
+  }
+
+  return { isRead, toggle, markMany, hasToken, setToken, reload }
 }

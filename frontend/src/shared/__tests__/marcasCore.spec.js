@@ -15,8 +15,15 @@ describe('marcasCore', () => {
     expect(redisPlan('POST', { id: 'estudo:x', lido: true })).toEqual({ cmd: 'sadd', member: 'estudo:x' })
     expect(redisPlan('POST', { id: 'estudo:x', lido: false })).toEqual({ cmd: 'srem', member: 'estudo:x' })
   })
+  it('redisPlan: POST em lote (ids) marca vários', () => {
+    expect(redisPlan('POST', { ids: ['estudo:a', 'estudo:b'], lido: true }))
+      .toEqual({ cmd: 'sadd', members: ['estudo:a', 'estudo:b'] })
+    expect(redisPlan('POST', { ids: ['x'], lido: false }))
+      .toEqual({ cmd: 'srem', members: ['x'] })
+  })
   it('redisPlan: POST sem id é erro', () => {
     expect(redisPlan('POST', {}).error).toBeTruthy()
+    expect(redisPlan('POST', { ids: [] }).error).toBeTruthy()
   })
   it('redisPlan: método não suportado é erro', () => {
     expect(redisPlan('PUT', {}).error).toBeTruthy()
