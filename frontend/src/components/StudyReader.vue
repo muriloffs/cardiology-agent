@@ -31,14 +31,49 @@ export function renderStudyMarkdown(md, baseUrl) {
 </script>
 
 <script setup>
-import { ref, watch, computed } from 'vue'
+import { ref, watch, computed, onMounted, onUnmounted } from 'vue'
 import ReadToggle from './ReadToggle.vue'
+import { useGrifos } from '../composables/useGrifos'
 
 const props = defineProps({
   slug: { type: String, required: true },
   titulo: { type: String, default: '' },
 })
 const emit = defineEmits(['close'])
+
+const grifos = useGrifos()
+const articleEl = ref(null)
+const selBtn = ref({ show: false, x: 0, y: 0, text: '' })
+const flash = ref(false)
+
+// Botão flutuante "Salvar grifo" quando há texto selecionado DENTRO do estudo.
+// Captura o texto na hora (mesmo que o toque seguinte limpe a seleção no iOS).
+function onSelChange() {
+  const s = typeof window !== 'undefined' && window.getSelection ? window.getSelection() : null
+  const txt = s ? s.toString().trim() : ''
+  if (!txt || !s.rangeCount || !articleEl.value) { selBtn.value.show = false; return }
+  const range = s.getRangeAt(0)
+  if (!articleEl.value.contains(range.commonAncestorContainer)) { selBtn.value.show = false; return }
+  const r = range.getBoundingClientRect()
+  if (!r || (r.width === 0 && r.height === 0)) { selBtn.value.show = false; return }
+  selBtn.value = { show: true, x: r.left + r.width / 2, y: r.top, text: txt }
+}
+
+async function salvarGrifo() {
+  const txt = selBtn.value.text
+  selBtn.value.show = false
+  try {
+    await grifos.add(txt, props.slug, props.titulo)
+    window.getSelection()?.removeAllRanges()
+    flash.value = true
+    setTimeout(() => { flash.value = false }, 1500)
+  } catch {
+    alert('Não consegui salvar o grifo. Tente de novo.')
+  }
+}
+
+onMounted(() => document.addEventListener('selectionchange', onSelChange))
+onUnmounted(() => document.removeEventListener('selectionchange', onSelChange))
 
 const RAW_BASE = 'https://raw.githubusercontent.com/muriloffs/cardiology-agent/main/data/estudos/'
 const html = ref('')
@@ -70,9 +105,19 @@ watch(() => props.slug, load, { immediate: true })
     <div v-if="loading" class="study-status">Carregando…</div>
     <div v-else-if="error" class="study-status study-error">{{ error }}</div>
     <template v-else>
-      <article class="study-body" v-html="html"></article>
+      <article ref="articleEl" class="study-body" v-html="html"></article>
       <div class="mark-row"><ReadToggle :id="'estudo:' + slug" /></div>
     </template>
+
+    <!-- Botão flutuante: aparece ao selecionar texto do estudo -->
+    <button
+      v-if="selBtn.show && grifos.hasToken()"
+      class="grifo-fab"
+      :style="{ left: selBtn.x + 'px', top: (selBtn.y - 46) + 'px' }"
+      @mousedown.prevent
+      @click="salvarGrifo"
+    >✚ Salvar grifo</button>
+    <div v-if="flash" class="grifo-flash">Grifo salvo ✓</div>
   </div>
 </template>
 
@@ -91,4 +136,15 @@ watch(() => props.slug, load, { immediate: true })
   padding: 0.75rem 1rem; margin: 1.25rem 0; color: #4c1d95;
 }
 .mark-row { margin-top: 2.5rem; }
+.grifo-fab {
+  position: fixed; transform: translateX(-50%); z-index: 50;
+  background: #7c3aed; color: #fff; font-weight: 600; font-size: 0.85rem;
+  padding: 0.45rem 0.85rem; border: none; border-radius: 999px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.25); cursor: pointer; white-space: nowrap;
+}
+.grifo-flash {
+  position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%); z-index: 50;
+  background: #111827; color: #fff; font-size: 0.85rem; padding: 0.5rem 1rem;
+  border-radius: 999px; box-shadow: 0 2px 8px rgba(0,0,0,.3);
+}
 </style>
