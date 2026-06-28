@@ -1,5 +1,5 @@
 {
-  "gerado_em": "2026-06-28T14:01:25.592822+00:00",
+  "gerado_em": "2026-06-28T14:07:26.546710+00:00",
   "por_mes": {
     "2026-06": [
       {
@@ -43,6 +43,13 @@
         "fonte": "European Heart Journal (ESC)",
         "tipo": "revisao",
         "data": "2026-02-28"
+      },
+      {
+        "slug": "morte-subita-cardiaca-por-infarto-do-miocardio-com-arterias-coronarias-obstrutivas-e-nao-obstrutivas-2026-01-09",
+        "titulo": "Morte Súbita Cardíaca por Infarto do Miocárdio com Artérias Coronárias Obstrutivas e Não Obstrutivas",
+        "fonte": "JACC (Journal of the American College of Cardiology)",
+        "tipo": "revisao",
+        "data": "2026-01-09"
       },
       {
         "slug": "prevencao-de-insuficiencia-cardiaca-declaracao-cientifica-da-heart-failure-association-da-european-association-of-preventive-cardiology-da-association-of-cardiovascular-nursing-allied-professions-da-esc-e-do-esc-council-on-hypertension-2026-01-01",
