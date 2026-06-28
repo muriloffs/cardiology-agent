@@ -1,5 +1,5 @@
 {
-  "gerado_em": "2026-06-28T13:47:43.380421+00:00",
+  "gerado_em": "2026-06-28T13:55:29.358913+00:00",
   "por_mes": {
     "2026-06": [
       {
@@ -36,6 +36,13 @@
         "fonte": "European Heart Journal (ESC)",
         "tipo": "revisao",
         "data": "2026-02-28"
+      },
+      {
+        "slug": "prevencao-de-insuficiencia-cardiaca-declaracao-cientifica-da-heart-failure-association-da-european-association-of-preventive-cardiology-da-association-of-cardiovascular-nursing-allied-professions-da-esc-e-do-esc-council-on-hypertension-2026-01-01",
+        "titulo": "Prevenção de Insuficiência Cardíaca — Declaração Científica da Heart Failure Association, da European Association of Preventive Cardiology, da Association of Cardiovascular Nursing & Allied Professions da ESC e do ESC Council on Hypertension",
+        "fonte": "European Heart Journal (ESC)",
+        "tipo": "recomendacao",
+        "data": "2026-01-01"
       }
     ]
   },
