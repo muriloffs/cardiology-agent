@@ -9,7 +9,7 @@
 <template>
   <article
     class="rounded-lg border border-gray-200 bg-white shadow-sm hover:shadow-md transition-shadow overflow-hidden flex flex-col"
-    :class="{ 'opacity-60': isRead(markId) }"
+    :class="{ 'grayscale opacity-60': isRead(markId) }"
   >
     <!-- Thumbnail (16:9) -->
     <a

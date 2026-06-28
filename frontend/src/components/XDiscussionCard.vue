@@ -2,7 +2,7 @@
 <template>
   <div
     class="bg-white border border-gray-200 rounded-lg p-4 hover:border-blue-300 hover:shadow-sm transition-all cursor-pointer"
-    :class="{ 'opacity-60': isRead(markId) }"
+    :class="{ 'grayscale opacity-60': isRead(markId) }"
     @click="$emit('click')"
   >
     <div class="flex items-start gap-3">

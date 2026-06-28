@@ -8,7 +8,7 @@
   <article :class="[
     'rounded-lg border-l-4 bg-white shadow-sm hover:shadow-md transition-shadow overflow-hidden',
     item.is_destaque_do_dia ? 'border-amber-500' : classeBorderColor,
-    { 'opacity-60': isRead(markId) }
+    { 'grayscale opacity-60': isRead(markId) }
   ]">
     <!-- Header: Big One gets gradient, others get classe-colored background -->
     <header :class="[

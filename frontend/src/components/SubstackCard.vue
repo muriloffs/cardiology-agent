@@ -7,7 +7,7 @@
 <template>
   <article
     class="rounded-lg border border-gray-200 bg-white shadow-sm hover:shadow-md transition-shadow overflow-hidden"
-    :class="{ 'opacity-60': isRead(markId) }"
+    :class="{ 'grayscale opacity-60': isRead(markId) }"
   >
     <!-- Header: avatar + author + publication + date -->
     <header class="px-4 md:px-5 pt-4 pb-2 flex items-start gap-3">

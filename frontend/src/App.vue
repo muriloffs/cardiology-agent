@@ -704,7 +704,7 @@
               v-for="(it, i) in reviewsFiltrados"
               :key="i"
               class="border border-gray-200 rounded-lg p-3 bg-white hover:border-amber-300 transition-colors"
-              :class="{ 'opacity-60': isReadMark('revisao:' + (revUrl(it.article) || it.article.titulo)) }"
+              :class="{ 'grayscale opacity-60': isReadMark('revisao:' + (revUrl(it.article) || it.article.titulo)) }"
             >
               <div class="flex items-start gap-2 mb-1 flex-wrap">
                 <span :class="['inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide flex-shrink-0',
@@ -782,7 +782,7 @@
             v-for="(im, i) in xImagesData.imagens"
             :key="i"
             class="border border-gray-200 rounded-lg overflow-hidden bg-white flex flex-col"
-            :class="{ 'opacity-60': isReadMark('imagem:' + im.image_url) }"
+            :class="{ 'grayscale opacity-60': isReadMark('imagem:' + im.image_url) }"
           >
             <!-- Imagem "nua" (sem wrapper de link): toque abre o lightbox; long-press
                  do iOS oferece "Adicionar às Fotos". Os dois gestos não conflitam. -->
@@ -864,7 +864,7 @@
               v-for="it in studiesItems"
               :key="it.slug"
               class="border border-gray-200 rounded-lg bg-white hover:border-violet-300 transition-colors"
-              :class="{ 'opacity-50': isReadMark('estudo:' + it.slug) }"
+              :class="{ 'grayscale opacity-50': isReadMark('estudo:' + it.slug) }"
             >
               <button
                 class="w-full text-left p-3 flex flex-col gap-1"

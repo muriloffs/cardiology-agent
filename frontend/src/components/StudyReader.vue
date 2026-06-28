@@ -31,7 +31,7 @@ export function renderStudyMarkdown(md, baseUrl) {
 </script>
 
 <script setup>
-import { ref, watch, computed, onMounted, onUnmounted } from 'vue'
+import { ref, watch, computed } from 'vue'
 import ReadToggle from './ReadToggle.vue'
 import { useGrifos } from '../composables/useGrifos'
 import { toPng } from 'html-to-image'
@@ -43,38 +43,22 @@ const props = defineProps({
 const emit = defineEmits(['close'])
 
 const grifos = useGrifos()
-const articleEl = ref(null)
-const selBtn = ref({ show: false, x: 0, y: 0, text: '' })
 const flash = ref(false)
 
-// Botão flutuante "Salvar grifo" quando há texto selecionado DENTRO do estudo.
-// Captura o texto na hora (mesmo que o toque seguinte limpe a seleção no iOS).
-function onSelChange() {
-  const s = typeof window !== 'undefined' && window.getSelection ? window.getSelection() : null
-  const txt = s ? s.toString().trim() : ''
-  if (!txt || !s.rangeCount || !articleEl.value) { selBtn.value.show = false; return }
-  const range = s.getRangeAt(0)
-  if (!articleEl.value.contains(range.commonAncestorContainer)) { selBtn.value.show = false; return }
-  const r = range.getBoundingClientRect()
-  if (!r || (r.width === 0 && r.height === 0)) { selBtn.value.show = false; return }
-  selBtn.value = { show: true, x: r.left + r.width / 2, y: r.top, text: txt }
-}
-
+// Salvar grifo via COPIAR + COLAR — à prova de falha no iOS (não compete com o
+// menu nativo de seleção, que abria por cima do botão flutuante). Fluxo:
+// selecione → "Copiar" → toque no botão fixo → cole no campo.
 async function salvarGrifo() {
-  const txt = selBtn.value.text
-  selBtn.value.show = false
+  const txt = (window.prompt('Cole aqui o trecho que você copiou (toque e "Colar"):') || '').trim()
+  if (!txt) return
   try {
     await grifos.add(txt, props.slug, props.titulo)
-    window.getSelection()?.removeAllRanges()
     flash.value = true
-    setTimeout(() => { flash.value = false }, 1500)
+    setTimeout(() => { flash.value = false }, 1600)
   } catch {
     alert('Não consegui salvar o grifo. Tente de novo.')
   }
 }
-
-onMounted(() => document.addEventListener('selectionchange', onSelChange))
-onUnmounted(() => document.removeEventListener('selectionchange', onSelChange))
 
 // Salvar TABELA como imagem (figuras já salvam com long-press nativo no iOS).
 // O botão é injetado após cada <table> no HTML do estudo; o clique é capturado
@@ -130,18 +114,17 @@ watch(() => props.slug, load, { immediate: true })
     <div v-if="loading" class="study-status">Carregando…</div>
     <div v-else-if="error" class="study-status study-error">{{ error }}</div>
     <template v-else>
-      <article ref="articleEl" class="study-body" v-html="html"></article>
+      <article class="study-body" v-html="html"></article>
       <div class="mark-row"><ReadToggle :id="'estudo:' + slug" /></div>
     </template>
 
-    <!-- Botão flutuante: aparece ao selecionar texto do estudo -->
+    <!-- Botão fixo: copie um trecho e toque aqui (não compete com o menu do iOS) -->
     <button
-      v-if="selBtn.show && grifos.hasToken()"
-      class="grifo-fab"
-      :style="{ left: selBtn.x + 'px', top: (selBtn.y - 46) + 'px' }"
-      @mousedown.prevent
+      v-if="grifos.hasToken() && !loading && !error"
+      class="grifo-fab-fixed"
       @click="salvarGrifo"
-    >✚ Salvar grifo</button>
+      title="Copie um trecho do estudo e toque para grifar"
+    >🖍 Salvar grifo</button>
     <div v-if="flash" class="grifo-flash">Grifo salvo ✓</div>
 
     <!-- Overlay da tabela como imagem: segure para salvar nas Fotos -->
@@ -168,12 +151,13 @@ watch(() => props.slug, load, { immediate: true })
   padding: 0.75rem 1rem; margin: 1.25rem 0; color: #4c1d95;
 }
 .mark-row { margin-top: 2.5rem; }
-.grifo-fab {
-  position: fixed; transform: translateX(-50%); z-index: 50;
-  background: #7c3aed; color: #fff; font-weight: 600; font-size: 0.85rem;
-  padding: 0.45rem 0.85rem; border: none; border-radius: 999px;
-  box-shadow: 0 2px 8px rgba(0,0,0,.25); cursor: pointer; white-space: nowrap;
+.grifo-fab-fixed {
+  position: fixed; left: 1rem; bottom: 1.5rem; z-index: 50;
+  background: #7c3aed; color: #fff; font-weight: 600; font-size: 0.9rem;
+  padding: 0.6rem 1rem; border: none; border-radius: 999px;
+  box-shadow: 0 2px 10px rgba(0,0,0,.3); cursor: pointer; white-space: nowrap;
 }
+.grifo-fab-fixed:active { background: #6d28d9; }
 .grifo-flash {
   position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%); z-index: 50;
   background: #111827; color: #fff; font-size: 0.85rem; padding: 0.5rem 1rem;

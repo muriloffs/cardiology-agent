@@ -19,7 +19,7 @@
   <div
     @click="expanded = !expanded"
     class="card cursor-pointer group"
-    :class="{ 'opacity-60': isRead(markId) }"
+    :class="{ 'grayscale opacity-60': isRead(markId) }"
   >
     <!-- Header -->
     <div class="flex items-start gap-3 mb-3">
