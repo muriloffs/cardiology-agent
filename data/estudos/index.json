@@ -1,5 +1,5 @@
 {
-  "gerado_em": "2026-06-28T14:35:43.383685+00:00",
+  "gerado_em": "2026-06-28T14:40:56.620922+00:00",
   "por_mes": {
     "2026-06": [
       {
@@ -36,6 +36,13 @@
         "fonte": "European Heart Journal (EAPC/ESC e ACC)",
         "tipo": "recomendacao",
         "data": "2026-06-02"
+      },
+      {
+        "slug": "terapia-de-ressincronizacao-cardiaca-uma-revisao-2026-05-26",
+        "titulo": "Terapia de Ressincronização Cardíaca: Uma Revisão",
+        "fonte": "JAMA",
+        "tipo": "revisao",
+        "data": "2026-05-26"
       },
       {
         "slug": "insuficiencia-cardiaca-com-fracao-de-ejecao-preservada-fisiopatologia-avaliacao-clinica-e-manejo-da-intolerancia-ao-exercicio-2026-04-15",
