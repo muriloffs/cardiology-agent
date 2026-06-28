@@ -1,5 +1,5 @@
 {
-  "gerado_em": "2026-06-28T14:48:34.645603+00:00",
+  "gerado_em": "2026-06-28T14:54:03.766727+00:00",
   "por_mes": {
     "2026-06": [
       {
@@ -64,6 +64,13 @@
         "fonte": "European Heart Journal (ESC)",
         "tipo": "revisao",
         "data": "2026-02-28"
+      },
+      {
+        "slug": "efeito-da-modalidade-e-intensidade-do-exercicio-na-funcao-endotelial-em-pacientes-com-doenca-cardiovascular-uma-revisao-sistematica-e-metanalise-em-rede-2026-02-19",
+        "titulo": "Efeito da modalidade e intensidade do exercício na função endotelial em pacientes com doença cardiovascular: uma revisão sistemática e metanálise em rede",
+        "fonte": "European Journal of Preventive Cardiology (ESC)",
+        "tipo": "revisao",
+        "data": "2026-02-19"
       },
       {
         "slug": "morte-subita-cardiaca-por-infarto-do-miocardio-com-arterias-coronarias-obstrutivas-e-nao-obstrutivas-2026-01-09",
