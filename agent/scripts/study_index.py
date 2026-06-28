@@ -13,11 +13,16 @@ _REFS_HEADING_RE = re.compile(r"^#+\s*refer[êe]ncias", re.IGNORECASE)
 _ANY_HEADING_RE = re.compile(r"^#+\s")
 
 
-def slugify(titulo: str) -> str:
+def slugify(titulo: str, max_len: int = 80) -> str:
     nfkd = unicodedata.normalize("NFKD", titulo or "")
     ascii_str = nfkd.encode("ascii", "ignore").decode("ascii").lower()
-    kebab = re.sub(r"[^a-z0-9]+", "-", ascii_str)
-    return kebab.strip("-")
+    kebab = re.sub(r"[^a-z0-9]+", "-", ascii_str).strip("-")
+    # Capa o tamanho (titulos de guidelines tem 200+ chars): nome de pasta longo
+    # demais estoura o limite de caminho do Windows (260) e quebra o git local.
+    # Corta na ultima palavra antes de max_len.
+    if len(kebab) > max_len:
+        kebab = kebab[:max_len].rsplit("-", 1)[0].strip("-") or kebab[:max_len]
+    return kebab
 
 
 def linkify_references(markdown: str) -> str:
