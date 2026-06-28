@@ -1160,7 +1160,11 @@ function toggleArticlesExpanded() {
 const loading = ref(false)
 const selectedXCategoria = ref('all')
 const selectedVideoTier = ref(-1)  // -1 = all
-const currentView = ref('artigos')  // 'artigos'|'noticias'|'discussoes'|'pulso'|'substacks'|'videos'|'podcasts'|'ideas'
+// Retoma a última aba vista neste aparelho (evita "voltar ao começo" quando o
+// navegador do celular recarrega a página sozinho). Persiste no localStorage.
+const VIEW_KEY = 'ui_view'
+const currentView = ref(localStorage.getItem(VIEW_KEY) || 'artigos')  // 'artigos'|'noticias'|'discussoes'|'pulso'|'substacks'|'videos'|'podcasts'|'ideas'|'estudo'|'imagens'|'salvos'
+watch(currentView, (v) => { try { localStorage.setItem(VIEW_KEY, v) } catch { /* storage cheio/privado */ } })
 const selectedIdeaType = ref('all')
 const selectedSubstackPub = ref('all')
 const availableDates = ref([])
