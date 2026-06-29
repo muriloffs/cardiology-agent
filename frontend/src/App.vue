@@ -898,15 +898,20 @@
             <li
               v-for="it in studiesItems"
               :key="it.slug"
-              class="border border-gray-200 rounded-lg bg-white hover:border-violet-300 transition-colors"
+              class="border border-gray-200 border-l-4 rounded-lg bg-white shadow-sm hover:shadow transition-shadow"
+              :style="{ borderLeftColor: estudoCor(it.tipo).cor }"
               :class="{ 'grayscale opacity-50': isReadMark('estudo:' + it.slug) }"
             >
               <button
-                class="w-full text-left p-3 flex flex-col gap-1"
+                class="w-full text-left p-3 flex flex-col gap-1.5"
                 @click="selectedStudySlug = it.slug"
               >
+                <div class="flex items-center gap-2 flex-wrap">
+                  <span class="text-base leading-none">{{ estudoCor(it.tipo).emoji }}</span>
+                  <span :class="['text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wide', estudoCor(it.tipo).badge]">{{ it.tipo }}</span>
+                </div>
                 <span class="font-semibold text-sm text-gray-900 leading-snug break-words">{{ it.titulo }}</span>
-                <span class="text-[11px] text-gray-500">{{ it.fonte }} · {{ it.tipo }} · {{ it.data }}</span>
+                <span class="text-[11px] text-gray-500">{{ it.fonte }} · {{ it.data }}</span>
               </button>
               <div class="px-3 pb-2">
                 <ReadToggle :id="'estudo:' + it.slug" />
@@ -1205,6 +1210,17 @@ function favMesLabel(m) {
   if (!m) return ''
   const [y, mo] = m.split('-')
   return new Date(Number(y), Number(mo) - 1, 1).toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' })
+}
+
+// Cor/emoji/selo do card de estudo por tipo (dá identidade visual aos cards).
+// Quando estudado, o grayscale apaga tudo (B&W) — comportamento mantido.
+function estudoCor(tipo) {
+  const m = {
+    diretriz:     { cor: '#3b82f6', badge: 'bg-blue-100 text-blue-800', emoji: '📋' },
+    recomendacao: { cor: '#f59e0b', badge: 'bg-amber-100 text-amber-800', emoji: '📌' },
+    revisao:      { cor: '#8b5cf6', badge: 'bg-violet-100 text-violet-800', emoji: '📖' },
+  }
+  return m[tipo] || { cor: '#d1d5db', badge: 'bg-gray-100 text-gray-700', emoji: '📄' }
 }
 
 // Grifos salvos (aba "Salvos")
