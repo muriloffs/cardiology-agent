@@ -1,5 +1,5 @@
 {
-  "gerado_em": "2026-06-28T14:54:03.766727+00:00",
+  "gerado_em": "2026-06-29T09:42:06.984003+00:00",
   "por_mes": {
     "2026-06": [
       {
@@ -22,6 +22,13 @@
         "fonte": "Circulation (American Heart Association)",
         "tipo": "recomendacao",
         "data": "2026-06-23"
+      },
+      {
+        "slug": "epidemiologia-das-multiplas-condicoes-cronicas-cardiometabolicas-2026-06-08",
+        "titulo": "Epidemiologia das múltiplas condições crônicas cardiometabólicas",
+        "fonte": "The Lancet",
+        "tipo": "revisao",
+        "data": "2026-06-08"
       },
       {
         "slug": "producao-hepatica-de-lipoproteinas-fenotipos-cardiometabolicos-e-subtipos-da-doenca-hepatica-esteatotica-2026-06-05",
