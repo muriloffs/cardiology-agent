@@ -31,9 +31,11 @@ export function renderStudyMarkdown(md, baseUrl) {
 </script>
 
 <script setup>
-import { ref, watch, computed } from 'vue'
+import { ref, watch, computed, nextTick } from 'vue'
 import ReadToggle from './ReadToggle.vue'
 import { useGrifos } from '../composables/useGrifos'
+import { useMarcadores } from '../composables/useMarcadores'
+import { useReadMarks } from '../composables/useReadMarks'
 import { toPng } from 'html-to-image'
 
 const props = defineProps({
@@ -43,8 +45,60 @@ const props = defineProps({
 const emit = defineEmits(['close'])
 
 const grifos = useGrifos()
+const marcadores = useMarcadores()
+const { isRead: isReadMark } = useReadMarks()
+const articleEl = ref(null)
 const flash = ref('')
 const metaTitulo = ref('')   // título confiável do estudo (independe do mês na lista)
+
+const temMarca = computed(() => marcadores.has(props.slug))
+
+// "Continuar de onde parei". Guardamos o ÍNDICE do bloco (parágrafo) no topo da
+// tela — robusto entre plataformas (não usa pixels, que mudariam com fonte/tela).
+function blocoNoTopo() {
+  const filhos = articleEl.value ? Array.from(articleEl.value.children) : []
+  for (let i = 0; i < filhos.length; i++) {
+    if (filhos[i].getBoundingClientRect().bottom > 90) return i   // 1º bloco ainda no topo
+  }
+  return Math.max(0, filhos.length - 1)
+}
+
+async function marcarOndeParei() {
+  if (!marcadores.hasToken()) { alert('Defina sua senha (🔑 no topo) para marcar.'); return }
+  try {
+    await marcadores.set(props.slug, blocoNoTopo())
+    flash.value = '📍 Marca salva — você continua daqui'
+    setTimeout(() => { flash.value = '' }, 2200)
+  } catch { alert('Não consegui salvar a marca. Tente de novo.') }
+}
+
+async function limparMarca() {
+  try {
+    await marcadores.clear(props.slug)
+    flash.value = 'Marca removida'
+    setTimeout(() => { flash.value = '' }, 1500)
+  } catch { alert('Não consegui limpar a marca.') }
+}
+
+function irParaMarca() {
+  const marca = marcadores.get(props.slug)
+  if (!marca || !articleEl.value) return
+  const el = articleEl.value.children[marca.anchor]
+  if (!el) return
+  const scroll = () => {
+    const y = el.getBoundingClientRect().top + window.scrollY - 70   // abaixo da barra sticky
+    window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' })
+  }
+  scroll()
+  setTimeout(scroll, 400)   // recorrige após imagens/layout assentarem
+  articleEl.value.querySelectorAll('.bk-here').forEach((e) => e.classList.remove('bk-here'))
+  el.classList.add('bk-here')
+}
+
+// Marcar o estudo como ✓ Estudado limpa a marca (você terminou).
+watch(() => isReadMark('estudo:' + props.slug), (lido) => {
+  if (lido && marcadores.has(props.slug)) marcadores.clear(props.slug).catch(() => {})
+})
 
 // Salvar grifo AUTOMÁTICO: lê o trecho que você COPIOU (selecione → "Copiar" →
 // toque no botão). No iOS aparece um "Colar" rápido a confirmar; depois salva
@@ -118,6 +172,9 @@ async function load() {
   } finally {
     loading.value = false
   }
+  // Ao abrir: rola sozinho até onde você parou (se houver marca e não estiver lido).
+  await nextTick()
+  if (!error.value && temMarca.value && !isReadMark('estudo:' + props.slug)) irParaMarca()
 }
 
 watch(() => props.slug, load, { immediate: true })
@@ -126,10 +183,15 @@ watch(() => props.slug, load, { immediate: true })
 <template>
   <div class="study-reader" @click="onReaderClick">
     <button class="study-close" @click="emit('close')">← Voltar</button>
+    <button
+      v-if="temMarca && !loading && !error"
+      class="continuar-top"
+      @click="irParaMarca"
+    >▾ Continuar de onde parei</button>
     <div v-if="loading" class="study-status">Carregando…</div>
     <div v-else-if="error" class="study-status study-error">{{ error }}</div>
     <template v-else>
-      <article class="study-body" v-html="html"></article>
+      <article ref="articleEl" class="study-body" v-html="html"></article>
       <div class="mark-row"><ReadToggle :id="'estudo:' + slug" /></div>
     </template>
 
@@ -140,6 +202,15 @@ watch(() => props.slug, load, { immediate: true })
       @click="salvarGrifo"
       title="Copie um trecho do estudo e toque para grifar"
     >🖍 Salvar grifo</button>
+
+    <!-- Marcar/atualizar "onde parei" (acima do botão de grifo) -->
+    <div v-if="marcadores.hasToken() && !loading && !error" class="marcar-fab-wrap">
+      <button class="marcar-fab" @click="marcarOndeParei">
+        📍 {{ temMarca ? 'Atualizar marca' : 'Marcar onde parei' }}
+      </button>
+      <button v-if="temMarca" class="marcar-limpar" @click="limparMarca" title="Limpar marca">✕</button>
+    </div>
+
     <div v-if="flash" class="grifo-flash">{{ flash }}</div>
 
     <!-- Overlay da tabela como imagem: segure para salvar nas Fotos -->
@@ -173,6 +244,31 @@ watch(() => props.slug, load, { immediate: true })
   box-shadow: 0 2px 10px rgba(0,0,0,.3); cursor: pointer; white-space: nowrap;
 }
 .grifo-fab-fixed:active { background: #6d28d9; }
+.continuar-top {
+  display: block; margin: -0.25rem 0 1.25rem; padding: 0.55rem 1rem;
+  background: #ecfeff; color: #0e7490; border: 1px solid #a5f3fc; border-radius: 999px;
+  font-size: 0.9rem; font-weight: 600; cursor: pointer;
+}
+.continuar-top:hover { background: #cffafe; }
+.marcar-fab-wrap {
+  position: fixed; left: 1rem; bottom: 4.7rem; z-index: 50;
+  display: flex; align-items: center; gap: 0.4rem;
+}
+.marcar-fab {
+  background: #0891b2; color: #fff; font-weight: 600; font-size: 0.9rem;
+  padding: 0.6rem 1rem; border: none; border-radius: 999px;
+  box-shadow: 0 2px 10px rgba(0,0,0,.3); cursor: pointer; white-space: nowrap;
+}
+.marcar-fab:active { background: #0e7490; }
+.marcar-limpar {
+  background: #fff; color: #6b7280; border: 1px solid #d1d5db; border-radius: 999px;
+  width: 2rem; height: 2rem; font-size: 0.9rem; cursor: pointer; box-shadow: 0 1px 4px rgba(0,0,0,.2);
+}
+.study-body :deep(.bk-here) {
+  scroll-margin-top: 70px;
+  border-left: 4px solid #0891b2; background: #ecfeff;
+  border-radius: 6px; padding-left: 0.6rem;
+}
 .grifo-flash {
   position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%); z-index: 50;
   background: #111827; color: #fff; font-size: 0.85rem; padding: 0.5rem 1rem;
