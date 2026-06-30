@@ -1,5 +1,5 @@
 {
-  "gerado_em": "2026-06-29T09:48:30.175827+00:00",
+  "gerado_em": "2026-06-30T08:36:05.084951+00:00",
   "por_mes": {
     "2026-06": [
       {
@@ -26,6 +26,13 @@
       {
         "slug": "epidemiologia-das-multiplas-condicoes-cronicas-cardiometabolicas-2026-06-08",
         "titulo": "Epidemiologia das múltiplas condições crônicas cardiometabólicas",
+        "fonte": "The Lancet",
+        "tipo": "revisao",
+        "data": "2026-06-08"
+      },
+      {
+        "slug": "vias-biologicas-e-mecanisticas-das-multiplas-condicoes-cronicas-2026-06-08",
+        "titulo": "Vias biológicas e mecanísticas das múltiplas condições crônicas cardiometabólicas",
         "fonte": "The Lancet",
         "tipo": "revisao",
         "data": "2026-06-08"
