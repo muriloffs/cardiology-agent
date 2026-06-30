@@ -909,6 +909,8 @@
                 <div class="flex items-center gap-2 flex-wrap">
                   <span class="text-base leading-none">{{ estudoCor(it.tipo).emoji }}</span>
                   <span :class="['text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wide', estudoCor(it.tipo).badge]">{{ it.tipo }}</span>
+                  <span v-if="temMarcador(it.slug) && !isReadMark('estudo:' + it.slug)"
+                        class="text-[10px] px-2 py-0.5 rounded-full bg-cyan-100 text-cyan-800 font-bold">📖 Continuar</span>
                 </div>
                 <span class="font-semibold text-sm text-gray-900 leading-snug break-words">{{ it.titulo }}</span>
                 <span class="text-[11px] text-gray-500">{{ it.fonte }} · {{ it.data }}</span>
@@ -1079,6 +1081,7 @@ import FavCard from './components/FavCard.vue'
 import { useReadMarks } from './composables/useReadMarks'
 import { useGrifos } from './composables/useGrifos'
 import { useFavoritos } from './composables/useFavoritos'
+import { useMarcadores } from './composables/useMarcadores'
 import { markId } from './shared/markId'
 import { useMonthlyStudies } from './composables/useMonthlyStudies'
 
@@ -1159,6 +1162,7 @@ const selectedStudyTitulo = computed(
 
 // Marcas "lido" sincronizadas (KV). isReadMark p/ esmaecer; senha 1x por aparelho.
 const { isRead: isReadMark, setToken: setMarcasToken, hasToken: hasMarcasToken, markMany: markManyRead } = useReadMarks()
+const { has: temMarcador } = useMarcadores()
 function pedirSenhaMarcas() {
   const t = window.prompt('Sua senha de marcação (a mesma definida na Vercel). Fica salva só neste aparelho.')
   if (t) { setMarcasToken(t); location.reload() }
