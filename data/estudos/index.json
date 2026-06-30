@@ -1,5 +1,5 @@
 {
-  "gerado_em": "2026-06-30T08:36:05.084951+00:00",
+  "gerado_em": "2026-06-30T08:41:21.024489+00:00",
   "por_mes": {
     "2026-06": [
       {
@@ -98,6 +98,13 @@
         "titulo": "Diretriz 2026 AHA/ACC/ADA/ASN para a Prevenção, Detecção, Avaliação e Manejo da Síndrome Cardiovascular-Renal-Metabólica (CKM)",
         "fonte": "Circulation (AHA/ACC/ADA/ASN)",
         "tipo": "diretriz",
+        "data": "2026-01-01"
+      },
+      {
+        "slug": "documento-de-consenso-de-especialistas-aha-acc-esc-whf-segunda-definicao-2026-01-01",
+        "titulo": "Documento de Consenso de Especialistas AHA/ACC/ESC/WHF: Segunda Definição Universal de Insuficiência Cardíaca (2026)",
+        "fonte": "Circulation (AHA/ACC/ESC/WHF)",
+        "tipo": "recomendacao",
         "data": "2026-01-01"
       },
       {
