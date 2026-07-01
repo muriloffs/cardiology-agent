@@ -227,7 +227,7 @@ class CardologyAgent:
             )
             with self.client.messages.stream(
                 model="claude-opus-4-7",
-                max_tokens=56000,  # 40 artigos com framework 8 seções (~700-900 tok/artigo) + 15 noticias + 10 podcasts
+                max_tokens=64000,  # teto do Opus. 56000 (dimensionado p/ 40 artigos) truncava em dias pesados: 2026-06-30 mandou 78 artigos -> saida cortou no array de artigos -> 0 artigos parseados. 64000 dá a folga máxima do modelo.
                 system=system_prompt,
                 messages=[{"role": "user", "content": user_message}],
             ) as stream:
