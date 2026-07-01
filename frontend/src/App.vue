@@ -227,6 +227,21 @@
           </span>
         </button>
 
+        <button
+          @click="currentView = 'estudados'"
+          :class="['px-2.5 md:px-5 py-1.5 md:py-3 rounded-lg text-sm md:text-lg font-semibold transition-all flex items-center gap-1.5 md:gap-2.5',
+                   currentView === 'estudados'
+                     ? 'bg-emerald-600 text-white shadow-md'
+                     : 'bg-white text-emerald-700 hover:bg-emerald-50 border border-emerald-300']"
+        >
+          🎓 Estudados
+          <span v-if="estudadosLista.length"
+                :class="['px-1.5 md:px-2 py-0.5 rounded-full text-xs md:text-sm font-bold',
+                         currentView === 'estudados' ? 'bg-white text-emerald-700' : 'bg-emerald-100 text-emerald-800']">
+            {{ estudadosLista.length }}
+          </span>
+        </button>
+
         <!-- Senha de marcação "lido" — fica salva só neste aparelho -->
         <button
           @click="pedirSenhaMarcas"
@@ -751,6 +766,9 @@
                   {{ it.article.tema_principal }}
                 </span>
                 <span class="text-[11px] text-gray-400 flex-shrink-0">{{ formatRevDate(it.date) }}</span>
+                <span v-if="estaEstudado(it.article.titulo_pt || it.article.titulo)"
+                      class="text-[10px] px-2 py-0.5 rounded-full bg-violet-100 text-violet-800 border border-violet-200 font-bold flex-shrink-0"
+                      title="Este artigo já virou um estudo na aba Estudo">📖 Já é estudo</span>
               </div>
               <h3 class="font-semibold text-sm text-gray-900 leading-snug break-words">
                 {{ it.article.titulo_pt || it.article.titulo }}
@@ -1002,6 +1020,46 @@
       </section>
     </template>
 
+    <!-- ============================================================ -->
+    <!-- VIEW: ESTUDADOS (todos os estudos marcados como lidos, sem mês) -->
+    <!-- ============================================================ -->
+    <template v-else-if="currentView === 'estudados'">
+      <section class="px-4 py-8 max-w-4xl mx-auto">
+        <StudyReader v-if="selectedStudySlug" :slug="selectedStudySlug" :titulo="tituloDoEstudo(selectedStudySlug)" @close="selectedStudySlug = null" />
+        <template v-else>
+          <h2 class="text-xl md:text-2xl font-bold mb-1">🎓 Estudados</h2>
+          <p class="text-sm text-gray-500 mb-5">Todos os estudos que você marcou como lidos — de qualquer mês, num lugar só.</p>
+          <div v-if="!hasMarcasToken()" class="text-center text-gray-500 py-10">
+            <p class="text-lg mb-1">Defina sua senha para ver os estudados.</p>
+            <p class="text-sm">Toque no 🔑 no topo.</p>
+          </div>
+          <div v-else-if="estudadosLista.length === 0" class="text-center text-gray-500 py-10">
+            <p class="text-lg mb-1">Nenhum estudo marcado como lido ainda.</p>
+            <p class="text-sm">Abra um estudo, leia e toque em <strong>✓ Lido</strong>.</p>
+          </div>
+          <ul v-else class="space-y-2">
+            <li
+              v-for="it in estudadosLista"
+              :key="it.slug"
+              class="border border-gray-200 border-l-4 rounded-lg bg-white shadow-sm hover:shadow transition-shadow"
+              :style="{ borderLeftColor: estudoCor(it.tipo).cor }"
+            >
+              <button class="w-full text-left p-3 flex flex-col gap-1.5" @click="selectedStudySlug = it.slug">
+                <div class="flex items-center gap-2 flex-wrap">
+                  <span class="text-base leading-none">{{ estudoCor(it.tipo).emoji }}</span>
+                  <span :class="['text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wide', estudoCor(it.tipo).badge]">{{ it.tipo }}</span>
+                  <span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 font-bold">✓ Estudado</span>
+                </div>
+                <span class="font-semibold text-sm text-gray-900 leading-snug break-words">{{ it.titulo }}</span>
+                <span class="text-[11px] text-gray-500">{{ it.fonte }} · {{ it.data }}</span>
+              </button>
+              <div class="px-3 pb-2"><ReadToggle :id="'estudo:' + it.slug" /></div>
+            </li>
+          </ul>
+        </template>
+      </section>
+    </template>
+
 
     <!-- Lightbox de imagem do X — abre ao tocar na figura -->
     <Teleport to="body">
@@ -1083,6 +1141,7 @@ import { useGrifos } from './composables/useGrifos'
 import { useFavoritos } from './composables/useFavoritos'
 import { useMarcadores } from './composables/useMarcadores'
 import { markId } from './shared/markId'
+import { normTitulo, casaTitulo } from './shared/matchTitulo'
 import { useMonthlyStudies } from './composables/useMonthlyStudies'
 
 const { isActive: searchActive } = useSearch()
@@ -1147,6 +1206,7 @@ const {
   loading: studiesLoading,
   loadError: studiesLoadError,
   items: studiesItems,
+  todos: estudosTodos,
   monthLabelText: studiesMonthLabel,
   canOlder: studiesCanOlder,
   canNewer: studiesCanNewer,
@@ -1156,6 +1216,20 @@ const {
 } = useMonthlyStudies()
 
 const selectedStudySlug = ref(null)
+
+// Casamento Revisão↔Estudo (best-effort por título PT) + aba "Estudados".
+const estudosNorm = computed(() => estudosTodos.value.map((s) => normTitulo(s.titulo)))
+function estaEstudado(tituloPt) {
+  const alvo = normTitulo(tituloPt)
+  if (!alvo) return false
+  return estudosNorm.value.some((n) => casaTitulo(n, alvo))
+}
+const estudadosLista = computed(() =>
+  estudosTodos.value.filter((s) => isReadMark('estudo:' + s.slug))
+)
+function tituloDoEstudo(slug) {
+  return estudosTodos.value.find((s) => s.slug === slug)?.titulo || ''
+}
 const selectedStudyTitulo = computed(
   () => studiesItems.value.find((it) => it.slug === selectedStudySlug.value)?.titulo || ''
 )

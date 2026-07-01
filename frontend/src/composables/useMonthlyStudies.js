@@ -62,6 +62,9 @@ function goToMonth(ym) {
 export function useMonthlyStudies() {
   const availableMonths = computed(() => index.value?.meses_disponiveis || [])
   const items = computed(() => (index.value?.por_mes || {})[selectedMonth.value] || [])
+  // Todos os estudos (achatados de todos os meses) — p/ a aba "Estudados" e o
+  // casamento com Revisões.
+  const todos = computed(() => Object.values(index.value?.por_mes || {}).flat())
   const monthIndex = computed(() => availableMonths.value.indexOf(selectedMonth.value))
   const canOlder = computed(() => monthIndex.value >= 0 && monthIndex.value < availableMonths.value.length - 1)
   const canNewer = computed(() => monthIndex.value > 0)
