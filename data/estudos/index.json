@@ -1,5 +1,5 @@
 {
-  "gerado_em": "2026-06-30T08:41:21.024489+00:00",
+  "gerado_em": "2026-07-01T08:51:35.891425+00:00",
   "por_mes": {
     "2026-06": [
       {
@@ -121,9 +121,19 @@
         "tipo": "recomendacao",
         "data": "2026-01-01"
       }
+    ],
+    "2026-07": [
+      {
+        "slug": "avaliacao-combinada-de-ldl-c-lp-a-e-hscrp-prediz-dcvae-na-coorte-multietnica-2026-05-06",
+        "titulo": "Avaliação Combinada de LDL-C, Lp(a) e hsCRP Prediz DCVAE na Coorte Multiétnica HELIUS",
+        "fonte": "JACC (Journal of the American College of Cardiology)",
+        "tipo": "revisao",
+        "data": "2026-05-06"
+      }
     ]
   },
   "meses_disponiveis": [
+    "2026-07",
     "2026-06"
   ]
 }
