@@ -78,6 +78,7 @@ export function useMonthlyStudies() {
     loading,
     loadError,
     items,
+    todos,
     selectedMonth,
     availableMonths,
     monthLabelText: computed(() => monthLabel(selectedMonth.value)),
