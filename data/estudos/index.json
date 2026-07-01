@@ -1,5 +1,5 @@
 {
-  "gerado_em": "2026-07-01T08:51:35.891425+00:00",
+  "gerado_em": "2026-07-01T08:57:01.653975+00:00",
   "por_mes": {
     "2026-06": [
       {
@@ -129,6 +129,13 @@
         "fonte": "JACC (Journal of the American College of Cardiology)",
         "tipo": "revisao",
         "data": "2026-05-06"
+      },
+      {
+        "slug": "manejo-clinico-e-otimizacao-terapeutica-de-pacientes-com-insuficiencia-cardiaca-2025-02-26",
+        "titulo": "Manejo clínico e otimização terapêutica de pacientes com insuficiência cardíaca com fração de ejeção reduzida e pressão arterial baixa. Um documento de consenso clínico da Heart Failure Association (HFA) da ESC",
+        "fonte": "European Journal of Heart Failure (HFA/ESC)",
+        "tipo": "recomendacao",
+        "data": "2025-02-26"
       }
     ]
   },
