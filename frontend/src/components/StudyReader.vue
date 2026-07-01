@@ -124,21 +124,60 @@ async function salvarGrifo() {
   }
 }
 
-// Salvar TABELA como imagem (figuras já salvam com long-press nativo no iOS).
-// O botão é injetado após cada <table> no HTML do estudo; o clique é capturado
-// por delegação no container.
+// Salvar FIGURA ou TABELA como imagem — já com a LEGENDA da referência do
+// artigo embutida (título + fonte). Botões injetados após cada figura/tabela;
+// clique capturado por delegação no container.
 const tableImg = ref(null)
+const metaFonte = ref('')
+const referencia = computed(() => {
+  const t = (props.titulo || metaTitulo.value || props.slug || '').trim()
+  const f = (metaFonte.value || '').trim()
+  return f ? `${t} — ${f}` : t
+})
+
+function desenharLegenda(ctx, texto, x, y, maxW, lineH) {
+  const linhas = []
+  let linha = ''
+  for (const p of texto.split(' ')) {
+    const teste = linha ? linha + ' ' + p : p
+    if (ctx.measureText(teste).width > maxW && linha) { linhas.push(linha); linha = p }
+    else linha = teste
+  }
+  if (linha) linhas.push(linha)
+  linhas.slice(0, 3).forEach((l, i) => ctx.fillText(l, x, y + i * lineH))
+}
+
+// Renderiza o elemento (com estilo) em PNG e compõe a legenda embaixo via canvas.
+async function salvarComLegenda(elemento) {
+  const base = await toPng(elemento, { backgroundColor: '#ffffff', pixelRatio: 2 })
+  const img = new Image()
+  await new Promise((res, rej) => { img.onload = res; img.onerror = rej; img.src = base })
+  const R = 2, pad = 14 * R, fonte = 13 * R, lineH = 18 * R
+  const capH = pad + 3 * lineH + pad
+  const canvas = document.createElement('canvas')
+  canvas.width = img.width
+  canvas.height = img.height + capH
+  const ctx = canvas.getContext('2d')
+  ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, canvas.width, canvas.height)
+  ctx.drawImage(img, 0, 0)
+  ctx.fillStyle = '#e5e7eb'; ctx.fillRect(pad, img.height + pad / 2, canvas.width - 2 * pad, R)
+  ctx.fillStyle = '#555'; ctx.textBaseline = 'top'
+  ctx.font = `${fonte}px -apple-system, "Segoe UI", sans-serif`
+  desenharLegenda(ctx, referencia.value, pad, img.height + pad, canvas.width - 2 * pad, lineH)
+  tableImg.value = canvas.toDataURL('image/png')
+}
+
 async function onReaderClick(e) {
-  const btn = e.target.closest ? e.target.closest('.tbl-save') : null
+  const btn = e.target.closest ? e.target.closest('.tbl-save, .fig-save') : null
   if (!btn) return
-  const table = btn.parentElement?.previousElementSibling
-  if (!table || table.tagName !== 'TABLE') return
+  const alvo = btn.parentElement?.previousElementSibling
+  if (!alvo || (alvo.tagName !== 'TABLE' && alvo.tagName !== 'IMG')) return
   const label = btn.textContent
   btn.textContent = 'Gerando…'
   try {
-    tableImg.value = await toPng(table, { backgroundColor: '#ffffff', pixelRatio: 2 })
+    await salvarComLegenda(alvo)
   } catch {
-    alert('Não consegui gerar a imagem da tabela.')
+    alert('Não consegui gerar a imagem.')
   } finally {
     btn.textContent = label
   }
@@ -158,15 +197,14 @@ async function load() {
     if (!resp.ok) throw new Error(`HTTP ${resp.status}`)
     const md = await resp.text()
     // Injeta um botão "salvar como imagem" após cada tabela (já sanitizado).
-    html.value = renderStudyMarkdown(md, baseUrl.value).replace(
-      /<\/table>/g,
-      '</table><div class="tbl-save-wrap"><button type="button" class="tbl-save">⤓ Salvar tabela como imagem</button></div>'
-    )
-    // Título confiável (p/ os grifos saírem com o nome certo do artigo nos Salvos)
+    html.value = renderStudyMarkdown(md, baseUrl.value)
+      .replace(/<\/table>/g, '</table><div class="tbl-save-wrap"><button type="button" class="tbl-save">⤓ Salvar tabela (com legenda)</button></div>')
+      .replace(/(<img[^>]*>)/g, '$1<div class="fig-save-wrap"><button type="button" class="fig-save">⤓ Salvar figura (com legenda)</button></div>')
+    // Título + fonte confiáveis (grifos e a legenda das imagens saem com a ref certa)
     try {
       const mr = await fetch(`${baseUrl.value}meta.json?t=${Date.now()}`)
-      if (mr.ok) metaTitulo.value = (await mr.json()).titulo || ''
-    } catch { /* o título via prop continua valendo */ }
+      if (mr.ok) { const m = await mr.json(); metaTitulo.value = m.titulo || ''; metaFonte.value = m.fonte || '' }
+    } catch { /* título via prop continua valendo */ }
   } catch (e) {
     error.value = e?.message || 'Falha ao carregar o estudo'
   } finally {
@@ -280,6 +318,12 @@ watch(() => props.slug, load, { immediate: true })
   padding: 0.3rem 0.7rem; border-radius: 8px; cursor: pointer;
 }
 .study-body :deep(.tbl-save):hover { background: #ccfbf1; }
+.study-body :deep(.fig-save-wrap) { margin: -0.25rem 0 1.25rem; }
+.study-body :deep(.fig-save) {
+  font-size: 0.8rem; color: #1d4ed8; background: #eff6ff; border: 1px solid #bfdbfe;
+  padding: 0.3rem 0.7rem; border-radius: 8px; cursor: pointer;
+}
+.study-body :deep(.fig-save):hover { background: #dbeafe; }
 .img-overlay {
   position: fixed; inset: 0; z-index: 9999; background: rgba(0,0,0,.9);
   display: flex; flex-direction: column; align-items: center; justify-content: center;
