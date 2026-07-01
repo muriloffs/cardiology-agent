@@ -29,5 +29,6 @@ FORMATO DE SAÍDA — retorne APENAS um objeto JSON (sem markdown em volta):
   "fonte": "journal/sociedade (ex: NEJM, ESC)",
   "tipo": "revisao | diretriz | recomendacao",
   "data": "AAAA-MM-DD da publicação se constar, senão a data de hoje",
+  "doi": "DOI do artigo (ex: 10.1016/j.jacc.2026.01.001) se constar no PDF; senão string vazia. NUNCA invente",
   "markdown": "o documento de estudo completo em markdown, com as duas camadas"
 }

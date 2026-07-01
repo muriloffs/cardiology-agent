@@ -124,6 +124,7 @@ def write_study(estudos_dir: Path, parsed: dict, figs: list[dict], pdf_name: str
         "fonte": parsed.get("fonte", ""),
         "tipo": parsed.get("tipo", ""),
         "data": data,
+        "doi": parsed.get("doi", ""),
         "processado_em": processado_em,
         "mes": processado_em[:7],
         "pdf": pdf_name,

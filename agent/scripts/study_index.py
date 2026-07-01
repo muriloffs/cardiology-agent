@@ -89,6 +89,7 @@ def build_index(estudos_dir: Path) -> dict:
                 "fonte": meta.get("fonte", ""),
                 "tipo": meta.get("tipo", ""),
                 "data": meta.get("data", ""),
+                "doi": meta.get("doi", ""),
             })
     for ym in por_mes:
         por_mes[ym].sort(key=lambda m: m.get("data", ""), reverse=True)

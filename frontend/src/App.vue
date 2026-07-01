@@ -766,7 +766,7 @@
                   {{ it.article.tema_principal }}
                 </span>
                 <span class="text-[11px] text-gray-400 flex-shrink-0">{{ formatRevDate(it.date) }}</span>
-                <span v-if="estaEstudado(it.article.titulo_pt || it.article.titulo)"
+                <span v-if="estaEstudado(it.article.titulo_pt || it.article.titulo, it.article.links?.doi)"
                       class="text-[10px] px-2 py-0.5 rounded-full bg-violet-100 text-violet-800 border border-violet-200 font-bold flex-shrink-0"
                       title="Este artigo já virou um estudo na aba Estudo">📖 Já é estudo</span>
               </div>
@@ -1218,11 +1218,16 @@ const {
 const selectedStudySlug = ref(null)
 
 // Casamento Revisão↔Estudo (best-effort por título PT) + aba "Estudados".
-const estudosNorm = computed(() => estudosTodos.value.map((s) => normTitulo(s.titulo)))
-function estaEstudado(tituloPt) {
+const estudosNorm = computed(() => estudosTodos.value.map((s) => ({
+  n: normTitulo(s.titulo),
+  doi: (s.doi || '').toLowerCase().trim(),
+})))
+function estaEstudado(tituloPt, doi) {
+  const d = (doi || '').toLowerCase().trim()
   const alvo = normTitulo(tituloPt)
-  if (!alvo) return false
-  return estudosNorm.value.some((n) => casaTitulo(n, alvo))
+  return estudosNorm.value.some((s) =>
+    (d && s.doi && s.doi === d) || (alvo && casaTitulo(s.n, alvo))
+  )
 }
 const estudadosLista = computed(() =>
   estudosTodos.value.filter((s) => isReadMark('estudo:' + s.slug))
