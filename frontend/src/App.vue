@@ -190,10 +190,10 @@
                      : 'bg-white text-violet-700 hover:bg-violet-50 border border-violet-300']"
         >
           📚 Estudo
-          <span v-if="studiesItems.length"
+          <span v-if="estudosNaoLidos.length"
                 :class="['px-1.5 md:px-2 py-0.5 rounded-full text-xs md:text-sm font-bold',
                          currentView === 'estudo' ? 'bg-white text-violet-700' : 'bg-violet-100 text-violet-800']">
-            {{ studiesItems.length }}
+            {{ estudosNaoLidos.length }}
           </span>
         </button>
 
@@ -906,15 +906,16 @@
           </div>
           <div v-else-if="studiesItems.length === 0" class="text-center text-gray-500 py-10">
             <p class="text-lg mb-1">Nenhum estudo neste mês ainda.</p>
-            <p class="text-sm">
-              Solte um PDF em <code class="bg-gray-100 px-1 rounded">study-inbox/</code> e rode
-              <code class="bg-gray-100 px-1 rounded">processar.bat</code>.
-            </p>
+            <p class="text-sm">Solte um PDF em “Para estudar” no Drive — de manhã ele vira estudo aqui.</p>
+          </div>
+          <div v-else-if="estudosNaoLidos.length === 0" class="text-center text-gray-500 py-10">
+            <p class="text-lg mb-1">🎉 Tudo estudado neste mês!</p>
+            <p class="text-sm">Os concluídos estão na aba <strong>🎓 Estudados</strong>.</p>
           </div>
 
           <ul v-else class="space-y-2">
             <li
-              v-for="it in studiesItems"
+              v-for="it in estudosNaoLidos"
               :key="it.slug"
               class="border border-gray-200 border-l-4 rounded-lg bg-white shadow-sm hover:shadow transition-shadow"
               :style="{ borderLeftColor: estudoCor(it.tipo).cor }"
@@ -1232,6 +1233,10 @@ function estaEstudado(tituloPt, doi) {
 const estudadosLista = computed(() =>
   estudosTodos.value.filter((s) => isReadMark('estudo:' + s.slug))
 )
+// Aba Estudo = fila do que FALTA (os estudados saem daqui e ficam só em Estudados).
+const estudosNaoLidos = computed(() =>
+  studiesItems.value.filter((it) => !isReadMark('estudo:' + it.slug))
+)
 function tituloDoEstudo(slug) {
   return estudosTodos.value.find((s) => s.slug === slug)?.titulo || ''
 }
@@ -1257,7 +1262,7 @@ const idsVisiveis = computed(() => {
   if (v === 'substacks')  return (filteredSubstacks.value || []).map((p) => markId('substack', p))
   if (v === 'videos')     return (filteredVideos.value || []).map((x) => markId('video', x))
   if (v === 'imagens')    return (xImagesData.value?.imagens || []).map((im) => markId('imagem', im))
-  if (v === 'estudo')     return (studiesItems.value || []).map((it) => markId('estudo', it))
+  if (v === 'estudo')     return (estudosNaoLidos.value || []).map((it) => markId('estudo', it))
   if (v === 'revisoes')   return (reviewsFiltrados.value || []).map((it) => 'revisao:' + (revUrl(it.article) || it.article.titulo))
   return []
 })
